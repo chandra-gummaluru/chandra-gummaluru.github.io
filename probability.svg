@@ -3,20 +3,17 @@
 
  <g>
   <title>background</title>
-  <rect fill="#141414" id="canvas_background" height="402" width="582" y="-1" x="-1"/>
+  <rect x="-1" y="-1" width="582" height="402" id="canvas_background" fill="#141414"/>
  </g>
  <g>
   <title>Layer 1</title>
-  <line opacity="0.5" stroke-linecap="null" stroke-linejoin="null" id="svg_1" y2="352" x2="580.90091" y1="352" x1="0.90091" fill-opacity="null" stroke-width="3" stroke="#ffffff" fill="none"/>
-  <line opacity="0.5" stroke-linecap="null" stroke-linejoin="null" id="svg_2" y2="400" x2="290.90091" y1="-0.864693" x1="290.90091" stroke-width="3" stroke="#ffffff" fill="none"/>
-  <path id="svg_9" d="m25.71425,399.88724" opacity="0.5" fill-opacity="null" stroke-opacity="null" stroke-width="3" stroke="#000" fill="none"/>
-  <text font-style="italic" xml:space="preserve" text-anchor="start" font-family="'Times New Roman', Times, serif" font-size="52" id="svg_18" y="152.607737" x="384.783059" stroke="#ffffff" fill="#ffffff">p(x)</text>
-  <text font-style="italic" xml:space="preserve" text-anchor="start" font-family="'Times New Roman', Times, serif" font-size="26" id="svg_22" y="373.691723" x="560.300784" stroke-width="0.5" stroke="#ffffff" fill="#ffffff">x</text>
-  <text style="cursor: move;" font-style="italic" xml:space="preserve" text-anchor="start" font-family="'Times New Roman', Times, serif" font-size="26" id="svg_23" y="20.939815" x="301.654147" stroke-width="0.5" stroke="#ffffff" fill="#ffffff">p</text>
-  <path stroke="#ffffff" id="svg_7" d="m75.642381,350.505043c134.1041,0.92454 139.58387,-281.74637 215.40921,-281.74637c75.82535,0 96.58124,281.97895 215.40921,281.97895" fill-opacity="0.5" stroke-width="3" fill="#ffffff"/>
-  <path id="svg_34" d="m82.26417,217.01764" opacity="0.5" stroke-opacity="null" stroke-width="0" stroke="#ffffff" fill="#ffffff"/>
-  <line stroke-linecap="null" stroke-linejoin="null" id="svg_42" y2="285.607484" x2="603.929846" y1="284.178906" x1="603.929846" stroke-opacity="null" stroke-width="4" stroke="#ffffff" fill="none"/>
-  <line stroke-linecap="null" stroke-linejoin="null" id="svg_8" y2="350.807216" x2="586.993909" y1="350.807216" x1="505.150992" fill-opacity="0.5" stroke-width="3" stroke="#ffffff" fill="none"/>
-  <line stroke-linecap="null" stroke-linejoin="null" id="svg_10" y2="350.709402" x2="-23.389337" y1="350.709402" x1="76.631734" fill-opacity="0.5" stroke-opacity="null" stroke-width="3" stroke="#ffffff" fill="none"/>
+  <line fill="none" stroke="#ffffff" stroke-width="3" fill-opacity="null" x1="0.90091" y1="352" x2="580.90091" y2="352" id="svg_1" stroke-linejoin="null" stroke-linecap="null" opacity="0.5"/>
+  <line fill="none" stroke="#ffffff" stroke-width="3" x1="290.90091" y1="-0.864693" x2="290.90091" y2="400" id="svg_2" stroke-linejoin="null" stroke-linecap="null" opacity="0.5"/>
+  <path fill="none" stroke="#000" stroke-width="3" stroke-opacity="null" fill-opacity="null" opacity="0.5" d="m25.71425,399.88724" id="svg_9"/>
+  <path fill="#ffffff" stroke-width="3" fill-opacity="0.5" d="m75.642381,350.505043c134.1041,0.92454 139.58387,-281.74637 215.40921,-281.74637c75.82535,0 96.58124,281.97895 215.40921,281.97895" id="svg_7" stroke="#ffffff"/>
+  <path fill="#ffffff" stroke="#ffffff" stroke-width="0" stroke-opacity="null" opacity="0.5" d="m82.26417,217.01764" id="svg_34"/>
+  <line fill="none" stroke="#ffffff" stroke-width="4" stroke-opacity="null" x1="603.929846" y1="284.178906" x2="603.929846" y2="285.607484" id="svg_42" stroke-linejoin="null" stroke-linecap="null"/>
+  <line fill="none" stroke="#ffffff" stroke-width="3" fill-opacity="0.5" x1="505.150992" y1="350.807216" x2="586.993909" y2="350.807216" id="svg_8" stroke-linejoin="null" stroke-linecap="null"/>
+  <line fill="none" stroke="#ffffff" stroke-width="3" stroke-opacity="null" fill-opacity="0.5" x1="76.631734" y1="350.709402" x2="-23.389337" y2="350.709402" id="svg_10" stroke-linejoin="null" stroke-linecap="null"/>
  </g>
 </svg>
