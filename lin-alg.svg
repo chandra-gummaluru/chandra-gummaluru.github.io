@@ -1,0 +1,26 @@
+<svg width="580" height="400" xmlns="http://www.w3.org/2000/svg">
+ <!-- Created with Method Draw - http://github.com/duopixel/Method-Draw/ -->
+
+ <g>
+  <title>background</title>
+  <rect x="-1" y="-1" width="582" height="402" id="canvas_background" fill="#141414"/>
+ </g>
+ <g>
+  <title>Layer 1</title>
+  <line fill="none" stroke="#ffffff" stroke-width="3" fill-opacity="null" x1="0.90091" y1="200" x2="580.90091" y2="200" id="svg_1" stroke-linejoin="null" stroke-linecap="null" opacity="0.5"/>
+  <line fill="none" stroke="#ffffff" stroke-width="3" x1="290.90091" y1="-0.864693" x2="290.90091" y2="400" id="svg_2" stroke-linejoin="null" stroke-linecap="null" opacity="0.5"/>
+  <path fill="none" stroke="#000" stroke-width="3" stroke-opacity="null" fill-opacity="null" opacity="0.5" d="m25.71425,399.88724" id="svg_9"/>
+  <text fill="#ffffff" stroke="#ffffff" x="329.208729" y="42.41237" id="svg_18" font-size="52" font-family="'Times New Roman', Times, serif" text-anchor="start" xml:space="preserve" font-style="italic">n</text>
+  <text fill="#ffffff" stroke="#ffffff" stroke-width="0.5" x="560.300784" y="221.691723" id="svg_22" font-size="26" font-family="'Times New Roman', Times, serif" text-anchor="start" xml:space="preserve" font-style="italic">y</text>
+  <text style="cursor: move;" fill="#ffffff" stroke="#ffffff" stroke-width="0.5" x="301.654147" y="20.939815" id="svg_23" font-size="26" font-family="'Times New Roman', Times, serif" text-anchor="start" xml:space="preserve" font-style="italic">z</text>
+  <path fill="#ffffff" stroke="#ffffff" stroke-width="0" stroke-opacity="null" opacity="0.5" d="m82.26417,217.01764" id="svg_34"/>
+  <line fill="none" stroke="#ffffff" stroke-width="4" stroke-opacity="null" x1="603.929846" y1="284.178906" x2="603.929846" y2="285.607484" id="svg_42" stroke-linejoin="null" stroke-linecap="null"/>
+  <g stroke="null" transform="rotate(82 356.4916687011718,80.54457092285155) " id="svg_3">
+   <line stroke="#ffffff" fill="none" stroke-width="6" stroke-opacity="null" fill-opacity="null" x1="393.781683" y1="117.902656" x2="333.831633" y2="57.952608" id="svg_59" stroke-linejoin="null" stroke-linecap="null"/>
+   <path stroke="#ffffff" fill="#ffffff" stroke-width="6" stroke-opacity="null" d="m329.537796,63.521286l-5.34934,-15.519075l15.322941,5.88768l-9.973601,9.631395z" id="svg_61"/>
+  </g>
+  <line opacity="0.5" stroke-linecap="null" stroke-linejoin="null" id="svg_4" y2="-28.707911" x2="520.199543" y1="408.708367" x1="82.783266" fill-opacity="null" stroke-opacity="null" stroke-width="3" stroke="#ffffff" fill="none"/>
+  <path stroke="#ffffff" transform="rotate(21 269.53109741210926,84.9193344116211) " id="svg_6" d="m-84.181859,124.983599l141.485192,-80.128541l565.940696,0l-141.485192,80.128541l-565.940696,0z" fill-opacity="0.5" stroke-opacity="null" stroke-width="5" fill="#ffffff"/>
+  <text fill="#ffffff" stroke="#ffffff" stroke-width="0.5" x="138.187686" y="382.267773" id="svg_8" font-size="26" font-family="'Times New Roman', Times, serif" text-anchor="start" xml:space="preserve" font-style="italic">x</text>
+ </g>
+</svg>
