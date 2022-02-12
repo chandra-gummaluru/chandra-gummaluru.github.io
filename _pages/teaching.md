@@ -7,7 +7,8 @@ permalink: /teaching/
 
 ## Teaching Material
 [**Introduction to Artificial Intelligence**](https://chandra-gummaluru.github.io/2022-02-11/ai) <br>
-An introductory course in artificial intelligence. Some background in graphs and probability is ideal.
+An introductory course in artificial intelligence. Topics include; tree search algorithms (including heuristic and adversarial search), stochastic models and processes, and first-order logic. <br>
+<i> Preqrequisites: basic graph theory, and probability theory. </i>
 
 ## Notes on Select Topics
 
