@@ -2,7 +2,7 @@
 layout: post
 title: "Curriculum Vitae"
 author: "Chandra Gummaluru"
-permalink: /about/
+permalink: /cv/
 ---
 
 ## Education
