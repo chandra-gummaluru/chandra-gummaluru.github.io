@@ -12,7 +12,7 @@ An introductory course in artificial intelligence. Topics include; tree search a
 
 ## Notes on Select Topics
 
-[**Convex Optimization**](https://chandra-gummaluru.github.io/2022-02-12/cv) <br>
+[**Convex Optimization**](https://chandra-gummaluru.github.io/2022-02-11/co) <br>
 An introductory course in convex optimization. Topics include; convex sets, convex functions, unconstrainted and constrained optimization problems, and duality.<br>
 <i> Preqrequisites: strong background in linear algebra </i>
 
