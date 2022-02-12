@@ -62,7 +62,7 @@ University of Toronto (May 19 - Apr 21)
 
 ## Co-Curricular Activities
 **Engineering Manager** <br>
-University of Toronto Robotics Association (Sept 19 - Apr 21)
+[University of Toronto Robotics Association](http://www.utra.ca/) (Sept 19 - Apr 21)
 
  - Led a team of 10+ students to develop navigation and path planning algorithms using the Robot Operating System (ROS) in Python for the International Ground Vehicle Competition (IGCV).
 
