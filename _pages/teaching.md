@@ -8,21 +8,12 @@ permalink: /teaching/
 ## Teaching Material
 [**Introduction to Artificial Intelligence**](https://chandra-gummaluru.github.io/2022-02-11/ai) <br>
 An introductory course in artificial intelligence. Topics include; tree search algorithms (including heuristic and adversarial search), stochastic models and processes, and first-order logic. <br>
-<i> Preqrequisites: basic graph theory, and probability theory. </i>
+<i> Preqrequisites: basic fundamentals of graph theory, and probability theory. </i>
 
 ## Notes on Select Topics
 
-**Computer Network Calculus** <br>
-An introductory course into computer network calculus.
-
-[**Probabalistic Reasoning**](https://chandra-gummaluru.github.io/2022-02-11/pr) <br>
-A course on parameter estimation and inference in stochastic situations.
-
-[**Probability and Stochastic Processes**](https://chandra-gummaluru.github.io/2022-02-11/sp) <br>
-A course on probability and stochastic processes.
-
-**Partial Differential Equations** [(notes)](https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/notes/notes_pdes.pdf) <br>
-An introductory course into partial differential equations. Topics include the Heat equation, the Wave equation, and the Transport equation.
-
+[**Convex Optimization**](https://chandra-gummaluru.github.io/2022-02-12/cv) <br>
+An introductory course in convex optimization. Topics include; convex sets, convex functions, unconstrainted and constrained optimization problems, and duality.<br>
+<i> Preqrequisites: strong background in linear algebra </i>
 
 
