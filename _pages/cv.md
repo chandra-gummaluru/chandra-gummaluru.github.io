@@ -69,11 +69,9 @@ University of Toronto (May 19 - Apr 21)
  - Led a team of 10+ students to develop navigation and path planning algorithms using the Robot Operating System (ROS) in Python for the International Ground Vehicle Competition (IGCV).
 
 ## Technical Skills
-
- - Java (9 yrs.)
- - C/C++ (7 yrs.)
- - Python (5 yrs.)
- - MATLAB (5 yrs.)
- - LaTex (3 yrs.)
-
-
+|<img src="https://raw.githubusercontent.com/chandra-gummaluru/chandra-gummaluru.github.io/master/media/cv/icons/java-plain.svg" alt="Java" width="50"/> | Java | 9 yrs.
+|--|--|--|
+|<img src="https://raw.githubusercontent.com/chandra-gummaluru/chandra-gummaluru.github.io/master/media/cv/icons/cplusplus-plain.svg" alt="Cpp" width="50"/> | C/C++ | 7 yrs.
+|<img src="https://raw.githubusercontent.com/chandra-gummaluru/chandra-gummaluru.github.io/master/media/cv/icons/matlab.svg" alt="Python" width="50"/> | Python | 7 yrs.
+|<img src="https://raw.githubusercontent.com/chandra-gummaluru/chandra-gummaluru.github.io/master/media/cv/icons/matlab.svg" alt="MATLab" width="50"/> | MATLab | 5 yrs.
+|<img src="https://raw.githubusercontent.com/chandra-gummaluru/chandra-gummaluru.github.io/master/media/cv/icons/matlab.svg" alt="LaTex" width="50"/> | LaTex | 3 yrs.
