@@ -71,7 +71,7 @@ University of Toronto (May 19 - Apr 21)
 ## Technical Skills
 |<img src="https://raw.githubusercontent.com/chandra-gummaluru/chandra-gummaluru.github.io/master/media/cv/icons/java-plain.svg" alt="Java" width="50"/> | Java | 9 yrs.
 |--|--|--|
-|<img src="https://raw.githubusercontent.com/chandra-gummaluru/chandra-gummaluru.github.io/master/media/cv/icons/cplusplus-plain.svg" alt="Cpp" width="50"/> | C/C++ | **7 yrs.**
+|<img src="https://raw.githubusercontent.com/chandra-gummaluru/chandra-gummaluru.github.io/master/media/cv/icons/cplusplus-plain.svg" alt="Cpp" width="50"/> | **C/C++** | **7 yrs.**
 |<img src="https://raw.githubusercontent.com/chandra-gummaluru/chandra-gummaluru.github.io/master/media/cv/icons/matlab.svg" alt="Python" width="50"/> | **Python** | **7 yrs.**
 |<img src="https://raw.githubusercontent.com/chandra-gummaluru/chandra-gummaluru.github.io/master/media/cv/icons/matlab.svg" alt="MATLab" width="50"/> | **MATLab** | **5 yrs.**
 |<img src="https://raw.githubusercontent.com/chandra-gummaluru/chandra-gummaluru.github.io/master/media/cv/icons/matlab.svg" alt="LaTex" width="50"/> | **LaTex** | **3 yrs.**
