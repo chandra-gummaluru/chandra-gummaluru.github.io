@@ -18,6 +18,7 @@ University of Toronto (Sept 16 - Apr 21)
      - Developed a framework that enables distributed machine learning (with support for private and non-homogeneous data-sets) using [PyTorch](https://pytorch.org/) under the supervision of Professor Ashish Khisti.
      - Recipient of the Certificate of Distinction
      - [Video Presentation](https://youtu.be/Ep5phZmgyEA)
+     - [Poster Presentation](https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/notes/poster.pdf)
      
 ## Teaching Experience
 **Course Instructor for CSC384: Introduction to Artificial Intelligence** <br>
