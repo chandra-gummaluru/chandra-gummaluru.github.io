@@ -59,7 +59,7 @@ University of Toronto (May 19 - Apr 21)
 **Back-end Software Engineer** <br>
 [Coursera Inc.](https://www.coursera.org/) (Sept 19 - Aug 20)
 
- - Designed and developed a custom payments and promotions system in Scala to offer currency internationalization and discounting for Coursera’s enterprise product used by over 50 organizations.
+ - Designed and developed a custom payments and promotions system in Scala to offer currency internationalization and discounting for [Coursera’s enterprise product](https://www.coursera.org/business/) used by over 50 organizations.
  - Wrote detailed technical design documents and presentations for the systems which were used as model examples for full-time engineers.
 
 ## Co-Curricular Activities
