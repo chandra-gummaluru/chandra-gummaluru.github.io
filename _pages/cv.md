@@ -5,8 +5,6 @@ author: "Chandra Gummaluru"
 permalink: /cv/
 ---
 
-<img src="https://raw.githubusercontent.com/chandra-gummaluru/chandra-gummaluru.github.io/master/media/cv/favico.svg" alt="Java" width="140"/> 
-
 ## Education
 **MASc Computer Engineering** <br>
 University of Toronto (Jan 22 - Present)
