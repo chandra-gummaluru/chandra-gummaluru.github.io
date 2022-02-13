@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Simulating a Ball Bounce in Python"
+title: "Tutorial: Simulating a Ball Bounce in Python"
 author: "Chandra Gummaluru"
 ---
 
