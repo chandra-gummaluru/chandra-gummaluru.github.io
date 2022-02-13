@@ -21,6 +21,7 @@ For simplicity, we shall define the surface using a polynomial function, i.e., a
 The polynomial is defined entirely in terms of the coefficients, $a_0, \dots, a_n$. Thus, we can represent it in Python using a list:
 
     a =[a0, a1, a2, a3,...,an]
+    
 We can also write code to evaluate $y=f(x)$ for any input, $x$:
 
     def evaluate_polynomial(a, x):
@@ -29,7 +30,8 @@ We can also write code to evaluate $y=f(x)$ for any input, $x$:
 	    
 	    for i in range(0, n+1):
 		    y += a(i)*x ** (n-i)
-	    return y 
+	    return y
+	    
 To determine which way the ball bounces when it hits the ground, we need to find the tangent line to the surface at the point of contact.
 
 First, we will need to compute the derivative of a polynomial. Analytically, we know that
