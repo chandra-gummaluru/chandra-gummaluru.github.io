@@ -13,7 +13,6 @@ University of Toronto (Jan 22 - Present)
 **BASc Computer Engineering** <br>
 University of Toronto (Sept 16 - Apr 21)
  - Minor in Artificial Intelligence Engineering
- - **Final Year Average:** 83.7%
  - **Capstone Project:** Federated Machine Learning System Design and Practical Architecture
      - Developed a framework that enables distributed machine learning (with support for private and non-homogeneous data-sets) using [PyTorch](https://pytorch.org/) under the supervision of Professor Ashish Khisti.
      - Recipient of the Certificate of Distinction
