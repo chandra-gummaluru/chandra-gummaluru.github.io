@@ -5,6 +5,8 @@ author: "Chandra Gummaluru"
 permalink: /cv/
 ---
 
+<p style ="text-align:center;">[Download as PDF]()</p>
+
 ## Education
 **MASc Computer Engineering** <br>
 University of Toronto (Jan 22 - Present)
