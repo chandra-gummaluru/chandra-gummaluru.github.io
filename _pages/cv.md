@@ -8,7 +8,7 @@ permalink: /cv/
 ## Education
 **MASc Computer Engineering** <br>
 University of Toronto (Jan 22 - Present)
- - Research combines stochastic control with mathematical game theory.
+ - Research areas include stochastic control and mathematical game theory.
 
 **BASc Computer Engineering** <br>
 University of Toronto (Sept 16 - Apr 21)
@@ -66,3 +66,12 @@ University of Toronto (May 19 - Apr 21)
 [University of Toronto Robotics Association](http://www.utra.ca/) (Sept 19 - Apr 21)
 
  - Led a team of 10+ students to develop navigation and path planning algorithms using the Robot Operating System (ROS) in Python for the International Ground Vehicle Competition (IGCV).
+
+## Technical Skills
+|Language|Experience|
+|--|--|
+|Java|8 years|
+|C/C++|7 years|
+|Python|7 years|
+|MATLab|4 years|
+|LaTex|4 years|
