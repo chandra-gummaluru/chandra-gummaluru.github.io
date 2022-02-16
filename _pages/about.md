@@ -5,9 +5,9 @@ author: "Chandra Gummaluru"
 permalink: /about/
 ---
 
-<div style="padding-right:20px;"><img src="https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/favicon.png" style="float:left;width:100px;height:100px;align:top;">
+<div style="padding-right:50px;"><img src="https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/favicon.png" style="float:left;width:100px;height:100px;align:top;">
 
-## I'm Chandra
+<h2>I'm Chandra</h2>
 I am a graduate student Systems Control Group in the Department of Electrical and Computer Engineering at the University of Toronto. 
 
 </div>
