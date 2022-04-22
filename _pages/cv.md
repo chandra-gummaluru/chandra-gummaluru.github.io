@@ -26,7 +26,7 @@ University of Toronto (Sept 16 - Apr 21)
 University of Toronto (May 22 - Present)
  - Delivered lectures to a class of approximately 125 undergraduate students.
  - Developed new course assignments and exams based on existing ones from previous instructors.
- - 
+
 **Course Instructor for CSC384: Introduction to Artificial Intelligence** <br>
 University of Toronto (Jan 22 - Arp 22)
  - Delivered lectures to a class of approximately 90 undergraduate students.
