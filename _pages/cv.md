@@ -23,7 +23,8 @@ University of Toronto (Sept 16 - Apr 21)
      
 ## Teaching Experience
 **Course Coordinator/Instructor for CSC384: Introduction to Artificial Intelligence** <br>
-University of Toronto (May 22 - Present)
+University of Toronto (May 22 - Present
+ - [Syllabus](https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/ai/csc384s22_syllabus.pdf)
  - Delivered lectures to a class of approximately 125 undergraduate students.
  - Developed new course assignments and exams based on existing ones from previous instructors.
 
