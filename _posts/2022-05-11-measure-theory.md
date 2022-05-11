@@ -31,7 +31,7 @@ Intuitively, we expect the area to be zero since $\mathbb{Q}$ is countably infin
 
 ### Measuring Sets
 
-Suppose we have a non-empty set $\Omega$. We would like to measure its subset, $\Sigma$, of its subsets. We will refer to such subsets as **measurable** subsets. We expect a few properties to hold:
+Suppose we have a non-empty set $\Omega$. We would like to measure a subset, $\Sigma$, of $\Omega$'s subsets. We will refer to such subsets as **measurable** subsets. We expect a few properties to hold:
 
 1. $\Omega$ is measurable, i.e., $\Omega \in \Sigma$ 
 2. the complement of a measurable set w.r.t. $\Omega$ is measurable,i.e., $A \in \Sigma \Rightarrow (\Omega \setminus A) \in \Sigma$
@@ -42,7 +42,11 @@ Suppose we have a non-empty set $\Omega$. We would like to measure its subset, $
 
 Intuitively, these properties mean ensure that combining measurable sets results in a measurable set. If $\Sigma$ satisfies these properties, we call it a **$\sigma$-algebra**. Obviously (1) and (2) imply that $\emptyset \in \Sigma$. It also turns out that (2) and (3) imply (4). Thus, (4) is often not explicitly stated.
 
-The tuple, $(\Omega, \Sigma)$ is called a **measurable space**. We can now define a measure, $\mu: \Omega \rightarrow \mathbb{R}$. Again, we expect a few intuitive properties to hold:
+The tuple, $(\Omega, \Sigma)$ is called a **measurable space**. There are many $\sigma$-algebras for any $\Omega$, and thus, many measure spaces. The largest one is $(\Omega, \mathcal{P}(\Omega))$, where $\mathcal{P}(\Omega)$ denotes the power-set of $\Omega$. Of course, we are often interested in the smallest one. It can be shown that the smallest $\sigma$-algebra of $\Omega$ that contains $M \subseteq \Omega$ is given by
+\\[\sigma(\Omega, M) = \cap_{\Sigma \in \sigma(\Omega)\\\\\M \subseteq \Sigma}\Sigma,\\]
+where $\sigma(\Omega)$ is the set of all $\sigma$-algebras of $\Omega$.
+
+We can now define a measure, $\mu: \Omega \rightarrow \mathbb{R}$. Again, we expect a few intuitive properties to hold:
 
 1. the measure of the empty-set is zero, i.e., $\mu(\emptyset) = 0$
 2. the measure of the union of *disjoint* sets is the sum of the measures of the individual sets, i.e.,
