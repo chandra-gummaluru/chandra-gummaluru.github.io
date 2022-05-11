@@ -43,7 +43,7 @@ Suppose we have a non-empty set $\Omega$. We would like to measure a subset, $\S
 Intuitively, these properties mean ensure that combining measurable sets results in a measurable set. If $\Sigma$ satisfies these properties, we call it a **$\sigma$-algebra**. Obviously (1) and (2) imply that $\emptyset \in \Sigma$. It also turns out that (2) and (3) imply (4). Thus, (4) is often not explicitly stated.
 
 The tuple, $(\Omega, \Sigma)$ is called a **measurable space**. There are many $\sigma$-algebras for any $\Omega$, and thus, many measure spaces. The largest one is $(\Omega, \mathcal{P}(\Omega))$, where $\mathcal{P}(\Omega)$ denotes the power-set of $\Omega$. Of course, we are often interested in the smallest one. It can be shown that the smallest $\sigma$-algebra of $\Omega$ that contains $M \subseteq \Omega$ is given by
-\\[\sigma(\Omega, M) = \bigcap_{\substack{\Sigma \in \sigma(\Omega)\\\\M \subseteq \Sigma}\Sigma},\\]
+\\[\sigma(\Omega, M) = \bigcap_{\substack{\Sigma \in \sigma(\Omega)\\\\M \subseteq \Sigma}}\Sigma,\\]
 where $\sigma(\Omega)$ is the set of all $\sigma$-algebras of $\Omega$.
 
 We can now define a measure, $\mu: \Omega \rightarrow \mathbb{R}$. Again, we expect a few intuitive properties to hold:
