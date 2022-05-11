@@ -24,7 +24,7 @@ is called the upper-sum and it over-estimate the desired area. As $n$​ grows  
 This is called the **Reimann integral**. The problem is that both approximations need not always approach the same value even if the area under seems intuitive. For example, consider a function, $I_{\mathbb{Q}}$, defined so that
 \\[
 I_{\mathbb{Q}}(x) = \begin{cases}
-1, x \in \mathbb{Q} \\\\
+1, x \in \mathbb{Q} <br>
 0, \text{ otherwise}
 \end{cases}
 \\]
@@ -36,8 +36,10 @@ Suppose we have a non-empty set $\Omega$. We would like to measure its subset, $
 
 1. $\Omega$ is measurable, i.e., $\Omega \in \Sigma$ 
 2. if $A$ is measurable, then $\Omega \setminus A$ is measurable, i.e., $A \in \Sigma \rightarrow (\Omega \setminus A) \in \Sigma$
-3. if $\lbrace A_i \rbrace$ are measurable, then $\cup_{i}A_i$ is measurable, i.e. $$A_i \in \Sigma \rightarrow \cup_{i}A_i \in \Sigma$$
-4. if $\lbrace A_i \rbrace$ are measurable, then $\cap_i A_i$ is measurable, i.e., $$A_i \in \Sigma \rightarrow \cap_{i}A_i \in \Sigma$$
+3. if $\lbrace A_i \rbrace$ are measurable, then $\cup_{i}A_i$ is measurable, i.e.
+\\[A_1,A_2,\dots \in \Sigma \rightarrow \cup_{i}A_i \in \Sigma\\]
+5. if $\lbrace A_i \rbrace$ are measurable, then $\cap_i A_i$ is measurable, i.e.,
+\\[A_i \in \Sigma \rightarrow \cap_{i}A_i \in \Sigma\\]
 
 Intuitively, these properties mean ensure that combining measurable sets results in a measurable set. If $\Sigma$ satisfies these properties, we call it a **$\sigma$-algebra**. Obviously (1) and (2) imply that $\emptyset \in \Sigma$. It also turns out that (2) and (3) imply (4). Thus, (4) is often not explicitly stated.
 
