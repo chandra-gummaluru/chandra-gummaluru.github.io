@@ -36,9 +36,9 @@ Suppose we have a non-empty set $\Omega$. We would like to measure its subset, $
 1. $\Omega$ is measurable, i.e., $\Omega \in \Sigma$ 
 2. the complement of a measurable set w.r.t. $\Omega$ is measurable,i.e., $A \in \Sigma \Rightarrow (\Omega \setminus A) \in \Sigma$
 3. the union of measurable sets is measurable, i.e.,
-\\[A_1,A_2,\dots \in \Sigma \Rightarrow \bigcup_{i}A_i \in \Sigma\\]
+\\[A_i \in \Sigma, i \in \mathbb{N} \Rightarrow \bigcup_{i=1}^{\infty}A_i \in \Sigma\\]
 5. the intersection of a measurable set is measurable, i.e.,
-\\[A_1,A_2,\dots \in \Sigma \Rightarrow \bigcap_{i}A_i \in \Sigma\\]
+\\[A_i\in \Sigma, i \in \mathbb{N} \Rightarrow \bigcap_{i=1}^{\infty}A_i \in \Sigma\\]
 
 Intuitively, these properties mean ensure that combining measurable sets results in a measurable set. If $\Sigma$ satisfies these properties, we call it a **$\sigma$-algebra**. Obviously (1) and (2) imply that $\emptyset \in \Sigma$. It also turns out that (2) and (3) imply (4). Thus, (4) is often not explicitly stated.
 
@@ -46,4 +46,4 @@ The tuple, $(\Omega, \Sigma)$ is called a **measurable space**. We can now defin
 
 1. the measure of the empty-set is zero, i.e., $\mu(\emptyset) = 0$
 2. the measure of the union of *disjoint* sets is the sum of the measures of the individual sets, i.e.,
-\\[\mu\left(\bigcup_{i}A_i\right) = \sum_{i}\mu(A_i), A_1,A_2,\dots \in \Sigma, A_i \cap A_j = \emptyset\\]
+\\[\mu\left(\bigcup_{i}A_i\right) = \sum_{i}\mu(A_i), A_i \in \Sigma, i \in \mathbb{N}, A_i \cap A_j = \emptyset\\]
