@@ -24,7 +24,7 @@ is called the upper-sum and it over-estimate the desired area. As $n$​ grows  
 This is called the **Reimann integral**. The problem is that both approximations need not always approach the same value even if the area under seems intuitive. For example, consider a function, $I_{\mathbb{Q}}$, defined so that
 \\[
 I_{\mathbb{Q}}(x) = \begin{cases}
-1, x \in \mathbb{Q}\\\\\\\\0, \text{ otherwise}
+1, x \in \mathbb{Q}\\\\0, \text{ otherwise}
 \end{cases}
 \\]
 Intuitively, we expect the area to be zero since $\mathbb{Q}$ is countably infinite. Every sub-interval of $[a,b]$, where $a \neq b$ contains at least one irrational number, and so, the lower-sum is indeed always zero. However, since $\mathbb{Q}$ is dense, any sub-interval of $[a,b]$ will contain at least one rational number, and so, the upper-sum is always one. Thus, the Reimann integral does not exist.
