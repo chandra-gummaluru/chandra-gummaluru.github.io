@@ -39,7 +39,7 @@ Suppose we have a non-empty set $\Omega$. We would like to measure its subset, $
 3. if $\lbrace A_i \rbrace$ are measurable, then $\cup_{i}A_i$ is measurable, i.e.
 \\[A_1,A_2,\dots \in \Sigma \rightarrow \bigcup_{i}A_i \in \Sigma\\]
 5. if $\lbrace A_i \rbrace$ are measurable, then $\cap_i A_i$ is measurable, i.e.,
-\\[A_i \in \Sigma \rightarrow \bigcap_{i}A_i \in \Sigma\\]
+\\[A_1,A_2,\dots \in \Sigma \rightarrow \bigcap_{i}A_i \in \Sigma\\]
 
 Intuitively, these properties mean ensure that combining measurable sets results in a measurable set. If $\Sigma$ satisfies these properties, we call it a **$\sigma$-algebra**. Obviously (1) and (2) imply that $\emptyset \in \Sigma$. It also turns out that (2) and (3) imply (4). Thus, (4) is often not explicitly stated.
 
