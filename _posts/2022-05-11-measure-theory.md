@@ -21,9 +21,9 @@ is called the upper-sum and it over-estimate the desired area. As $n$​ grows  
 \\[
 \int_{a}^{b}f(x)dx := \sum_{i=1}^{n-1}(x_{i+1}-x_i)\inf_{x \in [x_i,x_{i+1}]}f(x) = \sum_{i=1}^{n-1}(x_{i+1}-x_i)\sup_{x \in [x_i,x_{i+1}]}f(x)
 \\]
-This is called the **Reimann integral**. The problem is that both approximations need not always approach the same value even if the area under seems intuitive. For example, consider a function, $\mathbb{1}_{\mathbb{Q}}$, defined so that
+This is called the **Reimann integral**. The problem is that both approximations need not always approach the same value even if the area under seems intuitive. For example, consider a function, $I_{\mathbb{Q}}$, defined so that
 \\[
-\mathbb{1}_{\mathbb{Q}}(x) = \begin{cases}
+I_{\mathbb{Q}}(x) = \begin{cases}
 1, x \in \mathbb{Q} \\
 0, \text{ otherwise}
 \end{cases}
