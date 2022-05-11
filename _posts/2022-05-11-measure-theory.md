@@ -24,7 +24,7 @@ is called the upper-sum and it over-estimate the desired area. As $n$​ grows  
 This is called the **Reimann integral**. The problem is that both approximations need not always approach the same value even if the area under seems intuitive. For example, consider a function, $I_{\mathbb{Q}}$, defined so that
 \\[
 I_{\mathbb{Q}}(x) = \begin{cases}
-1, x \in \mathbb{Q} \\\~\\\
+1, x \in \mathbb{Q} \\break
 0, \text{ otherwise}
 \end{cases}
 \\]
