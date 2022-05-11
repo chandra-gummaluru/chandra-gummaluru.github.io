@@ -46,4 +46,4 @@ The tuple, $(\Omega, \Sigma)$ is called a **measurable space**. We can now defin
 
 1. the measure of the empty-set is zero, i.e., $\mu(\emptyset) = 0$
 2. the measure of the union of *disjoint* sets is the sum of the measures of the individual sets, i.e.,
-\\[\mu\left(\bigcup_{i}A_i\right) = \sum_{i}\mu(A_i), A_1,A_2,\dots \in \Sigma, a_i \cap a_j = \emptyset\\]
+\\[\mu\left(\bigcup_{i}A_i\right) = \sum_{i}\mu(A_i), A_1,A_2,\dots \in \Sigma, A_i \cap A_j = \emptyset\\]
