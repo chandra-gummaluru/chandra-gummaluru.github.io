@@ -35,10 +35,10 @@ Intuitively, we expect the area to be zero since $\mathbb{Q}$ is countably infin
 Suppose we have a non-empty set $\Omega$. We would like to measure its subset, $\Sigma$, of its subsets. We will refer to such subsets as **measurable** subsets. We expect a few properties to hold:
 
 1. $\Omega$ is measurable, i.e., $\Omega \in \Sigma$ 
-2. if $A$ is measurable, then $\Omega \setminus A$ is measurable, i.e., $A \in \Sigma \Rightarrow (\Omega \setminus A) \in \Sigma$
-3. if $\lbrace A_i \rbrace$ are measurable, then $\cup_{i}A_i$ is measurable, i.e.
+2. the complement of a measurable set w.r.t. $\Omega$ is measurable,i.e., $A \in \Sigma \Rightarrow (\Omega \setminus A) \in \Sigma$
+3. the union of measurable sets is measurable, i.e.,
 \\[A_1,A_2,\dots \in \Sigma \Rightarrow \bigcup_{i}A_i \in \Sigma\\]
-5. if $\lbrace A_i \rbrace$ are measurable, then $\cap_i A_i$ is measurable, i.e.,
+5. the intersection of a measurable set is measurable, i.e.,
 \\[A_1,A_2,\dots \in \Sigma \Rightarrow \bigcap_{i}A_i \in \Sigma\\]
 
 Intuitively, these properties mean ensure that combining measurable sets results in a measurable set. If $\Sigma$ satisfies these properties, we call it a **$\sigma$-algebra**. Obviously (1) and (2) imply that $\emptyset \in \Sigma$. It also turns out that (2) and (3) imply (4). Thus, (4) is often not explicitly stated.
