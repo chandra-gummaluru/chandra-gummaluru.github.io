@@ -6,7 +6,7 @@ author: "Chandra Gummaluru"
 ### The Reimann Integral and its Problems
 
 Suppose we have a function, $f: \mathbb{R} \rightarrow \mathbb{R}$ for which we seek the area under its graph within an interval, $[a,b]$. We will denote this quantity as $\int_{a}^{b}f(x)dx$.
-<img src="https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/lebesgue/reimann_lower_sum.gif" width="40" height="40" />
+<img src="https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/lebesgue/reimann_lower_sum.gif"/>
 
 To do this, we pick $n$ points $x_1, \dots, x_n \in [a,b]$, so that $a = x_1 < x_2 < \dots < x_{n-1} < x_{n} = b$. The expression,
 \\[
