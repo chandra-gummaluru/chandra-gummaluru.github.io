@@ -7,11 +7,9 @@ author: "Chandra Gummaluru"
 
 Suppose we have a function, $f: \mathbb{R} \rightarrow \mathbb{R}$ for which we seek the area under its graph within an interval, $[a,b]$. We will denote this quantity as $\int_{a}^{b}f(x)dx$.
 
-
-
 To do this, we pick $n$ points $x_1, \dots, x_n \in [a,b]$, so that $a = x_1 < x_2 < \dots < x_{n-1} < x_{n} = b$. The expression,
 \\[
-\sum_{i=1}^{n-1}(x_{i+1}-x_i)\inf_{x \in [x_i,x_{i+1}]}f(x)
+\sum_{i=1}^{n-1}(x_{i+1}-x_i)\inf_{x \in [x_i,x_{i+1}]}f(x)  \tag{1a}\label{eq_reimann_lower}
 \\]
 is called the lower-sum, and it under-approximates the desired area. Similarly, the expression
 \\[
