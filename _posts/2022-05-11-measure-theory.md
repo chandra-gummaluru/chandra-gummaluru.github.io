@@ -70,5 +70,5 @@ f^{-1}(S) = \lbrace s \in \Omega \text{ s.t. } f(s) \in S \rbrace \in \Sigma, \f
 We write $f: (\Omega, \Sigma) \rightarrow (\Omega', \Sigma')$ to denote that $f$ is measurable w.r.t. $\Sigma$ and $\Sigma'$.
 ### Lebesgue Integration
 
-Let $\Omega$ be a non-empty set and $\Sigma$ be a $\sigma$-algebra on $\Omega$> If $f: (\Omega, \Sigma) \rightarrow (\mathbb{R}, \mathcal{B}(\mathbb{R})$ is bounded, and $R \in \Sigma$ , then the lower and upper sums defined by (3) and (4) are not only well defined, but also converge to the same value in the limit as $n \rightarrow \infty$. Thus, we define the integral as:
+Let $\Omega$ be a non-empty set and $\Sigma$ be a $\sigma$-algebra on $\Omega$> If $f: (\Omega, \Sigma) \rightarrow (\mathbb{R}, \mathcal{B}(\mathbb{R}))$ is bounded, and $R \in \Sigma$ , then the lower and upper sums defined by (3) and (4) are not only well defined, but also converge to the same value in the limit as $n \rightarrow \infty$. Thus, we define the integral as:
 \\[\int_{R}f(\omega)d\mu(\omega) := \lim_{n\rightarrow\infty}\sum_{i=1}^{n-1}f(y_i)\mu(f^{-1}([y_i,y_{i+1}])) = \lim_{n\rightarrow\infty}\sum_{i=2}^{n}f(y_i)\mu(f^{-1}([y_{i-1},y_{i}]))\\]
