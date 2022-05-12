@@ -38,18 +38,18 @@ Intuitively, we expect the area to be zero since $\mathbb{Q}$ is countably infin
 ### Generalizing Integration
 One issue with the Reimann integral is that it is difficult to generalize for a function with an arbitrary domain since it is not clear what an appropriate partitioning of the domain would be or how to measure the size of the resulting partitions. Our goal is to define a more general type of integral.
 
-We consider a function, $f: \Omega \rightarrow \mathbb{R}$, where $\Omega$ is a non-empty but arbitrary set. If $f$ is bounded, we can pick $n$ points in its range so that $\min_{\Omega}f = y_1 < \dots < y_n = \max_{\Omega}f$ and t
+We consider a function, $f: \Omega \rightarrow \mathbb{R}$, where $\Omega$ is a non-empty but arbitrary set. If $f$ is bounded, we can pick $n$ points in its range so that $\min_{\Omega}f = y_1 < \dots < y_n = \max_{\Omega}f$. The expression,
 \\[
-\sum_{i=1}^{n-1}f(y_i)\mu(f^{-1}([y_i,y_{i+1}])) \tag{2a}\label{eq_lebesgue_lower}
+\sum_{i=1}^{n-1}y_i\mu(f^{-1}([y_i,y_{i+1}])) \tag{2a}\label{eq_lebesgue_lower}
 \\]
-and the upper-sum as
+under-estimates the area while the expression
 \\[
-\sum_{i=2}^{n}f(y_i)\mu(f^{-1}([y_{i-1},y_{i}])) \tag{2b}\label{eq_lebesgue_upper}
+\sum_{i=2}^{n}y_i\mu(f^{-1}([y_{i-1},y_{i}])) \tag{2b}\label{eq_lebesgue_upper}
 \\]
-where $f^{-1}([a,b])$ denotes the inverse image of $[a,b]$ under $f$, and $\mu: \Omega \rightarrow \mathbb{R}$ is suppose to measure the size of subsets of $\Omega$.
+where $f^{-1}([a,b])$ denotes the inverse image of $[a,b]$ under $f$, and $\mu: \Omega \rightarrow \mathbb{R}$ measures the size of subsets of $\Omega$.
 
 ### Measuring Sets
-We need to understand the properties of $\mu$.  Firstly, we note that $\mu$ need not measure *all* subsets of $\Omega$ - it may only need to measure a subset $\Sigma$, of $\Omega$'s subsets. We will refer to such subsets as $\mu$-**measurable** subsets. We expect a few properties to hold:
+We need to understand the properties of $\mu$. Let $\Sigma$ denote the set of subsets of $\Omega$ that we need to measure. We will refer to such subsets as $\mu$-**measurable** subsets. We expect a few properties to hold:
 
 - **P1.1**: $\Omega$ is measurable, i.e., $\Omega \in \Sigma$ 
 - **P1.2**: the complement of a measurable set w.r.t. $\Omega$ is measurable,i.e., $A \in \Sigma \Rightarrow (\Omega \setminus A) \in \Sigma$
