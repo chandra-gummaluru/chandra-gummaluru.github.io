@@ -29,6 +29,18 @@ I_{\mathbb{Q}}(x) = \begin{cases}
 \\]
 Intuitively, we expect the area to be zero since $\mathbb{Q}$ is countably infinite. Every sub-interval of $[a,b]$, where $a \neq b$ contains at least one irrational number, and so, the lower-sum is indeed always zero. However, since $\mathbb{Q}$ is dense, any sub-interval of $[a,b]$ will contain at least one rational number, and so, the upper-sum is always one. Thus, the Reimann integral does not exist.
 
+### Generalizing Integration
+
+Our goal is to generalize the notion of an integral for a function, $f: \Omega \rightarrow \mathbb{R}$,  over some set $R \subseteq \Omega$. If $f$ is bounded, we can pick $n$ points in its range so that $y_1 < \dots < y_n$ and then define the lower-sum as
+\\[
+\sum_{i=1}^{n-1}f(y_i)\mu(f^{-1}([y_i,y_{i+1}]))
+\\]
+and the upper-sum as
+\\[
+\sum_{i=2}^{n}f(y_i)\mu(f^{-1}([y_{i-1},y_{i}]))
+\\]
+where $f^{-1}([a,b])$ denotes the inverse image of $[a,b]$ under $f$, and $\mu: \Omega \rightarrow \mathbb{R}$ is suppose to measure the size of subsets of $\Omega$.
+
 ### Measuring Sets
 
 Suppose we have a non-empty set $\Omega$. We would like to measure a subset, $\Sigma$, of $\Omega$'s subsets. We will refer to such subsets as **measurable** subsets. We expect a few properties to hold:
