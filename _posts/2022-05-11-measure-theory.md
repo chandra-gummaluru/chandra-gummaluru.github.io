@@ -42,8 +42,7 @@ and the upper-sum as
 where $f^{-1}([a,b])$ denotes the inverse image of $[a,b]$ under $f$, and $\mu: \Omega \rightarrow \mathbb{R}$ is suppose to measure the size of subsets of $\Omega$.
 
 ### Measuring Sets
-
-Suppose we have a non-empty set $\Omega$. We would like to measure a subset, $\Sigma$, of $\Omega$'s subsets. We will refer to such subsets as **measurable** subsets. We expect a few properties to hold:
+We need to understand the properties of $\mu$.  Firstly, we note that $\mu$ need not measure *all* subsets of $\Omega$ - it may only need to measure a subset $\Sigma$, of $\Omega$'s subsets. We will refer to such subsets as $\mu$-**measurable** subsets. We expect a few properties to hold:
 
 1. $\Omega$ is measurable, i.e., $\Omega \in \Sigma$ 
 2. the complement of a measurable set w.r.t. $\Omega$ is measurable,i.e., $A \in \Sigma \Rightarrow (\Omega \setminus A) \in \Sigma$
@@ -54,7 +53,7 @@ Suppose we have a non-empty set $\Omega$. We would like to measure a subset, $\S
 
 Intuitively, these properties mean ensure that combining measurable sets results in a measurable set. If $\Sigma$ satisfies these properties, we call it a **$\sigma$-algebra**. Obviously (1) and (2) imply that $\emptyset \in \Sigma$. It also turns out that (2) and (3) imply (4). Thus, (4) is often not explicitly stated.
 
-The tuple, $(\Omega, \Sigma)$ is called a **measurable space**. There are many $\sigma$-algebras for any $\Omega$, and thus, many measure spaces. The largest one is $(\Omega, \mathcal{P}(\Omega))$, where $\mathcal{P}(\Omega)$ denotes the power-set of $\Omega$. Of course, we are often interested in the smallest one. It can be shown that the smallest $\sigma$-algebra of $\Omega$ that contains $M \subseteq \Omega$ is given by
+There are many $\sigma$-algebras for any $\Omega$, and thus, many measure spaces. The largest one is $(\Omega, \mathcal{P}(\Omega))$, where $\mathcal{P}(\Omega)$ denotes the power-set of $\Omega$. Of course, we are often interested in the smallest one. It can be shown that the smallest $\sigma$-algebra of $\Omega$ that contains $M \subseteq \Omega$ is given by
 \\[\sigma(\Omega, M) = \bigcap_{\substack{\Sigma \in \sigma(\Omega)\\\\M \subseteq \Sigma}}\Sigma,\\]
 where $\sigma(\Omega)$ is the set of all $\sigma$-algebras of $\Omega$.
 
@@ -63,3 +62,13 @@ We can now define a measure, $\mu: \Omega \rightarrow \mathbb{R}$. Again, we exp
 1. the measure of the empty-set is zero, i.e., $\mu(\emptyset) = 0$
 2. the measure of the union of *disjoint* sets is the sum of the measures of the individual sets, i.e.,
 \\[\mu\left(\bigcup_{i}A_i\right) = \sum_{i}\mu(A_i), A_i \in \Sigma, i \in \mathbb{N}, A_i \cap A_j = \emptyset\\]
+
+In general, a mapping $f: \Omega \rightarrow \Omega'$ is measurable w.r.t. $\Sigma$ and $\Sigma'$ iff
+\\[
+f^{-1}(S) = \lbrace s \in \Omega \text{ s.t. } f(s) \in S \rbrace \in \Sigma, \forall S \in \Sigma'
+\\]
+We write $f: (\Omega, \Sigma) \rightarrow (\Omega', \Sigma')$ to denote that $f$ is measurable w.r.t. $\Sigma$ and $\Sigma'$.
+### Lebesgue Integration
+
+Let $\Omega$ be a non-empty set and $\Sigma$ be a $\sigma$-algebra on $\Omega$> If $f: (\Omega, \Sigma) \rightarrow (\mathbb{R}, \mathcal{B}_{\mathbb{R}})$ is bounded, and $R \in \Sigma$ , then the lower and upper sums defined by (3) and (4) are not only well defined, but also converge to the same value in the limit as $n \rightarrow \infty$. Thus, we define the integral as:
+\\[\int_{R}f(\omega)d\mu(\omega) := \lim_{n\rightarrow\infty}\sum_{i=1}^{n-1}f(y_i)\mu(f^{-1}([y_i,y_{i+1}])) = \lim_{n\rightarrow\infty}\sum_{i=2}^{n}f(y_i)\mu(f^{-1}([y_{i-1},y_{i}]))\\]
