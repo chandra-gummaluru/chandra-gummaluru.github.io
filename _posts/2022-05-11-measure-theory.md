@@ -3,6 +3,9 @@ layout: post
 title: "What is Lebesgue Integration?"
 author: "Chandra Gummaluru"
 ---
+
+Integration can be used to find areas, volumes, central points, and many useful things. Typically, it is introduced as a tool that can be used to find the area under a curve defined by a function. 
+
 ### The Reimann Integral and its Problems
 
 Suppose we have a function, $f: \mathbb{R} \rightarrow \mathbb{R}$ for which we seek the area under its graph within an interval, $[a,b]$. We will denote this quantity as $\int_{a}^{b}f(x)dx$.
@@ -33,8 +36,9 @@ I_{\mathbb{Q}}(x) = \begin{cases}
 Intuitively, we expect the area to be zero since $\mathbb{Q}$ is countably infinite. Every sub-interval of $[a,b]$, where $a \neq b$ contains at least one irrational number, and so, the lower-sum is indeed always zero. However, since $\mathbb{Q}$ is dense, any sub-interval of $[a,b]$ will contain at least one rational number, and so, the upper-sum is always one. Thus, the Reimann integral does not exist.
 
 ### Generalizing Integration
+One issue with the Reimann integral is that it is difficult to generalize for a function with an arbitrary domain since it is not clear what an appropriate partitioning of the domain would be or how to measure the size of the resulting partitions. Our goal is to define a more general type of integral.
 
-Our goal is to generalize the notion of an integral for a function, $f: \Omega \rightarrow \mathbb{R}$,  over some set $R \subseteq \Omega$. If $f$ is bounded, we can pick $n$ points in its range so that $y_1 < \dots < y_n$ and then define the lower-sum as
+We consider a function, $f: \Omega \rightarrow \mathbb{R}$, where $\Omega$ is a non-empty but arbitrary set. If $f$ is bounded, we can pick $n$ points in its range so that $\min_{\Omega}f = y_1 < \dots < y_n = \max_{\Omega}f$ and t
 \\[
 \sum_{i=1}^{n-1}f(y_i)\mu(f^{-1}([y_i,y_{i+1}])) \tag{2a}\label{eq_lebesgue_lower}
 \\]
