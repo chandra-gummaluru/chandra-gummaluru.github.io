@@ -7,7 +7,7 @@ author: "Chandra Gummaluru"
 
 Suppose we have a function, $f: \mathbb{R} \rightarrow \mathbb{R}$ for which we seek the area under its graph within an interval, $[a,b]$. We will denote this quantity as $\int_{a}^{b}f(x)dx$.
 
-<img src="https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/lebesgue/reimann_lower_sum.gif"/>
+<img src="https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/lebesgue/function_integ.png"/>
 
 To do this, we pick $n$ points $x_1, \dots, x_n \in [a,b]$, so that $a = x_1 < x_2 < \dots < x_{n-1} < x_{n} = b$. The expression,
 \\[
@@ -21,6 +21,9 @@ is called the upper-sum and it over-estimate the desired area. As $n$​ grows  
 \\[
 \int_{a}^{b}f(x)dx := \sum_{i=1}^{n-1}(x_{i+1}-x_i)\inf_{x \in [x_i,x_{i+1}]}f(x) = \sum_{i=1}^{n-1}(x_{i+1}-x_i)\sup_{x \in [x_i,x_{i+1}]}f(x) \tag{1c}\label{eq_reimann_integral}
 \\]
+
+<img src="https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/lebesgue/reimann_lower_sum.gif"/>
+
 This is called the **Reimann integral**. The problem is that both approximations need not always approach the same value even if the area under seems intuitive. For example, consider a function, $I_{\mathbb{Q}}$, defined so that
 \\[
 I_{\mathbb{Q}}(x) = \begin{cases}
