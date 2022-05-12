@@ -13,11 +13,11 @@ To do this, we pick $n$ points $x_1, \dots, x_n \in [a,b]$, so that $a = x_1 < x
 \\]
 is called the lower-sum, and it under-approximates the desired area. Similarly, the expression
 \\[
-\sum_{i=1}^{n-1}(x_{i+1}-x_i)\sup_{x \in [x_i,x_{i+1}]}f(x)
+\sum_{i=1}^{n-1}(x_{i+1}-x_i)\sup_{x \in [x_i,x_{i+1}]}f(x) \tag{1b}\label{eq_reimann_upper}
 \\]
 is called the upper-sum and it over-estimate the desired area. As $n$​ grows  large, both of these approximations get better. Thus, if we can show that both approximations approach the same value in the limit the area can be defined as follows:
 \\[
-\int_{a}^{b}f(x)dx := \sum_{i=1}^{n-1}(x_{i+1}-x_i)\inf_{x \in [x_i,x_{i+1}]}f(x) = \sum_{i=1}^{n-1}(x_{i+1}-x_i)\sup_{x \in [x_i,x_{i+1}]}f(x)
+\int_{a}^{b}f(x)dx := \sum_{i=1}^{n-1}(x_{i+1}-x_i)\inf_{x \in [x_i,x_{i+1}]}f(x) = \sum_{i=1}^{n-1}(x_{i+1}-x_i)\sup_{x \in [x_i,x_{i+1}]}f(x) \tag{1c}\label{eq_reimann_integral}
 \\]
 This is called the **Reimann integral**. The problem is that both approximations need not always approach the same value even if the area under seems intuitive. For example, consider a function, $I_{\mathbb{Q}}$, defined so that
 \\[
@@ -31,11 +31,11 @@ Intuitively, we expect the area to be zero since $\mathbb{Q}$ is countably infin
 
 Our goal is to generalize the notion of an integral for a function, $f: \Omega \rightarrow \mathbb{R}$,  over some set $R \subseteq \Omega$. If $f$ is bounded, we can pick $n$ points in its range so that $y_1 < \dots < y_n$ and then define the lower-sum as
 \\[
-\sum_{i=1}^{n-1}f(y_i)\mu(f^{-1}([y_i,y_{i+1}]))
+\sum_{i=1}^{n-1}f(y_i)\mu(f^{-1}([y_i,y_{i+1}])) \tag{2a}\label{eq_lebesgue_lower}
 \\]
 and the upper-sum as
 \\[
-\sum_{i=2}^{n}f(y_i)\mu(f^{-1}([y_{i-1},y_{i}]))
+\sum_{i=2}^{n}f(y_i)\mu(f^{-1}([y_{i-1},y_{i}])) \tag{2b}\label{eq_lebesgue_upper}
 \\]
 where $f^{-1}([a,b])$ denotes the inverse image of $[a,b]$ under $f$, and $\mu: \Omega \rightarrow \mathbb{R}$ is suppose to measure the size of subsets of $\Omega$.
 
@@ -68,5 +68,5 @@ f^{-1}(S) = \lbrace s \in \Omega \text{ s.t. } f(s) \in S \rbrace \in \Sigma, \f
 We write $f: (\Omega, \Sigma) \rightarrow (\Omega', \Sigma')$ to denote that $f$ is measurable w.r.t. $\Sigma$ and $\Sigma'$.
 ### Lebesgue Integration
 
-Let $\Omega$ be a non-empty set and $\Sigma$ be a $\sigma$-algebra on $\Omega$> If $f: (\Omega, \Sigma) \rightarrow (\mathbb{R}, \mathcal{B}(\mathbb{R}))$ is bounded, and $R \in \Sigma$ , then the lower and upper sums defined by (3) and (4) are not only well defined, but also converge to the same value in the limit as $n \rightarrow \infty$. Thus, we define the integral as:
-\\[\int_{R}f(\omega)d\mu(\omega) := \lim_{n\rightarrow\infty}\sum_{i=1}^{n-1}f(y_i)\mu(f^{-1}([y_i,y_{i+1}])) = \lim_{n\rightarrow\infty}\sum_{i=2}^{n}f(y_i)\mu(f^{-1}([y_{i-1},y_{i}]))\\]
+Let $\Omega$ be a non-empty set and $\Sigma$ be a $\sigma$-algebra on $\Omega$> If $f: (\Omega, \Sigma) \rightarrow (\mathbb{R}, \mathcal{B}(\mathbb{R}))$ is bounded, and $R \in \Sigma$ , then the lower and upper sums defined by (\ref{eq_lebesgue_lower}) and (\ref{eq_lebesgue_upper}) are not only well defined, but also converge to the same value in the limit as $n \rightarrow \infty$. Thus, we define the integral as:
+\\[\int_{R}f(\omega)d\mu(\omega) := \lim_{n\rightarrow\infty}\sum_{i=1}^{n-1}f(y_i)\mu(f^{-1}([y_i,y_{i+1}])) = \lim_{n\rightarrow\infty}\sum_{i=2}^{n}f(y_i)\mu(f^{-1}([y_{i-1},y_{i}]))\tag{2c}\label{eq_lebesgue_integral}\\]
