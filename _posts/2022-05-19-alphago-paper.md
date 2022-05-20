@@ -28,11 +28,9 @@ In general, players may place stones anywhere on the board unless, except when d
 A player need not place a stone during their turn. If both players skip their turn, or neither player can legally place a stone, the game ends. The score for each player is the number of points within their territories plus the number of stones they captured.
 
 ## The Goal of AlphaGo
-Our goal of AlphaGo was to develop an agent that can decide the best move to play from any board configuration in the sense that its choice maximizes the probability that it will win the game. For example, consider the board configuration shown below:
-
-
-One way to do this is via a brute-force search, starting from the initial board configuration $s_0$.
+Our goal of AlphaGo was to develop an agent that can decide the best move to play from any board configuration in the sense that its choice maximizes the probability that it will win. Given some initial board configuration, $s_0$, we can represent all potential games as a tree:
 
 ![](https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/go_tree.svg)
-*The root of the tree represents the initial board configuration. The leaves of the tree represent the final board configuration after a game has ended. It is annotated with two numbers, $s_1/s_2$ representing the final score for each player.*
+*The root of the tree represents the initial board configuration. Each leaf of the tree represents the board configuration after a game has ended. Each path from the root to a leaf represents one possible realization of the game; the leaf is annotated with a utility value of either $1$ or $0$, depending on whether the agent would have won or not if that game was indeed realized.*
 
+In developing our agent, it is fairly common to assume that the adversary is rational, i.e., from any board configuration, they will play the move that will maximize their probability of winning. Thus, the utility value of any non-leaf node 
