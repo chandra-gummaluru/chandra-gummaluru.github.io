@@ -18,8 +18,9 @@ Whenever a player places a stone on the board, any stone without liberties is ca
 *White places a stone causing black's stones to have no liberties. Thus, black's stones are captured and removed.*
 
 In general, players may place stones anywhere on the board unless, except when doing so would return the board to a previously encountered configuration.
-![](https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/gif_stone_capture.gif)
+![](https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/gif_cyclic_stone.gif)
 *Black places a stone capturing one of White's pieces. White can no longer play at the intersection marked $\textsf{X}$ since this would return the board back to the state before Black played.*
+
 A player need not place a stone during their turn. If both players skip their turn, or neither player can legally place a stone, the game ends. The score for each player is the number of points within their territories plus the number of stones they captured.
 
 ## The Goal of AlphaGo
