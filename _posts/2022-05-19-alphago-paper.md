@@ -4,6 +4,7 @@ title: "Understanding AlphaGo"
 author: "Chandra Gummaluru"
 ---
 
+## The Game of Go
 Go is a 2-player strategic board game played in which the aim is to sorround the most territory. It is played on a grid of $N \times N$ points. Players take turns placing stones on the board. There are two basic rules for how stones may be placed:
 
 1. a stone may only remain on the board if it is vertically/horizontally adjacent to an unoccupied point (called a liberty) or vertically/horizontally adjacent to a stone that is; stones without libterties are removed.
@@ -11,3 +12,6 @@ Go is a 2-player strategic board game played in which the aim is to sorround the
 
 ![](https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/gif_stone_capture.gif)
 *White plays a stone causing black's stones to have no liberties. Thus, black's stones are removed.*
+
+## The Goal of AlphaGo
+Our goal of AlphaGo was to develop an algorithm that can decide the best move to play from any board configuration. 
