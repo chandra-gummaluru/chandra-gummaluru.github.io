@@ -34,5 +34,5 @@ Our goal of AlphaGo was to develop an agent that can decide the best move to pla
 One way to do this is via a brute-force search, starting from the initial board configuration $s_0$.
 
 ![](https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/go_tree.svg)
-*Black places a stone capturing one of White's pieces. White can no longer play at the highlighted point since this would return the board back to the state before Black played.*
+*The root of the tree represents the initial board configuration. The leaves of the tree represent the final board configuration after a game has ended. It is annotated with two numbers, $s_1/s_2$ representing the final score for each player.*
 
