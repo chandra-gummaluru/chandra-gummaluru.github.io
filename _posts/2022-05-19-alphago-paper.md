@@ -7,15 +7,15 @@ author: "Chandra Gummaluru"
 ## The Game of Go
 Go is a 2-player strategic board game in which the aim is to sorround the most territory. It is played on a grid of $N \times N$ points. Players take turns placing stones, one at a time, on the board:
 
-- the unoccupied points that are vertically/horizontally adjacent to a stone are called its "liberties"
+- the unoccupied points that are orthogonally adjacent to a stone are called its "liberties"
 
-- vertically/horizontally adjacent stones of the same colour are called a "chain"; chains share liberties 
+- orthogonally adjacent stones of the same colour are called a "chain"; chains share liberties 
 
 - if a chain encloses a set of points, those points form a "territory"
 
 Whenever a player places a stone on the board, any stone without liberties is captured and consequently removed from the board.
 ![](https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/gif_stone_capture.gif)
-*White places a stone causing black's stones to have no liberties. Thus, black's stones are captured and removed.*
+*White places a stone causing BLack's stones to have no liberties. Thus, black's stones are captured and removed.*
 
 In general, players may place stones anywhere on the board unless, except when doing so would return the board to a previously encountered configuration.
 ![](https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/gif_cyclic_stone.gif)
