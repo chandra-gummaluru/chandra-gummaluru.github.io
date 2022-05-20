@@ -28,4 +28,4 @@ In general, players may place stones anywhere on the board unless, except when d
 A player need not place a stone during their turn. If both players skip their turn, or neither player can legally place a stone, the game ends. The score for each player is the number of points within their territories plus the number of stones they captured.
 
 ## The Goal of AlphaGo
-Our goal of AlphaGo was to develop an algorithm that can decide the best move to play from any board configuration. 
+Our goal of AlphaGo was to develop an agent that can decide the best move to play from any board configuration in the sense that its choice maximizes the probability that it will win the game.
