@@ -13,6 +13,10 @@ Go is a 2-player strategic board game in which the aim is to sorround the most t
 
 - if a chain encloses a set of points, those points form a "territory"
 
+.
+![](https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/liberties_chains_territories.svg)
+*Black has a chain of length 3 with 6 liberties, White has a chain of length 1 with 3 liberties.*
+
 Whenever a player places a stone on the board, any stone without liberties is captured and consequently removed from the board.
 ![](https://raw.githubusercontent.com/chandra-gummaluru/chandra-gummaluru.github.io/master/media/go/stone_capture.svg)
 *White places a stone causing BLack's stones to have no liberties. Thus, black's stones are captured and removed.*
