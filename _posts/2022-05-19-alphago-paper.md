@@ -28,9 +28,11 @@ In general, players may place stones anywhere on the board unless, except when d
 A player need not place a stone during their turn. If both players skip their turn, or neither player can legally place a stone, the game ends. The score for each player is the number of points within their territories plus the number of stones they captured.
 
 ## Mathematical Representation
-Each possible board configuration is called a **state**. The set of all states, $\mathcal{S}$, is called the **state-space**. Each state, $s \in \mathcal{S}$ is associated with a player, called the **turn-taker**. Some states, $\mathcal{T} \subseteq \mathcal{S}$ are **terminal states**; the game ends if any of these states are reached. Each terminal state, $s \in \mathcal{T}$, provides our agent a **utility** of $u(s)$ and a utility of $-u(s)$ to its adversary, where $u: \mathcal{T} \rightarrow \lbrace 0,1 \rbrace$ denotes whether our agent wins ($1$) or loses ($0$).
+The game is represented as a set of **states**, $\mathcal{S}$. Each state, $s \in \mathcal{S}$ represnets a board configuration and a player, called the **turn-taker**. Some states, $\mathcal{T} \subseteq \mathcal{S}$ are **terminal states**; the game ends if any of these states are reached. Each terminal state, $s \in \mathcal{T}$, provides our agent a **utility** of $u(s)$ and a utility of $-u(s)$ to its adversary, where $u: \mathcal{T} \rightarrow \lbrace 0,1 \rbrace$ denotes whether our agent wins ($1$) or loses ($0$).
 
-The **actions** available to the turn-taker at state $S$ are denoted $A(s)$. When an action, $a \in A(s)$ is applied to $s$, the result is a new state, $a(s) \in \mathcal{S}$. We call $a(s)$ a **successor** of $s$. The set of all successors is $S(s) = \left\lbrace a(s), a \in A(s) \right\rbrace$.
+The **actions** available to the turn-taker at state $S$ are denoted $A(s)$. When an action, $a \in A(s)$ is applied to $s$, the result is a new state, $a(s) \in \mathcal{S}$. The set of all **successors** from $s$ is $S(s) = \left\lbrace a(s), a \in A(s) \right\rbrace$.
+
+The game as a whole is a triple, $(\mathcal{S}, A, u)$. The goal is to find a policy function, $p: \mathcal{S} \rightarrow A$ so that $p(s)$ is the action that maximizes the probability of winning from state, $s$.  
 
 ## The Goal of AlphaGo
 Our goal of AlphaGo was to develop an agent that can decide the best move to play from any board configuration in the sense that its choice maximizes the probability that it will win. Given some initial board configuration, $s_0$, we can represent all potential games as a tree:
@@ -38,7 +40,7 @@ Our goal of AlphaGo was to develop an agent that can decide the best move to pla
 ![](https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/go_tree.svg)
 *The root of the tree represents the initial board configuration. Each leaf of the tree represents the board configuration after a game has ended. Each path from the root to a leaf represents one possible realization of the game; the leaf is annotated with a utility value of either $1$ or $0$, depending on whether the agent would have won or not if that game was indeed realized.*
 
-In developing our agent, it is fairly common to assume that the adversary will also play the move that will maximize their probability of winning. In other words, the adversary will always play a move that causes our agent to lose over one that causes our agent to win. Similarly, our agent should always play a move that causes it to win over one that causes it to lose. Thus, the utility of non-terminal states can be determiend determinisitcally via the following recurrence:
+When developing an agent, it is fairly common to assume that the adversary will also play the move that will maximize their probability of winning. In other words, the adversary will always play a move that causes our agent to lose over one that causes our agent to win. Similarly, our agent should always play a move that causes it to win over one that causes it to lose. Thus, the utility of non-terminal states can be determiend determinisitcally via the following recurrence:
 
 \\[u(s) = \begin{cases}
 \displaystyle\max_{s' \in S(s)}\lbrace u(s') \rbrace, \text{ if our agent is the turn-taker} \\\\\\
