@@ -51,4 +51,8 @@ When developing an agent, it is fairly common to assume that the adversary will 
 \displaystyle\min_{s' \in S(s)}\lbrace u(s') \rbrace, \text{ otherwise.}
 \end{cases}\tag{1}\label{eq_mm_recurrence}\\]
 
-To compute these utilities, the agent must traverse the tree until a state, $s$, is reached whose successors are all leaves. Then, using $\ref{(eq_mm_recurrence)}$, the agent can compute $u(s)$ working back up the tree.  
+To compute these utilities, the agent must traverse the tree until a state, $s$, is reached whose successors are all leaves. Then, using $\ref{(eq_mm_recurrence)}$, the agent can compute $u(s)$ working back up the tree.
+
+![](https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/minmax_search.gif)
+*Black places a stone capturing one of White's pieces. White can no longer play at the highlighted point since this would return the board back to the state before Black played.*
+
