@@ -33,4 +33,9 @@ Our goal of AlphaGo was to develop an agent that can decide the best move to pla
 ![](https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/go_tree.svg)
 *The root of the tree represents the initial board configuration. Each leaf of the tree represents the board configuration after a game has ended. Each path from the root to a leaf represents one possible realization of the game; the leaf is annotated with a utility value of either $1$ or $0$, depending on whether the agent would have won or not if that game was indeed realized.*
 
-In developing our agent, it is fairly common to assume that the adversary will also play the move that will maximize their probability of winning.
+In developing our agent, it is fairly common to assume that the adversary will also play the move that will maximize their probability of winning. This leads to the so-called **min-max algorithm**. 
+
+\\[U(s,t) = \begin{cases}
+\min\lbrace U(s', \text{B}), s' \in S(s) \rbrace, t = \text{W} \\
+\max\lbrace U(s', \text{W}), s' \in S(s) \rbrace, t = \text{B}
+\end{cases}\\]
