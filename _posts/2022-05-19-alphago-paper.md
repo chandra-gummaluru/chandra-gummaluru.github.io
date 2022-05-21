@@ -61,7 +61,7 @@ A big problem with the min-max algorithm is that the agent must traverse the ent
 
 The are still a few problems with this approach:
 
-1. Finding a good $h$ is very difficult
+1. Finding a good $h$ is very difficult.
 2. Even if we had a good $h$, it is not obvious which parts of the tree should be explored further if we have time to run another iteration.
 
 ![](https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/minmax_ee.svg)
