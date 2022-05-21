@@ -58,3 +58,7 @@ To compute these utilities, the agent must traverse the tree until a state, $s$,
 A big problem with the min-max algorithm is that the agent must traverse the entire tree to compute the utility of the root. With Go, this is computationally infeasible because the tree is so large. In these situations, a heuristic function, $h: \mathcal{S} \rightarrow \mathbb{R}$ is used to estimate $u$ along parts of the tree that could not be fully traversed.
 
 <img src="https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/minmax_search_heur.gif"/>*Running the min-max algorithm on a binary game tree of depth 3 with a time-limit of $t = 11$. Once the time has run out, the algorithm stops expanding the tree and uses the heuristic to estimate the utilities of non-terminal nodes.*
+
+The problem here is that it is not obvious which parts of the tree should be explored further.
+![](https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/minmax_ee.svg)
+*Black places a stone capturing one of White's pieces. White can no longer play at the highlighted point since this would return the board back to the state before Black played.*
