@@ -28,7 +28,7 @@ In general, players may place stones anywhere on the board unless, except when d
 A player need not place a stone during their turn. If both players skip their turn, or neither player can legally place a stone, the game ends. The score for each player is the number of points within their territories plus the number of stones they captured.
 
 ## Mathematical Representation
-Each possible board configuration is called a **state**. The set of all states, $\mathcal{S}$, is called the **state-space**. Some states, $\mathcal{T} \subseteq \mathcal{S}$ are terminal, i.e., the game ends if those states are reached. Each terminal state, $s \in \mathcal{T}$, provides our agent a utility of $u(s)$ and a utility of $-u(s)$ to its adversary, where $u: \mathcal{T} \rightarrow \lbrace 0,1 \rbrace$ denotes whether our agent wins ($1$) or loses ($0$).
+Each possible board configuration is called a **state**. The set of all states, $\mathcal{S}$, is called the **state-space**. Each state, $s \in \mathcal{S}$ is associated with a player, called the **turn-taker**. Some states, $\mathcal{T} \subseteq \mathcal{S}$ are **terminal states**; the game ends if any of these states are reached. Each terminal state, $s \in \mathcal{T}$, provides our agent a **utility** of $u(s)$ and a utility of $-u(s)$ to its adversary, where $u: \mathcal{T} \rightarrow \lbrace 0,1 \rbrace$ denotes whether our agent wins ($1$) or loses ($0$).
 
 The **actions** available to the turn-taker at state $S$ are denoted $A(s)$. When an action, $a \in A(s)$ is applied to $s$, the result is a new state, $a(s) \in \mathcal{S}$. We call $a(s)$ a **successor** of $s$. The set of all successors is $S(s) = \left\lbrace a(s), a \in A(s) \right\rbrace$.
 
@@ -41,6 +41,6 @@ Our goal of AlphaGo was to develop an agent that can decide the best move to pla
 In developing our agent, it is fairly common to assume that the adversary will also play the move that will maximize their probability of winning. This leads to the so-called **min-max algorithm**. 
 
 \\[u(s) = \begin{cases}
-\min\lbrace u(s) \rbrace, \text{if } p(s) \\\\\\
-\max\lbrace U(s', \text{W}), s' \in S(s) \rbrace, \text{ otherwise.}
+\min_{s' \in S(s)}\lbrace u(s') \rbrace, \text{if our agent is the turn-taker} \\\\\\
+\max_{s' \in S(s)}\lbrace u(s') \rbrace, \text{ otherwise.}
 \end{cases}\\]
