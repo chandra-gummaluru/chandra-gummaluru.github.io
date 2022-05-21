@@ -62,3 +62,5 @@ A big problem with the min-max algorithm is that the agent must traverse the ent
 The problem here is that it is not obvious which parts of the tree should be explored further if we have time to run another iteration.
 ![](https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/minmax_ee.svg)
 *In this case, $s_2$ has a lower estimated utility than $s_1$, but we are more confident in the estimate for $s_1$ since it was based on deeper exploration. If we had enough time to explore the tree further, we could either explore $s_1$ more since it is more likely to be a good state, or we could explore $s_2$ since we haven't explored it as much.*
+
+This is called the **exploration versus exploitation dilemma**.
