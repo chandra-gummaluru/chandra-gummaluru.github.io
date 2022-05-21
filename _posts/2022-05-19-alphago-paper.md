@@ -21,7 +21,7 @@ Whenever a player places a stone on the board, any stone without liberties is ca
 ![](https://raw.githubusercontent.com/chandra-gummaluru/chandra-gummaluru.github.io/master/media/go/stone_capture.svg)
 *White places a stone causing Black's stones to have no liberties. Thus, black's stones are captured and removed. Whtie then has a territory of size 2.*
 
-In general, players may place stones anywhere on the board unless, except when doing so would return the board to a previously encountered configuration.
+In general, players may place stones anywhere on the board except where doing so would return the board to a previously encountered configuration.
 ![](https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/cyclic_stone.svg)
 *Black places a stone capturing one of White's pieces. White can no longer play at the highlighted point since this would return the board back to the state before Black played.*
 
