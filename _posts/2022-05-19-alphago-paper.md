@@ -49,6 +49,6 @@ When developing an agent, it is fairly common to assume that the adversary will 
 \\[u(s) = \begin{cases}
 \displaystyle\max_{s' \in S(s)}\lbrace u(s') \rbrace, \text{ if our agent is the turn-taker} \\\\\\
 \displaystyle\min_{s' \in S(s)}\lbrace u(s') \rbrace, \text{ otherwise.}
-\end{cases}\tag{eq_mm_recurrence}\\]
+\end{cases}\tag{1}\label{eq_mm_recurrence}\\]
 
-To compute these utilities, the agent must traverse the tree until a state, $s$, is reached whose successors are all leaves. Then, using $\label{(eq_mm_recurrence)}$, the agent can compute $u(s)$ working back up the tree.  
+To compute these utilities, the agent must traverse the tree until a state, $s$, is reached whose successors are all leaves. Then, using $\ref{(eq_mm_recurrence)}$, the agent can compute $u(s)$ working back up the tree.  
