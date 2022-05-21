@@ -28,18 +28,18 @@ In general, players may place stones anywhere on the board except where doing so
 A player need not place a stone during their turn. If both players skip their turn, or neither player can legally place a stone, the game ends. The score for each player is the number of points within their territories plus the number of stones they captured.
 
 ## Mathematical Representation
-The game is represented mathematically as a tuple, $(\mathcal{S}, \mathcal{T}, A, u)$, where:
+The game is represented mathematically as a tuple, $(\mathcal{S}, \mathcal{T}, \mathcal{A}, u)$, where:
 - $\mathcal{S}$ is a set of **states**
 - $\mathcal{T} \subseteq \mathcal{S}$ is the subset of the states in which the game ends, called **terminal states**
-- $A$ is a set-valued function such that $A(s)$ is the set of feasiable **actions** from state, $s \in \mathcal{S}$
-- $u: \mathcal{T} \rightarrow \lbrace 0, 1\rbrace$ is a **utility function**, defined so that $u(s) = 1$ if $s$ is a winning state for our agent, and $u(s) = 0$ otherwise.
+- $\mathcal{A}$ is a set-valued function such that $\mathcal{A}(s)$ is the set of feasiable **actions** from state, $s \in \mathcal{S}$
+- $u: \mathcal{T} \rightarrow \lbrace -1, 0, 1\rbrace$ is a **utility function**, defined so that $u(s) = 1$ if $s$ is a winning state for our agent, $u(s) = -1$ if $s$ is a losing state for our agent, and $u(s) = 0$ if $s$ is a tie state.
 
-Each state, $s \in \mathcal{S}$ represents a board configuration and a player, called the **turn-taker**. When an action, $a \in A(s)$ is played by the turn-taker, the result is a new state, $a(s) \in \mathcal{S}$, which is called a **successor** of $s$. The set of all successors of $s$ is $S(s) = \left\lbrace a(s), a \in A(s) \right\rbrace$.
+Each state, $s \in \mathcal{S}$ includes the board configuration and the player whose turn it is. When an action, $a \in \mathcal{A}(s)$ is played by the turn-taker, the result is a new state, $a(s) \in \mathcal{S}$, which is called a **successor** of $s$. The set of all successors of $s$ is $\mathcal{S}(s) = \left\lbrace a(s), a \in \mathcal{A}(s) \right\rbrace$.
 
 ## The Goal of AlphaGo
 The goal of AlphaGo was to develop an agent that can decide the best move to play from any board configuration in the sense that its choice maximizes the probability that it will win. Mathematically, we seek a policy function, $p: \mathcal{S} \rightarrow \mathcal{A}$ such that $p(s)$ is the action which maximizes the probability that $u = 1$ when a terminal state is reached.
 
-Given some initial board configuration, $s_0$, we can represent all potential games as a tree:
+Given some initial state, $s_0$, we can represent all possible realizations of the game from that state as a tree:
 
 ![](https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/go_tree.svg)
 *The root of the tree, $s_0$, represents the initial board configuration. Each leaf of the tree represents the board configuration after a game has ended. Each path from the root to a leaf represents one possible realization of the game; the leaf is annotated with a utility value of either $1$ or $0$, depending on whether the agent would have won or not if that game was indeed realized.*
@@ -64,3 +64,16 @@ The problem here is that it is not obvious which parts of the tree should be exp
 *In this case, $s_2$ has a lower estimated utility than $s_1$, but we are more confident in the estimate for $s_1$ since it was based on deeper exploration. If we had enough time to explore the tree further, we could either explore $s_1$ more since it is more likely to be a good state, or we could explore $s_2$ since we haven't explored it as much and thus, could potentially be much better.*
 
 This is called the **exploration versus exploitation dilemma**.
+
+## The AlphaGo Pipeline
+The techniques used by AlphaGo are fairly standard; the novelity is in how these techniques are combined. The appraoch can be summarized as follows:
+
+1. Using supervised learning, a model, $\rho$, is trained to predict the distribution of made by expert Go players for any given board configuration.
+2. Through self-play reinforcement learning, $\rho$ is refined.
+3. 
+
+### Training the Value-Function
+To compute the value-function, the authors began with an initial estimate of it. For now,  
+
+### Initializing the Value-Function
+The first goal of AlphaGo was to decide on an initial value-function, $h: \mathcal{S} \rightarrow \mathbb{R}$. Of course, one could pick any arbitrary function. However,  
