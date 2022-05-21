@@ -38,9 +38,11 @@ Our goal of AlphaGo was to develop an agent that can decide the best move to pla
 ![](https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/go_tree.svg)
 *The root of the tree represents the initial board configuration. Each leaf of the tree represents the board configuration after a game has ended. Each path from the root to a leaf represents one possible realization of the game; the leaf is annotated with a utility value of either $1$ or $0$, depending on whether the agent would have won or not if that game was indeed realized.*
 
-In developing our agent, it is fairly common to assume that the adversary will also play the move that will maximize their probability of winning. This leads to the so-called **min-max algorithm**. 
+In developing our agent, it is fairly common to assume that the adversary will also play the move that will maximize their probability of winning. In other words, the adversary will always play a move that causes our agent to lose over one that causes our agent to win. Similarly, our agent should always play a move that causes it to win over one that causes it to lose. Thus, the utility of non-terminal states can be determiend determinisitcally via the following recurrence:
 
 \\[u(s) = \begin{cases}
 \displaystyle\max_{s' \in S(s)}\lbrace u(s') \rbrace, \text{ if our agent is the turn-taker} \\\\\\
 \displaystyle\min_{s' \in S(s)}\lbrace u(s') \rbrace, \text{ otherwise.}
 \end{cases}\\]
+
+To compute these utilities, one must traverse the tree until a state, $s$, is reached whose successors are all leaves. Then, using (1), we can compute $u(s)$, working up the tree. Once we compute $u(s)$ for each $s \in S(s_0)$, we should choose the action that  
