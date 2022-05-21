@@ -5,7 +5,7 @@ author: "Chandra Gummaluru"
 ---
 
 ## The Game of Go
-Go is a 2-player strategic board game in which the aim is to sorround the most territory. It is played on a grid of $N \times N$ points. Players take turns placing stones, one at a time, on the board:
+Go is a 2-player strategic board game in which the aim is to surround the most territory. It is played on a grid of $N \times N$ points. Players take turns placing stones, one at a time, on the board:
 
 - the unoccupied points that are orthogonally adjacent to a stone are called its "liberties"
 
