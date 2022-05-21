@@ -19,7 +19,7 @@ Go is a 2-player strategic board game in which the aim is to surround the most t
 
 Whenever a player places a stone on the board, any stone without liberties is captured and consequently removed from the board.
 ![](https://raw.githubusercontent.com/chandra-gummaluru/chandra-gummaluru.github.io/master/media/go/stone_capture.svg)
-*White places a stone causing BLack's stones to have no liberties. Thus, black's stones are captured and removed.*
+*White places a stone causing Black's stones to have no liberties. Thus, black's stones are captured and removed. Whtie then has a territory of size 2.*
 
 In general, players may place stones anywhere on the board unless, except when doing so would return the board to a previously encountered configuration.
 ![](https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/cyclic_stone.svg)
