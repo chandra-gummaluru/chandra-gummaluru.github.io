@@ -34,17 +34,17 @@ The game is represented mathematically as a tuple, $(\mathcal{S}, \mathcal{T}, A
 - $A$ is a set-valued function such that $A(s)$ is the set of feasiable **actions** from state, $s \in \mathcal{S}$
 - $u: \mathcal{T} \rightarrow \lbrace 0, 1\rbrace$ is a **utility function**, defined so that $u(s) = 1$ if $s$ is a winning state for our agent, and $u(s) = 0$ otherwise.
 
-Each state, $s \in \mathcal{S}$ represnets a board configuration and a player, called the **turn-taker**. When an action, $a \in A(s)$ is played by the turn-taker, the result is a new state, $a(s) \in \mathcal{S}$, which is called a **successor** of $s$. The set of all successors of $s$ is $S(s) = \left\lbrace a(s), a \in A(s) \right\rbrace$.
+Each state, $s \in \mathcal{S}$ represents a board configuration and a player, called the **turn-taker**. When an action, $a \in A(s)$ is played by the turn-taker, the result is a new state, $a(s) \in \mathcal{S}$, which is called a **successor** of $s$. The set of all successors of $s$ is $S(s) = \left\lbrace a(s), a \in A(s) \right\rbrace$.
 
 ## The Goal of AlphaGo
-Our goal of AlphaGo was to develop an agent that can decide the best move to play from any board configuration in the sense that its choice maximizes the probability that it will win. Matheematically, we seek a policy function, $p: \mathcal{S} \rightarrow \mathcal{A}$ such that $p(s)$ is the action which maximizes the probability that $u = 1$ when a terminal state is reached.
+The goal of AlphaGo was to develop an agent that can decide the best move to play from any board configuration in the sense that its choice maximizes the probability that it will win. Mathematically, we seek a policy function, $p: \mathcal{S} \rightarrow \mathcal{A}$ such that $p(s)$ is the action which maximizes the probability that $u = 1$ when a terminal state is reached.
 
 Given some initial board configuration, $s_0$, we can represent all potential games as a tree:
 
 ![](https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/go_tree.svg)
-*The root of the tree represents the initial board configuration. Each leaf of the tree represents the board configuration after a game has ended. Each path from the root to a leaf represents one possible realization of the game; the leaf is annotated with a utility value of either $1$ or $0$, depending on whether the agent would have won or not if that game was indeed realized.*
+*The root of the tree, $s_0$, represents the initial board configuration. Each leaf of the tree represents the board configuration after a game has ended. Each path from the root to a leaf represents one possible realization of the game; the leaf is annotated with a utility value of either $1$ or $0$, depending on whether the agent would have won or not if that game was indeed realized.*
 
-When developing an agent, it is fairly common to assume that the adversary will also play the move that will maximize their probability of winning. In other words, the adversary will always play a move that causes our agent to lose over one that causes our agent to win. Similarly, our agent should always play a move that causes it to win over one that causes it to lose. Thus, the utility of non-terminal states can be determiend determinisitcally via the following recurrence:
+When developing an agent, it is fairly common to assume that the adversary will also play the move that will maximize their probability of winning. In other words, the adversary will always play a move that causes our agent to lose over one that causes our agent to win. Similarly, our agent should always play a move that causes it to win over one that causes it to lose. Thus, the utility of non-terminal states is determinisitc and can be computed via the following recurrence:
 
 \\[u(s) = \begin{cases}
 \displaystyle\max_{s' \in S(s)}\lbrace u(s') \rbrace, \text{ if our agent is the turn-taker} \\\\\\
