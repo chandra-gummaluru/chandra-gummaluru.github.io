@@ -40,7 +40,7 @@ Our goal of AlphaGo was to develop an agent that can decide the best move to pla
 
 In developing our agent, it is fairly common to assume that the adversary will also play the move that will maximize their probability of winning. This leads to the so-called **min-max algorithm**. 
 
-\\[U(s,t) = \begin{cases}
-\min\lbrace U(s', \text{B}), s' \in S(s) \rbrace, t = \textsf{W} \\\\\\
-\max\lbrace U(s', \text{W}), s' \in S(s) \rbrace, t = \textsf{B}
+\\[u(s) = \begin{cases}
+\min\lbrace u(s) \rbrace, \text{if } p(s) \\\\\\
+\max\lbrace U(s', \text{W}), s' \in S(s) \rbrace, \text{ otherwise.}
 \end{cases}\\]
