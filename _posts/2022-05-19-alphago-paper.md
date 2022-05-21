@@ -42,7 +42,7 @@ The goal of AlphaGo was to develop an agent that can decide the best move to pla
 Given some initial state, $s_0$, we can represent all possible realizations of the game from that state as a tree whose nodes represent states and edges represent actions:
 
 ![](https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/go_tree.svg)
-*The root of the tree, $s_0$, represents the initial board configuration. Each leaf of the tree represents the board configuration after a game has ended. Each path from the root to a leaf represents one possible realization of the game; the leaf is annotated with a utility value of either $1$ or $0$, depending on whether the agent would have won or not if that game was indeed realized.*
+*Each node in the tree is coloured according to the turn-taker in the associated state. The root of the tree, $s_0$, represents the initial state. Each leaf of the tree represents the state once a game has ends. Each path from the root to a leaf represents one possible realization of the game from $s_0$; the leaf is annotated with a utility value of either $-1$, $0$, or $1$, depending on whether the agent would have won, lost, or tied, if that game was indeed realized.*
 
 When developing an agent, it is fairly common to assume that the adversary will also play the move that will maximize their probability of winning. In other words, the adversary will always play a move that causes our agent to lose over one that causes our agent to win. Similarly, our agent should always play a move that causes it to win over one that causes it to lose. Thus, the utility of non-terminal states is determinisitc and can be computed via the following recurrence:
 
