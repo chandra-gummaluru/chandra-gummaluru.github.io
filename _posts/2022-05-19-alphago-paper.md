@@ -39,7 +39,7 @@ Each state, $s \in \mathcal{S}$ includes the board configuration and the player 
 ## The Goal of AlphaGo
 The goal of AlphaGo was to develop an agent that can decide the best move to play from any board configuration in the sense that its choice maximizes the probability that it will win. Mathematically, we seek a policy function, $p: \mathcal{S} \rightarrow \mathcal{A}$ such that $p(s)$ is the action which maximizes the probability that $u = 1$ when a terminal state is reached.
 
-Given some initial state, $s_0$, we can represent all possible realizations of the game from that state as a tree:
+Given some initial state, $s_0$, we can represent all possible realizations of the game from that state as a tree whose nodes represent states and edges represent actions:
 
 ![](https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/go_tree.svg)
 *The root of the tree, $s_0$, represents the initial board configuration. Each leaf of the tree represents the board configuration after a game has ended. Each path from the root to a leaf represents one possible realization of the game; the leaf is annotated with a utility value of either $1$ or $0$, depending on whether the agent would have won or not if that game was indeed realized.*
