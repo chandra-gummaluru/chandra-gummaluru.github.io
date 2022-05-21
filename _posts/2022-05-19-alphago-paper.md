@@ -59,7 +59,11 @@ A big problem with the min-max algorithm is that the agent must traverse the ent
 
 <img src="https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/minmax_search_heur.gif"/>*Running the min-max algorithm iteratively on a binary game tree of depth 3. In each iteration, $i$, the agent selects and expands a part of the tree, estimates its utility via $h$, and then propagates the consequences back up the tree. It also keeps track of the best successor found thus far so that if time runs out, it can play the action that yields that successor.*
 
-The problem here is that it is not obvious which parts of the tree should be explored further if we have time to run another iteration.
+The are still a few problems with this approach:
+
+1. Finding a good $h$ is very difficult
+2. Even if we had a good $h$, it is not obvious which parts of the tree should be explored further if we have time to run another iteration.
+
 ![](https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/minmax_ee.svg)
 *In this case, $s_2$ has a lower estimated utility than $s_1$, but we are more confident in the estimate for $s_1$ since it was based on deeper exploration. If we had enough time to explore the tree further, we could either explore $s_1$ more since it is more likely to be a good state, or we could explore $s_2$ since we haven't explored it as much and thus, could potentially be much better.*
 
