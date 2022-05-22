@@ -51,7 +51,7 @@ Whenever our agent is the turn-taker at $s$, we want $p(\cdot \lvert s)$ to sati
 
 \\[p(a\lvert s) = \begin{cases} 1, a=a^*(s) \\\\\\
 0, \text{otherwise}
-\end{cases}\\]
+\end{cases}\tag{1}\\]
 
 This leads to the following recurrence for computing $\text{Ev}\lbrace u(s) \rbrace$:
 
@@ -59,35 +59,25 @@ This leads to the following recurrence for computing $\text{Ev}\lbrace u(s) \rbr
 \displaystyle \mu(s), &s \in \mathcal{T} \\\\\\
 \displaystyle\max_{s' \in S(s)}\lbrace \text{Ev}\lbrace u(s') \rbrace \rbrace, &\text{if our agent is the turn-taker and } s \not\in \mathcal{T} \\\\\\
 \displaystyle\sum_{a \in \mathcal{A}(s)}p(a|s)\text{Ev}\lbrace u(a(s)) \rbrace, &\text{if the adversary is the turn-taker and } s \not\in \mathcal{T}
-\end{cases}\end{aligned}\tag{2}\label{eq_em_recurrence}\\]
+\end{cases}\end{aligned}\tag{EM}\label{eq_em_recurrence}\\]
 
-One way to resolve this is by considering all possible realizations of the game from the current state, $s_0$, which can be represented as a tree whose nodes represent states and edges represent actions:
+This is called the **expected-max** algorithm.
+
+If we assume that (1) is satisfied even when the adversary is the turn-taker at $s$ (i.e., the adversary play's perfectly), then (EM) reduces to:
+
+\\[\begin{aligned}u(s) = \begin{cases}
+\displaystyle \mu(s), &s \in \mathcal{T} \\\\\\
+\displaystyle\max_{s' \in S(s)}\lbrace u(s') \rbrace, &\text{if our agent is the turn-taker and } s \not\in \mathcal{T} \\\\\\
+\displaystyle\min_{s' \in S(s)}\lbrace u(s') \rbrace, &\text{if the adversary is the turn-taker and } s \not\in \mathcal{T}
+\end{cases}\end{aligned}\tag{MM}\label{eq_mm_recurrence}\\]
+
+where the expectations are no longer necessary since $u$ is effectively deterministic. This is called the **min-max** algorithm.
+
+Graphically, the algorithms above traverse a tree of all possible realizations of the game from the current state, $s_0$; each node in the tree represents a state and each edge represents an action.
 
 ![](https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/go_tree.svg)
 *Each node in the tree is coloured according to the turn-taker in the associated state. The root of the tree, $s_0$, represents the initial state. Each leaf of the tree represents the state once a game has ends. Each path from the root to a leaf represents one possible realization of the game from $s_0$; the leaf is annotated with a utility value of either $-1$, $0$, or $1$, depending on whether the agent would have won, lost, or tied, if that game was indeed realized.*
  
-When developing an agent, it is fairly common to assume that the adversary will also play the move that will minimize our agent's utility. Thus, the utility of non-terminal states is determinisitc and can be computed via the following recurrence:
-
-\\[u(s) = \begin{cases}
-\displaystyle\max_{s' \in S(s)}\lbrace u(s') \rbrace, \text{ if our agent is the turn-taker} \\\\\\
-\displaystyle\min_{s' \in S(s)}\lbrace u(s') \rbrace, \text{ otherwise.}
-\end{cases}\tag{1}\label{eq_mm_recurrence}\\]
-
-We refer to (1) as the **min-max algorithm**. One problem with this algorithm that the adversary make mistakes. In these cases, we can model the adversary as playing according to a distribution, $p: \mathcal{S} \times \mathcal{A} \rightarrow [0,1]$, where $p(a \lvert s)$ is the probability that the adversary plays $a \in \mathcal{A}(s)$ from state $s$. The utilities of non-terminal states are now random variables whose expected values can be computed via the recurrence:
-
-\\[\text{Ev}\lbrace u(s) \rbrace = \begin{cases}
-\displaystyle\max_{s' \in S(s)}\lbrace u(s') \rbrace, \text{ if our agent is the turn-taker} \\\\\\
-\displaystyle\sum_{a \in \mathcal{A}(s)}p(a|s)u(a(s)), \text{ otherwise.}
-\end{cases}\tag{2}\label{eq_em_recurrence}.\\]
-
-We refer to (2) as the **expect-max algorithm**. If the adversary does play perfectly, then we expect:
-
-\\[p(a\lvert s) = \begin{cases} 1, a=\mathcal{A}^*(s) \\\\\\
-0, \text{otherwise}
-\end{cases}\\]
-
-where $\mathcal{A}^*(s) = \text{arg min}_{a \in \mathcal{A}(s)}\lbrace u(s) \rbrace$. In this case, we can easily see that (2) reduces to (1).
-
 To compute the utilities. the agent must traverse the tree until a state, $s$, is reached whose successors are all leaves, and then compute $\text{Ev}\lbrace u(s) \rbrace$ by working back up the tree.
 
 <img src="https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/minmax_search.gif"/>*Computing utilities via the min-max algorithm on a binary game tree of depth 3.*
