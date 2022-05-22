@@ -95,7 +95,7 @@ Setting the right side of (2) to equal $\delta$ and solving for $\varepsilon$ yi
 
 which we call the $\delta$ **confidence radius** of $\hat{u}(s,t)$. Intuitively, the probability that $\hat{u}(s,t)$ is more than $\text{CR}_{\delta}\left(\hat{u}(s,t)\right)$ away from $u(s)$ is at most $\delta$. The $\delta$ **upper confidence bound** is then
 
-\\[\text{UCB}_{\delta}\left(\hat{u}(s,t)\right) = \hat{u}(s,t) + \text{CR}_{\delt}\left(\hat{u}(s,t)\right).\\]
+\\[\text{UCB}_\{\delta\}\left(\hat{u}(s,t)\right) = \hat{u}(s,t) + \text{CR}_\{\delta\}\left(\hat{u}(s,t)\right).\\]
 
 <img src="https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/conf_rad_graph.svg" width="425"/>*The confidence radius for $\hat{\mu}(s_1, N_{s_1})$ and $\hat{\mu}(s_2, N(s_2))$ when $\delta = 0.9$. It is not clear whether $s_1$ or $s_2$ is better here.*
 
