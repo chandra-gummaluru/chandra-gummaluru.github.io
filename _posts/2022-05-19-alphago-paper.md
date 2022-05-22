@@ -69,7 +69,7 @@ Finding a good $h$ is very difficult and even if could, there is no obvious way 
 This is called the **exploration versus exploitation dilemma**.
 
 ## Monte-Carlo Tree Search
-It turns out that we can simultaneously resolve the exploration versus exploitation dilemma and remove the need for a heuristic function at the same time using a technique called **Monte-Carlo Tree Search**.
+It turns out that we can simultaneously resolve the exploration versus exploitation dilemma and remove the need for a heuristic function at the same time using a technique called **Monte-Carlo Tree Search** (MCTS).
 
 Suppose we had a simulation policy function, $p: \mathcal{S} \times A \rightarrow \mathcal{A}$ so that $p(s,a)$ is the probability that the turn-taker chooses the action, $a$ from state, $s$. Under perfect play, we would expect:
 
