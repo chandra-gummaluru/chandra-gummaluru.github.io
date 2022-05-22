@@ -75,8 +75,8 @@ Suppose we had a policy function, $p: \mathcal{S} \times A \rightarrow \mathcal{
 \\[p(s,a) = \begin{cases}
 1, \text{if } a = A^*(s) \\
 0, \text{ otherwise}
-\end{cases}
-where $A^*(s) = \text{arg max}_{a \in \mathcal{A}(s)}\lbrace u(s) \rbrace.\\]
+\end{cases}\\]
+where $A^*(s) = \text{arg max}_{a \in \mathcal{A}(s)}\lbrace u(s) \rbrace$.
 
 ## The AlphaGo Pipeline
 The techniques used by AlphaGo are fairly standard; the novelity is in how these techniques are combined. The appraoch can be summarized as follows:
