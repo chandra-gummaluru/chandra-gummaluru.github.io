@@ -91,11 +91,11 @@ If $p \equiv p^*$, then $\hat{u}(s,t) = u(s)$ for any $t$. Otherwise, we can upp
 
 Setting the right side of (2) to equal $\delta$ and solving for $\varepsilon$ yields
 
-\\[\varepsilon = \sqrt{-\frac{2\log{\delta}}{N_s(t)}} := \text{CR}_\{\delta\}\left(\hat{u}(s,t)\right)\\]
+\\[\varepsilon = \sqrt{-\frac{2\log{\delta}}{N(s,t)}} := \text{CR}_\{\delta\}\left(\hat{u}(s,t)\right)\\]
 
 which we call the $\delta$ **confidence radius** of $\hat{\mu}(s,t)$. Intuitively, the probability that $\hat{\mu}(s,t)$ is more than $\text{CR}_{\delta}\left(\hat{\mu}(s,t)\right)$ away from $\mu(s)$ is at most $\delta$. The $\delta$ **upper confidence bound** is then
 
-<img src="https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/conf_rad_graph.svg" width="425"/>*The confidence radius for $\hat{\mu}(s_1, N_{s_1})$ and $\hat{\mu}(s_2, N_{s_2})$ when $\delta = 0.9$. It is not clear whether $s_1$ or $s_2$ is better here.*
+<img src="https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/conf_rad_graph.svg" width="425"/>*The confidence radius for $\hat{\mu}(s_1, N_{s_1})$ and $\hat{\mu}(s_2, N(s_2))$ when $\delta = 0.9$. It is not clear whether $s_1$ or $s_2$ is better here.*
 
 ## The AlphaGo Pipeline
 Conventionally, MCTS is used where $p$ is uniform, i.e., we have no knowledge of how good moves are aprori. However, AlphaGo uses a simulation policy that has been learned via a dataset of expert moves, and refined using self-play reinforcement learning. Moreover, instead of estimating $\hat{u}(s,N_s)$ as sample mean of simulation results, it also 
