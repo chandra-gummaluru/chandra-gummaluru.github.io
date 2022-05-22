@@ -105,7 +105,7 @@ Let $N(s,t)$ denote the number of times a state, $s$ has been visited after the 
 
 Each iteration has four phases:
 
-1. **Selection**: Starting from $s_0$, choose actions, $\langle a_1, \dots, a_k \rangle$, where $a_{i+1} \in \mathcal{A}(s_i), s_i = a_i(s_{i=1})$ and $s_k$ is the first node with unexplored children; the actions should be chosen according to a selection policy chosen balance exploration versus exploitation.
+1. **Selection**: Starting from $s_0$, choose actions, $a_1, \dots, a_k$, where $a_{i+1} \in \mathcal{A}(s_i), s_i = a_i(s_{i=1})$ and $s_k$ is the first node with unexplored children; the actions should be chosen according to a selection policy chosen balance exploration versus exploitation.
 
 2. **Expansion**: Expand $s_k$ to reveal a child, $s_{k+1}$, and update $N(s,\cdot)$ so that:
 \\[\begin{aligned}N(s,t) = \begin{cases} N(s,t-1) + 1, &s = s_0, \dots, s_k, s_{k+1} \\\\\\
