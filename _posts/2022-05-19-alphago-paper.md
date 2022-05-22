@@ -127,11 +127,12 @@ To derive the selection policy, we first set the right side of (2) to equal $\de
 
 \\[\varepsilon = \sqrt{-\frac{2\log{\delta}}{N(s,t)}} := \text{CR}_\{\delta\}\left(\hat{u}(s,t)\right)\\]
 
-which we call the $\delta$ **confidence radius** of $\hat{u}(s,t)$. Intuitively, the probability that $\hat{u}(s,t)$ is more than $\text{CR}_{\delta}\left(\hat{u}(s,t)\right)$ away from $u(s)$ is at most $\delta$. The principle of **Optimism in the Face of Uncertainty** suggests that we choose the state with the highest estimated utility within the confidence radius. In other words, if we define the $\delta$ **upper confidence bound** as
+which we call the $\delta$ **confidence radius** of $\hat{u}(s,t)$. Intuitively, the probability that $\hat{u}(s,t)$ is more than $\text{CR}_{\delta}\left(\hat{u}(s,t)\right)$ away from $u(s)$ is at most $\delta$. Thus, the $\delta$ **upper confidence bound** of $\hat{u}(s,t)$ is
 
-\\[\text{UCB}_\{\delta\}\left(\hat{u}(s,t)\right) = \hat{u}(s,t) + \text{CR}_{\delta},\\]
+\\[\text{UCB}_\{\delta\}\left(\hat{u}(s,t)\right) = \hat{u}(s,t).\\]
 
-then the chosen state should be
+If we choose actions according to the selection policy:
+\\[a^*(s) = \text{arg max}_{a \in \mathcal{A(s)}}\\]
 
 
 <img src="https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/conf_rad_graph.svg" width="425"/>*The confidence radius for $\hat{\mu}(s_1, N_{s_1})$ and $\hat{\mu}(s_2, N(s_2))$ when $\delta = 0.9$. It is not clear whether $s_1$ or $s_2$ is better here.*
