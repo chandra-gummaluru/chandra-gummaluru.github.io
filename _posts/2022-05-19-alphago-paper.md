@@ -99,18 +99,18 @@ This is called the **exploration versus exploitation dilemma**.
 ## Monte-Carlo Tree Search
 We can resolve the exploration versus exploitation dilemma and avoid needing an explicit heuristic function at the same time using a technique called **Monte-Carlo Tree Search** (MCTS).
 
-We assume $p(\cdot \lvert s)$ is known or can be estimated if the adversary is the turn-taker at $s$. If this is not the case, one can use a uniform distribution over $\mathcal{A}(s)$. We can then estimate the utility of a state, $s$, by repeatedly simulating the game from that state using $p$.
+We can then estimate the utility of a state, $s$, by repeatedly simulating the game from that state.
 
 Let $N(s,t)$ denote the number of times a state, $s$ has been visited after the $t$th iteration of MCTS, and $U(s,t)$ denote the cumulative utility obtained.
 
 Each iteration has four phases:
 
-1. **Selection**: Starting from $s_0$, choose actions, $\langle a_1, \dots, a_k \rangle$, where $a_{i+1} \in \mathcal{A}(s_i), s_i = a_i(s_{i=1})$ and $s_k$ is the first node with unexplored children; the actions should be chosen so as to balance exploration versus exploitation.
+1. **Selection**: Starting from $s_0$, choose actions, $\langle a_1, \dots, a_k \rangle$, where $a_{i+1} \in \mathcal{A}(s_i), s_i = a_i(s_{i=1})$ and $s_k$ is the first node with unexplored children; the actions should be chosen according to a selection policy chosen balance exploration versus exploitation.
 
 2. **Expansion**: Expand $s_k$ to reveal a child, $s_{k+1}$, and update $N(s,\cdot)$ so that:
 \\[\begin{aligned}N(s,t) = \begin{cases} N(s,t-1), &s = s_0, \dots, s_k, s_{k+1} \\\\\\
 N(s,t-1), &\text{otherwise}\end{cases}\end{aligned}\\]
-3. **Simulation**: Use $p$ to simulate a game from $s_{n+1}$ to some terminal state, $s \in \mathcal{T}$; let $s_{k+2}, \dots, s_{n}$ denote the resulting states.
+3. **Simulation**: Simulate a game from $s_{n+1}$ to some terminal state, $s \in \mathcal{T}$ by selecting successive actions uniformally; let $s_{k+2}, \dots, s_{n}$ denote the resulting states.
 4. **Back-Propagation**: For $s = s_0, \dots, s_n$, update $U$ so that $U(s,t) + U(s,t-1) + \mu(s_n)$.
  
 We can now estimate $u(s)$ as the ratio between $U(s,t)$ and $N(s,t)$, i.e.,
@@ -121,9 +121,9 @@ Using Hoeffding's inequality, we can upper bound the probability that the differ
 
 \\[\text{Pr}\left\lbrace \lvert \hat{u}(s,t) - u(s) \rvert \geq \varepsilon \right\rbrace \leq \exp\left\lbrace -\frac{N(s,t)\varepsilon^2}{2} \right\rbrace.\\]
 
-Clearly if $N(s,t) \rightarrow \infty$ as $t \rightarrow \infty$, then $\text{Pr}\left\lbrace \lvert \hat{u}(s,t) - u(s) \rvert \geq \varepsilon \right\rbrace \rightarrow 0$ for any $\varepsilon > 0$. We need a selection policy 
+We see that as $N(s,t) \rightarrow \infty$, then $\text{Pr}\left\lbrace \lvert \hat{u}(s,t) - u(s) \rvert \geq \varepsilon \right\rbrace \rightarrow 0$ for any $\varepsilon > 0$. In other words, for large $N(s,t)$, we can write $\hat{u}(s,t) \approx u(s)$.
 
-Setting the right side of (2) to equal $\delta$ and solving for $\varepsilon$ yields
+To derive the selection policy, we first set the right side of (2) to equal $\delta$ and solve for $\varepsilon$:
 
 \\[\varepsilon = \sqrt{-\frac{2\log{\delta}}{N(s,t)}} := \text{CR}_\{\delta\}\left(\hat{u}(s,t)\right)\\]
 
