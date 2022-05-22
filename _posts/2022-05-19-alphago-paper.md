@@ -39,7 +39,12 @@ Each state, $s \in \mathcal{S}$ includes the board configuration and the player 
 We can model the behaviour of the players using a probability distribution, $p: \mathcal{S} \times \mathcal{A} \rightarrow [0,1]$, where $p(a\lvert s)$ is the probability that the turn-taker chooses action, $a$, from state, $s$.
 
 ## The Goal of AlphaGo
-The goal of AlphaGo was to develop an agent that can decide the best move to play from any state, $s \not\in \mathcal{T}$, in the sense that its choice maximizes its expected utility over all possible realizations of the game. Mathematically, we want to choose the action
+The goal of AlphaGo was to develop an agent that can decide the best move to play from any state, $s \not\in \mathcal{T}$, in the sense that its choice maximizes its expected utility over all possible realizations of the game. Graphically, these realizations can be represented as a tree where each node in the tree represents a state and each edge represents an action.
+
+![](https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/go_tree.svg)
+*Each node in the tree is coloured according to the turn-taker in the associated state. The root of the tree, $s_0$, represents the initial state. Each leaf of the tree represents the state once a game has ends. Each path from the root to a leaf represents one possible realization of the game from $s_0$; the leaf is annotated with a utility value of either $-1$, $0$, or $1$, depending on whether the agent would have won, lost, or tied, if that game was indeed realized.*
+
+Formally, we want to choose the action
 
 \\[a^*(s) = \text{arg max}_{a \in \mathcal{A}(s)}\text{Ev}\lbrace u(a(s)) \rbrace, s \not\in \mathcal{T}\\]
 
@@ -73,11 +78,6 @@ Thus, it is often common to assume that the adversary plays perfectly, i.e., (1)
 
 where the expectations are no longer necessary since $u$ is effectively deterministic. This is called the **min-max** algorithm.
 
-Graphically, the algorithms above traverse a tree of all possible realizations of the game from the current state, $s_0$; each node in the tree represents a state and each edge represents an action.
-
-![](https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/go_tree.svg)
-*Each node in the tree is coloured according to the turn-taker in the associated state. The root of the tree, $s_0$, represents the initial state. Each leaf of the tree represents the state once a game has ends. Each path from the root to a leaf represents one possible realization of the game from $s_0$; the leaf is annotated with a utility value of either $-1$, $0$, or $1$, depending on whether the agent would have won, lost, or tied, if that game was indeed realized.*
- 
 To compute the utilities. the agent must traverse the tree until a state, $s$, is reached whose successors are all leaves, and then compute $\text{Ev}\lbrace u(s) \rbrace$ by working back up the tree.
 
 <img src="https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/minmax_search.gif"/>*Computing utilities via the min-max algorithm on a binary game tree of depth 3.*
