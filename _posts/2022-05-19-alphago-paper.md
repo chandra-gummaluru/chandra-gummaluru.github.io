@@ -110,7 +110,7 @@ Setting the right side of (2) to equal $\delta$ and solving for $\varepsilon$ yi
 
 which we call the $\delta$ **confidence radius** of $\hat{u}(s,t)$. Intuitively, the probability that $\hat{u}(s,t)$ is more than $\text{CR}_{\delta}\left(\hat{u}(s,t)\right)$ away from $u(s)$ is at most $\delta$. The principle of **Optimism in the Face of Uncertainty** suggests that we choose the state with the highest estimated utility within the confidence radius. In other words, if we define the $\delta$ **upper confidence bound** as
 
-\\[\text{UCB}_\{\delta\}\left(\hat{u}(s,t)\right) = \hat{u}(s,t) + \text{CR}_\{\delta\},\\]
+\\[\text{UCB}_\{\delta\}\left(\hat{u}(s,t)\right) = \hat{u}(s,t) + \text{CR}_{\delta},\\]
 
 then the chosen state should be
 
