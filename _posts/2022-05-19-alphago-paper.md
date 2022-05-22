@@ -66,7 +66,7 @@ We refer to (2) as the **expect-max algorithm**. If the adversary does play perf
 
 where $\mathcal{A}^*(s) = \text{arg min}_{a \in \mathcal{A}(s)}\lbrace u(s) \rbrace$. In this case, we can easily see that (2) reduces to (1).
 
-To compute the utilities. the agent must traverse the tree until a state, $s$, is reached whose successors are all leaves. Then, using (2), the agent can compute $\text{Ev}\lbrace u(s) \rbrace$ working back up the tree.
+To compute the utilities. the agent must traverse the tree until a state, $s$, is reached whose successors are all leaves, and then compute $\text{Ev}\lbrace u(s) \rbrace$ by working back up the tree.
 
 <img src="https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/minmax_search.gif"/>*Computing utilities via the min-max algorithm on a binary game tree of depth 3.*
 
