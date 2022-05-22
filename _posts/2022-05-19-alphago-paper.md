@@ -91,7 +91,7 @@ Setting the right side of (2) to equal $\delta$ and solving for $\varepsilon$ yi
 
 \\[\varepsilon = \sqrt{-\frac{2\log{\delta}}{N_s(t)}} := \text{CR}_\{\delta\}\left(\hat{u}(s,t)\right)\\]
 
-which we call the $\delta$ **confidence radius** of $\hat{\mu}(s,N_s)$. Intuitively, the probability that $\hat{\mu}(s,N_s)$ is more than $\text{CR}_{\delta}\left(\hat{\mu}(s,N_s)\right)$ away from $\mu(s)$ is at most $\delta$. The $\delta$ **upper confidence bound** is then
+which we call the $\delta$ **confidence radius** of $\hat{\mu}(s,t)$. Intuitively, the probability that $\hat{\mu}(s,t)$ is more than $\text{CR}_{\delta}\left(\hat{\mu}(s,t)\right)$ away from $\mu(s)$ is at most $\delta$. The $\delta$ **upper confidence bound** is then
 
 \\[\text{UCB}_{\delta}(\hat{u}(s, t)) = \hat{u}(s,t) + \text{CR}_{\delta}(\hat{u}(s,t))\\]
 
