@@ -113,16 +113,15 @@ N(s,t-1), &\text{otherwise}\end{cases}\end{aligned}\\]
 3. **Simulation**: Use $p$ to simulate a game from $s_{n+1}$ to some terminal state, $s \in \mathcal{T}$; let $s_{k+2}, \dots, s_{n}$ denote the resulting states.
 4. **Back-Propagation**: For $s = s_0, \dots, s_n$, update $U$ so that $U(s,t) + U(s,t-1) + \mu(s_n)$.
  
-
-Each iteration of MCTS involves one such simulation. Suppose we performed $N(s,t)$
-
-If $N(s,t)$ is the number of times state $s$ is visited after $t$ iterations of MCTS, and $\hat{u}(s,n)$ is the utility obtained after the $n$th simulation, then an estimate for $u(s)$ after $N_s$ simulations is
+We can now estimate $u(s)$ as the ratio between $U(s,t)$ and $N(s,t)$, i.e.,
 
 \\[\hat{u}(s,t) = \frac{\sum_{n=1}^{N(s,t)}\mu(s,i)}{N(s,t)}.\\]
 
-If $p \equiv p^*$, then $\hat{u}(s,t) = u(s)$ for any $t$. Otherwise, we can upper bound the probability that the difference between $\hat{u}(s,t)$ and $\mu(s)$ exceeds some threshold, $\varepsilon$ using Hoeffding's inequality:
+Using Hoeffding's inequality, we can upper bound the probability that the difference between $\hat{u}(s,t)$ and $\mu(s)$ exceeds some threshold, $\varepsilon$:
 
-\\[\text{Pr}\left\lbrace \lvert \hat{u}(s,t) - u(s) \rvert \geq \varepsilon \right\rbrace \leq \exp\left\lbrace -\frac{N(s,t)\varepsilon^2}{2} \right\rbrace\\]
+\\[\text{Pr}\left\lbrace \lvert \hat{u}(s,t) - u(s) \rvert \geq \varepsilon \right\rbrace \leq \exp\left\lbrace -\frac{N(s,t)\varepsilon^2}{2} \right\rbrace.\\]
+
+Clearly if $N(s,t) \rightarrow \infty$ as $t \rightarrow \infty$, then $\text{Pr}\left\lbrace \lvert \hat{u}(s,t) - u(s) \rvert \geq \varepsilon \right\rbrace \rightarrow 0$ for any $\varepsilon > 0$. We need a selection policy 
 
 Setting the right side of (2) to equal $\delta$ and solving for $\varepsilon$ yields
 
