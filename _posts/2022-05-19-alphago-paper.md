@@ -97,17 +97,21 @@ Finding a good $h$ is very difficult and even if we could, there is no obvious w
 This is called the **exploration versus exploitation dilemma**.
 
 ## Monte-Carlo Tree Search
-It turns out that we can simultaneously resolve the exploration versus exploitation dilemma and remove the need for a heuristic function at the same time using a technique called **Monte-Carlo Tree Search** (MCTS).
+It turns out that we can resolve the exploration versus exploitation dilemma and remove the need for a heuristic function at the same time using a technique called **Monte-Carlo Tree Search** (MCTS).
 
-Suppose we had a simulation policy function, $p: \mathcal{S} \times A \rightarrow \mathcal{A}$ so that $p(s,a)$ is the probability that the turn-taker chooses the action, $a$ from state, $s$. Under perfect play, we would expect:
+We assume $p(\cdot \lvert s)$ is known or can be estimated if the adversary is the turn-taker at $s$. If this is not the case, one can use a uniform distribution over $\mathcal{A}(s)$. We can then estimate the utility of a state, $s$, by repeatedly simulating the game from that state using $p$.
 
-\\[p(a|s) = \begin{cases} 1, a=\mathcal{A}^*(s) \\\\\\
-0, \text{otherwise}
-\end{cases}\\]
+Let $N(s,t)$ denote the number of times a state, $s$ has been visited after the $t$th iteration of MCTS.
 
-where $A^*(s) = \text{arg max}_{a \in \mathcal{A}(s)}\lbrace u(s) \rbrace$. However, $p$ may model imperfect play or be an inaccurate model of perfect play.
+Each iteration has four phases:
 
-In any case, we can then estimate the utility of a state, $s$, by repeatedly simulating the game from that state using $p$. Each iteration of MCTS involves one such simulation. Suppose we performed $N(s,t)$
+1. **Selection**: Starting from $s_0$, choose actions, $\langle a_1, \dots, a_n \rangle$, where $a_{i+1} \in \mathcal{A}(s_i), s_i = a_i(s_{i=1})$ and $s_n$ is the first node with unexplored children; the actions should be chosen so as to balance exploration versus exploitation, and we will see how to do this later.
+2. **Expansion**: Expand $s_n$ to reveal a child, $s_{n+1}$, and update $N(s,\cdot)$ so that:
+\\[N(s,t) = \begin{cases} N(s,t-1), s = s_0, \dots, s_n, s_{n+1} \\\\\\ N(s,t-1), \text{ otherwise}\end{cases}\\]
+4. **Simulation**: Use $p$ to simulate a game from $s_{n+1}$ to some terminal state, $s \in \mathcal{T}$.
+5. **Back-Propagation**:
+
+Each iteration of MCTS involves one such simulation. Suppose we performed $N(s,t)$
 
 If $N(s,t)$ is the number of times state $s$ is visited after $t$ iterations of MCTS, and $\hat{u}(s,n)$ is the utility obtained after the $n$th simulation, then an estimate for $u(s)$ after $N_s$ simulations is
 
