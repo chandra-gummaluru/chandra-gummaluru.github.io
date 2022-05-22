@@ -131,8 +131,8 @@ which we call the $\delta$ **confidence radius** of $\hat{u}(s,t)$. Intuitively,
 
 \\[\text{UCB}_\{\delta\}\left(\hat{u}(s,t)\right) = \hat{u}(s,t) + \text{CR}\_{\delta}\left(\hat{u}(s,t)\right).\\]
 
-If we choose actions according to the selection policy:
-\\[\hat{a}(s,t) = \text{arg max}_{a \in \mathcal{A}(s)}\text{UCB}\_{t^{-4}}\left(\hat{u}(s,t)\right) = \text{arg max}\_{a \in \mathcal{A}(s)}\left\lbrace\hat{u}(s,t) + \sqrt{\frac{8\log t}{N(s,t)}}\right\rbrace,\\]
+We want $\delta$ to get smaller as the number of iterations gets larger. If we let $\delta = t^{-c}$ for some $c \geq 1$ and choose actions according to the selection policy:
+\\[\hat{a}(s,t) = \text{arg max}_{a \in \mathcal{A}(s)}\text{UCB}\_{t^{-c}}\left(\hat{u}(s,t)\right) = \text{arg max}\_{a \in \mathcal{A}(s)}\left\lbrace\hat{u}(s,t) + \sqrt{\frac{2c\log t}{N(s,t)}}\right\rbrace,\\]
 then for large $N(s,t)$, it follows that $\hat{a}(s,t)$ converges to $a^*(s)$.
 
 
