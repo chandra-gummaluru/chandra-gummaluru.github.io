@@ -36,10 +36,10 @@ The game is represented mathematically as a tuple, $(\mathcal{S}, \mathcal{T}, \
 
 Each state, $s \in \mathcal{S}$ includes the board configuration and the player whose turn it is. When an action, $a \in \mathcal{A}(s)$ is played by the turn-taker, the result is a new state, $a(s) \in \mathcal{S}$, which is called a **successor** of $s$. The set of all successors of $s$ is $\mathcal{S}(s) = \left\lbrace a(s), a \in \mathcal{A}(s) \right\rbrace$.
 
-We can model the behaviour of the players using a probability distribution, $p: \mathcal{S} \times \mathcal{A} \rightarrow [0,1]$, where $p_{-}(a|s)$ is the probability that the turn-taker chooses action, $a$, from state, $s$.
+We can model the behaviour of the players using a probability distribution, $p: \mathcal{S} \times \mathcal{A} \rightarrow [0,1]$, where $p(a\lvert s)$ is the probability that the turn-taker chooses action, $a$, from state, $s$.
 
 ## The Goal of AlphaGo
-The goal of AlphaGo was to develop an agent that can decide the best move to play from any board configuration in the sense that its choice maximizes its expected utility over all possible realizations of the game. Mathematically, we want to choose the action
+The goal of AlphaGo was to develop an agent that can decide the best move to play from any state, $s$, in the sense that its choice maximizes its expected utility over all possible realizations of the game. Mathematically, we want to choose the action
 
 \\[a^*(s) = \text{arg max}_{a \in \mathcal{A}(s)}\text{Ex}\lbrace u(a(s)) \rbrace.\\]
 
