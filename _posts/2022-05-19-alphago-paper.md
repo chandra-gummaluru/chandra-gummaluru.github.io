@@ -47,7 +47,7 @@ where $\text{Ex}\lbrace u(s) \rbrace$ can be computed via the recurrence:
 
 \\[\text{Ex}\lbrace u(s) \rbrace = \begin{cases} \sum_{a \in \mathcal{S}}p(a\lvert s)u(a(s)). s \not\in \mathcal{T} \\\\\\ \mu(s), s \in \mathcal{T} \end{cases}\\]
 
-Whenever our agent is the turn-taker at $s$, we want $p(\cdot |s)$ to satisfy:
+Whenever our agent is the turn-taker at $s$, we want $p(\cdot \lvert s)$ to satisfy:
 
 \\[p(a\lvert s) = \begin{cases} 1, a=a^*(s) \\\\\\
 0, \text{otherwise}
