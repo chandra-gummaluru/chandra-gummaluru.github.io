@@ -72,11 +72,13 @@ This is called the **exploration versus exploitation dilemma**.
 One way to handle the exploitation versus exploitation dilemma is as follows:
 
 Suppose we had a policy function, $p: \mathcal{S} \times A \rightarrow \mathcal{A}$ so that $p(s,a)$ is the probability that the turn-taker chooses the action, $a$ from state, $s$. Under perfect play, we would expect
-\\[p(s,a) = \begin{cases}
-1, \text{ if } a = A^*(s) \\\\\\
-0, \text{ otherwise}
-\end{cases} \\]
+
+\\[p(s,a) = \begin{cases}1, \text{ if } a = A^*(s) \\\\\\ 0, \text{ otherwise}\end{cases} \\]
+
 where $A^*(s) = \text{arg max}_{a \in \mathcal{A}(s)}\lbrace u(s) \rbrace$. However, $p$ may model imperfect play or be an inaccurate model of perfect play.
+
+In any case, we can then estimate the utility of a state, $s$, by repeatedly simulating the game from that state using $p$. If $\mu_i(s)$ is the utility obtained after the $i$\textsuperscript{th} simulation, then an estimate for $u(s)$ is
+\\[\hat{u}(s,N) = \frac{\sum_{n=1}^{N}\mu(s,i)}{N}\\]
 
 ## The AlphaGo Pipeline
 The techniques used by AlphaGo are fairly standard; the novelity is in how these techniques are combined. The appraoch can be summarized as follows:
