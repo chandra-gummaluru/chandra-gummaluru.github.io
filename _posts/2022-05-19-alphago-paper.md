@@ -73,7 +73,7 @@ It turns out that we can simultaneously resolve the exploration versus exploitat
 
 Suppose we had a simulation policy function, $p: \mathcal{S} \times A \rightarrow \mathcal{A}$ so that $p(s,a)$ is the probability that the turn-taker chooses the action, $a$ from state, $s$. Under perfect play, we would expect:
 
-\\[p(s,a) = p^*(s,a) := \begin{cases} 1, \text{ if } a = A^*(s) \\\\\\ 0, \text{ otherwise}\end{cases} \\]
+\\[p(s,a) = p^*(s,a) := \begin{cases} 1, \text{ if } a = A^*(s) \\\\\\ 0, \text{ otherwise}\end{cases}\\]
 
 where $A^*(s) = \text{arg max}_{a \in \mathcal{A}(s)}\lbrace u(s) \rbrace$. However, $p$ may model imperfect play or be an inaccurate model of perfect play.
 
@@ -83,7 +83,7 @@ In any case, we can then estimate the utility of a state, $s$, by repeatedly sim
 
 If $p \equiv p^*$, then $\hat{u}(s,N_s) = u(s)$ for any $N$. Otherwise, we can upper bound the probability that difference between $\hat{u}(s,N_s)$ and $\mu(s)$ exceeds some threshold, $\varepsilon$ using Hoeffding's inequality:
 
-\\[\text{Pr}\left\lbrace |\hat{\mu}(i,N_s) - \mu(s)| \geq \varepsilon \right\rbrace \leq \exp\left\lbrace \frac{-N_s\varepsilon^2}{2} \right\rbrace.\\]
+\\[\text{Pr}\left\lbrace |\hat{\mu}(i,N_s) - \mu(s)| \geq \varepsilon \right\rbrace \leq \exp\left\lbrace \frac{-N_s\varepsilon^2}{2} \right\rbrace\tag{2}\\]
 
 Setting the right side of (2) to equal $\delta$ and solving for $\varepsilon$ yields
 
