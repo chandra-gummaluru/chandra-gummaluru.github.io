@@ -71,12 +71,12 @@ This is called the **exploration versus exploitation dilemma**.
 ## Monte-Carlo Tree Search
 One way to handle the exploitation versus exploitation dilemma is as follows:
 
-Suppose we had a policy function, $p: \mathcal{S} \times A \rightarrow \mathcal{A}$ so that $p(s,a)$ is the probability that the turn-taker chooses the action, $a$ from state, s$. Under perfect play, we would expect
+Suppose we had a policy function, $p: \mathcal{S} \times A \rightarrow \mathcal{A}$ so that $p(s,a)$ is the probability that the turn-taker chooses the action, $a$ from state, $s$. Under perfect play, we would expect
 \\[p(s,a) = \begin{cases}
 1, \text{if } a = A^*(s) \\\\\\
 0, \text{ otherwise}
 \end{cases}\\]
-where $A^*(s) = \text{arg max}_{a \in \mathcal{A}(s)}\lbrace u(s) \rbrace$.
+where $A^*(s) = \text{arg max}_{a \in \mathcal{A}(s)}\lbrace u(s) \rbrace$. However, $p$ may model imperfect play or be an inaccurate model of perfect play.
 
 ## The AlphaGo Pipeline
 The techniques used by AlphaGo are fairly standard; the novelity is in how these techniques are combined. The appraoch can be summarized as follows:
