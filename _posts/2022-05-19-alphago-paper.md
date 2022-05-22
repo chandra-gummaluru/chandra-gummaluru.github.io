@@ -79,7 +79,7 @@ Suppose we had a simulation policy function, $p: \mathcal{S} \times A \rightarro
 
 where $A^*(s) = \text{arg max}_{a \in \mathcal{A}(s)}\lbrace u(s) \rbrace$. However, $p$ may model imperfect play or be an inaccurate model of perfect play.
 
-In any case, we can then estimate the utility of a state, $s$, by repeatedly simulating the game from that state using $p$. Each iteration of MCTS involves one such simulation. Suppose we performed $N(s,t)  
+In any case, we can then estimate the utility of a state, $s$, by repeatedly simulating the game from that state using $p$. Each iteration of MCTS involves one such simulation. Suppose we performed $N(s,t)$
 
 If $N(s,t)$ is the number of times state $s$ is visited after $t$ iterations of MCTS, and $\hat{u}(s,n)$ is the utility obtained after the $n$th simulation, then an estimate for $u(s)$ after $N_s$ simulations is
 
