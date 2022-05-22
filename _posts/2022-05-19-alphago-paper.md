@@ -55,11 +55,11 @@ Whenever our agent is the turn-taker at $s$, we want $p(\cdot \lvert s)$ to sati
 
 This leads to the following recurrence for computing $\text{Ev}\lbrace u(s) \rbrace$:
 
-\\[\text{Ev}\lbrace u(s) \rbrace = \begin{cases}
-\displaystyle \mu(s), \text{     } s \in \mathcal{T} \\\\\\
-\displaystyle\max_{s' \in S(s)}\lbrace \text{Ev}\lbrace u(s') \rbrace \rbrace, \text{    } \text{ if our agent is the turn-taker and } s \not\in \mathcal{T} \\\\\\
-\displaystyle\sum_{a \in \mathcal{A}(s)}p(a|s)\text{Ev}\lbrace u(a(s)) \rbrace, \text{ if the adversary is the turn-taker and } s \not\in \mathcal{T}
-\end{cases}\tag{2}\label{eq_em_recurrence}\\]
+\\[\begin{aligned}\text{Ev}\lbrace u(s) \rbrace = \begin{cases}
+\displaystyle \mu(s), &s \in \mathcal{T} \\\\\\
+\displaystyle\max_{s' \in S(s)}\lbrace \text{Ev}\lbrace u(s') \rbrace \rbrace, &\text{if our agent is the turn-taker and } s \not\in \mathcal{T} \\\\\\
+\displaystyle\sum_{a \in \mathcal{A}(s)}p(a|s)\text{Ev}\lbrace u(a(s)) \rbrace, &\text{if the adversary is the turn-taker and } s \not\in \mathcal{T}
+\end{cases}\end{aligned}\tag{2}\label{eq_em_recurrence}\\]
 
 One way to resolve this is by considering all possible realizations of the game from the current state, $s_0$, which can be represented as a tree whose nodes represent states and edges represent actions:
 
