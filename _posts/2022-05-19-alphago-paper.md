@@ -89,9 +89,11 @@ If $p \equiv p^*$, then $\hat{u}(s,N_s) = u(s)$ for any $N_s$. Otherwise, we can
 
 Setting the right side of (2) to equal $\delta$ and solving for $\varepsilon$ yields
 
-\\[\varepsilon = \sqrt{-\frac{2\log{\delta}}{N_s}} := \text{CR}_\{\delta\}\left(\hat{u}(s,N_s)\right)\\]
+\\[\varepsilon = \sqrt{-\frac{2\log{\delta}}{N_s(t)}} := \text{CR}_\{\delta\}\left(\hat{u}(s,t)\right)\\]
 
-which we call the $\delta$ **confidence radius** of $\hat{\mu}(s,N_s)$. Intuitively, $\hat{\mu}(s,N_s)$ is at most $\text{CR}_{\delta}\left(\hat{\mu}(s,N_s)\right)$ away from $\mu(s)$ with probability $\delta$.
+which we call the $\delta$ **confidence radius** of $\hat{\mu}(s,N_s)$. Intuitively, the probability that $\hat{\mu}(s,N_s)$ is more than $\text{CR}_{\delta}\left(\hat{\mu}(s,N_s)\right)$ away from $\mu(s)$ is at most $\delta$. The $\delta$ **upper confidence bound** is then
+
+\\[\text{UCB}_{\delta}(\hat{u}(s, t)) = \hat{u}(s,t) + \text{CR}_{\delta}(\hat{u}(s,t))\\]
 
 <img src="https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/conf_rad_graph.svg" width="425"/>*The confidence radius for $\hat{\mu}(s_1, N_{s_1})$ and $\hat{\mu}(s_2, N_{s_2})$ when $\delta = 0.9$. It is not clear whether $s_1$ or $s_2$ is better here.*
 
