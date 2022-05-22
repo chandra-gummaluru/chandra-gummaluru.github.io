@@ -73,7 +73,7 @@ It turns out that we can simultaneously resolve the exploration versus exploitat
 
 Suppose we had a simulation policy function, $p: \mathcal{S} \times A \rightarrow \mathcal{A}$ so that $p(s,a)$ is the probability that the turn-taker chooses the action, $a$ from state, $s$. Under perfect play, we would expect:
 
-\\[p(s,a) = p^*(s,a) := \begin{cases} 1, a = A^*(s) \\\\\\ 0 \text{ otherwise} \end{cases}\\]
+\\[p(s,a) = p^*(s,a) := \begin{cases} 1, a\\\\\\ 0 \text{ otherwise} \end{cases}\\]
 
 where $A^*(s) = \text{arg max}_{a \in \mathcal{A}(s)}\lbrace u(s) \rbrace$. However, $p$ may model imperfect play or be an inaccurate model of perfect play.
 
