@@ -108,7 +108,7 @@ Each iteration has four phases:
 1. **Selection**: Starting from $s_0$, choose actions, $\langle a_1, \dots, a_k \rangle$, where $a_{i+1} \in \mathcal{A}(s_i), s_i = a_i(s_{i=1})$ and $s_k$ is the first node with unexplored children; the actions should be chosen according to a selection policy chosen balance exploration versus exploitation.
 
 2. **Expansion**: Expand $s_k$ to reveal a child, $s_{k+1}$, and update $N(s,\cdot)$ so that:
-\\[\begin{aligned}N(s,t) = \begin{cases} N(s,t-1), &s = s_0, \dots, s_k, s_{k+1} \\\\\\
+\\[\begin{aligned}N(s,t) = \begin{cases} N(s,t-1) + 1, &s = s_0, \dots, s_k, s_{k+1} \\\\\\
 N(s,t-1), &\text{otherwise}\end{cases}\end{aligned}\\]
 3. **Simulation**: Simulate a game from $s_{n+1}$ to some terminal state, $s \in \mathcal{T}$ by selecting successive actions uniformally; let $s_{k+2}, \dots, s_{n}$ denote the resulting states.
 4. **Back-Propagation**: For $s = s_0, \dots, s_n$, update $U$ so that $U(s,t) + U(s,t-1) + \mu(s_n)$.
