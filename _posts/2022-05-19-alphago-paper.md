@@ -73,7 +73,7 @@ One way to handle the exploitation versus exploitation dilemma is as follows:
 
 Suppose we had a policy function, $p: \mathcal{S} \times A \rightarrow \mathcal{A}$ so that $p(s,a)$ is the probability that the turn-taker chooses the action, $a$ from state, $s$. Under perfect play, we would expect
 
-\\[p(s,a) = p^*(s,a) := \begin{cases}1, \text{ if } a = A^*(s) \\\\\\ \vspace{-1}0, \text{ otherwise}\end{cases} \\]
+\\[p(s,a) = p^*(s,a) := \begin{cases}1, \text{ if } a = A^*(s) \\\\\\ \!0, \text{ otherwise}\end{cases} \\]
 
 where $A^*(s) = \text{arg max}_{a \in \mathcal{A}(s)}\lbrace u(s) \rbrace$. However, $p$ may model imperfect play or be an inaccurate model of perfect play.
 
@@ -82,7 +82,7 @@ In any case, we can then estimate the utility of a state, $s$, by repeatedly sim
 If $p \equiv p^*$, then $\hat{u}(s,N_s) = u(s)$ for any $N$. Otherwise, we can upper bound the probability that difference between $\hat{u}(s,N_s)$ and $\mu(s)$ exceeds some threshold, $\varepsilon$ using Hoeffding's inequality:
 \\[\text{Pr}\left\lbrace |\hat{\mu}(i,N_s) - \mu(s)| \geq \varepsilon \right\rbrace \leq \exp\left\lbrace \frac{-N_s\varepsilon^2}{2} \right\rbrace.\\]
 Setting the right side of (2) to equal $\delta$ and solving for $\varepsilon$ yields
-\\[\varepsilon = \sqrt{-\frac{\log{\delta}}{N_s}} := \text{CR}_{\delta}(\hat{u}(s,N_s))\\]
+\\[\varepsilon = \sqrt{-\frac{\log{\delta}}{N_s}} := \text{CR}_{\delta}\left(\hat{u}(s,N_s)\right)\\]
 which we call the $\delta$ **confidence radius** of $\hat{\mu}(s,N_s)$. Intuitively, $\hat{\mu}(s,N_s)$ is at most $\text{CR}_{\delta}\left(\hat{\mu}(s,N_s)\right)$ away from $\mu(s)$ with probability $\delta$.
 
 ## The AlphaGo Pipeline
