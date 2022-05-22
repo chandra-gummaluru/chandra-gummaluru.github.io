@@ -69,9 +69,9 @@ Finding a good $h$ is very difficult and even if could, there is no obvious way 
 This is called the **exploration versus exploitation dilemma**.
 
 ## Monte-Carlo Tree Search
-One way to handle the exploitation versus exploitation dilemma is as follows:
+It turns out that we can simultaneously resolve the exploration versus exploitation dilemma and remove the need for a heuristic function at the same time using a technique called **Monte-Carlo Tree Search**.
 
-Suppose we had a policy function, $p: \mathcal{S} \times A \rightarrow \mathcal{A}$ so that $p(s,a)$ is the probability that the turn-taker chooses the action, $a$ from state, $s$. Under perfect play, we would expect
+Suppose we had a simulation policy function, $p: \mathcal{S} \times A \rightarrow \mathcal{A}$ so that $p(s,a)$ is the probability that the turn-taker chooses the action, $a$ from state, $s$. Under perfect play, we would expect:
 
 \\[p(s,a) = p^*(s,a) := \begin{cases}1, \text{ if } a = A^*(s) \\\\\\ 0, \text{ otherwise}\end{cases} \\]
 
@@ -92,6 +92,9 @@ Setting the right side of (2) to equal $\delta$ and solving for $\varepsilon$ yi
 which we call the $\delta$ **confidence radius** of $\hat{\mu}(s,N_s)$. Intuitively, $\hat{\mu}(s,N_s)$ is at most $\text{CR}_{\delta}\left(\hat{\mu}(s,N_s)\right)$ away from $\mu(s)$ with probability $\delta$.
 
 ## The AlphaGo Pipeline
+Conventionally, MCTS is used where $p$ is uniform, i.e., we have no knowledge of how good moves are aprori. However, AlphaGo uses a simulation policy that has been learned via a dataset of expert moves, and refined using self-play reinforcement learning. Moreover, instead of estimating $\hat{u}(s,N_s)$ as sample mean of simulation results, it also 
+
+
 The techniques used by AlphaGo are fairly standard; the novelity is in how these techniques are combined. The appraoch can be summarized as follows:
 
 1. Using supervised learning, a model, $\rho$, is trained to predict the distribution of made by expert Go players for any given board configuration.
