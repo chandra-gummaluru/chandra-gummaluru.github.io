@@ -115,7 +115,7 @@ N(s,t-1), &\text{otherwise}\end{cases}\end{aligned}\\]
  
 We can now estimate $u(s)$ as the ratio between $U(s,t)$ and $N(s,t)$, i.e.,
 
-\\[\hat{u}(s,t) = \frac{\sum_{n=1}^{N(s,t)}\mu(s,i)}{N(s,t)}.\\]
+\\[\hat{u}(s,t) = \frac{\sum_{n=1}^{N(s,t)}U(s,i)}{N(s,t)}.\\]
 
 Using Hoeffding's inequality, we can upper bound the probability that the difference between $\hat{u}(s,t)$ and $\mu(s)$ exceeds some threshold, $\varepsilon$:
 
