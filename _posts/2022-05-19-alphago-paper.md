@@ -97,7 +97,7 @@ Finding a good $h$ is very difficult and even if we could, there is no obvious w
 This is called the **exploration versus exploitation dilemma**.
 
 ## Monte-Carlo Tree Search
-It turns out that we can resolve the exploration versus exploitation dilemma and remove the need for a heuristic function at the same time using a technique called **Monte-Carlo Tree Search** (MCTS).
+We can resolve the exploration versus exploitation dilemma and avoid needing an explicit heuristic function at the same time using a technique called **Monte-Carlo Tree Search** (MCTS).
 
 We assume $p(\cdot \lvert s)$ is known or can be estimated if the adversary is the turn-taker at $s$. If this is not the case, one can use a uniform distribution over $\mathcal{A}(s)$. We can then estimate the utility of a state, $s$, by repeatedly simulating the game from that state using $p$.
 
