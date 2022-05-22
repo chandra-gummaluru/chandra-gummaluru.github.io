@@ -41,11 +41,11 @@ We can model the behaviour of the players using a probability distribution, $p: 
 ## The Goal of AlphaGo
 The goal of AlphaGo was to develop an agent that can decide the best move to play from any state, $s \not\in \mathcal{T}$, in the sense that its choice maximizes its expected utility over all possible realizations of the game. Mathematically, we want to choose the action
 
-\\[a^*(s) = \text{arg max}_{a \in \mathcal{A}(s)}\text{Ex}\lbrace u(a(s)) \rbrace, s \not\in \mathcal{T}\\]
+\\[a^*(s) = \text{arg max}_{a \in \mathcal{A}(s)}\text{Ev}\lbrace u(a(s)) \rbrace, s \not\in \mathcal{T}\\]
 
-where $\text{Ex}\lbrace u(s) \rbrace$ can be computed via the recurrence:
+where $\text{Ev}\lbrace u(s) \rbrace$ can be computed via the recurrence:
 
-\\[\text{Ex}\lbrace u(s) \rbrace = \begin{cases} \displaystyle\sum_{a \in \mathcal{S}}p(a\lvert s)\text{Ex}\lbrace u(a(s)) \rbrace. s \not\in \mathcal{T} \\\\\\ \displaystyle\mu(s), s \in \mathcal{T} \end{cases}\\]
+\\[\text{Ev}\lbrace u(s) \rbrace = \begin{cases} \displaystyle\sum_{a \in \mathcal{S}}p(a\lvert s)\text{Ev}\lbrace u(a(s)) \rbrace. s \not\in \mathcal{T} \\\\\\ \displaystyle\mu(s), s \in \mathcal{T} \end{cases}\\]
 
 Whenever our agent is the turn-taker at $s$, we want $p(\cdot \lvert s)$ to satisfy:
 
@@ -53,13 +53,13 @@ Whenever our agent is the turn-taker at $s$, we want $p(\cdot \lvert s)$ to sati
 0, \text{otherwise}
 \end{cases}\\]
 
-This leads to the following recurrence for computing $\text{Ex}\lbrace u(s) \rbrace$:
+This leads to the following recurrence for computing $\text{Ev}\lbrace u(s) \rbrace$:
 
 \\[\text{Ev}\lbrace u(s) \rbrace = \begin{cases}
 \displaystyle \mu(s), \hspace{8} s \in \mathcal{T} \\\\\\
-\displaystyle\max_{s' \in S(s)}\lbrace \text{Ex}\lbrace u(s') \rbrace \rbrace, \hspace{4} \text{ if our agent is the turn-taker and } s \not\in \mathcal{T} \\\\\\
-\displaystyle\sum_{a \in \mathcal{A}(s)}p(a|s)\text{Ex}\lbrace u(a(s)) \rbrace, \text{ if the adversary is the turn-taker and } s \not\in \mathcal{T}
-\end{cases}\tag{2}\label{eq_em_recurrence}.\\]
+\displaystyle\max_{s' \in S(s)}\lbrace \text{Ev}\lbrace u(s') \rbrace \rbrace, \hspace{4} \text{ if our agent is the turn-taker and } s \not\in \mathcal{T} \\\\\\
+\displaystyle\sum_{a \in \mathcal{A}(s)}p(a|s)\text{Ev}\lbrace u(a(s)) \rbrace, \text{ if the adversary is the turn-taker and } s \not\in \mathcal{T}
+\end{cases}\tag{2}\label{eq_em_recurrence}\\]
 
 One way to resolve this is by considering all possible realizations of the game from the current state, $s_0$, which can be represented as a tree whose nodes represent states and edges represent actions:
 
