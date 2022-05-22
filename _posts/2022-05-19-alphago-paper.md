@@ -132,7 +132,7 @@ which we call the $\delta$ **confidence radius** of $\hat{u}(s,t)$. Intuitively,
 \\[\text{UCB}_\{\delta\}\left(\hat{u}(s,t)\right) = \hat{u}(s,t) + \text{CR}.\\]
 
 If we choose actions according to the selection policy:
-\\[\hat{a}(s,t) = \text{arg max}_{a \in \mathcal{A}(s)}\text{UCB}_{\delta},\\]
+\\[\hat{a}(s,t) = \text{arg max}_{a \in \mathcal{A}(s)}\text{UCB}\_{\delta},\\]
 then for large $N(s,t)$, it follows that $\hat{a}(s,t)$ converges to $a^*(s)$.
 
 
