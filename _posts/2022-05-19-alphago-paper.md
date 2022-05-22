@@ -57,8 +57,8 @@ This leads to the following recurrence for computing $\text{Ev}\lbrace u(s) \rbr
 
 \\[\begin{aligned}\text{Ev}\lbrace u(s) \rbrace = \begin{cases}
 \displaystyle \mu(s), &s \in \mathcal{T} \\\\\\
-\displaystyle\max_{s' \in S(s)}\lbrace \text{Ev}\lbrace u(s') \rbrace \rbrace, &\text{if our agent is the turn-taker and } s \not\in \mathcal{T} \\\\\\
-\displaystyle\sum_{a \in \mathcal{A}(s)}p(a|s)\text{Ev}\lbrace u(a(s)) \rbrace, &\text{if the adversary is the turn-taker and } s \not\in \mathcal{T}
+\displaystyle\max_{s' \in S(s)}\lbrace \text{Ev}\lbrace u(s') \rbrace \rbrace, & s \not\in \mathcal{T} \text{ and our agent is the turn-taker}\\\\\\
+\displaystyle\sum_{a \in \mathcal{A}(s)}p(a|s)\text{Ev}\lbrace u(a(s)) \rbrace, & s \not\in \mathcal{T} \text{ and the adversary is the turn-taker}
 \end{cases}\end{aligned}\tag{EM}\label{eq_em_recurrence}\\]
 
 This is called the **expected-max** algorithm.
@@ -67,8 +67,8 @@ If we assume that (1) is satisfied even when the adversary is the turn-taker at 
 
 \\[\begin{aligned}u(s) = \begin{cases}
 \displaystyle \mu(s), &s \in \mathcal{T} \\\\\\
-\displaystyle\max_{s' \in S(s)}\lbrace u(s') \rbrace, &\text{if our agent is the turn-taker and } s \not\in \mathcal{T} \\\\\\
-\displaystyle\min_{s' \in S(s)}\lbrace u(s') \rbrace, &\text{if the adversary is the turn-taker and } s \not\in \mathcal{T}
+\displaystyle\max_{s' \in S(s)}\lbrace u(s') \rbrace, &s \not\in \mathcal{T} \text{ and our agent is the turn-taker} \\\\\\
+\displaystyle\min_{s' \in S(s)}\lbrace u(s') \rbrace, &s \not\in \mathcal{T} \text{ and the adversary is the turn-taker}
 \end{cases}\end{aligned}\tag{MM}\label{eq_mm_recurrence}\\]
 
 where the expectations are no longer necessary since $u$ is effectively deterministic. This is called the **min-max** algorithm.
