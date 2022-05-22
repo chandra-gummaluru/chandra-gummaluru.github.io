@@ -67,9 +67,7 @@ This leads to the following recurrence for computing $\text{Ev}\lbrace u(s) \rbr
 \displaystyle\sum_{a \in \mathcal{A}(s)}p(a|s)\text{Ev}\lbrace u(a(s)) \rbrace, & s \not\in \mathcal{T} \text{ and the adversary is the turn-taker}
 \end{cases}\end{aligned}\tag{EM}\label{eq_em_recurrence}\\]
 
-This is called the **expected-max** algorithm. Of course, in most cases, we do not know $p(\cdot \lvert s) if the adversary is the turn-taker at $s$.
-
-Thus, it is often common to assume that the adversary plays perfectly, i.e., (1) is satisfied for all $s$, not just when our agent is the turn-taker. In these cases, (EM) reduces to:
+This is called the **expected-max** algorithm. Of course, in most cases, we do not know $p(\cdot \lvert s)$ if the adversary is the turn-taker at $s$. Thus, it is often common to assume that the adversary plays perfectly, i.e., (1) is satisfied for all $s$, not just when our agent is the turn-taker. In these cases, (EM) reduces to:
 
 \\[\begin{aligned}u(s) = \begin{cases}
 \displaystyle \mu(s), &s \in \mathcal{T} \\\\\\
