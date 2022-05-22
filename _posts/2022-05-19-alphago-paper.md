@@ -32,18 +32,28 @@ The game is represented mathematically as a tuple, $(\mathcal{S}, \mathcal{T}, \
 - $\mathcal{S}$ is a set of **states**
 - $\mathcal{T} \subseteq \mathcal{S}$ is the subset of the states in which the game ends, called **terminal states**
 - $\mathcal{A}$ is a set-valued function such that $\mathcal{A}(s)$ is the set of feasiable **actions** from state, $s \in \mathcal{S}$
-- $u: \mathcal{T} \rightarrow \lbrace -1, 0, 1\rbrace$ is a **utility function**, defined so that $u(s) = 1$ if $s$ is a winning state for our agent, $u(s) = -1$ if $s$ is a losing state for our agent, and $u(s) = 0$ if $s$ is a tie state.
+- $\mu: \mathcal{T} \rightarrow \lbrace -1, 0, 1\rbrace$ is a **utility function**, defined so that $\mu(s) = 1$ if $s$ is a winning state for our agent, $\mu(s) = -1$ if $s$ is a losing state for our agent, and $\mu(s) = 0$ if $s$ is a tie state.
 
 Each state, $s \in \mathcal{S}$ includes the board configuration and the player whose turn it is. When an action, $a \in \mathcal{A}(s)$ is played by the turn-taker, the result is a new state, $a(s) \in \mathcal{S}$, which is called a **successor** of $s$. The set of all successors of $s$ is $\mathcal{S}(s) = \left\lbrace a(s), a \in \mathcal{A}(s) \right\rbrace$.
 
 We can model the behaviour of the players using a probability distribution, $p: \mathcal{S} \times \mathcal{A} \rightarrow [0,1]$, where $p(a\lvert s)$ is the probability that the turn-taker chooses action, $a$, from state, $s$.
 
 ## The Goal of AlphaGo
-The goal of AlphaGo was to develop an agent that can decide the best move to play from any state, $s$, in the sense that its choice maximizes its expected utility over all possible realizations of the game. Mathematically, we want to choose the action
+The goal of AlphaGo was to develop an agent that can decide the best move to play from any state, $s \not\in \mathcal{T}$, in the sense that its choice maximizes its expected utility over all possible realizations of the game. Mathematically, we want to choose the action
 
-\\[a^*(s) = \text{arg max}_{a \in \mathcal{A}(s)}\text{Ex}\lbrace u(a(s)) \rbrace.\\]
+\\[a^*(s) = \text{arg max}_{a \in \mathcal{A}(s)}\text{Ex}\lbrace u(a(s)) \rbrace,, s \not\in \mathcal{T}\\]
 
-Given some initial state, $s_0$, we can represent all possible realizations of the game from that state as a tree whose nodes represent states and edges represent actions:
+where $\text{Ex}\lbrace u(s) \rbrace$ can be computed via the recurrence:
+
+\\[\text{Ex}\lbrace u(s) \rbrace = \begin{cases} \sum_{a \in \mathcal{S}}p(a\lvert s)u(a(s)). s \not\in \mathcal{T} \\\\\\ \mu(s), s \in \mathcal{T}\\]
+
+Whenever our agent is the turn-taker at $s$, we want $p(\cdot |s)$ to satisfy:
+
+\\[p(a\lvert s) = \begin{cases} 1, a=a^*(s) \\\\\\
+0, \text{otherwise}
+\end{cases}\\]
+
+One way to resolve this is by considering all possible realizations of the game from the current state, $s_0$, which can be represented as a tree whose nodes represent states and edges represent actions:
 
 ![](https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/go_tree.svg)
 *Each node in the tree is coloured according to the turn-taker in the associated state. The root of the tree, $s_0$, represents the initial state. Each leaf of the tree represents the state once a game has ends. Each path from the root to a leaf represents one possible realization of the game from $s_0$; the leaf is annotated with a utility value of either $-1$, $0$, or $1$, depending on whether the agent would have won, lost, or tied, if that game was indeed realized.*
