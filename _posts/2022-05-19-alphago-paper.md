@@ -41,7 +41,7 @@ We can model the behaviour of the players using a probability distribution, $p: 
 ## The Goal of AlphaGo
 The goal of AlphaGo was to develop an agent that can decide the best move to play from any state, $s \not\in \mathcal{T}$, in the sense that its choice maximizes its expected utility over all possible realizations of the game. Mathematically, we want to choose the action
 
-\\[a^*(s) = \text{arg max}_{a \in \mathcal{A}(s)}\text{Ex}\lbrace u(a(s)) \rbrace,, s \not\in \mathcal{T}\\]
+\\[a^*(s) = \text{arg max}_{a \in \mathcal{A}(s)}\text{Ex}\lbrace u(a(s)) \rbrace, s \not\in \mathcal{T}\\]
 
 where $\text{Ex}\lbrace u(s) \rbrace$ can be computed via the recurrence:
 
