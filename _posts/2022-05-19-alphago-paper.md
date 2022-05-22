@@ -85,7 +85,7 @@ In any case, we can then estimate the utility of a state, $s$, by repeatedly sim
 
 If $p \equiv p^*$, then $\hat{u}(s,N_s) = u(s)$ for any $N$. Otherwise, we can upper bound the probability that difference between $\hat{u}(s,N_s)$ and $\mu(s)$ exceeds some threshold, $\varepsilon$ using Hoeffding's inequality:
 
-\[\text{Pr}\left\lbrace |\hat{u}(s,N_s) - u(s)| \geq \varepsilon \right\rbrace\]
+\\[\text{Pr}\left\lbrace |\hat{u}(s,N_s) - u(s)| \geq \varepsilon \right\rbrace\\]
 
 Setting the right side of (2) to equal $\delta$ and solving for $\varepsilon$ yields
 
