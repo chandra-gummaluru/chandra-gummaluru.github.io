@@ -73,27 +73,27 @@ It turns out that we can simultaneously resolve the exploration versus exploitat
 
 Suppose we had a simulation policy function, $p: \mathcal{S} \times A \rightarrow \mathcal{A}$ so that $p(s,a)$ is the probability that the turn-taker chooses the action, $a$ from state, $s$. Under perfect play, we would expect:
 
-\\[p(s, a) = \begin{cases} 1, a=\mathcal{A}^*(s) \\\\\\
+\\[p(a|s) = \begin{cases} 1, a=\mathcal{A}^*(s) \\\\\\
 0, \text{otherwise}
 \end{cases}\\]
 
 where $A^*(s) = \text{arg max}_{a \in \mathcal{A}(s)}\lbrace u(s) \rbrace$. However, $p$ may model imperfect play or be an inaccurate model of perfect play.
 
-In any case, we can then estimate the utility of a state, $s$, by repeatedly simulating the game from that state using $p$. If $\mu(s,n)$ is the utility obtained after the $n$th simulation, then an estimate for $u(s)$ after $N_s$ simulations is
+In any case, we can then estimate the utility of a state, $s$, by repeatedly simulating the game from that state using $p$. Each iteration of MCTS involves one such simulation. Suppose we performed $N(s,t)  
 
-\\[\hat{u}(s,N_s) = \frac{\sum_{n=1}^{N_s}\mu(s,i)}{N_s}.\\]
+If $N(s,t)$ is the number of times state $s$ is visited after $t$ iterations of MCTS, and $\hat{u}(s,n)$ is the utility obtained after the $n$th simulation, then an estimate for $u(s)$ after $N_s$ simulations is
 
-If $p \equiv p^*$, then $\hat{u}(s,N_s) = u(s)$ for any $N_s$. Otherwise, we can upper bound the probability that the difference between $\hat{u}(s,N_s)$ and $\mu(s)$ exceeds some threshold, $\varepsilon$ using Hoeffding's inequality:
+\\[\hat{u}(s,t) = \frac{\sum_{n=1}^{N(s,t)}\mu(s,i)}{N(s,t)}.\\]
 
-\\[\text{Pr}\left\lbrace \lvert \hat{u}(s,N_s) - u(s) \rvert \geq \varepsilon \right\rbrace \leq \exp\left\lbrace -\frac{N_s\varepsilon^2}{2} \right\rbrace\\]
+If $p \equiv p^*$, then $\hat{u}(s,t) = u(s)$ for any $t$. Otherwise, we can upper bound the probability that the difference between $\hat{u}(s,t)$ and $\mu(s)$ exceeds some threshold, $\varepsilon$ using Hoeffding's inequality:
+
+\\[\text{Pr}\left\lbrace \lvert \hat{u}(s,t) - u(s) \rvert \geq \varepsilon \right\rbrace \leq \exp\left\lbrace -\frac{N(s,t)\varepsilon^2}{2} \right\rbrace\\]
 
 Setting the right side of (2) to equal $\delta$ and solving for $\varepsilon$ yields
 
 \\[\varepsilon = \sqrt{-\frac{2\log{\delta}}{N_s(t)}} := \text{CR}_\{\delta\}\left(\hat{u}(s,t)\right)\\]
 
 which we call the $\delta$ **confidence radius** of $\hat{\mu}(s,t)$. Intuitively, the probability that $\hat{\mu}(s,t)$ is more than $\text{CR}_{\delta}\left(\hat{\mu}(s,t)\right)$ away from $\mu(s)$ is at most $\delta$. The $\delta$ **upper confidence bound** is then
-
-\\[\text{UCB}_{\delta}(\hat{u}(s, t)) = \hat{u}(s,t) + \text{CR}_{\delta}(\hat{u}(s,t))\\]
 
 <img src="https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/conf_rad_graph.svg" width="425"/>*The confidence radius for $\hat{\mu}(s_1, N_{s_1})$ and $\hat{\mu}(s_2, N_{s_2})$ when $\delta = 0.9$. It is not clear whether $s_1$ or $s_2$ is better here.*
 
