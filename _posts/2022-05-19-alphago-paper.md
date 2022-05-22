@@ -73,7 +73,7 @@ One way to handle the exploitation versus exploitation dilemma is as follows:
 
 Suppose we had a policy function, $p: \mathcal{S} \times A \rightarrow \mathcal{A}$ so that $p(s,a)$ is the probability that the turn-taker chooses the action, $a$ from state, s$. Under perfect play, we would expect
 \\[p(s,a) = \begin{cases}
-1, \text{if } a = A^*(s) \\
+1, \text{if } a = A^*(s) \\\\\\
 0, \text{ otherwise}
 \end{cases}\\]
 where $A^*(s) = \text{arg max}_{a \in \mathcal{A}(s)}\lbrace u(s) \rbrace$.
