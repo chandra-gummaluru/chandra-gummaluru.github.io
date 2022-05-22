@@ -132,7 +132,7 @@ which we call the $\delta$ **confidence radius** of $\hat{u}(s,t)$. Intuitively,
 \\[\text{UCB}_\{\delta\}\left(\hat{u}(s,t)\right) = \hat{u}(s,t).\\]
 
 If we choose actions according to the selection policy:
-\\[a^*(s) = \text{arg max}_{a \in \mathcal{A(s)}}\\]
+\\[a^*(s) = \text{arg max}_{a \in \mathcal{A(s)}}\text{UCB}_{\delta}\\]
 
 
 <img src="https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/conf_rad_graph.svg" width="425"/>*The confidence radius for $\hat{\mu}(s_1, N_{s_1})$ and $\hat{\mu}(s_2, N(s_2))$ when $\delta = 0.9$. It is not clear whether $s_1$ or $s_2$ is better here.*
