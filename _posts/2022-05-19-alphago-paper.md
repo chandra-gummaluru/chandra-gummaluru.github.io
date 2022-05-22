@@ -61,7 +61,7 @@ A big problem with the min-max algorithm is that the agent must traverse the ent
 
 The assumption here is that the estimate from $h$ gets closer to $u$ as $s$ gets closer to a terminal state. This is why it is still useful to search the tree despite being able to compute $h$ for any $s \in \mathcal{S}$.
 
-Finding a good $h$ is very difficult and even if could, there is no obvious way to select which part of the tree should be explored further if we have time to run another iteration.
+Finding a good $h$ is very difficult and even if we could, there is no obvious way to select which part of the tree should be explored further if we have time to run another iteration.
 
 ![](https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/minmax_ee.svg)
 *In this case, $s_2$ has a lower estimated utility than $s_1$, but we are more confident in the estimate for $s_1$ since it was based on deeper exploration. If we had enough time to explore the tree further, we could either explore $s_1$ more since it is more likely to be a good state, or we could explore $s_2$ since we haven't explored it as much and thus, could potentially be much better.*
@@ -83,7 +83,7 @@ In any case, we can then estimate the utility of a state, $s$, by repeatedly sim
 
 \\[\hat{u}(s,N_s) = \frac{\sum_{n=1}^{N_s}\mu(s,i)}{N_s}.\\]
 
-If $p \equiv p^*$, then $\hat{u}(s,N_s) = u(s)$ for any $N$. Otherwise, we can upper bound the probability that difference between $\hat{u}(s,N_s)$ and $\mu(s)$ exceeds some threshold, $\varepsilon$ using Hoeffding's inequality:
+If $p \equiv p^*$, then $\hat{u}(s,N_s) = u(s)$ for any $N_s$. Otherwise, we can upper bound the probability that the difference between $\hat{u}(s,N_s)$ and $\mu(s)$ exceeds some threshold, $\varepsilon$ using Hoeffding's inequality:
 
 \\[\text{Pr}\left\lbrace \lvert \hat{u}(s,N_s) - u(s) \rvert \geq \varepsilon \right\rbrace \leq \exp\left\lbrace -\frac{N_s\varepsilon^2}{2} \right\rbrace\\]
 
