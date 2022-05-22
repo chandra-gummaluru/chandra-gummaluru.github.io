@@ -129,10 +129,10 @@ To derive the selection policy, we first set the right side of (2) to equal $\de
 
 which we call the $\delta$ **confidence radius** of $\hat{u}(s,t)$. Intuitively, the probability that $\hat{u}(s,t)$ is more than $\text{CR}_{\delta}\left(\hat{u}(s,t)\right)$ away from $u(s)$ is at most $\delta$. Thus, the $\delta$ **upper confidence bound** of $\hat{u}(s,t)$ is
 
-\\[\text{UCB}_\{\delta\}\left(\hat{u}(s,t)\right) = \hat{u}(s,t) + \text{CR}.\\]
+\\[\text{UCB}_\{\delta\}\left(\hat{u}(s,t)\right) = \hat{u}(s,t) + \text{CR}\_{\delta}\left(\hat{u}(s,t)\right).\\]
 
 If we choose actions according to the selection policy:
-\\[\hat{a}(s,t) = \text{arg max}_{a \in \mathcal{A}(s)}\text{UCB}\_{\delta},\\]
+\\[\hat{a}(s,t) = \text{arg max}_{a \in \mathcal{A}(s)}\text{UCB}\_{t^{-4}}\left(\hat{u}(s,t)\right),\\]
 then for large $N(s,t)$, it follows that $\hat{a}(s,t)$ converges to $a^*(s)$.
 
 
