@@ -51,7 +51,7 @@ When developing an agent, it is fairly common to assume that the adversary will 
 \displaystyle\min_{s' \in S(s)}\lbrace u(s') \rbrace, \text{ otherwise.}
 \end{cases}\tag{1}\label{eq_mm_recurrence}\\]
 
-We refer to (1) as the **min-max algorithm**. One problem with this algorithm that the adversary make mistakes. In these cases, we can model the adversary as playing according to a distribution, $p: \mathcal{S} \times \mathcal{A} \rightarrow [0,1]$
+We refer to (1) as the **min-max algorithm**. One problem with this algorithm that the adversary make mistakes. In these cases, we can model the adversary as playing according to a distribution, $p: \mathcal{S} \times \mathcal{A} \rightarrow [0,1]$, where $p(a \lvert s)$ is the probability that the adversary plays $a \in \mathcal{A}(s)$ from state $s$. The utilities of non-terminal states are now random variables whose expected values can be computed via the recurrence:
 
 \\[\text{Ev}\lbrace u(s) \rbrace = \begin{cases}
 \displaystyle\max_{s' \in S(s)}\lbrace u(s') \rbrace, \text{ if our agent is the turn-taker} \\\\\\
@@ -60,7 +60,7 @@ We refer to (1) as the **min-max algorithm**. One problem with this algorithm th
 
 We refer to (2) as the **expect-max algorithm**. If the adversary does play perfectly, then we expect:
 
-\\[p(a|s) = \begin{cases} 1, a=\mathcal{A}^*(s) \\\\\\
+\\[p(a\lvert s) = \begin{cases} 1, a=\mathcal{A}^*(s) \\\\\\
 0, \text{otherwise}
 \end{cases}\\]
 
