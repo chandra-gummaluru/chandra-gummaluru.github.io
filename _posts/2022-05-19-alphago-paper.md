@@ -45,7 +45,7 @@ The goal of AlphaGo was to develop an agent that can decide the best move to pla
 
 where $\text{Ev}\lbrace u(s) \rbrace$ can be computed via the recurrence:
 
-\\[\text{Ev}\lbrace u(s) \rbrace = \begin{cases} \displaystyle\sum_{a \in \mathcal{S}}p(a\lvert s)\text{Ev}\lbrace u(a(s)) \rbrace. s \not\in \mathcal{T} \\\\\\ \displaystyle\mu(s), s \in \mathcal{T} \end{cases}\\]
+\\[\text{Ev}\lbrace u(s) \rbrace = \begin{cases} \displaystyle\mu(s), s \in \mathcal{T} \\\\\\ \displaystyle\sum_{a \in \mathcal{S}}p(a\lvert s)\text{Ev}\lbrace u(a(s)) \rbrace. s \not\in \mathcal{T} \end{cases}\\]
 
 Whenever our agent is the turn-taker at $s$, we want $p(\cdot \lvert s)$ to satisfy:
 
