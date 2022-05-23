@@ -164,16 +164,7 @@ Solving the above for $w$ is still very difficult, but we can approximate it via
 This is called **gradient ascent**; we should update $w$ in the direction of $\nabla_w\log\left(\text{Pr}\lbrace \mathcal{D} \rbrace\right)$ since this is the direction along which $\nabla_w\text{Pr}\lbrace \mathcal{D} \rbrace$ increases the most.
 
 ### via Reinforcement Learning
-Consider a family of distributions, $p_w$, where $w$ is a set of weights that we want to tune so that $p_w$ approximates (1).
-
-Suppose we fix $w$ and simulate one game from $s_0$ under $p_w$; the actions taken are $a_1, \dots, a_T$, and the resulting state sequence is $s_1, \dots, s_T$, where $a_i \in \mathcal{A}(s_{i-1})$, $a_i(s_{i-1}) = s_i$, and $s_T \in \mathcal{T}$.
-
-The probability of this happening is:
-\\[\prod_{i=1}^{T}p_{w}(a_i \lvert s_{i-1}).\\]
-
-
-
-After $N$ such simulations, we can estimate the utility of $s_0$ from $p$ as
+In many cases, we do not actually have a dataset, $\mathcal{D}$. In this case, we can choose $w$ randomly to begin with and estimate the utility of $s_0$ by simulating $N$ games using $p_w$:
 
 \\[\hat{u}\_N(s\_0) = \frac{1}{N}\sum\_{n=1}^{N}\mu\left(s\_{T^{(n)}}\right)\prod\_{t=1}^{T^{(n)}}p\_w\left(a\_t^{(n)} \lvert s\_{t-1}^{(n)}\right).\\]
 
