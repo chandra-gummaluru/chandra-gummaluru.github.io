@@ -154,7 +154,7 @@ After $N$ simulations, the expected utility is
 Thus, we want to maximize this quantity, i.e.,
 \\[\text{Ev}\lbrace \hat{u}(s) \rbrace = \lim_{N\rightarrow\infty}\frac{1}{N}\sum_{n=1}^{N}\prod_{t=1}^{T}p_w(a_t \lvert s_{t-1}).\\]
 To do this, we take the partial derivative w.r.t. $w$, and we obtain
-\\[\frac{\partial}{\partial w}\text{Ev\lbrace \hat{u}(s) \rbrace} = \lim_{N \rightarrow \infty}\frac{1}{N}\sum_{n=1}^{N}\sum_{t=1}^{T}\frac{\log\left(\partial p_w(a_t \lvert s_{t-1})\right)}{\partial w}\\]
+\\[\frac{\partial}{\partial w}\text{Ev}\lbrace \hat{u}(s) \rbrace = \lim_{N \rightarrow \infty}\frac{1}{N}\sum_{n=1}^{N}\sum_{t=1}^{T}\frac{\partial\log\left(p_w(a_t \lvert s_{t-1})\right)}{\partial w}\\]
 ## The AlphaGo Pipeline
 Conventionally, MCTS is used where $p$ is uniform, i.e., we have no knowledge of how good moves are aprori. However, AlphaGo uses a simulation policy that has been learned via a dataset of expert moves, and refined using self-play reinforcement learning. Moreover, instead of estimating $\hat{u}(s,N_s)$ as sample mean of simulation results, it also 
 
