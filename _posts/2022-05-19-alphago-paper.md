@@ -155,9 +155,11 @@ After $N$ such simulations, we can estimate the utility of $s_0$ from $p$ as
 
 \\[\hat{u}\_N(s\_0) = \frac{1}{N}\sum\_{n=1}^{N}\prod\_{t=1}^{T}p\_w\left(a\_t^{(n)} \lvert s\_{t-1}^{(n)}\right).\\]
 
-Due to the law of large numbers, it can be shown that $\lim_{N \rightarrow \infty}\hat{\mu}_N(s_0) = \text{Ev}\lbrace u(s_0) \rbrace$. Thus, if $N$ is sufficiently large, $\hat{u}_N(s_0)$ is a good estimate of $u(s_0)$, and we can maximize it instead.
+Due to the law of large numbers, it can be shown that $\lim\_{N \rightarrow \infty}\hat{\mu}\_N(s\_0) = \text{Ev}\lbrace u(s\_0) \rbrace$. Thus, if $N$ is sufficiently large, $\hat{u}\_N(s\_0)$ is a good estimate of $u(s\_0)$, and we can maximize it instead.
 
-To do this, we can compute the gradient of $p$ w.r.t. $w$ and setting it equal to zero. However, the form of (3) makes this difficult to do since it involves products. Thus, it is common to maximize $\log{\hat{u}\_N(s\_0)}$ instead. In this case, we have
+To do this, the basic approach is to recognize that the maximizer is any $w$ such that
+\\[\frac{\partial}{\partial w}\hat{u}\_N(s\_0) =0 \text{ and } \frac{\partial^2}{\partial w}\hat{u}\_N(s\_0) \leq 0.\\]
+However, the form of (3) makes this difficult to compute the above expressions. Thus, it is common to maximize $\log{\hat{u}\_N(s\_0)}$ instead. In this case, we have
 
 \\[\frac{\partial}{\partial w}\log\left(\hat{u}\_N(s\_0)\right) = \frac{1}{N}\sum_{n=1}^{N}\sum_{t=1}^{T}\frac{\partial\log\left(p_w\left(a_t^{(n)} \lvert s_{t-1}^{(n)}\right)\right)}{\partial w}.\\]
 
