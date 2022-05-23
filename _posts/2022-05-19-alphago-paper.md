@@ -38,11 +38,12 @@ Each state, $s \in \mathcal{S}$ includes the board configuration and the player 
 
 We can model the behaviour of the players using a probability distribution, $p: \mathcal{S} \times \mathcal{A} \rightarrow [0,1]$, where $p(a\lvert s)$ is the probability that the turn-taker chooses action, $a$, from state, $s$.
 
-## The Goal of AlphaGo
-Let $u: \mathcal{S} \rightarrow \mathbb{R}$ be such that $u(s)$ the utility our agent will obtain if a game is played from $s$ till completion using $p$. Note that $u(s)$ is a random variable. The goal of AlphaGo was to develop an agent that can decide the best move to play from any state, $s \not\in \mathcal{T}$, in the sense that its choice maximizes its expected utility over all possible moves. Graphically, we can represent all possible games from $s$ as a tree where each node represents a state and each edge represents an action.
+Let $u: \mathcal{S} \rightarrow \mathbb{R}$ be such that $u(s)$ the utility our agent will obtain if a game is played from $s$ till completion using $p$. Note that $u(s)$ is a random variable. The goal was to develop an agent that can decide the best move to play from any state, $s \not\in \mathcal{T}$, in the sense that its choice maximizes its expected utility over all possible moves. Graphically, we can represent all possible games from $s$ as a tree where each node represents a state and each edge represents an action.
 
 ![](https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/go_tree.svg)
 *Each node in the tree is coloured according to the turn-taker in the associated state. The root of the tree, $s_0$, represents the initial state. Each leaf of the tree represents the state once a game has ends. Each path from the root to a leaf represents one possible realization of the game from $s_0$; the leaf is annotated with a utility value of either $-1$, $0$, or $1$, depending on whether the agent would have won, lost, or tied, if that game was indeed realized.*
+
+## Techniques via Search
 
 Formally, we want to choose the action
 
