@@ -161,7 +161,7 @@ Solving the above for $w$ is still very difficult, but we can approximate it via
 2. in each iteration, $i$, select a random subset of $\mathcal{D}$ and compute $\nabla_w\log\left(\text{Pr}\lbrace \mathcal{D} \rbrace\right)$ under $p\_{w_\i}$
 3. update $w_{i+1} = w_{i} + \alpha\nabla_w\log\left(\text{Pr}\lbrace \mathcal{D} \rbrace\right)$, where $\alpha$ is some scalar
 
-This is called **gradient ascent**; we should update $w$ in the direction of $\nabla_w\log\left(\text{Pr}\lbrace \mathcal{D} \rbrace\right)$ since this is the direction along which $\text{Pr}\lbrace \mathcal{D} \rbrace$ increases the most.
+Intuitively, should update $w$ in the direction of $\nabla_w\log\left(\text{Pr}\lbrace \mathcal{D} \rbrace\right)$ since this is the direction along which $\text{Pr}\lbrace \mathcal{D} \rbrace$ increases the most.
 
 ### via Reinforcement Learning
 In many cases, we do not actually have a dataset, $\mathcal{D}$. In this case, we can choose $w$ randomly to begin with and estimate the utility of $s_0$ by simulating $N$ games using $p_w$:
@@ -183,7 +183,7 @@ Solving the above for $w$ is still very difficult, but we can approximate it via
 2. in each iteration, $i$, simulate $N$ games under $p\_{w\_i}$ and compute $\nabla_w\log\left(\text{Ev}\lbrace \hat{u}\_N(s\_0) \rbrace\right)$.
 3. update $w_{i+1} = w_{i} + \alpha\nabla_w\log\left(\text{Ev}\lbrace \hat{u}\_N(s\_0) \rbrace\right)$, where $\alpha$ is some scalar
 
-This is called **gradient ascent**; we should update $w$ in the direction of $\nabla_w\log\left(\text{Ev}\lbrace \hat{u}\_N(s\_0) \rbrace\right)$ since this is the direction along which $\text{Ev}\lbrace \hat{u}\_N(s\_0) \rbrace$ increases the most.
+Intuitively, we should update $w$ in the direction of $\nabla_w\log\left(\text{Ev}\lbrace \hat{u}\_N(s\_0) \rbrace\right)$ since this is the direction along which $\text{Ev}\lbrace \hat{u}\_N(s\_0) \rbrace$ increases the most.
 
 There is a problem with this approach however. If the adversary is the turn-taker at $s$, then $p\_w(\cdot \lvert s)$ approximates the distribution of the adversary's actions.  Obviously our agent will want $p\_w(\cdot \lvert s)$ to maximize $\hat{u}(s_0)$ but the adversary wishes to minimize this quantity. To fix this, we simply need to introduce d
 The problem here is that if we simulate both our agent's actions and its adverary's with $p_w$,
