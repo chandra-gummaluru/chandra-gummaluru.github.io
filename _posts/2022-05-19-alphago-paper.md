@@ -124,7 +124,9 @@ To derive the selection policy, we first set the right side of (2) to equal $\de
 
 \\[\varepsilon = \sqrt{-\frac{2\log{\delta}}{N(s,t)}} := \text{CR}_\{\delta\}\left(\hat{u}(s,t)\right)\\]
 
-which we call the $\delta$ **confidence radius** of $\hat{u}(s,t)$. Intuitively, the probability that $\hat{u}(s,t)$ is more than $\text{CR}_{\delta}\left(\hat{u}(s,t)\right)$ away from $u(s)$ is at most $\delta$.
+which we call the $\delta$ **confidence radius** of $\hat{u}(s,t)$. Intuitively, the probability that $\hat{u}(s,t)$ is more than $\text{CR}_{\delta}\left(\hat{u}(s,t)\right)$ away from $u(s)$ is at most $\delta$
+
+<img src="https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/conf_rad_graph.svg" width="425"/>*The confidence radius for $\hat{\mu}(s_1, N_{s_1})$ and $\hat{\mu}(s_2, N(s_2))$ when $\delta = 0.9$.*
 
 The $\delta$ **upper confidence bound** of $\hat{u}(s,t)$ is
 
@@ -133,9 +135,6 @@ The $\delta$ **upper confidence bound** of $\hat{u}(s,t)$ is
 We want $\delta$ to get smaller as the number of iterations gets larger. If we let $\delta = t^{-c}$ for some $c \geq 1$ and choose actions according to the selection policy:
 \\[\hat{a}(s,t) = \text{arg max}_{a \in \mathcal{A}(s)}\text{UCB}\_{t^{-c}}\left(\hat{u}(s,t)\right) = \text{arg max}\_{a \in \mathcal{A}(s)}\left\lbrace\hat{u}(s,t) + \sqrt{\frac{2c\log t}{N(s,t)}}\right\rbrace,\tag{UCT}\\]
 then for large $N(s,t)$, it follows that $\hat{a}(s,t) \approx a^\*(s)$ in the sense that $u(\hat{a}(s,t)) \approx u(a^\*(s))$. We could have also defined the selection policy in terms of the $\delta$ **lower confidence bound**, but ineither case, we see that the action identified by the resulting MTCS will have the same expected utility as the one identified by the min-max algorithm.
-
-<img src="https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/conf_rad_graph.svg" width="425"/>*The confidence radius for $\hat{\mu}(s_1, N_{s_1})$ and $\hat{\mu}(s_2, N(s_2))$ when $\delta = 0.9$. It is not clear whether $s_1$ or $s_2$ is better here.*
-
 
 ## The AlphaGo Pipeline
 Conventionally, MCTS is used where $p$ is uniform, i.e., we have no knowledge of how good moves are aprori. However, AlphaGo uses a simulation policy that has been learned via a dataset of expert moves, and refined using self-play reinforcement learning. Moreover, instead of estimating $\hat{u}(s,N_s)$ as sample mean of simulation results, it also 
