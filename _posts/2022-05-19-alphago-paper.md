@@ -44,7 +44,7 @@ Let $u: \mathcal{S} \rightarrow \mathbb{R}$ be such that $u(s)$ the utility our 
 *Each node in the tree is coloured according to the turn-taker in the associated state. The root of the tree, $s_0$, represents the initial state. Each leaf of the tree represents the state once a game has ends. Each path from the root to a leaf represents one possible realization of the game from $s_0$; the leaf is annotated with a utility value of either $-1$, $0$, or $1$, depending on whether the agent would have won, lost, or tied, if that game was indeed realized.*
 
 ## Brute-Force Search Techniques
-A seemingly simple approach is to consider all the possible actionsand search for the one that eventually leads to a terminal state with the highest utility assuming the adversary plays according to $p$.
+A seemingly simple approach is to saearch the game tree explicitly for the best action during live play.
 ### The Ideal Algorithm
 Formally, we want to choose the action
 
