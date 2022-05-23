@@ -146,15 +146,16 @@ The first step is to express $p$ as a member of some family of distributions.As 
 \\[p(a|\lvert s) = a(s)\\]
 One approach involves randomly generating different distributions and pitting the resulting agents against each other.
 
-Suppose we simulate one game from $s_0$; the actions taken are $a_1, \dots, a_n$, and the resulting state sequence is $s_1, \dots, s_T$, where $a_i \in \mathcal{A}(s_{i-1})$, $a_i(s_{i-1}) = s_i$, and $s_T \in \mathcal{T}$. The probability of this realization is
-\\[\prod_{i=1}^{n}p_{w}(a_i \lvert s_{i-1})\\]
+Suppose we simulate one game from $s_0$; the actions taken are $a_1, \dots, a_T$, and the resulting state sequence is $s_1, \dots, s_T$, where $a_i \in \mathcal{A}(s_{i-1})$, $a_i(s_{i-1}) = s_i$, and $s_T \in \mathcal{T}$. The probability of this happening is:
+\\[\prod_{i=1}^{n}p_{w}(a_i \lvert s_{i-1}).\\]
 
-After $N$ simulations, the expected utility is
-\\[\frac{1}{N}\sum_{n=1}^{N}\prod_{t=1}^{T}p_w(a_t \lvert s_{t-1})\\]
-Thus, we want to maximize this quantity, i.e.,
-\\[\text{Ev}\lbrace \hat{u}(s) \rbrace = \lim_{N\rightarrow\infty}\frac{1}{N}\sum_{n=1}^{N}\prod_{t=1}^{T}p_w(a_t \lvert s_{t-1}).\\]
-To do this, we take the partial derivative w.r.t. $w$, and we obtain
-\\[\frac{\partial}{\partial w}\text{Ev}\lbrace \hat{u}(s) \rbrace = \lim_{N \rightarrow \infty}\frac{1}{N}\sum_{n=1}^{N}\sum_{t=1}^{T}\frac{\partial\log\left(p_w(a_t \lvert s_{t-1})\right)}{\partial w}\\]
+After $N$ such simulations, we can estimate the utility of $s_0$ from $p$ as
+\\[\hat{u}_N(s_0) = \frac{1}{N}\sum_{n=1}^{N}\prod_{t=1}^{T}p_w(a_t^{(n)} \lvert s_{t-1}^{(n)}).\\]
+Due to the law of large numbers, it can be shown that $\lim_{N \rightarrow \infty}\hat{\mu}_N(s_0) = \text{Ev}\lbrace u(s_0) \rbrace$. Thus, if $N$ is sufficiently large, $\hat{u}_N(s_0)$ is a good estimate of $u(s_0)$, and we can maximize it instead.
+
+To do this, we can compute the gradient of $p$ w.r.t. $w$ and setting it equal to zero. However, the form of (3) makes this difficult to do since it involves products. Thus, it is common to maximize $\log\left(\hat{u}_N(s_0)\right)$ instead. In this case, we have
+\\[\frac{\partial}{\partial w}\log\left(\hat{u}(s)\right) = \frac{1}{N}\sum_{n=1}^{N}\sum_{t=1}^{T}\frac{\partial\log\left(p_w(a_t \lvert s_{t-1})\right)}{\partial w}.\\]
+
 ## The AlphaGo Pipeline
 Conventionally, MCTS is used where $p$ is uniform, i.e., we have no knowledge of how good moves are aprori. However, AlphaGo uses a simulation policy that has been learned via a dataset of expert moves, and refined using self-play reinforcement learning. Moreover, instead of estimating $\hat{u}(s,N_s)$ as sample mean of simulation results, it also 
 
