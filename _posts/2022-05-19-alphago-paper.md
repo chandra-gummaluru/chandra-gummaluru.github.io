@@ -140,13 +140,9 @@ then for large $N(s,t)$, it follows that $\hat{a}(s,t) \approx a^\*(s)$ in the s
 A completly different approach is to learn $p$ ahead of time.
 
 ### via Reinforcement Learning
-We first model the st A state $s$, can be modelled as an $N \times N$ matrix whose elements are in $\lbrace -1, 0, 1 \rbrace$, where $0$ denotes a empty point, $1$ denotes a point containing one of our stones, and $-1$ denotes a point containing one of the adversary's stones.
+Consider a family of distributions, $p_w$, where $w$ is a set of weights that we want to tune so that $p_w$ approximates (1).
 
-The first step is to express $p$ as a member of some family of distributions.As a simple example, one might model $p$ as simply
-\\[p(a|\lvert s) = a(s)\\]
-One approach involves randomly generating different distributions and pitting the resulting agents against each other.
-
-Suppose we simulate one game from $s_0$; the actions taken are $a_1, \dots, a_T$, and the resulting state sequence is $s_1, \dots, s_T$, where $a_i \in \mathcal{A}(s_{i-1})$, $a_i(s_{i-1}) = s_i$, and $s_T \in \mathcal{T}$.
+Suppose we fix $w$ and simulate one game from $s_0$ under $p_w$; the actions taken are $a_1, \dots, a_T$, and the resulting state sequence is $s_1, \dots, s_T$, where $a_i \in \mathcal{A}(s_{i-1})$, $a_i(s_{i-1}) = s_i$, and $s_T \in \mathcal{T}$.
 
 The probability of this happening is:
 \\[\prod_{i=1}^{T}p_{w}(a_i \lvert s_{i-1}).\\]
@@ -166,10 +162,13 @@ Computing the partial derivative is very difficult. This is why it is common to 
 Solving for $\frac{\partial}{\partial w}\log\left(\hat{u}\_N(s\_0)\right) = 0$ is still very difficult, but we can approximate it via an iterative approach:
 
 1. choose an arbitrary $w_0$
-2. in each iteration, $i$, play $N$ games and compute $\frac{\partial}{\partial w}\log\left(\hat{u}\_N(s\_0)\right)$ under $p\_{w_\i}
+2. in each iteration, $i$, play $N$ games and compute $\frac{\partial}{\partial w}\log\left(\hat{u}\_N(s\_0)\right)$ under $p\_{w_\i}$
 3. update $w_{i+1} = w_{i} + \alpha\frac{\partial}{\partial w}\log\left(\hat{u}\_N(s\_0)\right)$, where $\alpha$ is some scalar
 
 This is called **gradient ascent**; we should update $w$ in the direction of $\frac{\partial}{\partial w}\log\left(\hat{u}\_N(s\_0)\right)$since this is the direction along which $\hat{u}(s_0)$ increases the most.
+
+There is a problem with this approach however. If the adversary is the turn-taker at $s$, then $p\_w(\cdot \lvert s)$ approximates the distribution of the adversary's actions.  Obviously our agent will want $p\_w(\cdot \lvert s)$ to maximize $\hat{u}(s_0)$ but the adversary wishes to minimize this quantity. To fix this, we simply need to introduce d
+The problem here is that if we simulate both our agent's actions and its adverary's with $p_w$,
 
 ## The AlphaGo Pipeline
 Conventionally, MCTS is used where $p$ is uniform, i.e., we have no knowledge of how good moves are aprori. However, AlphaGo uses a simulation policy that has been learned via a dataset of expert moves, and refined using self-play reinforcement learning. Moreover, instead of estimating $\hat{u}(s,N_s)$ as sample mean of simulation results, it also 
