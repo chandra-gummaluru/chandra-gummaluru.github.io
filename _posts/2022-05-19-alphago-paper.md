@@ -161,7 +161,7 @@ A necessary condition for the desired $w$ is that the partial derivative of $p$ 
 \\[\frac{\partial}{\partial w}\hat{u}\_N(s\_0) =0.\\]
 Computing the partial derivative is very difficult. This is why it is common to maximize $\frac{\partial}{\partial w}\log\left(\hat{u}\_N(s\_0)\right)$ instead of $\frac{\partial}{\partial w}\hat{u}\_N(s\_0)$; the resulting $w$ is the same in both cases, but the partial derivatve of the latter w.r.t. $w$ can be expressed as
 
-\\[\frac{\partial}{\partial w}\log\left(\hat{u}\_N(s\_0)\right) = \frac{1}{N}\sum_{n=1}^{N}\sum_{t=1}^{T}\frac{\partial\log\left(p_w\left(a_t^{(n)} \lvert s_{t-1}^{(n)}\right)\right)}{\partial w}.\\]
+\\[\frac{\partial}{\partial w}\log\left(\hat{u}\_N(s\_0)\right) = \frac{1}{N}\sum_{n=1}^{N}\mu\left(s\_{T\_n}\right)\sum_{t=1}^{T\_n}\frac{\partial\log\left(p_w\left(a_t^{(n)} \lvert s_{t-1}^{(n)}\right)\right)}{\partial w}.\\]
 
 Unfortunately, solving for $\frac{\partial}{\partial w}\log\left(\hat{u}\_N(s\_0)\right) = 0$ is still very difficult.
 ## The AlphaGo Pipeline
