@@ -72,7 +72,7 @@ This leads to the following recurrence for computing $\text{Ev}\lbrace u(s) \rbr
 This is called the **expected-max** algorithm.
 
 ### Dealing with an Unknown Adversary
-Of course, in most cases, we do not know $p(\cdot \lvert s)$ if the adversary is the turn-taker at $s$. Thus, it is often common to assume that the adversary plays perfectly, i.e., (1) is satisfied for all $s$, not just when our agent is the turn-taker. In these cases, (EM) reduces to:
+In most cases, we do not know $p(\cdot \lvert s)$ if the adversary is the turn-taker at $s$. Thus, it is often common to assume that the adversary plays perfectly, i.e., (1) is satisfied for all $s$, not just when our agent is the turn-taker. In these cases, (EM) reduces to:
 
 \\[\begin{aligned}u(s) = \begin{cases}
 \displaystyle \mu(s), &s \in \mathcal{T} \\\\\\
@@ -87,7 +87,7 @@ To compute the utilities. the agent must traverse the tree until a state, $s$, i
 <img src="https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/minmax_search.gif"/>*Computing utilities via the min-max algorithm on a binary game tree of depth 3.*
 
 ### Dealing with Large Game Trees
-However, in many situations, it is computationally infeasible to traverse the entire game tree because it is so large. This is the case with Go. In these situations, one option is to use an iterative approach. To do this, we will need a heuristic function, $h: \mathcal{S} \rightarrow \mathbb{R}$ that can estimate $u$ for any $s \in \mathcal{S}$. In each iteration, $i$, we expand a node in the tree, estimate its utility using the heuristic, and propagate the consequences back up the tree via the min-max algorithm.
+In many situations, it is computationally infeasible to traverse the entire game tree because it is so large. This is the case with Go. In these situations, one option is to use an iterative approach. To do this, we will need a heuristic function, $h: \mathcal{S} \rightarrow \mathbb{R}$ that can estimate $u$ for any $s \in \mathcal{S}$. In each iteration, $i$, we expand a node in the tree, estimate its utility using the heuristic, and propagate the consequences back up the tree via the min-max algorithm.
 
 <img src="https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/minmax_search_heur.gif"/>*Running the min-max algorithm iteratively on a binary game tree of depth 3. In each iteration, $i$, the agent selects and expands a part of the tree, estimates its utility via $h$, and then propagates the consequences back up the tree. It also keeps track of the best successor found thus far so that if time runs out, it can play the action that yields that successor.*
 
