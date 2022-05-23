@@ -153,11 +153,12 @@ The probability of this happening is:
 
 After $N$ such simulations, we can estimate the utility of $s_0$ from $p$ as
 
-\\[\hat{u}_N(s_0) = \frac{1}{N}.\\]
+\\[\hat{u}_N(s_0) = \frac{1}{N}\sum_{n=1}^{N}\prod_{t=1}^{T}p_w(a_t^{(n)} \lvert s_{t-1}^{(n)}).\\]
 
 Due to the law of large numbers, it can be shown that $\lim_{N \rightarrow \infty}\hat{\mu}_N(s_0) = \text{Ev}\lbrace u(s_0) \rbrace$. Thus, if $N$ is sufficiently large, $\hat{u}_N(s_0)$ is a good estimate of $u(s_0)$, and we can maximize it instead.
 
-To do this, we can compute the gradient of $p$ w.r.t. $w$ and setting it equal to zero. However, the form of (3) makes this difficult to do since it involves products. Thus, it is common to maximize $\log\left(\hat{u}_N(s_0)\right)$ instead. In this case, we have
+To do this, we can compute the gradient of $p$ w.r.t. $w$ and setting it equal to zero. However, the form of (3) makes this difficult to do since it involves products. Thus, it is common to maximize $\log{\hat{u}\_N(s\_0)}$ instead. In this case, we have
+
 \\[\frac{\partial}{\partial w}\log\left(\hat{u}(s)\right) = \frac{1}{N}\sum_{n=1}^{N}\sum_{t=1}^{T}\frac{\partial\log\left(p_w(a_t \lvert s_{t-1})\right)}{\partial w}.\\]
 
 ## The AlphaGo Pipeline
