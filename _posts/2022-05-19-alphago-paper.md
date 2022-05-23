@@ -153,7 +153,7 @@ The probability of this happening is:
 
 After $N$ such simulations, we can estimate the utility of $s_0$ from $p$ as
 
-\\[\hat{u}_N(s_0) = \frac{1}{N}\sum_{n=1}^{N}\prod_{t=1}^{T}p_w(a_t^{(n)} \lvert s_{t-1}^{(n)}).\\]
+\\[\hat{u}_N(s_0) = \frac{1}{N}\sum_{n=1}^{N}\prod_{t=1}^{T}.\\]
 
 Due to the law of large numbers, it can be shown that $\lim_{N \rightarrow \infty}\hat{\mu}_N(s_0) = \text{Ev}\lbrace u(s_0) \rbrace$. Thus, if $N$ is sufficiently large, $\hat{u}_N(s_0)$ is a good estimate of $u(s_0)$, and we can maximize it instead.
 
