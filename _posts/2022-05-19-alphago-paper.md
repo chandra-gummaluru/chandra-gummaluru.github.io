@@ -86,7 +86,7 @@ To compute the utilities. the agent must traverse the tree until a state, $s$, i
 
 <img src="https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/minmax_search.gif"/>*Computing utilities via the min-max algorithm on a binary game tree of depth 3.*
 
-## Dealing with Large Game Trees
+### Dealing with Large Game Trees
 However, in many situations, it is computationally infeasible to traverse the entire game tree because it is so large. This is the case with Go. In these situations, one option is to use an iterative approach. To do this, we will need a heuristic function, $h: \mathcal{S} \rightarrow \mathbb{R}$ that can estimate $u$ for any $s \in \mathcal{S}$. In each iteration, $i$, we expand a node in the tree, estimate its utility using the heuristic, and propagate the consequences back up the tree via the min-max algorithm.
 
 <img src="https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/minmax_search_heur.gif"/>*Running the min-max algorithm iteratively on a binary game tree of depth 3. In each iteration, $i$, the agent selects and expands a part of the tree, estimates its utility via $h$, and then propagates the consequences back up the tree. It also keeps track of the best successor found thus far so that if time runs out, it can play the action that yields that successor.*
@@ -100,7 +100,7 @@ Finding a good $h$ is very difficult and even if we could, there is no obvious w
 
 This is called the **exploration versus exploitation dilemma**.
 
-## Solving the Exploration/Exploitation Dilemma
+### Solving the Exploration/Exploitation Dilemma
 We can resolve the exploration versus exploitation dilemma and avoid needing an explicit heuristic function at the same time using a technique called **Monte-Carlo Tree Search** (MCTS).
 
 We can then estimate the utility of a state, $s$, by repeatedly simulating the game from that state.
