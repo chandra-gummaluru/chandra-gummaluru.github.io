@@ -146,14 +146,14 @@ Suppose we are given a dataset, $\mathcal{D}$, of $N$ games; the actions taken d
 
 We want to choose $w$ to maximize the probability of the games in $\mathcal{D}$ occurring, which we can express as
 
-\\[\text{Pr}\lbrace \mathcal{D} \rbrace = \sum\_{n=1}^{N}\mu\left(s\_{T^{(n)}}\right)\prod\_{t=1}^{T^{(n)}}p\_w\left(a\_t^{(n)} \lvert s\_{t-1}^{(n)}\right).\\]
+\\[\text{Pr}\lbrace \mathcal{D} \rbrace = \sum\_{n=1}^{N}\prod\_{t=1}^{T^{(n)}}p\_w\left(a\_t^{(n)} \lvert s\_{t-1}^{(n)}\right).\\]
 
 A necessary condition for the desired $w$ is that the partial derivative of $p_w$ w.r.t. $w$ is zero, i.e.,
 \\[\nabla_w\text{Pr}\lbrace \mathcal{D} \rbrace = 0.\\]
 
 Computing $\nabla_w\text{Pr}\lbrace \mathcal{D} \rbrace$ is very difficult, so we often maximize $\nabla_w\log\left(\text{Pr}\lbrace \mathcal{D} \rbrace\right)$ instead; the resulting $w$ is the same in both cases, but $\nabla_w\log\left(\text{Pr}\lbrace \mathcal{D} \rbrace\right)$ is easier to compute. Indeed, we maywrite:
 
-\\[\nabla_w\log\left(\text{Pr}\lbrace \mathcal{D} \rbrace\right) = \frac{1}{N}\sum_{n=1}^{N}\mu\left(s\_{T^{(n)}}\right)\sum_{t=1}^{T^{(n)}}\frac{\partial}{\partial w}\log\left(p_w\left(a_t^{(n)} \lvert s_{t-1}^{(n)}\right)\right)}.\\]
+\\[\nabla_w\log\left(\text{Pr}\lbrace \mathcal{D} \rbrace\right) = \frac{1}{N}\sum_{n=1}^{N}\sum_{t=1}^{T^{(n)}}\frac{\partial}{\partial w}\log\left(p_w\left(a_t^{(n)} \lvert s_{t-1}^{(n)}\right)\right)}.\\]
 
 Solving the above for $w$ is still very difficult, but we can approximate the solution via an iterative approach:
 
