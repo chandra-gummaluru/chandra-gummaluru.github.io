@@ -110,8 +110,8 @@ Each iteration has four phases:
 2. **Expansion**: Expand $s_k$ to reveal a child, $s_{k+1}$, and update $N(s,\cdot)$ so that:
 \\[\begin{aligned}N(s,t) = \begin{cases} N(s,t-1) + 1, &s = s_0, \dots, s_k, s_{k+1} \\\\\\
 N(s,t-1), &\text{otherwise}\end{cases}\end{aligned}\\]
-3. **Simulation**: Simulate a game from $s_{n+1}$ to some terminal state, $s \in \mathcal{T}$ by selecting successive actions uniformally; let $s_{k+2}, \dots, s_{n}$ denote the resulting states.
-4. **Back-Propagation**: For $s = s_0, \dots, s_n$, update $U$ so that $U(s,t) + U(s,t-1) + \mu(s_n)$.
+3. **Simulation**: Simulate a game from $s_{k+1}$ to some terminal state by randomly selecting successive actions; let $s_{k+2}, \dots, s_{n}$ denote the resulting states, where $s_n \in \mathcal{T}$.
+4. **Back-Propagation**: For $s = s_0, \dots, s_n$, update $U$ so that $U(s,t) + U(s,t-1) + \mu(s_n)$; since $s_n$ is a random variable, and utilities are bounded within $[-1,1]$, it follows that $$U(s,t)$ is the sum of $N(s,t)$ random variables bounded within $[-1,1]$.
  
 We can now estimate $u(s)$ as the ratio between $U(s,t)$ and $N(s,t)$, i.e.,
 
@@ -119,7 +119,7 @@ We can now estimate $u(s)$ as the ratio between $U(s,t)$ and $N(s,t)$, i.e.,
 
 Using Hoeffding's inequality, we can upper bound the probability that the difference between $\hat{u}(s,t)$ and $\mu(s)$ exceeds some threshold, $\varepsilon$:
 
-\\[\text{Pr}\left\lbrace \lvert \hat{u}(s,t) - u(s) \rvert \geq \varepsilon \right\rbrace \leq \exp\left\lbrace -\frac{N(s,t)\varepsilon^2}{2} \right\rbrace.\\]
+\\[\text{Pr}\left\lbrace \lvert \hat{u}(s,t) - u(s) \rvert \geq \varepsilon \right\rbrace \leq 2\exp\left\lbrace -\frac{N(s,t)\varepsilon^2}{2} \right\rbrace.\\]
 
 We see that as $N(s,t) \rightarrow \infty$, then $\text{Pr}\left\lbrace \lvert \hat{u}(s,t) - u(s) \rvert \geq \varepsilon \right\rbrace \rightarrow 0$ for any $\varepsilon > 0$. In other words, for large $N(s,t)$, we can write $\hat{u}(s,t) \approx u(s)$.
 
@@ -133,7 +133,7 @@ which we call the $\delta$ **confidence radius** of $\hat{u}(s,t)$. Intuitively,
 
 We want $\delta$ to get smaller as the number of iterations gets larger. If we let $\delta = t^{-c}$ for some $c \geq 1$ and choose actions according to the selection policy:
 \\[\hat{a}(s,t) = \text{arg max}_{a \in \mathcal{A}(s)}\text{UCB}\_{t^{-c}}\left(\hat{u}(s,t)\right) = \text{arg max}\_{a \in \mathcal{A}(s)}\left\lbrace\hat{u}(s,t) + \sqrt{\frac{2c\log t}{N(s,t)}}\right\rbrace,\\]
-then for large $N(s,t)$, it follows that $\hat{a}(s,t) \approx a^\*(s)$ in the sense that $u(\hat{a}(s,t)) \approx u(a^\*(s))$.
+then for large $N(s,t)$, it follows that $\hat{a}(s,t) \approx a^\*(s)$ in the sense that $u(\hat{a}(s,t)) \approx u(a^\*(s))$. In other words, the action identified by MCTS will have the same expected utility as the one identified by the min-max algorithm.
 
 <img src="https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/conf_rad_graph.svg" width="425"/>*The confidence radius for $\hat{\mu}(s_1, N_{s_1})$ and $\hat{\mu}(s_2, N(s_2))$ when $\delta = 0.9$. It is not clear whether $s_1$ or $s_2$ is better here.*
 
