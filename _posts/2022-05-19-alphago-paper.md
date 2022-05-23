@@ -146,11 +146,15 @@ The first step is to express $p$ as a member of some family of distributions.As 
 \\[p(a|\lvert s) = a(s)\\]
 One approach involves randomly generating different distributions and pitting the resulting agents against each other.
 
-Suppose we simulate one game from $s_0$; the actions taken are $a_1, \dots, a_T$, and the resulting state sequence is $s_1, \dots, s_T$, where $a_i \in \mathcal{A}(s_{i-1})$, $a_i(s_{i-1}) = s_i$, and $s_T \in \mathcal{T}$. The probability of this happening is:
-\\[\prod_{i=1}^{n}p_{w}(a_i \lvert s_{i-1}).\\]
+Suppose we simulate one game from $s_0$; the actions taken are $a_1, \dots, a_T$, and the resulting state sequence is $s_1, \dots, s_T$, where $a_i \in \mathcal{A}(s_{i-1})$, $a_i(s_{i-1}) = s_i$, and $s_T \in \mathcal{T}$.
+
+The probability of this happening is:
+\\[\prod_{i=1}^{T}p_{w}(a_i \lvert s_{i-1}).\\]
 
 After $N$ such simulations, we can estimate the utility of $s_0$ from $p$ as
-\\[\hat{u}_N(s_0) = \frac{1}{N}\sum_{n=1}^{N}\prod_{t=1}^{T}p_w(a_t^{(n)} \lvert s_{t-1}^{(n)}).\\]
+
+\\[\hat{u}_N(s_0) = \frac{1}{N}.\\]
+
 Due to the law of large numbers, it can be shown that $\lim_{N \rightarrow \infty}\hat{\mu}_N(s_0) = \text{Ev}\lbrace u(s_0) \rbrace$. Thus, if $N$ is sufficiently large, $\hat{u}_N(s_0)$ is a good estimate of $u(s_0)$, and we can maximize it instead.
 
 To do this, we can compute the gradient of $p$ w.r.t. $w$ and setting it equal to zero. However, the form of (3) makes this difficult to do since it involves products. Thus, it is common to maximize $\log\left(\hat{u}_N(s_0)\right)$ instead. In this case, we have
