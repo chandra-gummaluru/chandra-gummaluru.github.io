@@ -111,13 +111,10 @@ Each iteration has four phases:
 \\[\begin{aligned}N(s,t) = \begin{cases} N(s,t-1) + 1, &s = s_0, \dots, s_k, s_{k+1} \\\\\\
 N(s,t-1), &\text{otherwise}\end{cases}\end{aligned}\\]
 3. **Simulation**: Simulate a game from $s_{k+1}$ to some terminal state by randomly selecting successive actions; let $s_{k+2}, \dots, s_{n}$ denote the resulting states, where $s_n \in \mathcal{T}$.
-4. **Back-Propagation**: For $s = s_0, \dots, s_n$, update $U$ so that $U(s,t) + U(s,t-1) + \mu(s_n)$; since $s_n$ is a random variable, and utilities are bounded within $[-1,1]$, it follows that $$U(s,t)$ is the sum of $N(s,t)$ random variables bounded within $[-1,1]$.
- 
-We can now estimate $u(s)$ as the ratio between $U(s,t)$ and $N(s,t)$, i.e.,
-
+4. **Back-Propagation**: For $s = s_0, \dots, s_n$, update $U$ so that $U(s,t) + U(s,t-1) + \mu(s_n)$ and estimate $u(s)$ as
 \\[\hat{u}(s,t) = \frac{U(s,t)}{N(s,t)}.\\]
 
-Using Hoeffding's inequality, we can upper bound the probability that the difference between $\hat{u}(s,t)$ and $\mu(s)$ exceeds some threshold, $\varepsilon$:
+We can interpret $\hat{u}(s,t)$ as the mean of $N(s,t)$ independent random variables bounded within $[-1,1]$. Thus, using Hoeffding's inequality, we can upper bound the probability that the difference between $\hat{u}(s,t)$ and $\mu(s)$ exceeds some threshold, $\varepsilon$:
 
 \\[\text{Pr}\left\lbrace \lvert \hat{u}(s,t) - u(s) \rvert \geq \varepsilon \right\rbrace \leq 2\exp\left\lbrace -\frac{N(s,t)\varepsilon^2}{2} \right\rbrace.\\]
 
