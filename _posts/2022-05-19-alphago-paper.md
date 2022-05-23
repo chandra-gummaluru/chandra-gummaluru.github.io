@@ -185,9 +185,6 @@ Solving the above for $w$ is still very difficult, but we can approximate it via
 
 Intuitively, we should update $w$ in the direction of $\nabla_w\log\left(\text{Ev}\lbrace \hat{u}\_N(s\_0) \rbrace\right)$ since this is the direction along which $\text{Ev}\lbrace \hat{u}\_N(s\_0) \rbrace$ increases the most.
 
-There is a problem with this approach however. If the adversary is the turn-taker at $s$, then $p\_w(\cdot \lvert s)$ approximates the distribution of the adversary's actions.  Obviously our agent will want $p\_w(\cdot \lvert s)$ to maximize $\hat{u}(s_0)$ but the adversary wishes to minimize this quantity. To fix this, we simply need to introduce d
-The problem here is that if we simulate both our agent's actions and its adverary's with $p_w$,
-
 ## The AlphaGo Pipeline
 Conventionally, MCTS is used where $p$ is uniform, i.e., we have no knowledge of how good moves are aprori. However, AlphaGo uses a simulation policy that has been learned via a dataset of expert moves, and refined using self-play reinforcement learning. Moreover, instead of estimating $\hat{u}(s,N_s)$ as sample mean of simulation results, it also 
 
