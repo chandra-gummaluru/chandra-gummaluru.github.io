@@ -114,7 +114,7 @@ N(s,t-1), &\text{otherwise}\end{cases}\end{aligned}\\]
 4. **Back-Propagation**: For $s = s_0, \dots, s_n$, update $U$ so that $U(s,t) + U(s,t-1) + \mu(s_n)$ and estimate $u(s)$ as
 \\[\hat{u}(s,t) = \frac{U(s,t)}{N(s,t)}.\\]
 
-We can interpret $\hat{u}(s,t)$ as the mean of $N(s,t)$ independent random variables bounded within $[-1,1]$. Thus, using Hoeffding's inequality, we can upper bound the probability that the difference between $\hat{u}(s,t)$ and $\mu(s)$ exceeds some threshold, $\varepsilon$:
+Observing that $\hat{u}(s,t)$ is the mean of $N(s,t)$ independent random variables bounded within $[-1,1]$, we can use Hoeffding's inequality to upper bound the probability that the difference between $\hat{u}(s,t)$ and $\mu(s)$ exceeds some threshold, $\varepsilon$:
 
 \\[\text{Pr}\left\lbrace \lvert \hat{u}(s,t) - u(s) \rvert \geq \varepsilon \right\rbrace \leq 2\exp\left\lbrace -\frac{N(s,t)\varepsilon^2}{2} \right\rbrace.\\]
 
