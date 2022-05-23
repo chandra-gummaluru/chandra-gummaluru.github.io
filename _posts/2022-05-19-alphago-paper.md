@@ -41,7 +41,7 @@ We can model the behaviour of the players using a probability distribution, $p: 
 ![](https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/go_tree.svg)
 *Each node in the tree is coloured according to the turn-taker in the associated state. The root of the tree, $s_0$, represents the initial state. Each leaf of the tree represents the state once a game has ends. Each path from the root to a leaf represents one possible realization of the game from $s_0$; the leaf is annotated with a utility value of either $-1$, $0$, or $1$, depending on whether the agent would have won, lost, or tied, if that game was indeed realized.*
 
-Let $u(s)$ be the utility obtained by one such realization; its value is stochastic. The goal is to develop an agent that can decide the best action $a^\*(s)$, to play from $s$, in the sense that its choice maximizes its expected utility over all possible realizations, i.e.,
+Let $u(s_0)$ be the utility obtained by a specific realizatio of the game from some initial state $s_0$; its value is stochastic. The goal is to develop an agent that can decide the best action $a^\*(s)$, to play from $s$, in the sense that its choice maximizes its expected utility over all possible realizations, i.e.,
 \\[a^*(s) = \text{arg max}_{a \in \mathcal{A}(s)}\text{Ev}\lbrace u(a(s)) \rbrace, s \not\in \mathcal{T}\\]
 
 where $\text{Ev}\lbrace u(s) \rbrace$ can be computed via the recurrence:
