@@ -142,19 +142,17 @@ A completly different approach is to learn $p$ ahead of time.
 ### via Supervised Learning
 Consider a family of distributions, $p_w$, where $w$ is a set of weights that we want to tune so that $p_w$ approximates (1).
 
-Suppose we are given a dataset, $\mathcal{D}$, of $N$ games; the actions taken during the $n$th game were $a\_1^{(n)}, \dots, a\_{T^{(n)}}^{(n)}$, and the resulting state sequence was $s\_1^{(n)}, \dots, s_\{T^{(n)}}^{(n)}$, where $a\_i^{(n)} \in \mathcal{A}\left(s\_{i-1}^{(n)}\right)$, $a\_i^{(n)}\lefts\_{i-1}^{(n)}\right) = s\_i^{(n)}$, and $s\_{T^{(n)}}^{(n)} \in \mathcal{T}$.
+Suppose we are given a dataset, $\mathcal{D}$, of $N$ games; the actions taken during the $n$th game were $a\_1^{(n)}, \dots, a\_{T^{(n)}}^{(n)}$, and the resulting state sequence was $s\_1^{(n)}, \dots, s_\{T^{(n)}}^{(n)}$, where $a\_i^{(n)} \in \mathcal{A}\left(s\_{i-1}^{(n)}\right)$, $a\_i^{(n)}\left(s\_{i-1}^{(n)}\right) = s\_i^{(n)}$, and $s\_{T^{(n)}}^{(n)} \in \mathcal{T}$.
 
 We want to choose $w$ to maximize the probability of the games in $\mathcal{D}$ occurring, which we can express as
 
 \\[\text{Pr}\lbrace \mathcal{D} \rbrace = \sum\_{n=1}^{N}\mu\left(s\_{T^{(n)}}\right)\prod\_{t=1}^{T^{(n)}}p\_w\left(a\_t^{(n)} \lvert s\_{t-1}^{(n)}\right).\\]
 
 A necessary condition for the desired $w$ is that the partial derivative of $p_w$ w.r.t. $w$ is zero, i.e.,
-\\[\frac{\partial}{\partial w}\text{Pr}\lbrace \mathcal{D} \rbrace = 0.\\]
-Computing the partial derivative is very difficult. This is why it is common to maximize $\frac{\partial}{\partial w}\log\left(\hat{u}\_N(s\_0)\right)$ instead of $\frac{\partial}{\partial w}\hat{u}\_N(s\_0)$; the resulting $w$ is the same in both cases, but the partial derivatve of the latter w.r.t. $w$ can be expressed as
-
-\\[\frac{\partial}{\partial w}\log\left(\hat{u}\_N(s\_0)\right) = \frac{1}{N}\sum_{n=1}^{N}\mu\left(s\_{T^{(n)}}\right)\sum_{t=1}^{T^{(n)}}\frac{\partial\log\left(p_w\left(a_t^{(n)} \lvert s_{t-1}^{(n)}\right)\right)}{\partial w}.\\]
-
-Solving for $\frac{\partial}{\partial w}\log\left(\hat{u}\_N(s\_0)\right) = 0$ is still very difficult, but we can approximate it via an iterative approach:
+\\[\nabla_w\text{Pr}\lbrace \mathcal{D} \rbrace = 0.\\]
+Computing $\nabla_w\text{Pr}\lbrace \mathcal{D} \rbrace$ is very difficult, so we often maximize \nabla_w\log\left(\text{Pr}\lbrace \mathcal{D} \rbrace\right)$ instead; the resulting $w$ is the same in both cases, but $\nabla_w\log\left(\text{Pr}\lbrace \mathcal{D} \rbrace\right)$ is easier to compute. Indeed, we maywrite:
+\\[\nabla_w\log\left(\text{Pr}\lbrace \mathcal{D} \rbrace\right) = \frac{1}{N}\sum_{n=1}^{N}\mu\left(s\_{T^{(n)}}\right)\sum_{t=1}^{T^{(n)}}\frac{\partial\log\left(p_w\left(a_t^{(n)} \lvert s_{t-1}^{(n)}\right)\right)}{\partial w}.\\]
+Solving the above for $w$ is still very difficult, but we can approximate the solution via an iterative approach:
 
 1. choose an arbitrary $w_0$
 2. in each iteration, $i$, play $N$ games and compute $\frac{\partial}{\partial w}\log\left(\hat{u}\_N(s\_0)\right)$ under $p\_{w_\i}$
