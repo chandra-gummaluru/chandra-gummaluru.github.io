@@ -140,7 +140,7 @@ then for large $N(s,t)$, it follows that $\hat{a}(s,t) \approx a^\*(s)$ in the s
 A completly different approach is to learn $p$ ahead of time.
 
 ### via Supervised Learning
-Consider a family of distributions, $p_w$, where $w$ is a set of weights that we want to tune so that $p_w$ approximates (1).
+Consider a family of distributions, $p_w$, where $w$ is a set of weights that we want to tune so that $p_w$ approximates $p$ as defined in (1).
 
 Suppose we are given a dataset, $\mathcal{D}$, of $N$ games; the actions taken during the $n$th game were $a\_1^{(n)}, \dots, a\_{T^{(n)}}^{(n)}$, and the resulting state sequence was $s\_1^{(n)}, \dots, s_\{T^{(n)}}^{(n)}$, where $a\_i^{(n)} \in \mathcal{A}\left(s\_{i-1}^{(n)}\right)$, $a\_i^{(n)}\left(s\_{i-1}^{(n)}\right) = s\_i^{(n)}$, and $s\_{T^{(n)}}^{(n)} \in \mathcal{T}$.
 
@@ -158,8 +158,8 @@ Computing $\nabla_w\text{Pr}\lbrace \mathcal{D} \rbrace$ is very difficult, so w
 Solving the above for $w$ is still very difficult, but we can approximate the solution via an iterative approach:
 
 1. choose an arbitrary $w_0$
-2. in each iteration, $i$, play $N$ games and compute $\frac{\partial}{\partial w}\log\left(\hat{u}\_N(s\_0)\right)$ under $p\_{w_\i}$
-3. update $w_{i+1} = w_{i} + \alpha\frac{\partial}{\partial w}\log\left(\hat{u}\_N(s\_0)\right)$, where $\alpha$ is some scalar
+2. in each iteration, $i$, select a random subset of $\mathcal{D}$ and compute $\frac{\partial}{\partial w}\log\left(\hat{u}\_N(s\_0)\right)$ under $p\_{w_\i}$
+3. update $w_{i+1} = w_{i} + \alpha\nabla_w\log\left(\text{Pr}\lbrace \mathcal{D} \rbrace\right)$, where $\alpha$ is some scalar
 
 This is called **gradient ascent**; we should update $w$ in the direction of $\frac{\partial}{\partial w}\log\left(\hat{u}\_N(s\_0)\right)$since this is the direction along which $\hat{u}(s_0)$ increases the most.
 
