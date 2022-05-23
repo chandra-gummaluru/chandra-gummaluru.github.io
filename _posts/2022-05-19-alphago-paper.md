@@ -137,11 +137,9 @@ We want $\delta$ to get smaller as the number of iterations gets larger. If we l
 then for large $N(s,t)$, it follows that $\hat{a}(s,t) \approx a^\*(s)$ in the sense that $u(\hat{a}(s,t)) \approx u(a^\*(s))$. We could have also defined the selection policy in terms of the $\delta$ **lower confidence bound**, but ineither case, we see that the action identified by the resulting MTCS will have the same expected utility as the one identified by the min-max algorithm.
 
 ## Learning Techniques
-A completly different approach is to learn $p$ ahead of time.
+A completly different approach is to learn $p$ ahead of time from a family of distributions, $p_w$, where $w$ is a set of weights that we can tune. Obviously, we want to choose $w$ so that $p_w$ approximates $p$ as defined in (1).
 
 ### via Supervised Learning
-Consider a family of distributions, $p_w$, where $w$ is a set of weights that we want to tune so that $p_w$ approximates $p$ as defined in (1).
-
 Suppose we are given a dataset, $\mathcal{D}$, of $N$ games; the actions taken during the $n$th game were $a\_1^{(n)}, \dots, a\_{T^{(n)}}^{(n)}$, and the resulting state sequence was $s\_1^{(n)}, \dots, s_\{T^{(n)}}^{(n)}$, where $a\_i^{(n)} \in \mathcal{A}\left(s\_{i-1}^{(n)}\right)$, $a\_i^{(n)}\left(s\_{i-1}^{(n)}\right) = s\_i^{(n)}$, and $s\_{T^{(n)}}^{(n)} \in \mathcal{T}$.
 
 We want to choose $w$ to maximize the probability of the games in $\mathcal{D}$ occurring, which we can express as
@@ -153,7 +151,7 @@ A necessary condition for the desired $w$ is that the partial derivative of $p_w
 
 Computing $\nabla_w\text{Pr}\lbrace \mathcal{D} \rbrace$ is very difficult, so we often maximize $\nabla_w\log\left(\text{Pr}\lbrace \mathcal{D} \rbrace\right)$ instead; the resulting $w$ is the same in both cases, but $\nabla_w\log\left(\text{Pr}\lbrace \mathcal{D} \rbrace\right)$ is easier to compute:
 
-\\[\nabla_w\log\left(\text{Pr}\lbrace \mathcal{D} \rbrace\right) = \frac{1}{N}\sum_{n=1}^{N}\sum_{t=1}^{T^{(n)}}\frac{\partial}{\log\left(p_w\left(a_t^{(n)} \lvert s_{t-1}^{(n)}\right)\right)}.\\]
+\\[\nabla_w\log\left(\text{Pr}\lbrace \mathcal{D} \rbrace\right) = \frac{1}{N}\sum_{n=1}^{N}\sum_{t=1}^{T^{(n)}}\frac{\partial}{\partial w}\log\left(p_w\left(a_t^{(n)} \lvert s_{t-1}^{(n)}\right)\right).\\]
 
 Solving the above for $w$ is still very difficult, but we can approximate it via an iterative approach:
 
