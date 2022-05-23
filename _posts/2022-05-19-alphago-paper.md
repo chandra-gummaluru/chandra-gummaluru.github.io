@@ -142,7 +142,7 @@ A completly different approach is to learn $p$ ahead of time.
 ### via Supervised Learning
 Consider a family of distributions, $p_w$, where $w$ is a set of weights that we want to tune so that $p_w$ approximates (1).
 
-Suppose we are given a dataset, $\mathcal{D}$, of $N$ games; the actions taken during the $n$th game were $a\_1^{(n)}, \dots, a\_{T^{(n)}}^{(n)}$, and the resulting state sequence was $s\_1^{(n)}, \dots, s_\{T^{(n)}}^{(n)}$, where $a_i \in \mathcal{A}(s_{i-1})$, $a_i(s_{i-1}) = s_i$, and $s_T \in \mathcal{T}$.
+Suppose we are given a dataset, $\mathcal{D}$, of $N$ games; the actions taken during the $n$th game were $a\_1^{(n)}, \dots, a\_{T^{(n)}}^{(n)}$, and the resulting state sequence was $s\_1^{(n)}, \dots, s_\{T^{(n)}}^{(n)}$, where $a\_i^{(n)} \in \mathcal{A}\left(s\_{i-1}^{(n)}\right)$, $a\_i^{(n)}\lefts\_{i-1}^{(n)}\right) = s\_i^{(n)}$, and $s\_{T^{(n)}}^{(n)} \in \mathcal{T}$.
 
 We want to choose $w$ to maximize the probability of the games in $\mathcal{D}$ occurring, which we can express as
 
