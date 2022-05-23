@@ -157,12 +157,13 @@ After $N$ such simulations, we can estimate the utility of $s_0$ from $p$ as
 
 Due to the law of large numbers, it can be shown that $\lim\_{N \rightarrow \infty}\hat{\mu}\_N(s\_0) = \text{Ev}\lbrace u(s\_0) \rbrace$. Thus, if $N$ is sufficiently large, $\hat{u}\_N(s\_0)$ is a good estimate of $u(s\_0)$, and we can maximize it instead.
 
-To do this, the basic approach is to recognize that the maximizer is any $w$ such that
-\\[\frac{\partial}{\partial w}\hat{u}\_N(s\_0) =0 \text{ and } \frac{\partial^2}{\partial w}\hat{u}\_N(s\_0) \leq 0.\\]
-However, the form of (3) makes this difficult to compute the above expressions. Thus, it is common to maximize $\log{\hat{u}\_N(s\_0)}$ instead. In this case, we have
+A necessary condition for the desired $w$ is that the partial derivative of $p$ w.r.t. $w$ is zero, i.e.,
+\\[\frac{\partial}{\partial w}\hat{u}\_N(s\_0) =0.\\]
+Computing the partial derivative is very difficult. This is why it is common to maximize $\frac{\partial}{\partial w}\log\left(\hat{u}\_N(s\_0)\right)$ instead of $\frac{\partial}{\partial w}\hat{u}\_N(s\_0)$; the resulting $w$ is the same in both cases, but the partial derivatve of the latter w.r.t. $w$ can be expressed as
 
 \\[\frac{\partial}{\partial w}\log\left(\hat{u}\_N(s\_0)\right) = \frac{1}{N}\sum_{n=1}^{N}\sum_{t=1}^{T}\frac{\partial\log\left(p_w\left(a_t^{(n)} \lvert s_{t-1}^{(n)}\right)\right)}{\partial w}.\\]
 
+Unfortunately, solving for $\frac{\partial}{\partial w}\log\left(\hat{u}\_N(s\_0)\right) = 0$ is still very difficult.
 ## The AlphaGo Pipeline
 Conventionally, MCTS is used where $p$ is uniform, i.e., we have no knowledge of how good moves are aprori. However, AlphaGo uses a simulation policy that has been learned via a dataset of expert moves, and refined using self-play reinforcement learning. Moreover, instead of estimating $\hat{u}(s,N_s)$ as sample mean of simulation results, it also 
 
