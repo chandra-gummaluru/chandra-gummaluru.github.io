@@ -148,7 +148,7 @@ We want to choose $w$ to maximize the probability of the games in $\mathcal{D}$ 
 
 \\[\text{Pr}\lbrace \mathcal{D} \rbrace = \sum\_{n=1}^{N}\prod\_{t=1}^{T^{(n)}}p\_w\left(a\_t^{(n)} \lvert s\_{t-1}^{(n)}\right).\\]
 
-A necessary condition for the desired $w$ is that the partial derivative of $p_w$ w.r.t. $w$ is zero, i.e.,
+A necessary condition for the desired $w$ is that the partial derivative of the above expression w.r.t. $w$ is zero, i.e.,
 \\[\nabla_w\text{Pr}\lbrace \mathcal{D} \rbrace = 0.\\]
 
 Computing $\nabla_w\text{Pr}\lbrace \mathcal{D} \rbrace$ is very difficult, so we often maximize $\nabla_w\log\left(\text{Pr}\lbrace \mathcal{D} \rbrace\right)$ instead; the resulting $w$ is the same in both cases, but $\nabla_w\log\left(\text{Pr}\lbrace \mathcal{D} \rbrace\right)$ is easier to compute:
@@ -161,7 +161,7 @@ Solving the above for $w$ is still very difficult, but we can approximate it via
 2. in each iteration, $i$, select a random subset of $\mathcal{D}$ and compute $\nabla_w\log\left(\text{Pr}\lbrace \mathcal{D} \rbrace\right)$ under $p\_{w_\i}$
 3. update $w_{i+1} = w_{i} + \alpha\nabla_w\log\left(\text{Pr}\lbrace \mathcal{D} \rbrace\right)$, where $\alpha$ is some scalar
 
-This is called **gradient ascent**; we should update $w$ in the direction of $\nabla_w\log\left(\text{Pr}\lbrace \mathcal{D} \rbrace\right)$ since this is the direction along which $\nabla_w\text{Pr}\lbrace \mathcal{D} \rbrace$ increases the most.
+This is called **gradient ascent**; we should update $w$ in the direction of $\nabla_w\log\left(\text{Pr}\lbrace \mathcal{D} \rbrace\right)$ since this is the direction along which $\text{Pr}\lbrace \mathcal{D} \rbrace$ increases the most.
 
 ### via Reinforcement Learning
 In many cases, we do not actually have a dataset, $\mathcal{D}$. In this case, we can choose $w$ randomly to begin with and estimate the utility of $s_0$ by simulating $N$ games using $p_w$:
@@ -170,19 +170,20 @@ In many cases, we do not actually have a dataset, $\mathcal{D}$. In this case, w
 
 Due to the law of large numbers, it can be shown that $\lim\_{N \rightarrow \infty}\hat{\mu}\_N(s\_0) = \text{Ev}\lbrace u(s\_0) \rbrace$. Thus, if $N$ is sufficiently large, $\hat{u}\_N(s\_0)$ is a good estimate of $u(s\_0)$, and we can maximize it instead.
 
-A necessary condition for the desired $w$ is that the partial derivative of $p$ w.r.t. $w$ is zero, i.e.,
-\\[\frac{\partial}{\partial w}\hat{u}\_N(s\_0) =0.\\]
-Computing the partial derivative is very difficult. This is why it is common to maximize $\frac{\partial}{\partial w}\log\left(\hat{u}\_N(s\_0)\right)$ instead of $\frac{\partial}{\partial w}\hat{u}\_N(s\_0)$; the resulting $w$ is the same in both cases, but the partial derivatve of the latter w.r.t. $w$ can be expressed as
+A necessary condition for the desired $w$ is that the partial derivative of the above expression w.r.t. $w$ is zero, i.e.,
+\\[\nabla_w\text{Ev}\lbrace \hat{u}\_N(s\_0) \rbrace = 0.\\]
 
-\\[\frac{\partial}{\partial w}\log\left(\hat{u}\_N(s\_0)\right) = \frac{1}{N}\sum_{n=1}^{N}\mu\left(s\_{T^{(n)}}\right)\sum_{t=1}^{T^{(n)}}\frac{\partial\log\left(p_w\left(a_t^{(n)} \lvert s_{t-1}^{(n)}\right)\right)}{\partial w}.\\]
+Computing $\nabla_w\text{Pv}\lbrace \hat{u}\_N(s\_0) \rbrace$ is very difficult, so we often maximize $\nabla_w\log\left(\text{Ev}\lbrace \hat{u}\_N(s_0) \rbrace\right)$ instead; the resulting $w$ is the same in both cases, but $\nabla_w\log\left(\text{Ev}\lbrace \hat{u}\_N(s_0) \rbrace\right)$ is easier to compute:
 
-Solving for $\frac{\partial}{\partial w}\log\left(\hat{u}\_N(s\_0)\right) = 0$ is still very difficult, but we can approximate it via an iterative approach:
+\\[\nabla_w\log\left(\text{Ev}\lbrace \hat{u}\_N(s\_0) \rbrace\right) = \frac{1}{N}\sum_{n=1}^{N}\sum_{t=1}^{T^{(n)}}\frac{\partial}{\partial w}\log\left(p_w\left(a_t^{(n)} \lvert s_{t-1}^{(n)}\right)\right).\\]
+
+Solving the above for $w$ is still very difficult, but we can approximate it via an iterative approach:
 
 1. choose an arbitrary $w_0$
-2. in each iteration, $i$, play $N$ games and compute $\frac{\partial}{\partial w}\log\left(\hat{u}\_N(s\_0)\right)$ under $p\_{w_\i}$
-3. update $w_{i+1} = w_{i} + \alpha\frac{\partial}{\partial w}\log\left(\hat{u}\_N(s\_0)\right)$, where $\alpha$ is some scalar
+2. in each iteration, $i$, simulate $N$ games under $p\_{w\_i}$ and compute $\nabla_w\log\left(\text{Ev}\lbrace \hat{u}\_N(s\_0) \rbrace\right)$.
+3. update $w_{i+1} = w_{i} + \alpha\nabla_w\log\left(\text{Ev}\lbrace \hat{u}\_N(s\_0) \rbrace\right)$, where $\alpha$ is some scalar
 
-This is called **gradient ascent**; we should update $w$ in the direction of $\frac{\partial}{\partial w}\log\left(\hat{u}\_N(s\_0)\right)$since this is the direction along which $\hat{u}(s_0)$ increases the most.
+This is called **gradient ascent**; we should update $w$ in the direction of $\nabla_w\log\left(\text{Ev}\lbrace \hat{u}\_N(s\_0) \rbrace\right)$ since this is the direction along which $\text{Ev}\lbrace \hat{u}\_N(s\_0) \rbrace$ increases the most.
 
 There is a problem with this approach however. If the adversary is the turn-taker at $s$, then $p\_w(\cdot \lvert s)$ approximates the distribution of the adversary's actions.  Obviously our agent will want $p\_w(\cdot \lvert s)$ to maximize $\hat{u}(s_0)$ but the adversary wishes to minimize this quantity. To fix this, we simply need to introduce d
 The problem here is that if we simulate both our agent's actions and its adverary's with $p_w$,
