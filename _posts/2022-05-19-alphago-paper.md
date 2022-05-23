@@ -43,8 +43,8 @@ Let $u: \mathcal{S} \rightarrow \mathbb{R}$ be such that $u(s)$ the utility our 
 ![](https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/go_tree.svg)
 *Each node in the tree is coloured according to the turn-taker in the associated state. The root of the tree, $s_0$, represents the initial state. Each leaf of the tree represents the state once a game has ends. Each path from the root to a leaf represents one possible realization of the game from $s_0$; the leaf is annotated with a utility value of either $-1$, $0$, or $1$, depending on whether the agent would have won, lost, or tied, if that game was indeed realized.*
 
-## Techniques via Search
-
+## Brute-Force Search Techniques
+A seemingly simple approach is to consider all the possible actionsand search for the one that eventually leads to a terminal state with the highest utility assuming the adversary plays according to $p$.
 ### The Ideal Algorithm
 Formally, we want to choose the action
 
@@ -139,6 +139,12 @@ The $\delta$ **upper confidence bound** of $\hat{u}(s,t)$ is
 We want $\delta$ to get smaller as the number of iterations gets larger. If we let $\delta = t^{-c}$ for some $c \geq 1$ and choose actions according to the selection policy:
 \\[\hat{a}(s,t) = \text{arg max}_{a \in \mathcal{A}(s)}\text{UCB}\_{t^{-c}}\left(\hat{u}(s,t)\right) = \text{arg max}\_{a \in \mathcal{A}(s)}\left\lbrace\hat{u}(s,t) + \sqrt{\frac{2c\log t}{N(s,t)}}\right\rbrace,\tag{UCT}\\]
 then for large $N(s,t)$, it follows that $\hat{a}(s,t) \approx a^\*(s)$ in the sense that $u(\hat{a}(s,t)) \approx u(a^\*(s))$. We could have also defined the selection policy in terms of the $\delta$ **lower confidence bound**, but ineither case, we see that the action identified by the resulting MTCS will have the same expected utility as the one identified by the min-max algorithm.
+
+## Learning Techniques
+A completly different approach is to learn $p$ ahead of time.
+
+### via Reinforcement Learning
+One approach involves randomly generating different distributions and pitting the resulting agents against each other.
 
 ## The AlphaGo Pipeline
 Conventionally, MCTS is used where $p$ is uniform, i.e., we have no knowledge of how good moves are aprori. However, AlphaGo uses a simulation policy that has been learned via a dataset of expert moves, and refined using self-play reinforcement learning. Moreover, instead of estimating $\hat{u}(s,N_s)$ as sample mean of simulation results, it also 
