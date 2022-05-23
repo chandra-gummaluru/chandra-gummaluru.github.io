@@ -143,12 +143,18 @@ A completly different approach is to learn $p$ ahead of time.
 We first model the st A state $s$, can be modelled as an $N \times N$ matrix whose elements are in $\lbrace -1, 0, 1 \rbrace$, where $0$ denotes a empty point, $1$ denotes a point containing one of our stones, and $-1$ denotes a point containing one of the adversary's stones.
 
 The first step is to express $p$ as a member of some family of distributions.As a simple example, one might model $p$ as simply
-\\[p(a|s) = a(s)\\]
+\\[p(a|\lvert s) = a(s)\\]
 One approach involves randomly generating different distributions and pitting the resulting agents against each other.
 
-Suppose we simulate one game from $s_0$; the actions taken are $a_1, \dots, a_n$, and the resulting state sequence is $s_1, \dots, s_n$, where $a_i \in \mathcal{A}(s_{i-1})$, $a_i(s_{i-1}) = s_i$, and $s_n \in \mathcal{T}$. The probability of this realization is
-\\[\prod_{i=1}^{n}p_{w}(a_i|s_{i-1})\\]
+Suppose we simulate one game from $s_0$; the actions taken are $a_1, \dots, a_n$, and the resulting state sequence is $s_1, \dots, s_T$, where $a_i \in \mathcal{A}(s_{i-1})$, $a_i(s_{i-1}) = s_i$, and $s_T \in \mathcal{T}$. The probability of this realization is
+\\[\prod_{i=1}^{n}p_{w}(a_i \lvert s_{i-1})\\]
 
+After $N$ simulations, the expected utility is
+\\[\frac{1}{N}\sum_{n=1}^{N}\prod_{t=1}^{T}p_w(a_t \lvert s_{t-1})\\]
+Thus, we want to maximize this quantity, i.e.,
+\\[\text{Ev}\lbrace \hat{u}(s) \rbrace = \lim_{N\rightarrow\infty}\frac{1}{N}\sum_{n=1}^{N}\prod_{t=1}^{T}p_w(a_t \lvert s_{t-1}).\\]
+To do this, we take the partial derivative w.r.t. $w$, and we obtain
+\\[\frac{\partial}{\partial w}\text{Ev\lbrace \hat{u}(s) \rbrace} = \lim_{N \rightarrow \infty}\frac{1}{N}\sum_{n=1}^{N}\sum_{t=1}^{T}\frac{\log\left(\partial p_w(a_t \lvert s_{t-1})\right)}{\partial w}\\]
 ## The AlphaGo Pipeline
 Conventionally, MCTS is used where $p$ is uniform, i.e., we have no knowledge of how good moves are aprori. However, AlphaGo uses a simulation policy that has been learned via a dataset of expert moves, and refined using self-play reinforcement learning. Moreover, instead of estimating $\hat{u}(s,N_s)$ as sample mean of simulation results, it also 
 
