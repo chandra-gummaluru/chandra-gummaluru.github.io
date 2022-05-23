@@ -140,7 +140,14 @@ then for large $N(s,t)$, it follows that $\hat{a}(s,t) \approx a^\*(s)$ in the s
 A completly different approach is to learn $p$ ahead of time.
 
 ### via Reinforcement Learning
+We first model the st A state $s$, can be modelled as an $N \times N$ matrix whose elements are in $\lbrace -1, 0, 1 \rbrace$, where $0$ denotes a empty point, $1$ denotes a point containing one of our stones, and $-1$ denotes a point containing one of the adversary's stones.
+
+The first step is to express $p$ as a member of some family of distributions.As a simple example, one might model $p$ as simply
+\\[p(a|s) = a(s)\\]
 One approach involves randomly generating different distributions and pitting the resulting agents against each other.
+
+Suppose we simulate one game from $s_0$; the actions taken are $a_1, \dots, a_n$, and the resulting state sequence is $s_1, \dots, s_n$, where $a_i \in \mathcal{A}(s_{i-1})$, $a_i(s_{i-1}) = s_i$, and $s_n \in \mathcal{T}$. The probability of this realization is
+\\[\prod_{i=1}^{n}p(a_i|s_{i-1})\\]
 
 ## The AlphaGo Pipeline
 Conventionally, MCTS is used where $p$ is uniform, i.e., we have no knowledge of how good moves are aprori. However, AlphaGo uses a simulation policy that has been learned via a dataset of expert moves, and refined using self-play reinforcement learning. Moreover, instead of estimating $\hat{u}(s,N_s)$ as sample mean of simulation results, it also 
