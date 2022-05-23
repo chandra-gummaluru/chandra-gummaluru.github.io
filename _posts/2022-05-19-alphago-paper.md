@@ -140,9 +140,11 @@ then for large $N(s,t)$, it follows that $\hat{a}(s,t) \approx a^\*(s)$ in the s
 A completly different approach is to learn $p$ ahead of time from a family of distributions, $p_w$, where $w$ is a set of weights that we can tune. Obviously, we want to choose $w$ so that $p_w$ approximates $p$ as defined in (1).
 
 ### via Supervised Learning
-Suppose we are given a dataset, $\mathcal{D}$, of $N$ games; the actions taken during the $n$th game were $a\_1^{(n)}, \dots, a\_{T^{(n)}}^{(n)}$, and the resulting state sequence was $s\_1^{(n)}, \dots, s_\{T^{(n)}}^{(n)}$, where $a\_i^{(n)} \in \mathcal{A}\left(s\_{i-1}^{(n)}\right)$, $a\_i^{(n)}\left(s\_{i-1}^{(n)}\right) = s\_i^{(n)}$, and $s\_{T^{(n)}}^{(n)} \in \mathcal{T}$.
+Suppose we have a dataset, $\mathcal{D}$, of $N$ games.
 
-We want to choose $w$ to maximize the probability of the games in $\mathcal{D}$ occurring, which we can express as
+The actions taken during the $n$th game were $a\_1^{(n)}, \dots, a\_{T^{(n)}}^{(n)}$, and the resulting state sequence was $s\_1^{(n)}, \dots, s_\{T^{(n)}}^{(n)}$, where $a\_i^{(n)} \in \mathcal{A}\left(s\_{i-1}^{(n)}\right)$, $a\_i^{(n)}\left(s\_{i-1}^{(n)}\right) = s\_i^{(n)}$, and $s\_{T^{(n)}}^{(n)} \in \mathcal{T}$.
+
+We want to choose $w$ to maximize the probability of the games in $\mathcal{D}$ occurring, i.e.,
 
 \\[\text{Pr}\lbrace \mathcal{D} \rbrace = \sum\_{n=1}^{N}\prod\_{t=1}^{T^{(n)}}p\_w\left(a\_t^{(n)} \lvert s\_{t-1}^{(n)}\right).\\]
 
