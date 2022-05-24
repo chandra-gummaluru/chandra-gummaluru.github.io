@@ -155,11 +155,14 @@ Computing $\nabla_w\text{Pr}\lbrace \mathcal{D} \rbrace$ is very difficult, so w
 
 \\[\nabla_w\log\left(\text{Pr}\lbrace \mathcal{D} \rbrace\right) = \frac{1}{N}\sum_{n=1}^{N}\sum_{t=1}^{T^{(n)}}\frac{\partial}{\partial w}\log\left(p_w\left(a_t^{(n)} \lvert s_{t-1}^{(n)}\right)\right).\\]
 
-Solving the above for $w$ is still very difficult, but we can approximate it via an iterative approach:
+Solving the above for $w$ is still very difficult, but we can approximate it via an iterative approach.
+
+**Alg. SL:**
 
 1. choose an arbitrary $w_0$
-2. in each iteration, $i$, select a random subset of $\mathcal{D}$ and compute $\nabla_w\log\left(\text{Pr}\lbrace \mathcal{D} \rbrace\right)$ under $p\_{w_\i}$
-3. update $w_{i+1} = w_{i} + \alpha\nabla_w\log\left(\text{Pr}\lbrace \mathcal{D} \rbrace\right)$, where $\alpha$ is some scalar
+2. for $i = 1, \dots, \tau$:
+3.  select a random subset of $\mathcal{D}$ and compute $\nabla_w\log\left(\text{Pr}\lbrace \mathcal{D} \rbrace\right)$ under $p\_{w_\i}$
+4.  update $w_{i+1} = w_{i} + \alpha\nabla_w\log\left(\text{Pr}\lbrace \mathcal{D} \rbrace\right)$, where $\alpha$ is some scalar
 
 Intuitively, should update $w$ in the direction of $\nabla_w\log\left(\text{Pr}\lbrace \mathcal{D} \rbrace\right)$ since this is the direction along which $\text{Pr}\lbrace \mathcal{D} \rbrace$ increases the most.
 
