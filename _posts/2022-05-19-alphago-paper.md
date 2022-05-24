@@ -32,7 +32,7 @@ The game is represented mathematically as a tuple, $(\mathcal{S}, \mathcal{T}, \
 - $\mathcal{S}$ is a set of **states**
 - $\mathcal{T} \subseteq \mathcal{S}$ is the subset of the states in which the game ends, called **terminal states**
 - $\mathcal{A}$ is a set-valued function such that $\mathcal{A}(s)$ is the set of feasiable **actions** from state, $s \in \mathcal{S}$
-- $\mu: \mathcal{T} \rightarrow \lbrace -1, 0, 1\rbrace$ is a **utility function**, defined so that $\mu(s) = 1$ if $s$ is a winning state for our agent, $\mu(s) = -1$ if $s$ is a losing state for our agent, and $\mu(s) = 0$ if $s$ is a tie state.
+- $\mu: \mathcal{T} \rightarrow \lbrace -1, 0, 1\rbrace$ is a utility function defined so that $\mu(s) = 1$ if $s$ is a winning state for the turn-taker, $\mu(s) = -1$ if $s$ is a losing state for the turn-taker, and $\mu(s) = 0$ if $s$ is a tie state; the utility for the other player at $s$ is assumed to be $-\mu(s)$.
 
 Each state, $s \in \mathcal{S}$ includes the board configuration and the player whose turn it is. When an action, $a \in \mathcal{A}(s)$ is played by the turn-taker, the result is a new state, $a(s) \in \mathcal{S}$, which is called a **successor** of $s$. The set of all successors of $s$ is $\mathcal{S}(s) = \left\lbrace a(s), a \in \mathcal{A}(s) \right\rbrace$.
 
