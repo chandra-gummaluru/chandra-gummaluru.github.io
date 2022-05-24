@@ -188,4 +188,6 @@ Intuitively, we should update $w$ in the direction of $\nabla_w\log\left(\text{E
 ## The AlphaGo Pipeline
 AlphaGo combines all of the aforementioned methods.
 
-It begins by using SL to tune $w$ to mimic the moves made by expert players. However, rather than using a dataset of complete games, as was previously described, it uses a dataset of state-action pairs, $\mathcal{D} = \left\lbrace (s^{(k)},a^{(k+1)}), s^{(k)} \in \mathcal{S}, a^{(k+1)} \in \mathcal{A}\left(s^{(k)}\right) \right\rbrace\_{k=1}^{N}$
+SL is used to tune $w$ so that $p_w$ mimics the moves made by expert players. The dataset consists of a set of state-action pairs, as opposed to a set of complete games, i.e.,
+\\[\mathcal{D} = \left\lbrace (s^{(k)},a^{(k)}), s^{(k)} \in \mathcal{S}, a^{(k)} \in \mathcal{A}\left(s^{(k)}\right) \right\rbrace\_{k=1}^{N},\\]
+where $a^{(k+1)}$ is the action that an expert played when in state $s^{(k)}$.
