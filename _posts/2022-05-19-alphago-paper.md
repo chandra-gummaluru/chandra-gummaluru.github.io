@@ -103,16 +103,17 @@ We can resolve the exploration versus exploitation dilemma and avoid needing an 
 
 We can then estimate the utility of a state, $s$, by repeatedly simulating the game from that state.
 
-Let $N(s,i)$ denote the number of times a state, $s$ has been visited after the $t$th iteration of MCTS, and $U(s,i)$ denote the cumulative utility obtained.
+Let $N(s,i)$ denote the number of times a state, $s$ has been visited after the $t$th iteration of MCTS, and $U(s,i)$ denote the cumulative utility obtained. During each iteration of MTCS, we perform the following steps:
 
-**Alg. MTCS:**
-> 1: **for** $i = 1, \dots, \tau$:<br>
-> 2: &nbsp;&nbsp;&nbsp;&nbsp;**Selection**: Starting from $s_0$, choose actions, $a_1, \dots, a_j$, where $a_{j+1} \in \mathcal{A}(s_i), s_j = a_i(s_{j-1})$ and $s_t$ is the first node with unexplored children; the actions should be chosen according to a selection policy that balances exploration versus exploitation.<br>
-> 3: &nbsp;&nbsp;&nbsp;&nbsp;**Expansion**: Expand $s_t$ to reveal a child, $s_{t+1}$, and update $N(s,\cdot)$ so that:
+1. **Selection**: Starting from $s_0$, choose actions, $a_1, \dots, a_j$, where $a_{j+1} \in \mathcal{A}(s_i), s_j = a_i(s_{j-1})$ and $s_t$ is the first node with unexplored children; the actions should be chosen according to a selection policy that balances exploration versus exploitation.
+
+3. **Expansion**: Expand $s_t$ to reveal a child, $s_{t+1}$, and update $N(s,\cdot)$ so that:
 \\[\begin{aligned}N(s,i) = \begin{cases} N(s,i-1) + 1, &s = s_0, \dots, s_k, s_{t+1} \\\\\\
 N(s,i-1), &\text{otherwise}\end{cases}\end{aligned}\\]
-> 4: &nbsp;&nbsp;&nbsp;&nbsp;**Simulation**: Simulate a game from $s_{t+1}$ to some terminal state by randomly selecting successive actions; let $s_{t+2}, \dots, s_{T}$ denote the resulting states, where $s_T \in \mathcal{T}$.
-> 5: &nbsp;&nbsp;&nbsp;&nbsp;**Back-Propagation**: For $t = 1, \dots, T-1$, update $U$ so that $U(s\_t,i) + U(s\_t,i-1) + (-1)^{T-t-1}\mu(s_n)$ and estimate $u(s)$ as
+
+3. **Simulation**: Simulate a game from $s_{t+1}$ to some terminal state by randomly selecting successive actions; let $s_{t+2}, \dots, s_{T}$ denote the resulting states, where $s_T \in \mathcal{T}$.
+
+4. **Back-Propagation**: For $t = 1, \dots, T-1$, update $U$ so that $U(s\_t,i) + U(s\_t,i-1) + (-1)^{T-t-1}\mu(s_n)$ and estimate $u(s)$ as
 \\[\hat{u}(s,i) = \frac{U(s,i)}{N(s,i)},\\]
 where the factor $(-1)^{T-t+1}$ modifies $\mu(s\_T)$ to be from the perspective of the turn-taker at $t$.
 
