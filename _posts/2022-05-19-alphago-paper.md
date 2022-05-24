@@ -2,6 +2,8 @@
 layout: post
 title: "Understanding AlphaGo"
 author: "Chandra Gummaluru"
+header-includes:
+  - \usepackage[ruled,vlined,linesnumbered]{algorithm2e}
 ---
 
 ## The Game of Go
@@ -161,8 +163,8 @@ Solving the above for $w$ is still very difficult, but we can approximate it via
 
 1. choose an arbitrary $w_0$
 2. **for** $i = 1, \dots, \tau$:
-3.     select a random subset of $\mathcal{D}$ and compute $\nabla_w\log\left(\text{Pr}\lbrace \mathcal{D} \rbrace\right)$ under $p\_{w_\i}$
-4.     update $w_{i+1} = w_{i} + \alpha\nabla_w\log\left(\text{Pr}\lbrace \mathcal{D} \rbrace\right)$, where $\alpha$ is some scalar
+3. <br><br><br><br>select a random subset of $\mathcal{D}$ and compute $\nabla_w\log\left(\text{Pr}\lbrace \mathcal{D} \rbrace\right)$ under $p\_{w_\i}$
+4. <br><br><br><br>update $w_{i+1} = w_{i} + \alpha\nabla_w\log\left(\text{Pr}\lbrace \mathcal{D} \rbrace\right)$, where $\alpha$ is some scalar
 
 Intuitively, should update $w$ in the direction of $\nabla_w\log\left(\text{Pr}\lbrace \mathcal{D} \rbrace\right)$ since this is the direction along which $\text{Pr}\lbrace \mathcal{D} \rbrace$ increases the most.
 
@@ -193,8 +195,28 @@ AlphaGo combines all of the aforementioned methods.
 
 The distribution, $p_w$ is modelled as a deep neural-network (DNN). More specifically,
 
-SL is used to tune $w$ so that $p_w$ mimics the moves made by expert players. The dataset consists of a set of state-action pairs, as opposed to a set of complete games, i.e.,
+Alg. SL was used to tune $w$ so that $p_w$ mimics the moves made by expert players. The dataset consists of a set of state-action pairs, as opposed to a set of complete games, i.e.,
 \\[\mathcal{D} = \left\lbrace \left(s^{(k)},a^{(k)}\right), s^{(k)} \in \mathcal{S}, a^{(k)} \in \mathcal{A}\left(s^{(k)}\right) \right\rbrace\_{k=1}^{N},\\]
 where $a^{(k)}$ is the action that an expert played when in state $s^{(k)}$.
 
-Training was performed using Alg. SL.
+\\[
+\begin{algorithm}[H]
+\DontPrintSemicolon
+\SetAlgoLined
+\KwResult{Write here the result}
+\SetKwInOut{Input}{Input}\SetKwInOut{Output}{Output}
+\Input{Write here the input}
+\Output{Write here the output}
+\BlankLine
+\While{While condition}{
+    instructions\;
+    \eIf{condition}{
+        instructions1\;
+        instructions2\;
+    }{
+        instructions3\;
+    }
+}
+\caption{While loop with If/Else condition}
+\end{algorithm}
+\\]
