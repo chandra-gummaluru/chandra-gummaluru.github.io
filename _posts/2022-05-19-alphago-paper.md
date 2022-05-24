@@ -206,17 +206,12 @@ The distribution, $p_w$ is modelled as a deep neural-network (DNN). The state is
 Thus, the actual input to the DNN is a $48$ channel $19 \times 19 \times$ binary image. The architecture of the DNN is as follows:
 
 | Layer | Input Dimension | Padding | Input Channels | Filter Size  | Output Dimension | Output Channels | Non-Linearity |
-|-------|-----------------|---------|----------------|--------------|------------------|-----------------|---------------|
+|:-------:|:-----------------:|:---------:|:----------------:|:--------------:|:------------------:|:-----------------:|:---------------:|
 |   1   |  $19 \times 19$ |   $4$   |      $48$      | $5 \times 5$ |  $19 \times 19$  |       192       |      ReLu     |
 |  2-12 |  $19 \times 19$ |   $3$   |      $192$     | $3 \times 3$ |  $19 \times 19$  |       192       |      ReLu     |
-|       |                 |         |                |              |                  |                 |               |
+|   13  |  $19 \times 19$ |   $0$   |      $192$     | $1 \times 1$ |  $19 \times 19$  |        1        |    SoftMax    |
    
-    -  zero-pads the input so that each channel is a $23 \times 23$ image; it convolves its input with $k$ filters of size $5 \times 5$; the output is a $48$ channel $19 \times 19$ image
-
-
-1. zero-padding to $23 \times 23 \times 48$; convolutional layer with $k$ filters of size $5 \times 5$;
-
-It is zero-padded to be $23 \times 23$. 
+This is visualized below:
 
 Alg. SL was used to tune $w$ so that $p_w$ mimics the moves made by expert players. The dataset consists of a set of state-action pairs, as opposed to a set of complete games, i.e.,
 \\[\mathcal{D} = \left\lbrace \left(s^{(k)},a^{(k)}\right), s^{(k)} \in \mathcal{S}, a^{(k)} \in \mathcal{A}\left(s^{(k)}\right) \right\rbrace\_{k=1}^{N},\\]
