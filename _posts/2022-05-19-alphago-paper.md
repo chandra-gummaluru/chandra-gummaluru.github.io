@@ -73,7 +73,7 @@ In most cases, we do not know $p(\cdot \lvert s)$ if the adversary is the turn-t
 \\[\begin{aligned}u(s) = \begin{cases}
 \displaystyle \mu(s), &s \in \mathcal{T} \\\\\\
 \displaystyle\max_{s' \in S(s)}\lbrace u(s') \rbrace, &s \not\in \mathcal{T} \text{ and our agent is the turn-taker} \\\\\\
-\displaystyle\min_{s' \in S(s)}\lbrace u(s') \rbrace, &s \not\in \mathcal{T} \text{ and the adversary is the turn-taker}
+\displaystyle\min_{s' \in S(s)}\lbrace -u(s') \rbrace, &s \not\in \mathcal{T} \text{ and the adversary is the turn-taker}
 \end{cases}\end{aligned}\tag{MM}\label{eq_mm_recurrence}\\]
 
 where the expectations are no longer necessary since $u$ is effectively deterministic. This is called the **min-max** algorithm.
