@@ -76,7 +76,7 @@ In most cases, we do not know $p(\cdot \lvert s)$ if the adversary is the turn-t
 \displaystyle\min_{s' \in S(s)}\lbrace -u(s') \rbrace, &s \not\in \mathcal{T} \text{ and the adversary is the turn-taker}
 \end{cases}\end{aligned}\tag{MM}\label{eq_mm_recurrence}\\]
 
-where the expectations are no longer necessary since $u$ is effectively deterministic. This is called the **min-max** algorithm.
+where the expectations are no longer necessary since $u$ is effectively deterministic. This is called the **min-max** algorithm<sup>1</sup>.
 
 To compute the utilities. the agent must traverse the tree until a state, $s$, is reached whose successors are all leaves, and then compute $\text{Ev}\lbrace u(s) \rbrace$ by working back up the tree.
 
@@ -201,4 +201,8 @@ where $a^{(k)}$ is the action that an expert played when in state $s^{(k)}$.
 
 The resulting policy, which we denote with $p\_{\sigma}$, was improved using Alg. RL.
 
+---
+<sup>1</sup> In the context of the min-max algorithm, it is more common to use the utility function of the turn-taker at the root as opposed to $\mu$.
+
+## References
 \[^1\] Silver, D., Huang, A., Maddison, C. et al. Mastering the game of Go with deep neural networks and tree search. Nature 529, 484–489 (2016). https://doi.org/10.1038/nature16961
