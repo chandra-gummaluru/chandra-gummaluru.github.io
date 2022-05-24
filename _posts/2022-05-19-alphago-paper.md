@@ -205,12 +205,11 @@ The distribution, $p_w$ is modelled as a deep neural-network (DNN). The state is
 
 Thus, the actual input to the DNN is a $48$ channel $19 \times 19 \times$ binary image. The architecture of the DNN is as follows:
 
-- **layer 1:**
-    -  input: $48$ channel $19 \times 19$ binary image
-    -  zero-padding: $48$ channel $23 \times 23$ binary image
-    -  convolution: $k$ filters of size $5 \times 5
-    -  rectifying non-linearity; applies $\text{max}(0, \cdot)$ point-wise
-    -  output: $48$ channel $19 \times 19$ binary image
+| Layer | Input Dimension | Padding | Input Channels | Filter Size  | Output Dimension | Output Channels | Non-Linearity |
+|-------|-----------------|---------|----------------|--------------|------------------|-----------------|---------------|
+|   1   |  $19 \times 19$ |   $4$   |      $48$      | $5 \times 5$ |  $19 \times 19$  |       192       |      ReLu     |
+|  2-12 |  $19 \times 19$ |   $3$   |      $192$     | $3 \times 3$ |  $19 \times 19$  |       192       |      ReLu     |
+|       |                 |         |                |              |                  |                 |               |
    
     -  zero-pads the input so that each channel is a $23 \times 23$ image; it convolves its input with $k$ filters of size $5 \times 5$; the output is a $48$ channel $19 \times 19$ image
 
