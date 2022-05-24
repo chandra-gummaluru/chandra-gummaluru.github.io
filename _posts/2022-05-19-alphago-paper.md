@@ -200,6 +200,7 @@ AlphaGo\[^1\] sought to learn $p$ as well as possible, use it to approximate the
 
 The authors consider the case where $N = 19$.
 
+### Modelling $p\_w$
 The distribution, $p_w$ is modelled as a deep neural-network (DNN). The state is represented as a matrix, $s \in \lbrace -1, 0, 1 \rbrace^{19 \times 19}$. However, before being input to the DNN, several features are computed.
 
 
@@ -211,7 +212,7 @@ Thus, the actual input to the DNN is a $48$ channel $19 \times 19 \times$ binary
 |  2-12 |  $19 \times 19$ |   $3$   |      $192$     | $3 \times 3$ |  $19 \times 19$  |       192       |      ReLu     |
 |   13  |  $19 \times 19$ |   $0$   |      $192$     | $1 \times 1$ |  $19 \times 19$  |        1        |    SoftMax    |
    
-This is visualized below:
+![](https://raw.githubusercontent.com/chandra-gummaluru/chandra-gummaluru.github.io/42464190ca0f53949118d02ea0d451e396edb112/media/go/cnn1.svg)*The DNN used to model $p_w$.*
 
 Alg. SL was used to tune $w$ so that $p_w$ mimics the moves made by expert players. The dataset consists of a set of state-action pairs, as opposed to a set of complete games, i.e.,
 \\[\mathcal{D} = \left\lbrace \left(s^{(k)},a^{(k)}\right), s^{(k)} \in \mathcal{S}, a^{(k)} \in \mathcal{A}\left(s^{(k)}\right) \right\rbrace\_{k=1}^{N},\\]
