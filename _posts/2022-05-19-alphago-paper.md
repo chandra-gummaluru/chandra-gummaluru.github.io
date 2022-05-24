@@ -159,9 +159,9 @@ Solving the above for $w$ is still very difficult, but we can approximate it via
 
 **Alg. SL:**
 
-> 1: choose an arbitrary $w_0$
-> 2: **for** $i = 1, \dots, \tau$:
-> 3: &nbsp;&nbsp;&nbsp;&nbsp;select a random subset of $\mathcal{D}$ and compute $\nabla_w\log\left(\text{Pr}\lbrace \mathcal{D} \rbrace\right)$ under $p\_{w\_i}$
+> 1: choose an arbitrary $w_0$<br>
+> 2: **for** $i = 1, \dots, \tau$:<br>
+> 3: &nbsp;&nbsp;&nbsp;&nbsp;select a random subset of $\mathcal{D}$ and compute $\nabla_w\log\left(\text{Pr}\lbrace \mathcal{D} \rbrace\right)$ under $p\_{w\_i}$<br>
 > 4: &nbsp;&nbsp;&nbsp;&nbsp;$w_{i+1} = w_{i} + \alpha\nabla_w\log\left(\text{Pr}\lbrace \mathcal{D} \rbrace\right)$, where $\alpha$ is some scalar
 
 Intuitively, should update $w$ in the direction of $\nabla_w\log\left(\text{Pr}\lbrace \mathcal{D} \rbrace\right)$ since this is the direction along which $\text{Pr}\lbrace \mathcal{D} \rbrace$ increases the most.
@@ -182,9 +182,9 @@ Computing $\nabla_w\text{Pv}\lbrace \hat{u}\_N(s\_0) \rbrace$ is very difficult,
 
 Solving the above for $w$ is still very difficult, but we can approximate it via an iterative approach:
 
-1. choose an arbitrary $w_0$
-2. in each iteration, $i$, simulate $N$ games under $p\_{w\_i}$ and compute $\nabla_w\log\left(\text{Ev}\lbrace \hat{u}\_N(s\_0) \rbrace\right)$.
-3. update $w_{i+1} = w_{i} + \alpha\nabla_w\log\left(\text{Ev}\lbrace \hat{u}\_N(s\_0) \rbrace\right)$, where $\alpha$ is some scalar
+> 1: choose an arbitrary $w_0$<br>
+> 2: in each iteration, $i$, simulate $N$ games under $p\_{w\_i}$ and compute $\nabla_w\log\left(\text{Ev}\lbrace \hat{u}\_N(s\_0) \rbrace\right)$<br>
+> 3: update $w_{i+1} = w_{i} + \alpha\nabla_w\log\left(\text{Ev}\lbrace \hat{u}\_N(s\_0) \rbrace\right)$, where $\alpha$ is some scalar
 
 Intuitively, we should update $w$ in the direction of $\nabla_w\log\left(\text{Ev}\lbrace \hat{u}\_N(s\_0) \rbrace\right)$ since this is the direction along which $\text{Ev}\lbrace \hat{u}\_N(s\_0) \rbrace$ increases the most.
 
