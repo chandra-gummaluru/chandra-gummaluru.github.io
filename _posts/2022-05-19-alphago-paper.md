@@ -186,17 +186,6 @@ Solving the above for $w$ is still very difficult, but we can approximate it via
 Intuitively, we should update $w$ in the direction of $\nabla_w\log\left(\text{Ev}\lbrace \hat{u}\_N(s\_0) \rbrace\right)$ since this is the direction along which $\text{Ev}\lbrace \hat{u}\_N(s\_0) \rbrace$ increases the most.
 
 ## The AlphaGo Pipeline
-Conventionally, MCTS is used where $p$ is uniform, i.e., we have no knowledge of how good moves are aprori. However, AlphaGo uses a simulation policy that has been learned via a dataset of expert moves, and refined using self-play reinforcement learning. Moreover, instead of estimating $\hat{u}(s,N_s)$ as sample mean of simulation results, it also 
+AlphaGo combines all of the aforementioned methods.
 
-
-The techniques used by AlphaGo are fairly standard; the novelity is in how these techniques are combined. The appraoch can be summarized as follows:
-
-1. Using supervised learning, a model, $\rho$, is trained to predict the distribution of made by expert Go players for any given board configuration.
-2. Through self-play reinforcement learning, $\rho$ is refined.
-3. 
-
-### Training the Value-Function
-To compute the value-function, the authors began with an initial estimate of it. For now,  
-
-### Initializing the Value-Function
-The first goal of AlphaGo was to decide on an initial value-function, $h: \mathcal{S} \rightarrow \mathbb{R}$. Of course, one could pick any arbitrary function. However,  
+It begins by using SL to tune $w$ to mimic the moves made by expert players. However, rather than using a dataset of complete games, as was previously described, it uses a dataset of state-action pairs, $\mathcal{D} = \left\lbrace (s^{(k)},a^{(k+1)}), s^{(k)} \in \mathcal{S}, a^{(k+1)} \in \mathcal{A}\left(s^{(k)}\right) \right\rbrace\_{k=1}^{N}$
