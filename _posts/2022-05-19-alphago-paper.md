@@ -192,4 +192,6 @@ The distribution, $p_w$ is modelled as a deep neural-network (DNN). More specifi
 
 SL is used to tune $w$ so that $p_w$ mimics the moves made by expert players. The dataset consists of a set of state-action pairs, as opposed to a set of complete games, i.e.,
 \\[\mathcal{D} = \left\lbrace \left(s^{(k)},a^{(k)}\right), s^{(k)} \in \mathcal{S}, a^{(k)} \in \mathcal{A}\left(s^{(k)}\right) \right\rbrace\_{k=1}^{N},\\]
-where $a^{(k+1)}$ is the action that an expert played when in state $s^{(k)}$.
+where $a^{(k)}$ is the action that an expert played when in state $s^{(k)}$.
+
+Training was performed using Alg. 1, but by randomly selecting a subset of $\mathcal{D]$ of size $M$ during each iteration instead of using $\mathcal{D}$ in its entirety.
