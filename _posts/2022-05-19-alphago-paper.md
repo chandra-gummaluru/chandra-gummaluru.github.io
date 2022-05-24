@@ -134,7 +134,7 @@ The $\delta$ **upper confidence bound** of $\hat{u}(s,t)$ is
 
 We want $\delta$ to get smaller as the number of iterations gets larger. If we let $\delta = t^{-c}$ for some $c \geq 1$ and choose actions according to the selection policy:
 \\[\hat{a}(s,t) = \text{arg max}_{a \in \mathcal{A}(s)}\text{UCB}\_{t^{-c}}\left(\hat{u}(s,t)\right) = \text{arg max}\_{a \in \mathcal{A}(s)}\left\lbrace\hat{u}(s,t) + \sqrt{\frac{2c\log t}{N(s,t)}}\right\rbrace,\tag{UCT}\\]
-then for large $N(s,t)$, it follows that $\hat{a}(s,t) \approx a^\*(s)$ in the sense that $u(\hat{a}(s,t)) \approx u(a^\*(s))$. We could have also defined the selection policy in terms of the $\delta$ **lower confidence bound**, but ineither case, we see that the action identified by the resulting MTCS will have the same expected utility as the one identified by the min-max algorithm.
+then for large $N(s,t)$, it follows that $\hat{a}(s,t) \approx a^\*(s)$ in the sense that $u(\hat{a}(s,t)) \approx u(a^\*(s))$. We could have also defined the selection policy in terms of the $\delta$ **lower confidence bound**, but in either case, we see that the action identified by the resulting MTCS will have the same expected utility as the one identified by the min-max algorithm.
 
 ## Learning Techniques
 A completly different approach is to learn $p$ ahead of time from a family of distributions, $p_w$, where $w$ is a set of weights that we can tune. Obviously, we want to choose $w$ so that $p_w$ approximates $p$ as defined in (1).
