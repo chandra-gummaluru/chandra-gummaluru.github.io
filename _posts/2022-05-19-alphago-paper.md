@@ -32,7 +32,7 @@ The game is represented mathematically as a tuple, $(\mathcal{S}, \mathcal{T}, \
 - $\mathcal{S}$ is a set of **states**
 - $\mathcal{T} \subseteq \mathcal{S}$ is the subset of the states in which the game ends, called **terminal states**
 - $\mathcal{A}$ is a set-valued function such that $\mathcal{A}(s)$ is the set of feasiable **actions** from state, $s \in \mathcal{S}$
-- $\mu: \mathcal{T} \rightarrow \lbrace -1, 0, 1\rbrace$ is a utility function defined so that $\mu(s) = 1$ if $s$ is a winning state for the player who made the final move, $\mu(s) = -1$ if $s$ is a losing state for the player who made the final move, and $\mu(s) = 0$ if $s$ is a tie state; the utility for the other player at $s$ is assumed to be $-\mu(s)$.
+- $\mu: \mathcal{T} \rightarrow \lbrace -1, 0, 1\rbrace$ is a utility function defined so that $\mu(s) = 1$ if $s$ is a winning state for the turn-taker's adversary, $\mu(s) = -1$ if $s$ is a losing state for the turn-taker's adversary, and $\mu(s) = 0$ if $s$ is a tie state; the utility for the other player at $s$ is assumed to be $-\mu(s)$.
 
 Each state, $s \in \mathcal{S}$ includes the board configuration and the player whose turn it is. When an action, $a \in \mathcal{A}(s)$ is played by the turn-taker, the result is a new state, $a(s) \in \mathcal{S}$, which is called a **successor** of $s$. The set of all successors of $s$ is $\mathcal{S}(s) = \left\lbrace a(s), a \in \mathcal{A}(s) \right\rbrace$.
 
@@ -47,7 +47,9 @@ Let $u(s)$ be the utility obtained from a specific realization of the game start
 where $\text{Ev}\lbrace u(s) \rbrace$ can be computed via the recurrence:
 
 \\[\text{Ev}\lbrace u(s) \rbrace = \begin{cases} \displaystyle\mu(s), s \in \mathcal{T} \\\\\\
-\displaystyle\sum_{a \in \mathcal{S}}p(a\lvert s)\text{Ev}\lbrace u(a(s)) \rbrace. s \not\in \mathcal{T} \end{cases}\\]
+\displaystyle\sum_{a \in \mathcal{S}}p(a\lvert s)\text{Ev}\lbrace u(a(s)) \rbrace. s \not\in \mathcal{T} \end{cases}.\\]
+
+Since we defined $u$ to always be from the perspective of the turn-taker's adversary, $u(a(s))$$ will always be from the perspective of the turn-taker at $s$; thus, it can always be maximized.
 ## Brute-Force Search Techniques
 An obvious approach is to saearch the game tree explicitly for the best action during live play.
 ### The Ideal Algorithm
