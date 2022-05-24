@@ -5,7 +5,7 @@ author: "Chandra Gummaluru"
 ---
 
 ## The Game of Go
-Go is a 2-player strategic board game in which the aim is to surround the most territory. It is played on a grid of $N \times N$ points. Players take turns placing stones, one at a time, on the board:
+Go is a 2-player strategic board game in which the aim is to surround the most territory. It is played on a grid of $N \times N$ points (typically $N = 13, 19$). Players take turns placing stones, one at a time, on the board:
 
 - the unoccupied points that are orthogonally adjacent to a stone are called its "liberties"
 
@@ -198,8 +198,19 @@ Intuitively, we should update $w$ in the direction of $\nabla_w\log\left(\text{E
 ## The AlphaGo Pipeline
 AlphaGo\[^1\] sought to learn $p$ as well as possible, use it to approximate the utility function, and then use that approximation in place of an actual simulation in MTCS. More specifically, suppose $p\_{\rho}$ approximates $p$, and this is used to approximate $u$.
 
+The authors consider the case where $N = 19$.
 
-The distribution, $p_w$ is modelled as a deep neural-network (DNN). More specifically,
+The distribution, $p_w$ is modelled as a deep neural-network (DNN). The state is represented as a matrix, $s \in \lbrace -1, 0, 1 \rbrace^{19 \times 19}$. However, before being input to the DNN, several features are computed.
+
+
+Thus, the actual input to the DNN is a $48$ channel $19 \times 19 \times$ binary image. The architecture of the DNN is as follows:
+
+- The first layer zero-pads the input so that each channel is a $23 \times 23$ image; it convolves its input with $k$ filters of size $5 \times 5$; the output is a $48$ channel $19 \times 19$ image
+
+
+1. zero-padding to $23 \times 23 \times 48$; convolutional layer with $k$ filters of size $5 \times 5$;
+
+It is zero-padded to be $23 \times 23$. 
 
 Alg. SL was used to tune $w$ so that $p_w$ mimics the moves made by expert players. The dataset consists of a set of state-action pairs, as opposed to a set of complete games, i.e.,
 \\[\mathcal{D} = \left\lbrace \left(s^{(k)},a^{(k)}\right), s^{(k)} \in \mathcal{S}, a^{(k)} \in \mathcal{A}\left(s^{(k)}\right) \right\rbrace\_{k=1}^{N},\\]
