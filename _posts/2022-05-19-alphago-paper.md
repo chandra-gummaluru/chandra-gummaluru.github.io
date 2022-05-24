@@ -115,7 +115,7 @@ N(s,i-1), &\text{otherwise}\end{cases}\end{aligned}\\]
 
 3. **Simulation**: Simulate a game from $s_{t+1}$ to some terminal state by randomly selecting successive actions; let $s_{t+2}, \dots, s_{T}$ denote the resulting states, where $s_T \in \mathcal{T}$.
 
-4. **Back-Propagation**: For $t = 1, \dots, T-1$, update $U$ so that $U(s\_t,i) + U(s\_t,i-1) + (-1)^{T-t-1}\mu(s_n)$ and estimate $u(s)$ as
+4. **Back-Propagation**: For $t = 1, \dots, T-1$, let $U(s\_t,i) = U(s\_t,i-1) + (-1)^{T-t-1}\mu(s_n)$ and estimate $u(s)$ as
 \\[\hat{u}(s,i) = \frac{U(s,i)}{N(s,i)},\\]
 where the factor $(-1)^{T-t+1}$ modifies $\mu(s\_T)$ to be from the perspective of the turn-taker at $t$.
 
@@ -196,7 +196,8 @@ Solving the above for $w$ is still very difficult, but we can approximate it via
 Intuitively, we should update $w$ in the direction of $\nabla_w\log\left(\text{Ev}\lbrace \hat{u}\_N(s\_0) \rbrace\right)$ since this is the direction along which $\text{Ev}\lbrace \hat{u}\_N(s\_0) \rbrace$ increases the most.
 
 ## The AlphaGo Pipeline
-AlphaGo\[^1\] combines all of the aforementioned methods.
+AlphaGo\[^1\] sought to learn $p$ as well as possible, use it to approximate the utility function, and then use that approximation in place of an actual simulation in MTCS. More specifically, suppose $p\_{\rho}$ approximates $p$, and this is used to approximate $u$.
+
 
 The distribution, $p_w$ is modelled as a deep neural-network (DNN). More specifically,
 
