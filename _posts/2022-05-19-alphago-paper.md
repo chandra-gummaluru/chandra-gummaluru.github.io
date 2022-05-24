@@ -146,7 +146,7 @@ The actions taken during the $n$th game were $a\_1^{(n)}, \dots, a\_{T^{(n)}}^{(
 
 We want to choose $w$ to maximize the probability of the games in $\mathcal{D}$ occurring, i.e.,
 
-\\[\text{Pr}\lbrace \mathcal{D} \rbrace = \sum\_{n=1}^{N}\prod\_{t=1}^{T^{(n)}}p\_w\left(a\_t^{(n)} \lvert s\_{t-1}^{(n)}\right).\\]
+\\[\text{Pr}\lbrace \mathcal{D} \rbrace = \prod\_{n=1}^{N}\prod\_{t=1}^{T^{(n)}}p\_w\left(a\_t^{(n)} \lvert s\_{t-1}^{(n)}\right).\\]
 
 A necessary condition for the desired $w$ is that the partial derivative of the above expression w.r.t. $w$ is zero, i.e.,
 \\[\nabla_w\text{Pr}\lbrace \mathcal{D} \rbrace = 0.\\]
