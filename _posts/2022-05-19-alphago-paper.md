@@ -191,10 +191,13 @@ Solving the above for $w$ is still very difficult, but we can approximate it via
 Intuitively, we should update $w$ in the direction of $\nabla_w\log\left(\text{Ev}\lbrace \hat{u}\_N(s\_0) \rbrace\right)$ since this is the direction along which $\text{Ev}\lbrace \hat{u}\_N(s\_0) \rbrace$ increases the most.
 
 ## The AlphaGo Pipeline
-AlphaGo combines all of the aforementioned methods.
+AlphaGo[^1] combines all of the aforementioned methods.
 
 The distribution, $p_w$ is modelled as a deep neural-network (DNN). More specifically,
 
 Alg. SL was used to tune $w$ so that $p_w$ mimics the moves made by expert players. The dataset consists of a set of state-action pairs, as opposed to a set of complete games, i.e.,
 \\[\mathcal{D} = \left\lbrace \left(s^{(k)},a^{(k)}\right), s^{(k)} \in \mathcal{S}, a^{(k)} \in \mathcal{A}\left(s^{(k)}\right) \right\rbrace\_{k=1}^{N},\\]
 where $a^{(k)}$ is the action that an expert played when in state $s^{(k)}$.
+
+
+[^1] Silver, D., Huang, A., Maddison, C. et al. Mastering the game of Go with deep neural networks and tree search. Nature 529, 484–489 (2016). https://doi.org/10.1038/nature16961
