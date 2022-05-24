@@ -182,6 +182,7 @@ Computing $\nabla_w\text{Pv}\lbrace \hat{u}\_N(s\_0) \rbrace$ is very difficult,
 
 Solving the above for $w$ is still very difficult, but we can approximate it via an iterative approach:
 
+**Alg. RL:**
 > 1: choose an arbitrary $w_0$<br>
 > 2: **for** $i = 1, \dots, \tau$:<br>
 > 3: simulate $N$ games under $p\_{w\_i}$ and compute $\nabla_w\log\left(\text{Ev}\lbrace \hat{u}\_N(s\_0) \rbrace\right)$<br>
