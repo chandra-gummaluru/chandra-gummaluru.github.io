@@ -198,13 +198,13 @@ Intuitively, we should update $w$ in the direction of $\nabla_w\log\left(\text{E
 ## The AlphaGo Pipeline
 AlphaGo\[^1\] sought to learn $p$ as well as possible, use it to approximate the utility function, and then use that approximation in place of an actual simulation in MTCS. More specifically, suppose $p\_{\rho}$ approximates $p$, and this is used to approximate $u$.
 
-The authors consider the case where $N = 19$.
+The authors consider the case where $N = 19$. The state is represented as a matrix, $s \in \lbrace -1, 0, 1 \rbrace^{19 \times 19}$.
 
-### Modelling $p\_w$
-The distribution, $p_w$ is modelled as a deep neural-network (DNN). The state is represented as a matrix, $s \in \lbrace -1, 0, 1 \rbrace^{19 \times 19}$. However, before being input to the DNN, several features are computed.
+### Modelling $p$
+The authors model $p$ as a deep neural-network (DNN), $p_w$, which we henceforth refer to as the **policy network**. The input to the DNN, several features are computed.
 
 
-Thus, the actual input to the DNN is a $48$ channel $19 \times 19 \times$ binary image. The architecture of the DNN is as follows:
+The architecture of the policy network is as follows:
 
 | Layer | Input Dimension | Padding | Input Channels | Filter Size  | Output Dimension | Output Channels | Non-Linearity |
 |:-------:|:-----------------:|:---------:|:----------------:|:--------------:|:------------------:|:-----------------:|:---------------:|
@@ -214,11 +214,17 @@ Thus, the actual input to the DNN is a $48$ channel $19 \times 19 \times$ binary
    
 ![](https://raw.githubusercontent.com/chandra-gummaluru/chandra-gummaluru.github.io/42464190ca0f53949118d02ea0d451e396edb112/media/go/cnn1.svg)*The DNN used to model $p_w$.*
 
+### Approximating $p$ via SL
 Alg. SL was used to tune $w$ so that $p_w$ mimics the moves made by expert players. The dataset consists of a set of state-action pairs, as opposed to a set of complete games, i.e.,
-\\[\mathcal{D} = \left\lbrace \left(s^{(k)},a^{(k)}\right), s^{(k)} \in \mathcal{S}, a^{(k)} \in \mathcal{A}\left(s^{(k)}\right) \right\rbrace\_{k=1}^{N},\\]
-where $a^{(k)}$ is the action that an expert played when in state $s^{(k)}$.
+\\[\mathcal{D}\_{1} = \left\lbrace \left(s^{(k)},a^{(k)}\right), s^{(k)} \in \mathcal{S}, a^{(k)} \in \mathcal{A}\left(s^{(k)}\right) \right\rbrace\_{k=1}^{N},\\]
+where $a^{(k)}$ is the action that an expert played when in state $s^{(k)}$. The resulting policy is denoted $p\_{\sigma}$; it achieved an Elo rating of 1517.
 
-The resulting policy, which we denote with $p\_{\sigma}$ was able to achieve an Elo rating of 1517. It was improved using Alg. RL.
+### Improving $p$ via RL
+
+### Learning $u$ via SL
+The policy $p\_{\rho}$ was used to train a network that can model.
+
+The authors model $u$ as a deep neural-network (DNN), $u\_v$, which we henceforth refer to as the **value network**. The input is identical to that of the policy network. Training consisted of using $p_{\rho}$ to generate a new set of games; from each game, $s\_1,\dots,s\_{T}$, a random state $s_t \not\in \mathcal{T}$ was selected and paired with the terminal utility, $\mu(s\_T)$. The resulting dataset is denoted $\mathcal{D}\_2$.
 
 ---
 <sup>1</sup>In the context of the min-max algorithm, it is more common to use the utility function of the turn-taker at the root as opposed to $\mu$.
