@@ -101,40 +101,40 @@ We can resolve the exploration versus exploitation dilemma and avoid needing an 
 
 We can then estimate the utility of a state, $s$, by repeatedly simulating the game from that state.
 
-Let $N(s,t)$ denote the number of times a state, $s$ has been visited after the $t$th iteration of MCTS, and $U(s,t)$ denote the cumulative utility obtained.
+Let $N(s,i)$ denote the number of times a state, $s$ has been visited after the $t$th iteration of MCTS, and $U(s,i)$ denote the cumulative utility obtained.
 
 Each iteration has four phases:
 
-1. **Selection**: Starting from $s_0$, choose actions, $a_1, \dots, a_k$, where $a_{i+1} \in \mathcal{A}(s_i), s_i = a_i(s_{i=1})$ and $s_k$ is the first node with unexplored children; the actions should be chosen according to a selection policy that balances exploration versus exploitation.
+1. **Selection**: Starting from $s_0$, choose actions, $a_1, \dots, a_j$, where $a_{j+1} \in \mathcal{A}(s_i), s_j = a_i(s_{j-1})$ and $s_t$ is the first node with unexplored children; the actions should be chosen according to a selection policy that balances exploration versus exploitation.
 
-2. **Expansion**: Expand $s_k$ to reveal a child, $s_{k+1}$, and update $N(s,\cdot)$ so that:
-\\[\begin{aligned}N(s,t) = \begin{cases} N(s,t-1) + 1, &s = s_0, \dots, s_k, s_{k+1} \\\\\\
-N(s,t-1), &\text{otherwise}\end{cases}\end{aligned}\\]
+2. **Expansion**: Expand $s_t$ to reveal a child, $s_{t+1}$, and update $N(s,\cdot)$ so that:
+\\[\begin{aligned}N(s,i) = \begin{cases} N(s,i-1) + 1, &s = s_0, \dots, s_k, s_{k+1} \\\\\\
+N(s,i-1), &\text{otherwise}\end{cases}\end{aligned}\\]
 3. **Simulation**: Simulate a game from $s_{k+1}$ to some terminal state by randomly selecting successive actions; let $s_{k+2}, \dots, s_{n}$ denote the resulting states, where $s_n \in \mathcal{T}$.
-4. **Back-Propagation**: For $s = s_0, \dots, s_n$, update $U$ so that $U(s,t) + U(s,t-1) + \mu(s_n)$ and estimate $u(s)$ as
-\\[\hat{u}(s,t) = \frac{U(s,t)}{N(s,t)}.\\]
+4. **Back-Propagation**: For $s = s_0, \dots, s_n$, update $U$ so that $U(s,i) + U(s,i-1) + \mu(s_n)$ and estimate $u(s)$ as
+\\[\hat{u}(s,i) = \frac{U(s,i)}{N(s,i)}.\\]
 
-Since $\hat{u}(s,t)$ is the mean of $N(s,t)$ independent random variables bounded within $[-1,1]$, we can use Hoeffding's inequality to upper bound the probability that the difference between $\hat{u}(s,t)$ and $\mu(s)$ exceeds some threshold, $\varepsilon$:
+Since $\hat{u}(s,i)$ is the mean of $N(s,i)$ independent random variables bounded within $[-1,1]$, we can use Hoeffding's inequality to upper bound the probability that the difference between $\hat{u}(s,i)$ and $\mu(s)$ exceeds some threshold, $\varepsilon$:
 
-\\[\text{Pr}\left\lbrace \lvert \hat{u}(s,t) - u(s) \rvert \geq \varepsilon \right\rbrace \leq 2\exp\left\lbrace -\frac{N(s,t)\varepsilon^2}{2} \right\rbrace.\\]
+\\[\text{Pr}\left\lbrace \lvert \hat{u}(s,i) - u(s) \rvert \geq \varepsilon \right\rbrace \leq 2\exp\left\lbrace -\frac{N(s,i)\varepsilon^2}{2} \right\rbrace.\\]
 
-We see that as $N(s,t) \rightarrow \infty$, then $\text{Pr}\left\lbrace \lvert \hat{u}(s,t) - u(s) \rvert \geq \varepsilon \right\rbrace \rightarrow 0$ for any $\varepsilon > 0$. In other words, for large $N(s,t)$, we can write $\hat{u}(s,t) \approx u(s)$.
+We see that as $N(s,i) \rightarrow \infty$, then $\text{Pr}\left\lbrace \lvert \hat{u}(s,i) - u(s) \rvert \geq \varepsilon \right\rbrace \rightarrow 0$ for any $\varepsilon > 0$. In other words, for large $N(s,i)$, we can write $\hat{u}(s,i) \approx u(s)$.
 
 To derive the selection policy, we first set the right side of (2) to equal $\delta$ and solve for $\varepsilon$:
 
-\\[\varepsilon = \sqrt{-\frac{2\log{\delta}}{N(s,t)}} := \text{CR}_\{\delta\}\left(\hat{u}(s,t)\right)\\]
+\\[\varepsilon = \sqrt{-\frac{2\log{\delta}}{N(s,i)}} := \text{CR}_\{\delta\}\left(\hat{u}(s,i)\right)\\]
 
-which we call the $\delta$ **confidence radius** of $\hat{u}(s,t)$. Intuitively, the probability that $\hat{u}(s,t)$ is more than $\text{CR}_{\delta}\left(\hat{u}(s,t)\right)$ away from $u(s)$ is at most $\delta$
+which we call the $\delta$ **confidence radius** of $\hat{u}(s,i)$. Intuitively, the probability that $\hat{u}(s,i)$ is more than $\text{CR}_{\delta}\left(\hat{u}(s,i)\right)$ away from $u(s)$ is at most $\delta$
 
 <img src="https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/conf_rad_graph.svg" width="425"/>*The confidence radius for $\hat{\mu}(s_1, N_{s_1})$ and $\hat{\mu}(s_2, N(s_2))$ when $\delta = 0.9$.*
 
-The $\delta$ **upper confidence bound** of $\hat{u}(s,t)$ is
+The $\delta$ **upper confidence bound** of $\hat{u}(s,i)$ is
 
-\\[\text{UCB}_\{\delta\}\left(\hat{u}(s,t)\right) = \hat{u}(s,t) + \text{CR}\_{\delta}\left(\hat{u}(s,t)\right).\\]
+\\[\text{UCB}_\{\delta\}\left(\hat{u}(s,i)\right) = \hat{u}(s,i) + \text{CR}\_{\delta}\left(\hat{u}(s,i)\right).\\]
 
 We want $\delta$ to get smaller as the number of iterations gets larger. If we let $\delta = t^{-c}$ for some $c \geq 1$ and choose actions according to the selection policy:
-\\[\hat{a}(s,t) = \text{arg max}_{a \in \mathcal{A}(s)}\text{UCB}\_{t^{-c}}\left(\hat{u}(s,t)\right) = \text{arg max}\_{a \in \mathcal{A}(s)}\left\lbrace\hat{u}(s,t) + \sqrt{\frac{2c\log t}{N(s,t)}}\right\rbrace,\tag{UCT}\\]
-then for large $N(s,t)$, it follows that $\hat{a}(s,t) \approx a^\*(s)$ in the sense that $u(\hat{a}(s,t)) \approx u(a^\*(s))$. We could have also defined the selection policy in terms of the $\delta$ **lower confidence bound**, but in either case, we see that the action identified by the resulting MTCS will have the same expected utility as the one identified by the min-max algorithm.
+\\[\hat{a}(s,i) = \text{arg max}_{a \in \mathcal{A}(s)}\text{UCB}\_{t^{-c}}\left(\hat{u}(s,i)\right) = \text{arg max}\_{a \in \mathcal{A}(s)}\left\lbrace\hat{u}(s,i) + \sqrt{\frac{2c\log t}{N(s,i)}}\right\rbrace,\tag{UCT}\\]
+then for large $N(s,i)$, it follows that $\hat{a}(s,i) \approx a^\*(s)$ in the sense that $u(\hat{a}(s,i)) \approx u(a^\*(s))$. We could have also defined the selection policy in terms of the $\delta$ **lower confidence bound**, but in either case, we see that the action identified by the resulting MTCS will have the same expected utility as the one identified by the min-max algorithm.
 
 ## Learning Techniques
 A completly different approach is to learn $p$ ahead of time from a family of distributions, $p_w$, where $w$ is a set of weights that we can tune. Obviously, we want to choose $w$ so that $p_w$ approximates $p$ as defined in (1).
