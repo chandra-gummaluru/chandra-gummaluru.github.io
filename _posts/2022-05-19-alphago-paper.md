@@ -202,7 +202,7 @@ where $a^{(k)}$ is the action that an expert played when in state $s^{(k)}$.
 The resulting policy, which we denote with $p\_{\sigma}$, was improved using Alg. RL.
 
 ---
-<sup>1</sup> In the context of the min-max algorithm, it is more common to use the utility function of the turn-taker at the root as opposed to $\mu$.
+<sup>1</sup>In the context of the min-max algorithm, it is more common to use the utility function of the turn-taker at the root as opposed to $\mu$.
 
 ## References
 \[^1\] Silver, D., Huang, A., Maddison, C. et al. Mastering the game of Go with deep neural networks and tree search. Nature 529, 484–489 (2016). https://doi.org/10.1038/nature16961
