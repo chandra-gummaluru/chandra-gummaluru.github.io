@@ -27,6 +27,8 @@ In general, players may place stones anywhere on the board except where doing so
 
 A player need not place a stone during their turn. If both players skip their turn, or neither player can legally place a stone, the game ends. The score for each player is the number of points within their territories plus the number of stones they captured.
 
+The skill level of a Go player is often measured using the Elo rating system. At the time of writing this article, Shin Jinseo holds the highest rating at 3836.
+
 ## Mathematical Representation
 The game is represented mathematically as a tuple, $(\mathcal{S}, \mathcal{T}, \mathcal{A}, u)$, where:
 - $\mathcal{S}$ is a set of **states**
@@ -202,7 +204,7 @@ Alg. SL was used to tune $w$ so that $p_w$ mimics the moves made by expert playe
 \\[\mathcal{D} = \left\lbrace \left(s^{(k)},a^{(k)}\right), s^{(k)} \in \mathcal{S}, a^{(k)} \in \mathcal{A}\left(s^{(k)}\right) \right\rbrace\_{k=1}^{N},\\]
 where $a^{(k)}$ is the action that an expert played when in state $s^{(k)}$.
 
-The resulting policy, which we denote with $p\_{\sigma}$, was improved using Alg. RL.
+The resulting policy, which we denote with $p\_{\sigma}$ was able to achieve an Elo rating of 1517. It was improved using Alg. RL.
 
 ---
 <sup>1</sup>In the context of the min-max algorithm, it is more common to use the utility function of the turn-taker at the root as opposed to $\mu$.
