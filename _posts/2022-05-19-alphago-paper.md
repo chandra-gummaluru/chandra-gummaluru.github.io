@@ -283,7 +283,7 @@ for some fixed $\lambda \in [0,1]$.
 Each iteration consists of the following phases:
 
 1. **Selection**: Starting from $s_0$, choose actions, $a_1, \dots, a\_{t}$, where $a_{j+1} \in \mathcal{A}(s\_j), s\_{j} = a\_{j}(s_{j-1})$ and $s\_{\tau}$ is the first node with unexplored children; each action is chosen according to
-\\[\hat{a}(s,i) = \text{arg max}\_{a \in \mathcal{A}(s)}\left\lbrace \hat{u}\left(a(s),i\right) + \sqrt{\frac{N\left(s,i\right)}{N\left(a(s),i\right)}}\right\rbrace\\]
+\\[\hat{a}(s,i) = \text{arg max}\_{a \in \mathcal{A}(s)}\left\lbrace \hat{u}\left(a(s),i\right) + cp\_{w'}\left(a\lvert s\right)\sqrt{\frac{N\left(s,i\right)}{N\left(a(s),i\right)}}\right\rbrace\\]
 
 2. **Expansion**: Expand $s_t$ to reveal a child, $s_{t+1}$, and update $N(s,\cdot)$ so that:
 \\[\begin{aligned}N(s,i) = \begin{cases} N(s,i-1) + 1, &s = s_0, \dots, s_t, s_{t+1} \\\\\\
