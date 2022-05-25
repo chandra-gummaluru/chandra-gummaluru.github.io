@@ -127,7 +127,7 @@ N(s+1,i), &\text{otherwise}\end{cases}\end{aligned}\\]
 
 4. **Back-Propagation**: Update $U(\cdot, \cdot)$ so that
 \\[\begin{aligned}U(s,i+1) = \begin{cases} U(s,i) + (-1)^{T-j-1}\mu(s_T), &s = s_0, \dots, s_t, s_{t+1} \\\\\\
-N(s,i), &\text{otherwise}\end{cases}\end{aligned}\\]
+U(s,i), &\text{otherwise}\end{cases}\end{aligned}\\]
 where the factor $(-1)^{T-j+1}$ modifies $\mu(s\_T)$ to be from the perspective of the turn-taker at $s\_j$.
 
 Since $\hat{u}(s,i)$ is the mean of $N(s,i)$ independent random variables bounded within $[-1,1]$, we can use Hoeffding's inequality to upper bound the probability that the difference between $\hat{u}(s,i)$ and $\mu(s)$ exceeds some threshold, $\varepsilon$:
@@ -284,27 +284,20 @@ for some fixed $\lambda$.
 Each iteration consists of the following phases:
 
 1. **Selection**: Starting from $s_0$, choose actions, $a_1, \dots, a\_{t}$, where $a_{j+1} \in \mathcal{A}(s\_j), s\_{j} = a\_{j}(s_{j-1})$ and $s\_{\tau}$ is the first node with unexplored children; each action is chosen according to
-\\[\hat{a}(s,i) = \text{arg max}\_{a \in \mathcal{A}(s}\left\lbrace \hat{u}(s,i) + \sqrt{a}\right\rbrace\\]
+\\[\hat{a}(s,i) = \text{arg max}\_{a \in \mathcal{A}(s}\left\lbrace \hat{u}(s,i) + \sqrt{\frac{N(s,i)}{}}\right\rbrace\\]
 
 2. **Expansion**: Expand $s_t$ to reveal a child, $s_{t+1}$, and update $N(s,\cdot)$ so that:
 \\[\begin{aligned}N(s,i) = \begin{cases} N(s,i-1) + 1, &s = s_0, \dots, s_t, s_{t+1} \\\\\\
 N(s,i-1), &\text{otherwise}\end{cases}\end{aligned}\\]
 
-3. **Evaluation**: If $N(s\_{t+1},i) = 0$, compute $P(s,a) = p\_{w'}\left(a\lvert s\_{t+1})$ for each $a \in \mathcal{A}\left(s\_{t+1}\right)$.
+3. **Evaluation**: If $N(s\_{t+1},i) = 0$, compute $P(s,a) = p\_{w'}\left(a\lvert s\_{t+1}\right)$ for each $a \in \mathcal{A}\left(s\_{t+1}\right)$.
 
 4. **Simulation**: Simulate a game from $s_{t+1}$ to some terminal state by selecting successive actions according to $p\_{w\'\'}$; let $s_{t+2}, \dots, s_{T}$ denote the resulting states, where $s_T \in \mathcal{T}$.
 
-5. **Back-Propagation**: For $j = 1, \dots, {t+1}$, compute $U(s\_t,i) := U(s\_t,i-1) + (-1)^{T-t-1}\mu(s_n)$ and update $\hat{u}(s,i)$.
-where the factor $(-1)^{T-t+1}$ modifies $\mu(s\_T)$ to be from the perspective of the turn-taker at $t$.
-
-
-1. In addition to $N(s,i)$ and $U(s,i)$, each non-terminal state, $s$, keeps track some additional values, $N'(s,i), U'(s,i)$ and $P(s,a)$:
-   - $P(s,a) = p\_{w'}(a\lvert s)$ is the probability of taking action $a$ from $s$ according to $p\_{w'}$
-   - $N'(s,i)$ is the cumulative simulation visits to $s$
-   - $U'(s,i)$ is the cumulative utility obtained over all simulation visits to $s$  
-2. The MTCS estimate $\hat{u}(s,i)$ is now computed as a weighted combination of the selection and simulation phase utility-to-reward ratios, i.e.,
-\\[\hat{u}(s,i) = \lambda\frac{U(s,i)}{N(s,i)} + (1-\lambda)\frac{U'(s,i)}{N'(s,i)},\\]
-for some fixed $\lambda \in [0, 1]$.
+5. **Back-Propagation**: Update $U(\cdot, \cdot)$ so that
+\\[\begin{aligned}U(s,i+1) = \begin{cases} U(s,i) + (-1)^{T-j-1}\mu(s_T), &s = s_0, \dots, s_t, s_{t+1} \\\\\\
+U(s,i), &\text{otherwise}\end{cases}\end{aligned}\\]
+where the factor $(-1)^{T-j+1}$ modifies $\mu(s\_T)$ to be from the perspective of the turn-taker at $s\_j$.
 
 ---
 
