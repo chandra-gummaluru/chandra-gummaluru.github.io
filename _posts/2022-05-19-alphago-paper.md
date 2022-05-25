@@ -65,21 +65,19 @@ This leads to the following recurrence for computing $\text{Ev}\lbrace u(s) \rbr
 
 \\[\begin{aligned}\text{Ev}\lbrace u(s) \rbrace = \begin{cases}
 \displaystyle \mu(s), &s \in \mathcal{T} \\\\\\
-\displaystyle-\max_{s' \in S(s)}\lbrace \text{Ev}\lbrace u\_p(s') \rbrace \rbrace, & s \not\in \mathcal{T} \text{ and our agent is the turn-taker}\\\\\\
+\displaystyle\max_{s' \in S(s)}\lbrace -\text{Ev}\lbrace u\_p(s') \rbrace \rbrace, & s \not\in \mathcal{T} \text{ and our agent is the turn-taker}\\\\\\
 \displaystyle-\sum_{a \in \mathcal{A}(s)}p(a|s)\text{Ev}\lbrace u\_p(a(s)) \rbrace, & s \not\in \mathcal{T} \text{ and the adversary is the turn-taker}
 \end{cases}\end{aligned}\tag{EM}\label{eq_em_recurrence}\\]
-
-This is called the **expected-max** algorithm.
 
 ### Dealing with an Unknown Adversary
 In most cases, we do not know $p(\cdot \lvert s)$ if the adversary is the turn-taker at $s$. Thus, it is often common to assume that the adversary plays perfectly, i.e., (1) is satisfied for all $s$, not just when our agent is the turn-taker. In these cases, (EM) reduces to:
 
 \\[\begin{aligned}u(s) = \begin{cases}
 \displaystyle \mu(s), &s \in \mathcal{T} \\\\\\
-\displaystyle-\max_{s' \in S(s)}\lbrace u\_p(s') \rbrace, &s \not\in \mathcal{T}
+\displaystyle\max_{s' \in S(s)}\lbrace -u\_p(s') \rbrace, &s \not\in \mathcal{T}
 \end{cases}\end{aligned}\tag{NM}\label{eq_nm_recurrence}\\]
 
-where the expectations are no longer necessary since $u$ is effectively deterministic. This is called the **neg-max** algorithm. Sometimes $\mu$ and (consequently $u$) are defined to represent the utility from the perspective of the same player across all terminal states (i.e., not necessarily the turn-taker). In this case, (NM) reduces to
+where the expectations are no longer necessary since $u$ is effectively deterministic. Sometimes $\mu$ and (consequently $u$) are defined to represent the utility from the perspective of the same player across all terminal states (i.e., not necessarily the turn-taker). In this case, (NM) reduces to
 
 \\[\begin{aligned}u(s) = \begin{cases}
 \displaystyle \mu(s), &s \in \mathcal{T} \\\\\\
