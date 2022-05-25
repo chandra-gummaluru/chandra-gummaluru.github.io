@@ -193,7 +193,7 @@ Solving the above for $w$ is still very difficult, but we can approximate it via
 > 3: &nbsp;&nbsp;&nbsp;&nbsp;simulate $N$ games under $p\_{w\_i}$ and compute $\nabla_w\log\left(\text{Ev}\lbrace \hat{u}(s\_0,N) \rbrace\right)$<br>
 > 4: &nbsp;&nbsp;&nbsp;&nbsp;update $w_{i+1} = w_{i} + \alpha\nabla_w\log\left(\text{Ev}\lbrace \hat{u}(s\_0,N) \rbrace\right)$, where $\alpha$ is some scalar
 
-Intuitively, we should update $w$ in the direction of $\nabla_w\log\left(\text{Ev}\lbrace \hat{u}(s\_0,N) \rbrace\right)$ since this is the direction along which $\text{Ev}\lbrace \hat{u}\_N(s\_0) \rbrace$ increases the most.
+Intuitively, we should update $w$ in the direction of $\nabla_w\log\left(\text{Ev}\lbrace \hat{u}(s\_0,N) \rbrace\right)$ since this is the direction along which $\text{Ev}\lbrace \hat{u}(s\_0,N) \rbrace$ increases the most.
 
 ## The AlphaGo Pipeline
 AlphaGo\[^1\] sought to learn $p$ as well as possible, use it to approximate the utility function, and then use that approximation in place of an actual simulation in MTCS. More specifically, suppose $p\_{\rho}$ approximates $p$, and this is used to approximate $u$.
