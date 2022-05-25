@@ -273,12 +273,11 @@ The resulting utility function is denoted $u\_{v'}$.
 ### Implementing MCTS
 The authors apply Alg. MCTS with a few modifications. Each state keeps track of the following parameters, updated during each iteration, $i$:
 - the number of times $s$ was selected, $N(s,i)$, where $N(s,0) = 0, \forall s \neq s_0$ and $N(s_0,0) = 1$.
-- the utility accumulated whenever $s$ was selected, $U(s,i)$, where $U'(s,0) = 0, \forall s$.
-- the number of times $s$ was reached during a simulation, $N'(s,i)$, where $N'(s,0) = 0, \forall s \neq s_0$ and $N'(s_0,0) = 1$.
-- the utility accumulated whenever $s$ was reached during a simulation, $U'(s,i)$, where $U'(s,0) = 0, \forall s$.
+- the simulation utility accumulated whenever $s$ was selected, $U(s,i)$, where $U'(s,0) = 0, \forall s$.
+- the $u\_{v'}$ utility accumulated whenever $s$ was selected during a simulation, $V(s,i)$, where $V'(s,0) = 0, \forall s$.
 
 Define the MTCS estimate as
-\\[\hat{u}(s,i) = \lambda\frac{U(s,i)}{N(s,i)} + (1-\lambda)\frac{U'(s,i)}{N'(s,i)},\\]
+\\[\hat{u}(s,i) = \frac{\lambda U(s,i)+ (1-\lambda)V(s,i)}{N(s,i)},\\]
 for some fixed $\lambda$.
 
 Each iteration consists of the following phases:
