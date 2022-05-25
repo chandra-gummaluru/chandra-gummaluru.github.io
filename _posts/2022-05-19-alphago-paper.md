@@ -203,6 +203,8 @@ The authors of AlphaGo[1] sought to learn a policy function that approximates th
 
 They focus on the case where $N = 19$; the state is represented as a matrix, $s \in \lbrace -1, 0, 1 \rbrace^{19 \times 19}$.
 
+Categorical variables can easily be represented numerically by mapping the category space to $\mathbb{N}$. However, doing so implies an ordering of the categories. Thus, an $N$-ary categorical variable is often represented as a binary $N$-dimensional unit-vector, where each dimension of the vector corresponds to one category.
+
 ### Modelling $p$
 The authors model $p$ as a deep neural-network (DNN), $p_w$, which we henceforth refer to as the **policy network**. The input to the policy network consists of the board configuration, as well as several useful features (e.g., the number of liberties for each point, the number of stones that would be captured if a stone was played at each point, etc.), all of which are represneted using a one-hot encoding[^2]. When stacked together, this results in a $48$ channel $19 \times 19$ binary image.
 
@@ -259,10 +261,7 @@ Solving the above for $v$ is still very difficult, but we can approximate it via
 > 4: &nbsp;&nbsp;&nbsp;&nbsp;$v_{i+1} = v_{i} + \alpha\nabla_v\text{MSE}\lbrace \mathcal{D}\_2 \rbrace$, where $\alpha$ is some scalar
 
 ## References
-[1]: Silver, D., Huang, A., Maddison, C. et al. Mastering the game of Go with deep neural networks and tree search. Nature 529, 484–489 (2016). [https://doi.org/10.1038/nature16961](https://doi.org/10.1038/nature16961)
-
 
 ---
 
-[^1]: In the context of the min-max algorithm, it is more common to use the utility function of the turn-taker at the root as opposed to $\mu$. 
-[^2]: Categorical variables can easily be represented numerically by mapping the category space to $\mathbb{N}$. However, doing so implies an ordering of the categories. Thus, an $N$-ary categorical variable is often represented as a binary $N$-dimensional unit-vector, where each dimension of the vector corresponds to one category.
+[^1]: Silver, D., Huang, A., Maddison, C. et al. Mastering the game of Go with deep neural networks and tree search. Nature 529, 484–489 (2016). [https://doi.org/10.1038/nature16961](https://doi.org/10.1038/nature16961) 
