@@ -51,7 +51,7 @@ where $\text{Ev}\lbrace u\_p(s) \rbrace$ can be computed via the recurrence:
 \\[\text{Ev}\lbrace u\_p(s) \rbrace = \begin{cases} \displaystyle\mu(s), s \in \mathcal{T} \\\\\\
 \displaystyle\sum_{a \in \mathcal{S}}p(a\lvert s)\text{Ev}\lbrace u\_(a(s)) \rbrace. s \not\in \mathcal{T} \end{cases}.\\]
 
-Since we defined $u\_p$ to always be from the perspective of the turn-taker's adversary, $u\_p(a(s))$$ will always be from the perspective of the turn-taker at $s$; thus, it can always be maximized.
+Since we defined $u\_p$ to always be from the perspective of the turn-taker's adversary, $u\_p(a(s))$ will always be from the perspective of the turn-taker at $s$; thus, it can always be maximized.
 ## Brute-Force Search Techniques
 An obvious approach is to saearch the game tree explicitly for the best action during live play.
 ### The Ideal Algorithm
