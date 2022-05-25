@@ -230,7 +230,7 @@ The authors model $u$ as a deep neural-network (DNN), $u\_v$, which we hencefort
 
 We want to choose $v$ to maximize the expected mean-squared error of $u_v$ across $\mathcal{D}\_2$ under $p\_{\rho}$, i.e.,
 
-\\[\text{MSE}\lbrace v, \mathcal{D}\_2 \rbrace = \prod\_{i=1}^{N}\left(u\_{v}\left(s,\right)\right).\\]
+\\[\text{MSE}\lbrace \mathcal{D}\_2 \rbrace = \frac{1}{N}\sum_{n=1}^{N}\left(u\_v\left(s^{(n)}\right) - \tilde{u}_{p\_w}^{(n)}\right)^2.\\]
 
 A necessary condition for the desired $w$ is that the partial derivative of the above expression w.r.t. $w$ is zero, i.e.,
 \\[\nabla_w\text{MSE}\lbrace v, \mathcal{D} \rbrace = 0.\\]
