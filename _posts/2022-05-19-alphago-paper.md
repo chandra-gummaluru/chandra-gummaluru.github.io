@@ -43,15 +43,15 @@ We can model the behaviour of the players using a probability distribution, $p: 
 ![](https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/go_tree.svg)
 *Each node in the tree is coloured according to the turn-taker in the associated state. The root of the tree, $s_0$, represents the initial state. Each leaf of the tree represents the state once a game has ends. Each path from the root to a leaf represents one possible realization of the game from $s_0$; the leaf is annotated with a utility value of either $-1$, $0$, or $1$, depending on whether the agent would have won, lost, or tied, if that game was indeed realized.*
 
-Let $u(s)$ be the utility obtained from a specific realization of the game starting at $s$ and from the perspective of the turn-taker at $s$; its value is stochastic. The turn-taker should decide the best action $a^\*(s)$, to play from $s$, in the sense that its choices maximizes its expected utilities over all possible realizations, i.e.,
-\\[a^*(s) = \text{arg max}_{a \in \mathcal{A}(s)}\text{Ev}\lbrace u(a(s)) \rbrace, s \not\in \mathcal{T}\\]
+Let $u\_p(s)$ be the utility obtained from a specific realization of the game starting at $s$ and from the perspective of the turn-taker at $s$; its value is stochasic via $p$. The turn-taker should decide the best action $\mathcal{A}^\*(s)$, to play from $s$, in the sense that its choices maximizes its expected utilities over all possible realizations, i.e.,
+\\[\mathcal{A}^\*(s) = \text{arg max}_{a \in \mathcal{A}(s)}\text{Ev}\lbrace u\_p(a(s)) \rbrace, s \not\in \mathcal{T}\\]
 
-where $\text{Ev}\lbrace u(s) \rbrace$ can be computed via the recurrence:
+where $\text{Ev}\lbrace u\_p(s) \rbrace$ can be computed via the recurrence:
 
-\\[\text{Ev}\lbrace u(s) \rbrace = \begin{cases} \displaystyle\mu(s), s \in \mathcal{T} \\\\\\
-\displaystyle\sum_{a \in \mathcal{S}}p(a\lvert s)\text{Ev}\lbrace u(a(s)) \rbrace. s \not\in \mathcal{T} \end{cases}.\\]
+\\[\text{Ev}\lbrace u\_p(s) \rbrace = \begin{cases} \displaystyle\mu(s), s \in \mathcal{T} \\\\\\
+\displaystyle\sum_{a \in \mathcal{S}}p(a\lvert s)\text{Ev}\lbrace u\_(a(s)) \rbrace. s \not\in \mathcal{T} \end{cases}.\\]
 
-Since we defined $u$ to always be from the perspective of the turn-taker's adversary, $u(a(s))$$ will always be from the perspective of the turn-taker at $s$; thus, it can always be maximized.
+Since we defined $u\_p$ to always be from the perspective of the turn-taker's adversary, $u\_p(a(s))$$ will always be from the perspective of the turn-taker at $s$; thus, it can always be maximized.
 ## Brute-Force Search Techniques
 An obvious approach is to saearch the game tree explicitly for the best action during live play.
 ### The Ideal Algorithm
@@ -224,7 +224,20 @@ where $a^{(k)}$ is the action that an expert played when in state $s^{(k)}$. The
 ### Learning $u$ via SL
 The policy $p\_{\rho}$ was used to train a network that can model.
 
-The authors model $u$ as a deep neural-network (DNN), $u\_v$, which we henceforth refer to as the **value network**. The input is identical to that of the policy network. Training consisted of using $p_{\rho}$ to generate a new set of games; from each game, $s\_1,\dots,s\_{T}$, a random state $s_t \not\in \mathcal{T}$ was selected and paired with the terminal utility, $\mu(s\_T)$. The resulting dataset is denoted $\mathcal{D}\_2$.
+The authors model $u$ as a deep neural-network (DNN), $u\_v$, which we henceforth refer to as the **value network**. The input is identical to that of the policy network. Training consisted of using $p_{\rho}$ to generate $N$ games as in $\mathcal{D}$; from the $n$<sup>th</sup> game, a random state $s_t^{(n)} \not\in \mathcal{T}$ was selected and paired with the game's terminal utility, $\tilde{u}\mu\left(s\_T^{(n)}\right)$. The resulting dataset is denoted $\mathcal{D}\_2$.
+
+We want to choose $v$ to maximize the expected mean-squared error of $u_v$ across $\mathcal{D}\_2$ under $p\_{\rho}$, i.e.,
+
+\\[\text{MSE}\lbrace v, \mathcal{D}\_2 \rbrace = \prod\_{i=1}^{N}\left(u\_{v}\left(s,\right)\right).\\]
+
+A necessary condition for the desired $w$ is that the partial derivative of the above expression w.r.t. $w$ is zero, i.e.,
+\\[\nabla_w\text{MSE}\lbrace v, \mathcal{D} \rbrace = 0.\\]
+
+Computing $\nabla_w\text{Pr}\lbrace \mathcal{D} \rbrace$ is very difficult, so we often maximize $\nabla_w\log\left(\text{Pr}\lbrace \mathcal{D} \rbrace\right)$ instead; the resulting $w$ is the same in both cases, but $\nabla_w\log\left(\text{Pr}\lbrace \mathcal{D} \rbrace\right)$ is easier to compute:
+
+\\[\nabla_w\log\left(\text{Pr}\lbrace \mathcal{D} \rbrace\right) = \frac{1}{N}\sum_{n=1}^{N}\sum_{t=1}^{T^{(n)}}\frac{\partial}{\partial w}\log\left(p_w\left(a_t^{(n)} \lvert s_{t-1}^{(n)}\right)\right).\\]
+
+
 
 ---
 <sup>1</sup>In the context of the min-max algorithm, it is more common to use the utility function of the turn-taker at the root as opposed to $\mu$.
