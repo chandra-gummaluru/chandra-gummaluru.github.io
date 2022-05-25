@@ -226,7 +226,7 @@ where $a^{(n)}$ is the action that an expert played when in state $s^{(n)}$. The
 ### Improving $p$ via RL
 
 ### Learning $u$ via SL
-The policy $p\_{\rho}$ was used to train a network that can model.
+The policy $p\_{w\'}$ was used to train a network that can model.
 
 The authors model $u$ as a deep neural-network (DNN), $u\_v$, which we henceforth refer to as the **value network**. The input is identical to that of the policy network.
 
@@ -240,16 +240,16 @@ The architecture of the value network is as follows:
    
 ![](https://raw.githubusercontent.com/chandra-gummaluru/chandra-gummaluru.github.io/42464190ca0f53949118d02ea0d451e396edb112/media/go/cnn1.svg)*The DNN used to model $u_v$.*
 
-Training consisted of using $p_{\rho}$ to generate $N$ games as in $\mathcal{D}$; from the $n$<sup>th</sup> game, a random state $s_t^{(n)} \not\in \mathcal{T}$ was selected and paired with the game's terminal utility, $\tilde{u}_{p\_{\rho}}^{(n)} := (-1)^{T-t-1}\mu\left(s\_T^{(n)}\right)$. The resulting dataset is
+Training consisted of using $p_{w\^*}$ to generate $N$ games as in $\mathcal{D}$; from the $n$<sup>th</sup> game, a random state $s_t^{(n)} \not\in \mathcal{T}$ was selected and paired with the game's terminal utility, $\tilde{u}_{p\_{w\^*}}^{(n)} := (-1)^{T-t-1}\mu\left(s\_T^{(n)}\right)$. The resulting dataset is
 
-\\[\mathcal{D}\_2 = \left\lbrace \left(s^{(n)},\tilde{u}\_{p\_{\rho}}^{(n)}\right) \right\rbrace_{n=1}^{N}\\]
+\\[\mathcal{D}\_2 = \left\lbrace \left(s^{(n)},\tilde{u}\_{p\_{w\'}}^{(n)}\right) \right\rbrace_{n=1}^{N}\\]
 
-We want to choose $v$ to maximize the expected mean-squared error of $u_v$ across $\mathcal{D}\_2$ under $p\_{\rho}$, i.e.,
+We want to choose $v$ to maximize the expected mean-squared error of $u_v$ across $\mathcal{D}\_2$ under $p\_{w'}$, i.e.,
 
-\\[\text{MSE}\lbrace \mathcal{D}\_2 \rbrace = \frac{1}{N}\sum_{n=1}^{N}\left(u\_v\left(s^{(n)}\right) - \tilde{u}_{p\_{\rho}}^{(n)}\right)^2.\\]
+\\[\text{MSE}\lbrace \mathcal{D}\_2 \rbrace = \frac{1}{N}\sum_{n=1}^{N}\left(u\_v\left(s^{(n)}\right) - \tilde{u}_{p\_{w'}}^{(n)}\right)^2.\\]
 
 A necessary condition for the desired $v$ is that the partial derivative of the above expression w.r.t. $w$ is zero, i.e.,
-\\[\nabla\_v\text{MSE}\lbrace \mathcal{D} \rbrace = \frac{2}{N}\sum_{n=1}^{N}\left(u\_v\left(s^{(n)}\right) - \tilde{u}\_{p\_{\rho}}^{(n)}\right)\frac{\partial u\_v\left(s^{(n)}\right) }{\partial v} = 0.\\]
+\\[\nabla\_v\text{MSE}\lbrace \mathcal{D} \rbrace = \frac{2}{N}\sum_{n=1}^{N}\left(u\_v\left(s^{(n)}\right) - \tilde{u}\_{p\_{w'}}^{(n)}\right)\frac{\partial u\_v\left(s^{(n)}\right) }{\partial v} = 0.\\]
 
 Solving the above for $v$ is still very difficult, but we can approximate it via an iterative approach:
 
@@ -259,6 +259,8 @@ Solving the above for $v$ is still very difficult, but we can approximate it via
 > 2: **for** $i = 1, \dots, \tau$:<br>
 > 3: &nbsp;&nbsp;&nbsp;&nbsp;select a random subset of $\mathcal{D}\_2$ and compute $\nabla_v\text{MSE}\lbrace \mathcal{D}\_2 \rbrace$<br>
 > 4: &nbsp;&nbsp;&nbsp;&nbsp;$v_{i+1} = v_{i} + \alpha\nabla_v\text{MSE}\lbrace \mathcal{D}\_2 \rbrace$, where $\alpha$ is some scalar
+
+The resulting utility function, denoted $u\_{v'}$, was not evaluated for an Elo rating.
 
 ---
 
