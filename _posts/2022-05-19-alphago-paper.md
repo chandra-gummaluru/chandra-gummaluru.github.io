@@ -262,8 +262,10 @@ Solving the above for $v$ is still very difficult, but we can approximate it via
 
 The resulting utility function is denoted $u\_{v'}$.
 
-# Implementing MCTS
+### Implementing MCTS
+The authors apply Alg. MCTS with a few modifications:
 
+1. The estimated utility, $\hat{u}(s,i)$ is computed as a convex combination of the MTCS estimate and the predicted utility from $u\_{v\'}$, i.e.,
 
 ---
 
