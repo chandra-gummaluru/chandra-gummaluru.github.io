@@ -108,7 +108,7 @@ We can resolve the exploration versus exploitation dilemma and avoid needing an 
 
 We can then estimate the utility of a state, $s$, by repeatedly simulating the game from that state. Each state keeps track of the following parameters, updated during each iteration, $i$:
 - the number of times $s$ was selected, $N(s,i)$, where $N(s,0) = 0, \forall s \neq s_0$ and $N(s_0,0) = 1$.
-- the cumulative utility obtained over iterations in which $s$ was selected, $U(s,i)$, where $U'(s,0) = 0, \forall s$.
+- the utility accumulated whenever $s$ was selected, $U(s,i)$, where $U'(s,0) = 0, \forall s$.
 
 Each iteration consists of the following phases:
 
@@ -266,10 +266,10 @@ The resulting utility function is denoted $u\_{v'}$.
 
 ### Implementing MCTS
 The authors apply Alg. MCTS with a few modifications. Each state keeps track of the following parameters, updated during each iteration, $i$:
-- the number of times $s$ has been selected, $N(s,i)$, where $N(s,0) = 0, \forall s \neq s_0$ and $N(s_0,0) = 1$.
-- the cumulative reward obtained across iterations thus far in which $s$ was selected, $U(s,i)$, where $U'(s,0) = 0, \forall s$.
+- the number of times $s$ was selected, $N(s,i)$, where $N(s,0) = 0, \forall s \neq s_0$ and $N(s_0,0) = 1$.
+- the utility accumulated whenever $s$ was selected, $U(s,i)$, where $U'(s,0) = 0, \forall s$.
 - the number of times $s$ was reached during a simulation, $N'(s,i)$, where $N'(s,0) = 0, \forall s \neq s_0$ and $N'(s_0,0) = 1$.
-- the cumulative reward obtained across all simulations in which $s$ was reached, $U'(s,i)$, where $U'(s,0) = 0, \forall s$.
+- the utility accumulated whenever $s$ was reached during a simulation, $U'(s,i)$, where $U'(s,0) = 0, \forall s$.
 
 Each iteration consists of the following phases:
 
