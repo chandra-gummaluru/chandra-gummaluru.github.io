@@ -224,7 +224,19 @@ where $a^{(n)}$ is the action that an expert played when in state $s^{(n)}$. The
 ### Learning $u$ via SL
 The policy $p\_{\rho}$ was used to train a network that can model.
 
-The authors model $u$ as a deep neural-network (DNN), $u\_v$, which we henceforth refer to as the **value network**. The input is identical to that of the policy network. Training consisted of using $p_{\rho}$ to generate $N$ games as in $\mathcal{D}$; from the $n$<sup>th</sup> game, a random state $s_t^{(n)} \not\in \mathcal{T}$ was selected and paired with the game's terminal utility, $\tilde{u}_{p\_{\rho}}^{(n)} := (-1)^{T-t-1}\mu\left(s\_T^{(n)}\right)$. The resulting dataset is
+The authors model $u$ as a deep neural-network (DNN), $u\_v$, which we henceforth refer to as the **value network**. The input is identical to that of the policy network.
+
+The architecture of the value network is as follows:
+
+| Layer | Input Dimension | Padding | Input Channels | Filter Size  | Output Dimension | Output Channels | Non-Linearity |
+|:-------:|:-----------------:|:---------:|:----------------:|:--------------:|:------------------:|:-----------------:|:---------------:|
+|   1   |  $19 \times 19$ |   $4$   |      $48$      | $5 \times 5$ |  $19 \times 19$  |       192       |      ReLu     |
+|  2-12 |  $19 \times 19$ |   $3$   |      $192$     | $3 \times 3$ |  $19 \times 19$  |       192       |      ReLu     |
+|   13  |  $19 \times 19$ |   $0$   |      $192$     | $1 \times 1$ |  $19 \times 19$  |        1        |    SoftMax    |
+   
+![](https://raw.githubusercontent.com/chandra-gummaluru/chandra-gummaluru.github.io/42464190ca0f53949118d02ea0d451e396edb112/media/go/cnn1.svg)*The DNN used to model $u_v$.*
+
+Training consisted of using $p_{\rho}$ to generate $N$ games as in $\mathcal{D}$; from the $n$<sup>th</sup> game, a random state $s_t^{(n)} \not\in \mathcal{T}$ was selected and paired with the game's terminal utility, $\tilde{u}_{p\_{\rho}}^{(n)} := (-1)^{T-t-1}\mu\left(s\_T^{(n)}\right)$. The resulting dataset is
 
 \\[\mathcal{D}\_2 = \left\lbrace \left(s^{(n)},\tilde{u}\_{p\_{\rho}}^{(n)}\right) \right\rbrace_{n=1}^{N}\\]
 
