@@ -106,9 +106,11 @@ This is called the **exploration versus exploitation dilemma**.
 ### Solving the Exploration/Exploitation Dilemma
 We can resolve the exploration versus exploitation dilemma and avoid needing an explicit heuristic function at the same time using a technique called **Monte-Carlo Tree Search** (MCTS).
 
-We can then estimate the utility of a state, $s$, by repeatedly simulating the game from that state.
+We can then estimate the utility of a state, $s$, by repeatedly simulating the game from that state. Each state keeps track of the following parameters, updated during each iteration, $i$:
+- the number of times $s$ has been selected, $N(s,i)$, where $N(s,0) = 0, \forall s \neq s_0$ and $N(s_0,0) = 1$.
+- the cumulative reward obtained across iterations thus far in which $s$ was selected, $U(s,i)$, where $U'(s,0) = 0, \forall s$.
 
-Each state keeps track of two values; $N(s,i)$ and $U(s,i)$, where $N(s,0)=U(s,0)=0$. During each iteration, $i$, we perform the following steps:
+Each iteration consists of the following phases:
 
 1. **Selection**: Starting from $s_0$, choose actions, $a_1, \dots, a_j$, where $a_{j+1} \in \mathcal{A}(s_i), s_j = a_i(s_{j-1})$ and $s_t$ is the first node with unexplored children; the actions should be chosen according to a selection policy that balances exploration versus exploitation.
 
@@ -263,7 +265,13 @@ Solving the above for $v$ is still very difficult, but we can approximate it via
 The resulting utility function is denoted $u\_{v'}$.
 
 ### Implementing MCTS
-The authors apply Alg. MCTS with a few modifications. Each state keeps track of five values; $N(s,i)$, $U(s,i)$, $N'(s,i)$, $U'(s,i)$, and $P(s,a)$, where $N(s,0)=U(s,0)=N'(s,0)=U'(s,0)=0$ and $P(s,a)=1$. During each iteration, $i$, we perform the following steps:
+The authors apply Alg. MCTS with a few modifications. Each state keeps track of the following parameters, updated during each iteration, $i$:
+- the number of times $s$ has been selected, $N(s,i)$, where $N(s,0) = 0, \forall s \neq s_0$ and $N(s_0,0) = 1$.
+- the cumulative reward obtained across iterations thus far in which $s$ was selected, $U(s,i)$, where $U'(s,0) = 0, \forall s$.
+- the number of times $s$ was reached during a simulation, $N'(s,i)$, where $N'(s,0) = 0, \forall s \neq s_0$ and $N'(s_0,0) = 1$.
+- the cumulative reward obtained across all simulations in which $s$ was reached, $U'(s,i)$, where $U'(s,0) = 0, \forall s$.
+
+Each iteration consists of the following phases:
 
 1. **Selection**: Starting from $s_0$, choose actions, $a_1, \dots, a_j$, where $a_{j+1} \in \mathcal{A}(s_i), s_j = a_i(s_{j-1})$ and $s_t$ is the first node with unexplored children; each action is chosen according to
 \\[\hat{a}(s,i) = \text{arg max}\_{a \in \mathcal{A}(s}\left\lbrace \lambda\frac{U(s,i)}{N(s,i)} + (1-\lambda)\frac{U'(s,i}{N'(s,i)} + \sqrt{a}\right\rbrace\\]
