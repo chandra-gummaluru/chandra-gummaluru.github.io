@@ -233,7 +233,7 @@ We want to choose $v$ to maximize the expected mean-squared error of $u_v$ acros
 \\[\text{MSE}\lbrace \mathcal{D}\_2 \rbrace = \frac{1}{N}\sum_{n=1}^{N}\left(u\_v\left(s^{(n)}\right) - \tilde{u}_{p\_{\rho}}^{(n)}\right)^2.\\]
 
 A necessary condition for the desired $v$ is that the partial derivative of the above expression w.r.t. $w$ is zero, i.e.,
-\\[\nabla_v\text{MSE}\lbrace \mathcal{D} \rbrace = \frac{2}{N}\sum_{n=1}^{N}\left(u\_v\left(s^{(n)}\right) - \tilde{u}_{p\_{\rho}}^{(n)}\right)\frac{\partial \left(u\_v\left(s^{(n)}\right) }{\partial v} = 0.\\]
+\\[\nabla\_v\text{MSE}\lbrace \mathcal{D} \rbrace = \frac{2}{N}\sum_{n=1}^{N}\left(u\_v\left(s^{(n)}\right) - \tilde{u}\_{p\_{\rho}}^{(n)}\right)\frac{\partial u\_v\left(s^{(n)}\right) }{\partial v} = 0.\\]
 
 **Alg. VSL:**
 
