@@ -240,7 +240,7 @@ The architecture of the value network is as follows:
    
 ![](https://raw.githubusercontent.com/chandra-gummaluru/chandra-gummaluru.github.io/42464190ca0f53949118d02ea0d451e396edb112/media/go/cnn1.svg)*The DNN used to model $u_v$.*
 
-Training consisted of using $p_{w\^*}$ to generate $N$ games as in $\mathcal{D}$; from the $n$<sup>th</sup> game, a random state $s_t^{(n)} \not\in \mathcal{T}$ was selected and paired with the game's terminal utility, $\tilde{u}_{p\_{w\^*}}^{(n)} := (-1)^{T-t-1}\mu\left(s\_T^{(n)}\right)$. The resulting dataset is
+Training consisted of using $p_{w\'}$ to generate $N$ games as in $\mathcal{D}$; from the $n$<sup>th</sup> game, a random state $s_t^{(n)} \not\in \mathcal{T}$ was selected and paired with the game's terminal utility, $\tilde{u}\_{p\_{w\'}}^{(n)} := (-1)^{T-t-1}\mu\left(s\_T^{(n)}\right)$. The resulting dataset is
 
 \\[\mathcal{D}\_2 = \left\lbrace \left(s^{(n)},\tilde{u}\_{p\_{w\'}}^{(n)}\right) \right\rbrace_{n=1}^{N}\\]
 
