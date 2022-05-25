@@ -85,7 +85,7 @@ where the expectations are no longer necessary since $u$ is effectively determin
 \displaystyle\min_{s' \in S(s)}\lbrace u\_p(s') \rbrace, &s \not\in \mathcal{T} \text{ and the adversary is the turn-taker}
 \end{cases}\end{aligned}\tag{MM}\label{eq_mm_recurrence}\\]
 
-In any case, to compute the utilities. the agent must traverse the tree until a state, $s$, is reached whose successors are all leaves, and then compute $\text{Ev}\lbrace u(s) \rbrace$ by working back up the tree.
+However, we will not be using this convention since it requires us to differentiate between the two players and makes the resulting expressions more complex. In any case, to compute the utilities. the agent must traverse the tree until a state, $s$, is reached whose successors are all leaves, and then compute $\text{Ev}\lbrace u(s) \rbrace$ by working back up the tree.
 
 <img src="https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/minmax_search.gif"/>*Computing utilities via the min-max algorithm on a binary game tree of depth 3.*
 
@@ -274,7 +274,7 @@ The resulting utility function is denoted $u\_{v'}$.
 The authors apply Alg. MCTS with a few modifications. Each state keeps track of the following parameters, updated during each iteration, $i$:
 - the number of times $s$ was selected, $N(s,i)$, where $N(s,0) = 0, \forall s \neq s_0$ and $N(s_0,0) = 1$.
 - the simulation utility accumulated whenever $s$ was selected, $U(s,i)$, where $U'(s,0) = 0, \forall s$.
-- the $u\_{v\'}$ utility accumulated whenever $s$ was selected during a simulation, $V(s,i)$, where $V'(s,0) = 0, \forall s$.
+- the $u\_{v\'}$ utility accumulated whenever $s$ was selected during a simulation, $V(s,i)$, where $V(s,0) = 0, \forall s$.
 
 Define the MTCS estimate as
 \\[\hat{u}(s,i) = \frac{\lambda U(s,i)+ (1-\lambda)V(s,i)}{N(s,i)},\\]
