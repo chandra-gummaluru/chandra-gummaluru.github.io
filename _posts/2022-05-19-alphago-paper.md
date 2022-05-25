@@ -263,7 +263,23 @@ Solving the above for $v$ is still very difficult, but we can approximate it via
 The resulting utility function is denoted $u\_{v'}$.
 
 ### Implementing MCTS
-The authors apply Alg. MCTS with a few modifications:
+The authors apply Alg. MCTS with a few modifications. Each state keeps track of five values; $N(s,i)$, $U(s,i)$, $N'(s,i)$, $U'(s,i)$, and $P(s,a)$, where $N(s,0)=U(s,0)=N'(s,0)=U'(s,0)=0$ and $P(s,a)=1$. During each iteration, $i$, we perform the following steps:
+
+1. **Selection**: Starting from $s_0$, choose actions, $a_1, \dots, a_j$, where $a_{j+1} \in \mathcal{A}(s_i), s_j = a_i(s_{j-1})$ and $s_t$ is the first node with unexplored children; each action is chosen according to
+\\[\hat{a}(s,i) = \text{arg max}\_{a \in \mathcal{A}(s}\left\lbrace \lambda\frac{U(s,i)}{N(s,i)} + (1-\lambda)\frac{U'(s,i}{N'(s,i)} + \sqrt{a}\right\rbrace\\]
+
+2. **Expansion**: Expand $s_t$ to reveal a child, $s_{t+1}$, and update $N(s,\cdot)$ so that:
+\\[\begin{aligned}N(s,i) = \begin{cases} N(s,i-1) + 1, &s = s_0, \dots, s_k, s_{t+1} \\\\\\
+N(s,i-1), &\text{otherwise}\end{cases}\end{aligned}\\]
+
+3. **Evaluation**: Compute the probability
+
+3. **Simulation**: Simulate a game from $s_{t+1}$ to some terminal state by randomly selecting successive actions; let $s_{t+2}, \dots, s_{T}$ denote the resulting states, where $s_T \in \mathcal{T}$.
+
+4. **Back-Propagation**: For $t = 1, \dots, T-1$, compute $U(s\_t,i) := U(s\_t,i-1) + (-1)^{T-t-1}\mu(s_n)$ and estimate $u(s)$ as
+\\[\hat{u}(s,i) = \frac{U(s,i)}{N(s,i)},\\]
+where the factor $(-1)^{T-t+1}$ modifies $\mu(s\_T)$ to be from the perspective of the turn-taker at $t$.
+
 
 1. In addition to $N(s,i)$ and $U(s,i)$, each non-terminal state, $s$, keeps track some additional values, $N'(s,i), U'(s,i)$ and $P(s,a)$:
    - $P(s,a) = p\_{w'}(a\lvert s)$ is the probability of taking action $a$ from $s$ according to $p\_{w'}$
