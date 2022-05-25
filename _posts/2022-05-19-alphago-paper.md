@@ -88,7 +88,7 @@ where the expectations are no longer necessary since $u$ is effectively determin
 However, we will not be using this convention since it requires us to differentiate between the two players and makes the resulting expressions more complex. In any case, to compute the utilities. the agent must traverse the tree until a state, $s$, is reached whose successors are all leaves, and then compute $\text{Ev}\lbrace u(s) \rbrace$ by working back up the tree.
 <img src="https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/minmax_search.gif"/>*Computing utilities via the (NM) algorithm on a simple game tree.*
 
-<img src="https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/minmax_search_end.svg"/>*The utility of each node relative to the turn-taker after completing the (NM) algorithm on a simple game tree.*
+<img src="https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/min_max_search_end.svg"/>*The utility of each node relative to the turn-taker after completing the (NM) algorithm on a simple game tree.*
 
 ### Dealing with Large Game Trees
 In many situations, it is computationally infeasible to traverse the entire game tree because it is so large. This is the case with Go. In these situations, one option is to use an iterative approach. To do this, we will need a heuristic function, $h: \mathcal{S} \rightarrow \mathbb{R}$ that can estimate $u$ for any $s \in \mathcal{S}$. In each iteration, $i$, we expand a node in the tree, estimate its utility using the heuristic, and propagate the consequences back up the tree via the min-max algorithm.
