@@ -110,6 +110,9 @@ We can then estimate the utility of a state, $s$, by repeatedly simulating the g
 - the number of times $s$ was selected, $N(s,i)$, where $N(s,0) = 0, \forall s \neq s_0$ and $N(s_0,0) = 1$.
 - the utility accumulated whenever $s$ was selected, $U(s,i)$, where $U'(s,0) = 0, \forall s$.
 
+Define the MTCS estimate as
+\\[\hat{u}(s,i) := \frac{U(s,i)}{N(s,i)}.\\]
+
 Each iteration consists of the following phases:
 
 1. **Selection**: Starting from $s_0$, choose actions, $a_1, \dots, a_t$, where $a_{j+1} \in \mathcal{A}(s_j), s_j = a_j(s_{j-1})$ and $s_t$ is the first node with unexplored children; each action is chosen according to
