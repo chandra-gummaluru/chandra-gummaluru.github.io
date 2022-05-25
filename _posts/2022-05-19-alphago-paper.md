@@ -221,7 +221,7 @@ The architecture of the policy network is as follows:
 ### Approximating $p$ via SL
 Alg. PSL was used to tune $w$ so that $p_w$ mimics the moves made by expert players. The dataset consists of a set of state-action pairs, as opposed to a set of complete games, i.e.,
 \\[\mathcal{D}\_{1} = \left\lbrace \left(s^{(n)},a^{(n)}\right), s^{(n)} \in \mathcal{S}, a^{(n)} \in \mathcal{A}\left(s^{(n)}\right) \right\rbrace\_{n=1}^{N},\\]
-where $a^{(n)}$ is the action that an expert played when in state $s^{(n)}$. The resulting policy is denoted $p\_{\sigma}$; it achieved an Elo rating of 1517.
+where $a^{(n)}$ is the action that an expert played when in state $s^{(n)}$. The resulting policy, denoted $p\_{\sigma}$, achieved an Elo rating of 1517.
 
 ### Improving $p$ via RL
 
