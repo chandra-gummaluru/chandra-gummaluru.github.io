@@ -261,4 +261,4 @@ Solving the above for $v$ is still very difficult, but we can approximate it via
 <sup>1</sup>In the context of the min-max algorithm, it is more common to use the utility function of the turn-taker at the root as opposed to $\mu$.
 
 ## References
-[^1]: Silver, D., Huang, A., Maddison, C. et al. Mastering the game of Go with deep neural networks and tree search. Nature 529, 484–489 (2016). https://doi.org/10.1038/nature16961
+[^1]: Silver, D., Huang, A., Maddison, C. et al. Mastering the game of Go with deep neural networks and tree search. Nature 529, 484–489 (2016). [https://doi.org/10.1038/nature16961](https://doi.org/10.1038/nature16961)
