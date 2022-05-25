@@ -112,7 +112,9 @@ We can then estimate the utility of a state, $s$, by repeatedly simulating the g
 
 Each iteration consists of the following phases:
 
-1. **Selection**: Starting from $s_0$, choose actions, $a_1, \dots, a_t$, where $a_{j+1} \in \mathcal{A}(s_j), s_j = a_j(s_{j-1})$ and $s_t$ is the first node with unexplored children; the actions should be chosen according to a selection policy that balances exploration versus exploitation.
+1. **Selection**: Starting from $s_0$, choose actions, $a_1, \dots, a_t$, where $a_{j+1} \in \mathcal{A}(s_j), s_j = a_j(s_{j-1})$ and $s_t$ is the first node with unexplored children; each action is chosen according to
+\\[\hat{a}(s,i) = \text{arg max}\_{a \in \mathcal{A}(s}\left\lbrace \hat{u}(s,i) + \sqrt{\frac{2c\log{i}}{N(s,i)}}\right\rbrace\\]
+which (as we will show) balances the need for both exploration and exploitation.
 
 3. **Expansion**: Expand $s_t$ to reveal a child, $s_{t+1}$, and update $N(\cdot, \cdot)$ so that:
 \\[\begin{aligned}N(s,i+1) = \begin{cases} N(s,i) + 1, &s = s_0, \dots, s_t, s_{t+1} \\\\\\
@@ -121,8 +123,8 @@ N(s+1,i), &\text{otherwise}\end{cases}\end{aligned}\\]
 3. **Simulation**: Simulate a game from $s_{t+1}$ to some terminal state by randomly selecting successive actions; let $s_{t+2}, \dots, s_{T}$ denote the resulting states, where $s_T \in \mathcal{T}$.
 
 4. **Back-Propagation**: Update $U(\cdot, \cdot)$ so that
-\\[\begin{aligned}U(s,i+1) = \begin{cases} U(s,i-1) + (-1)^{T-j-1}\mu(s_n), &s = s_0, \dots, s_t, s_{t+1} \\\\\\
-N(s,i), &\text{otherwise}\end{cases}\end{aligned},\\]
+\\[\begin{aligned}U(s,i+1) = \begin{cases} U(s,i) + (-1)^{T-j-1}\mu(s_T), &s = s_0, \dots, s_t, s_{t+1} \\\\\\
+N(s,i), &\text{otherwise}\end{cases}\end{aligned}\\]
 where the factor $(-1)^{T-j+1}$ modifies $\mu(s\_T)$ to be from the perspective of the turn-taker at $s\_j$.
 
 Since $\hat{u}(s,i)$ is the mean of $N(s,i)$ independent random variables bounded within $[-1,1]$, we can use Hoeffding's inequality to upper bound the probability that the difference between $\hat{u}(s,i)$ and $\mu(s)$ exceeds some threshold, $\varepsilon$:
