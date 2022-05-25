@@ -226,7 +226,7 @@ The policy $p\_{\rho}$ was used to train a network that can model.
 
 The authors model $u$ as a deep neural-network (DNN), $u\_v$, which we henceforth refer to as the **value network**. The input is identical to that of the policy network. Training consisted of using $p_{\rho}$ to generate $N$ games as in $\mathcal{D}$; from the $n$<sup>th</sup> game, a random state $s_t^{(n)} \not\in \mathcal{T}$ was selected and paired with the game's terminal utility, $\tilde{u}_{p\_w}\left(s\_t^{(n)}\right) := \mu\left(s\_T^{(n)}\right)$. The resulting dataset is
 
-\\[\mathcal{D}\_2$ = \left\lbrace (s^{(n)},\tilde{u}\_{p\_w}\left(s^{(n)}\right)) \right\rbrace_{n=1}^{N}\\]
+\\[\mathcal{D}\_2 = \left\lbrace \left(s^{(n)},\tilde{u}\_{p\_w}\left(s^{(n)}\right)\right) \right\rbrace_{n=1}^{N}\\]
 
 We want to choose $v$ to maximize the expected mean-squared error of $u_v$ across $\mathcal{D}\_2$ under $p\_{\rho}$, i.e.,
 
