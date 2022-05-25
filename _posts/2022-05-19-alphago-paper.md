@@ -201,12 +201,12 @@ Intuitively, we should update $w$ in the direction of $\nabla_w\log\left(\text{E
 ## The AlphaGo Pipeline
 The authors of AlphaGo[^1] sought to learn a policy function that approximates the min-max policy, $p\_{\rho} \approx p$, then use $p$ to approximate the utility function under min-max, $u\_{p\_{\rho}} \approx u\_p$, and then use $u\_{p\_{\rho}}$ in place of actual simulations in MCTS.
 
-They focus on the case where $N = 19$; the state is represented as a matrix, $s \in \lbrace -1, 0, 1 \rbrace^{19 \times 19}$.
-
-Categorical variables can easily be represented numerically by mapping the category space to $\mathbb{N}$. However, doing so implies an ordering of the categories. Thus, an $N$-ary categorical variable is often represented as a binary $N$-dimensional unit-vector, where each dimension of the vector corresponds to one category.
+They focus on the case where $N = 19$; the state, $s$ is represented as a matrix in $\lbrace -1, 0, 1 \rbrace^{19 \times 19}$.
 
 ### Modelling $p$
-The authors model $p$ as a deep neural-network (DNN), $p_w$, which we henceforth refer to as the **policy network**. The input to the policy network consists of the board configuration, as well as several useful features (e.g., the number of liberties for each point, the number of stones that would be captured if a stone was played at each point, etc.), all of which are represneted using a one-hot encoding[^2]. When stacked together, this results in a $48$ channel $19 \times 19$ binary image.
+The authors model $p$ as a deep neural-network (DNN), $p_w$, which we henceforth refer to as the **policy network**.
+
+The input to the policy network consists of the state, as well as several useful features (e.g., the number of liberties for each point, the number of stones that would be captured if a stone was played at each point, etc.), all of which are represented using one-hot encodings. When stacked together, this results in a $48$ channel $19 \times 19$ binary image.
 
 The architecture of the policy network is as follows:
 
