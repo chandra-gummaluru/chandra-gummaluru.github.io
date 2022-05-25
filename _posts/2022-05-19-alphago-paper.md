@@ -149,7 +149,7 @@ The $\delta$ **upper confidence bound** of $\hat{u}(s,i)$ is
 \\[\text{UCB}_\{\delta\}\left(\hat{u}(s,i)\right) = \hat{u}(s,i) + \text{CR}\_{\delta}\left(\hat{u}(s,i)\right).\\]
 
 We want $\delta$ to get smaller as the number of iterations gets larger. If we let $\delta = i^{-c}$ for some $c \geq 1$ and choose actions according to the selection policy:
-\\[\hat{a}(s,i) = \text{arg max}_{a \in \mathcal{A}(s)}\text{UCB}\_{t^{-c}}\left(\hat{u}(a(s),i)\right) = \text{arg max}\_{a \in \mathcal{A}(s)}\left\lbrace\hat{u}(a(s),i) + \sqrt{\frac{2c\log i}{N(s,i)}}\right\rbrace\\]
+\\[\hat{a}(s,i) = \text{arg max}_{a \in \mathcal{A}(s)}\text{UCB}\_{t^{-c}}\left(\hat{u}\left(a(s),i\right)\right) = \text{arg max}\_{a \in \mathcal{A}(s)}\left\lbrace\hat{u}\left(a(s),i\right) + \sqrt{\frac{2c\log i}{N(s,i)}}\right\rbrace\\]
 then for large $N(s,i)$, it follows that $\hat{a}(s,i) \approx a^\*(s)$ in the sense that $u(\hat{a}(s,i)) \approx u(a^\*(s))$. We could have also defined the selection policy in terms of the $\delta$ **lower confidence bound**, but in either case, we see that the action identified by the resulting MTCS will have the same expected utility as the one identified by the min-max algorithm.
 
 ## Learning Techniques
