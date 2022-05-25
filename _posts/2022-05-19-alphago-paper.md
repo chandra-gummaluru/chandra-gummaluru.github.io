@@ -114,15 +114,16 @@ Each iteration consists of the following phases:
 
 1. **Selection**: Starting from $s_0$, choose actions, $a_1, \dots, a_t$, where $a_{j+1} \in \mathcal{A}(s_j), s_j = a_j(s_{j-1})$ and $s_t$ is the first node with unexplored children; the actions should be chosen according to a selection policy that balances exploration versus exploitation.
 
-3. **Expansion**: Expand $s_t$ to reveal a child, $s_{t+1}$, and update $N(s,\cdot)$ so that:
-\\[\begin{aligned}N(s,i) = \begin{cases} N(s,i-1) + 1, &s = s_0, \dots, s_t, s_{t+1} \\\\\\
-N(s,i-1), &\text{otherwise}\end{cases}\end{aligned}\\]
+3. **Expansion**: Expand $s_t$ to reveal a child, $s_{t+1}$, and update $N(\cdot, \cdot)$ so that:
+\\[\begin{aligned}N(s,i+1) = \begin{cases} N(s,i) + 1, &s = s_0, \dots, s_t, s_{t+1} \\\\\\
+N(s+1,i), &\text{otherwise}\end{cases}\end{aligned}\\]
 
 3. **Simulation**: Simulate a game from $s_{t+1}$ to some terminal state by randomly selecting successive actions; let $s_{t+2}, \dots, s_{T}$ denote the resulting states, where $s_T \in \mathcal{T}$.
 
-4. **Back-Propagation**: For $j = 1, \dots, t+1$, compute $U(s\_j,i) := U(s\_j,i-1) + (-1)^{T-j-1}\mu(s_n)$ and estimate $u(s)$ as
-\\[\hat{u}(s,i) = \frac{U(s,i)}{N(s,i)},\\]
-where the factor $(-1)^{T-t+1}$ modifies $\mu(s\_T)$ to be from the perspective of the turn-taker at $t$.
+4. **Back-Propagation**: Update $U(\cdot, \cdot)$ so that
+\\[\begin{aligned}U(s,i+1) = \begin{cases} U(s,i-1) + (-1)^{T-j-1}\mu(s_n), &s = s_0, \dots, s_t, s_{t+1} \\\\\\
+N(s,i), &\text{otherwise}\end{cases}\end{aligned},\\]
+where the factor $(-1)^{T-j+1}$ modifies $\mu(s\_T)$ to be from the perspective of the turn-taker at $s\_j$.
 
 Since $\hat{u}(s,i)$ is the mean of $N(s,i)$ independent random variables bounded within $[-1,1]$, we can use Hoeffding's inequality to upper bound the probability that the difference between $\hat{u}(s,i)$ and $\mu(s)$ exceeds some threshold, $\varepsilon$:
 
@@ -271,21 +272,24 @@ The authors apply Alg. MCTS with a few modifications. Each state keeps track of 
 - the number of times $s$ was reached during a simulation, $N'(s,i)$, where $N'(s,0) = 0, \forall s \neq s_0$ and $N'(s_0,0) = 1$.
 - the utility accumulated whenever $s$ was reached during a simulation, $U'(s,i)$, where $U'(s,0) = 0, \forall s$.
 
+Define the MTCS estimate as
+\\[\hat{u}(s,i) = \lambda\frac{U(s,i)}{N(s,i)} + (1-\lambda)\frac{U'(s,i)}{N'(s,i)},\\]
+for some fixed $\lambda$.
+
 Each iteration consists of the following phases:
 
-1. **Selection**: Starting from $s_0$, choose actions, $a_1, \dots, a\_{\tau}$, where $a_{j+1} \in \mathcal{A}(s\_j), s\_{j} = a\_{j}(s_{j-1})$ and $s\_{\tau}$ is the first node with unexplored children; each action is chosen according to
-\\[\hat{a}(s,i) = \text{arg max}\_{a \in \mathcal{A}(s}\left\lbrace \lambda\frac{U(s,i)}{N(s,i)} + (1-\lambda)\frac{U'(s,i}{N'(s,i)} + \sqrt{a}\right\rbrace\\]
+1. **Selection**: Starting from $s_0$, choose actions, $a_1, \dots, a\_{t}$, where $a_{j+1} \in \mathcal{A}(s\_j), s\_{j} = a\_{j}(s_{j-1})$ and $s\_{\tau}$ is the first node with unexplored children; each action is chosen according to
+\\[\hat{a}(s,i) = \text{arg max}\_{a \in \mathcal{A}(s}\left\lbrace \hat{u}(s,i) + \sqrt{a}\right\rbrace\\]
 
-2. **Expansion**: Expand $s_t$ to reveal a child, $s_{\tau+1}$, and update $N(s,\cdot)$ so that:
-\\[\begin{aligned}N(s,i) = \begin{cases} N(s,i-1) + 1, &s = s_0, \dots, s_k, s_{\tau+1} \\\\\\
+2. **Expansion**: Expand $s_t$ to reveal a child, $s_{t+1}$, and update $N(s,\cdot)$ so that:
+\\[\begin{aligned}N(s,i) = \begin{cases} N(s,i-1) + 1, &s = s_0, \dots, s_t, s_{t+1} \\\\\\
 N(s,i-1), &\text{otherwise}\end{cases}\end{aligned}\\]
 
-3. **Evaluation**: Compute the probability
+3. **Evaluation**: If $N(s\_{t+1},i) = 0$, compute $P(s,a) = p\_{w'}\left(a\lvert s\_{t+1})$ for each $a \in \mathcal{A}\left(s\_{t+1}\right)$.
 
-3. **Simulation**: Simulate a game from $s_{t+1}$ to some terminal state by selecting successive actions according to $p\_{w\'\'}$; let $s_{t+2}, \dots, s_{T}$ denote the resulting states, where $s_T \in \mathcal{T}$.
+4. **Simulation**: Simulate a game from $s_{t+1}$ to some terminal state by selecting successive actions according to $p\_{w\'\'}$; let $s_{t+2}, \dots, s_{T}$ denote the resulting states, where $s_T \in \mathcal{T}$.
 
-4. **Back-Propagation**: For $t = 1, \dots, t$, compute $U(s\_t,i) := U(s\_t,i-1) + (-1)^{T-t-1}\mu(s_n)$ and estimate $u(s)$ as
-\\[\hat{u}(s,i) = \frac{U(s,i)}{N(s,i)},\\]
+5. **Back-Propagation**: For $j = 1, \dots, {t+1}$, compute $U(s\_t,i) := U(s\_t,i-1) + (-1)^{T-t-1}\mu(s_n)$ and update $\hat{u}(s,i)$.
 where the factor $(-1)^{T-t+1}$ modifies $\mu(s\_T)$ to be from the perspective of the turn-taker at $t$.
 
 
