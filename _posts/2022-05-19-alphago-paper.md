@@ -274,7 +274,7 @@ The resulting utility function is denoted $u\_{v'}$.
 The authors apply Alg. MCTS with a few modifications. Each state keeps track of the following parameters, updated during each iteration, $i$:
 - the number of times $s$ was selected, $N(s,i)$, where $N(s,0) = 0, \forall s \neq s_0$ and $N(s_0,0) = 1$.
 - the simulation utility accumulated whenever $s$ was selected, $U(s,i)$, where $U'(s,0) = 0, \forall s$.
-- the $u\_{v'}$ utility accumulated whenever $s$ was selected during a simulation, $V(s,i)$, where $V'(s,0) = 0, \forall s$.
+- the $u\_{v\'}$ utility accumulated whenever $s$ was selected during a simulation, $V(s,i)$, where $V'(s,0) = 0, \forall s$.
 
 Define the MTCS estimate as
 \\[\hat{u}(s,i) = \frac{\lambda U(s,i)+ (1-\lambda)V(s,i)}{N(s,i)},\\]
@@ -293,9 +293,12 @@ N(s,i-1), &\text{otherwise}\end{cases}\end{aligned}\\]
 
 4. **Simulation**: Simulate a game from $s_{t+1}$ to some terminal state by selecting successive actions according to $p\_{w\'\'}$; let $s_{t+2}, \dots, s_{T}$ denote the resulting states, where $s_T \in \mathcal{T}$.
 
-5. **Back-Propagation**: Update $U(\cdot, \cdot)$ so that
+5. **Back-Propagation**: Update $U(\cdot, \cdot)$ and $V(\cdot,\cdot)$ so that
 \\[\begin{aligned}U(s,i+1) = \begin{cases} U(s,i) + (-1)^{T-j-1}\mu(s_T), &s = s_0, \dots, s_t, s_{t+1} \\\\\\
 U(s,i), &\text{otherwise}\end{cases}\end{aligned}\\]
+and
+\\[\begin{aligned}V(s,i+1) = \begin{cases} V(s,i) + (-1)^{T-j-1}u\_{v\'}(s_{t+1}), &s = s_0, \dots, s_t, s_{t+1} \\\\\\
+V(s,i), &\text{otherwise}\end{cases}\end{aligned}\\]
 where the factor $(-1)^{T-j+1}$ modifies $\mu(s\_T)$ to be from the perspective of the turn-taker at $s\_j$.
 
 ---
