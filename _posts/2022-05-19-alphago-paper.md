@@ -235,12 +235,14 @@ We want to choose $v$ to maximize the expected mean-squared error of $u_v$ acros
 A necessary condition for the desired $v$ is that the partial derivative of the above expression w.r.t. $w$ is zero, i.e.,
 \\[\nabla\_v\text{MSE}\lbrace \mathcal{D} \rbrace = \frac{2}{N}\sum_{n=1}^{N}\left(u\_v\left(s^{(n)}\right) - \tilde{u}\_{p\_{\rho}}^{(n)}\right)\frac{\partial u\_v\left(s^{(n)}\right) }{\partial v} = 0.\\]
 
+Solving the above for $v$ is still very difficult, but we can approximate it via an iterative approach:
+
 **Alg. VSL:**
 
 > 1: choose an arbitrary $v_0$<br>
 > 2: **for** $i = 1, \dots, \tau$:<br>
-> 3: &nbsp;&nbsp;&nbsp;&nbsp;select a random subset of $\mathcal{D}\_2$ and compute $\nabla_v\text{MSE}\lbrace \mathcal{D} \rbrace$<br>
-> 4: &nbsp;&nbsp;&nbsp;&nbsp;$v_{i+1} = v_{i} + \alpha\nabla_v\text{MSE}\lbrace \mathcal{D} \rbrace$, where $\alpha$ is some scalar
+> 3: &nbsp;&nbsp;&nbsp;&nbsp;select a random subset of $\mathcal{D}\_2$ and compute $\nabla_v\text{MSE}\lbrace \mathcal{D}\_2 \rbrace$<br>
+> 4: &nbsp;&nbsp;&nbsp;&nbsp;$v_{i+1} = v_{i} + \alpha\nabla_v\text{MSE}\lbrace \mathcal{D}\_2 \rbrace$, where $\alpha$ is some scalar
 
 
 ---
