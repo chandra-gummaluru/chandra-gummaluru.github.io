@@ -57,7 +57,7 @@ An obvious approach is to saearch the game tree explicitly for the best action d
 ### The Ideal Algorithm
 Whenever our agent is the turn-taker at $s$, we want $p(\cdot \lvert s)$ to satisfy:
 
-\\[p(a\lvert s) = \begin{cases} 1, a=a^*(s) \\\\\\
+\\[p(a\lvert s) = p^\*(a\lvert s) := \begin{cases} 1, a=\mathcal{A}^*(s) \\\\\\
 0, \text{otherwise}
 \end{cases}\tag{1}\\]
 
