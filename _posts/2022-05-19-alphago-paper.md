@@ -244,7 +244,7 @@ Training consisted of using $p_{w\'}$ to generate $N$ games as in $\mathcal{D}$;
 
 \\[\mathcal{D}\_2 = \left\lbrace \left(s^{(n)},\tilde{u}\_{p\_{w\'}}^{(n)}\right) \right\rbrace_{n=1}^{N}\\]
 
-We want to choose $v$ to maximize the expected mean-squared error of $u_v$ across $\mathcal{D}\_2$ under $p\_{w'}$, i.e.,
+We want to choose $v$ to maximize the mean-squared error (MSE) of $u_v$ across $\mathcal{D}\_2$ under $p\_{w'}$, i.e.,
 
 \\[\text{MSE}\lbrace \mathcal{D}\_2 \rbrace = \frac{1}{N}\sum_{n=1}^{N}\left(u\_v\left(s^{(n)}\right) - \tilde{u}_{p\_{w'}}^{(n)}\right)^2.\\]
 
