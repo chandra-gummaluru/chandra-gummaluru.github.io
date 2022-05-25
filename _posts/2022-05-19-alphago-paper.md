@@ -80,7 +80,7 @@ In most cases, we do not know $p(\cdot \lvert s)$ if the adversary is the turn-t
 \displaystyle\min_{s' \in S(s)}\lbrace -u\_p(s') \rbrace, &s \not\in \mathcal{T} \text{ and the adversary is the turn-taker}
 \end{cases}\end{aligned}\tag{MM}\label{eq_mm_recurrence}\\]
 
-where the expectations are no longer necessary since $u$ is effectively deterministic. This is called the **min-max** algorithm<sup>1</sup>.
+where the expectations are no longer necessary since $u$ is effectively deterministic. This is called the **min-max** algorithm[^1].
 
 To compute the utilities. the agent must traverse the tree until a state, $s$, is reached whose successors are all leaves, and then compute $\text{Ev}\lbrace u(s) \rbrace$ by working back up the tree.
 
@@ -196,7 +196,7 @@ Solving the above for $w$ is still very difficult, but we can approximate it via
 Intuitively, we should update $w$ in the direction of $\nabla_w\log\left(\text{Ev}\lbrace \hat{u}(s\_0,N) \rbrace\right)$ since this is the direction along which $\text{Ev}\lbrace \hat{u}(s\_0,N) \rbrace$ increases the most.
 
 ## The AlphaGo Pipeline
-The authors of AlphaGo[^1] sought to learn a policy function that approximates the min-max policy, $p\_{\rho} \approx p$, then use $p$ to approximate the utility function under min-max, $u\_{p\_{\rho}} \approx u\_p$, and then use $u\_{p\_{\rho}}$ in place of actual simulations in MCTS.
+The authors of AlphaGo[1] sought to learn a policy function that approximates the min-max policy, $p\_{\rho} \approx p$, then use $p$ to approximate the utility function under min-max, $u\_{p\_{\rho}} \approx u\_p$, and then use $u\_{p\_{\rho}}$ in place of actual simulations in MCTS.
 
 They focus on the case where $N = 19$; the state is represented as a matrix, $s \in \lbrace -1, 0, 1 \rbrace^{19 \times 19}$.
 
@@ -256,7 +256,7 @@ Solving the above for $v$ is still very difficult, but we can approximate it via
 > 4: &nbsp;&nbsp;&nbsp;&nbsp;$v_{i+1} = v_{i} + \alpha\nabla_v\text{MSE}\lbrace \mathcal{D}\_2 \rbrace$, where $\alpha$ is some scalar
 
 ## References
-Silver, D., Huang, A., Maddison, C. et al. Mastering the game of Go with deep neural networks and tree search. Nature 529, 484–489 (2016). [https://doi.org/10.1038/nature16961](https://doi.org/10.1038/nature16961)
+[1]: Silver, D., Huang, A., Maddison, C. et al. Mastering the game of Go with deep neural networks and tree search. Nature 529, 484–489 (2016). [https://doi.org/10.1038/nature16961](https://doi.org/10.1038/nature16961)
 
 
 ---
