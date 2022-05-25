@@ -112,15 +112,15 @@ We can then estimate the utility of a state, $s$, by repeatedly simulating the g
 
 Each iteration consists of the following phases:
 
-1. **Selection**: Starting from $s_0$, choose actions, $a_1, \dots, a_j$, where $a_{j+1} \in \mathcal{A}(s_i), s_j = a_i(s_{j-1})$ and $s_t$ is the first node with unexplored children; the actions should be chosen according to a selection policy that balances exploration versus exploitation.
+1. **Selection**: Starting from $s_0$, choose actions, $a_1, \dots, a_t$, where $a_{j+1} \in \mathcal{A}(s_j), s_j = a_j(s_{j-1})$ and $s_t$ is the first node with unexplored children; the actions should be chosen according to a selection policy that balances exploration versus exploitation.
 
 3. **Expansion**: Expand $s_t$ to reveal a child, $s_{t+1}$, and update $N(s,\cdot)$ so that:
-\\[\begin{aligned}N(s,i) = \begin{cases} N(s,i-1) + 1, &s = s_0, \dots, s_k, s_{t+1} \\\\\\
+\\[\begin{aligned}N(s,i) = \begin{cases} N(s,i-1) + 1, &s = s_0, \dots, s_t, s_{t+1} \\\\\\
 N(s,i-1), &\text{otherwise}\end{cases}\end{aligned}\\]
 
 3. **Simulation**: Simulate a game from $s_{t+1}$ to some terminal state by randomly selecting successive actions; let $s_{t+2}, \dots, s_{T}$ denote the resulting states, where $s_T \in \mathcal{T}$.
 
-4. **Back-Propagation**: For $t = 1, \dots, T-1$, compute $U(s\_t,i) := U(s\_t,i-1) + (-1)^{T-t-1}\mu(s_n)$ and estimate $u(s)$ as
+4. **Back-Propagation**: For $j = 1, \dots, t+1$, compute $U(s\_j,i) := U(s\_j,i-1) + (-1)^{T-j-1}\mu(s_n)$ and estimate $u(s)$ as
 \\[\hat{u}(s,i) = \frac{U(s,i)}{N(s,i)},\\]
 where the factor $(-1)^{T-t+1}$ modifies $\mu(s\_T)$ to be from the perspective of the turn-taker at $t$.
 
