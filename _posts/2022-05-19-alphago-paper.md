@@ -196,7 +196,7 @@ Solving the above for $w$ is still very difficult, but we can approximate it via
 Intuitively, we should update $w$ in the direction of $\nabla_w\log\left(\text{Ev}\lbrace \hat{u}(s\_0,N) \rbrace\right)$ since this is the direction along which $\text{Ev}\lbrace \hat{u}(s\_0,N) \rbrace$ increases the most.
 
 ## The AlphaGo Pipeline
-The authors of AlphaGo\[^1\] sought to learn a policy function that approximates the min-max policy, $p\_{\rho} \sim p$, then use $p$ to approximate the utility function under min-max, $u\_{p\_{\rho}} \approx u\_p$, and then use $u\_{p\_{\rho}}$ in place of actual simulations in MCTS.
+The authors of AlphaGo\[^1\] sought to learn a policy function that approximates the min-max policy, $p\_{\rho} \approx p$, then use $p$ to approximate the utility function under min-max, $u\_{p\_{\rho}} \approx u\_p$, and then use $u\_{p\_{\rho}}$ in place of actual simulations in MCTS.
 
 They focus on the case where $N = 19$; the state is represented as a matrix, $s \in \lbrace -1, 0, 1 \rbrace^{19 \times 19}$.
 
