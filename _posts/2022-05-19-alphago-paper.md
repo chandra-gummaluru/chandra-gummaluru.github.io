@@ -162,7 +162,7 @@ Computing $\nabla_w\text{Pr}\lbrace \mathcal{D} \rbrace$ is very difficult, so w
 
 Solving the above for $w$ is still very difficult, but we can approximate it via an iterative approach.
 
-**Alg. SL:**
+**Alg. PSL:**
 
 > 1: choose an arbitrary $w_0$<br>
 > 2: **for** $i = 1, \dots, \tau$:<br>
@@ -187,7 +187,7 @@ Computing $\nabla_w\text{Pv}\lbrace \hat{u}(s\_0,N) \rbrace$ is very difficult, 
 
 Solving the above for $w$ is still very difficult, but we can approximate it via an iterative approach:
 
-**Alg. RL:**
+**Alg. PRL:**
 > 1: choose an arbitrary $w_0$<br>
 > 2: **for** $i = 1, \dots, \tau$:<br>
 > 3: &nbsp;&nbsp;&nbsp;&nbsp;simulate $N$ games under $p\_{w\_i}$ and compute $\nabla_w\log\left(\text{Ev}\lbrace \hat{u}(s\_0,N) \rbrace\right)$<br>
@@ -215,7 +215,7 @@ The architecture of the policy network is as follows:
 ![](https://raw.githubusercontent.com/chandra-gummaluru/chandra-gummaluru.github.io/42464190ca0f53949118d02ea0d451e396edb112/media/go/cnn1.svg)*The DNN used to model $p_w$.*
 
 ### Approximating $p$ via SL
-Alg. SL was used to tune $w$ so that $p_w$ mimics the moves made by expert players. The dataset consists of a set of state-action pairs, as opposed to a set of complete games, i.e.,
+Alg. PSL was used to tune $w$ so that $p_w$ mimics the moves made by expert players. The dataset consists of a set of state-action pairs, as opposed to a set of complete games, i.e.,
 \\[\mathcal{D}\_{1} = \left\lbrace \left(s^{(n)},a^{(n)}\right), s^{(n)} \in \mathcal{S}, a^{(n)} \in \mathcal{A}\left(s^{(n)}\right) \right\rbrace\_{n=1}^{N},\\]
 where $a^{(n)}$ is the action that an expert played when in state $s^{(n)}$. The resulting policy is denoted $p\_{\sigma}$; it achieved an Elo rating of 1517.
 
@@ -232,13 +232,15 @@ We want to choose $v$ to maximize the expected mean-squared error of $u_v$ acros
 
 \\[\text{MSE}\lbrace \mathcal{D}\_2 \rbrace = \frac{1}{N}\sum_{n=1}^{N}\left(u\_v\left(s^{(n)}\right) - \tilde{u}_{p\_{\rho}}^{(n)}\right)^2.\\]
 
-A necessary condition for the desired $w$ is that the partial derivative of the above expression w.r.t. $w$ is zero, i.e.,
-\\[\nabla_w\text{MSE}\lbrace v, \mathcal{D} \rbrace = \frac{2}{N}\sum_{n=1}^{N}\left(u\_v\left(s^{(n)}\right) - \tilde{u}_{p\_{\rho}}^{(n)}\right)\frac{\partial \left(u\_v\left(s^{(n)}\right) }{\partial v} = 0.\\]
+A necessary condition for the desired $v$ is that the partial derivative of the above expression w.r.t. $w$ is zero, i.e.,
+\\[\nabla_v\text{MSE}\lbrace \mathcal{D} \rbrace = \frac{2}{N}\sum_{n=1}^{N}\left(u\_v\left(s^{(n)}\right) - \tilde{u}_{p\_{\rho}}^{(n)}\right)\frac{\partial \left(u\_v\left(s^{(n)}\right) }{\partial v} = 0.\\]
 
-Computing $\nabla_w\text{Pr}\lbrace \mathcal{D} \rbrace$ is very difficult, so we often maximize $\nabla_w\log\left(\text{Pr}\lbrace \mathcal{D} \rbrace\right)$ instead; the resulting $w$ is the same in both cases, but $\nabla_w\log\left(\text{Pr}\lbrace \mathcal{D} \rbrace\right)$ is easier to compute:
+**Alg. VSL:**
 
-\\[\nabla_w\log\left(\text{Pr}\lbrace \mathcal{D} \rbrace\right) = \frac{1}{N}\sum_{n=1}^{N}\sum_{t=1}^{T^{(n)}}\frac{\partial}{\partial w}\log\left(p_w\left(a_t^{(n)} \lvert s_{t-1}^{(n)}\right)\right).\\]
-
+> 1: choose an arbitrary $v_0$<br>
+> 2: **for** $i = 1, \dots, \tau$:<br>
+> 3: &nbsp;&nbsp;&nbsp;&nbsp;select a random subset of $\mathcal{D}\_2$ and compute $\nabla_v\text{MSE}\lbrace \mathcal{D} \rbrace$<br>
+> 4: &nbsp;&nbsp;&nbsp;&nbsp;$v_{i+1} = v_{i} + \alpha\nabla_v\text{MSE}\lbrace \mathcal{D} \rbrace$, where $\alpha$ is some scalar
 
 
 ---
