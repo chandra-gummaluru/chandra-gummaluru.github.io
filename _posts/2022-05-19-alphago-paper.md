@@ -115,7 +115,7 @@ N(s,i-1), &\text{otherwise}\end{cases}\end{aligned}\\]
 
 3. **Simulation**: Simulate a game from $s_{t+1}$ to some terminal state by randomly selecting successive actions; let $s_{t+2}, \dots, s_{T}$ denote the resulting states, where $s_T \in \mathcal{T}$.
 
-4. **Back-Propagation**: For $t = 1, \dots, T-1$, let $U(s\_t,i) = U(s\_t,i-1) + (-1)^{T-t-1}\mu(s_n)$ and estimate $u(s)$ as
+4. **Back-Propagation**: For $t = 1, \dots, T-1$, compute $U(s\_t,i) := U(s\_t,i-1) + (-1)^{T-t-1}\mu(s_n)$ and estimate $u(s)$ as
 \\[\hat{u}(s,i) = \frac{U(s,i)}{N(s,i)},\\]
 where the factor $(-1)^{T-t+1}$ modifies $\mu(s\_T)$ to be from the perspective of the turn-taker at $t$.
 
@@ -174,26 +174,26 @@ Intuitively, should update $w$ in the direction of $\nabla_w\log\left(\text{Pr}\
 ### via Reinforcement Learning
 In many cases, we do not actually have a dataset, $\mathcal{D}$. In this case, we can choose $w$ randomly to begin with and estimate the utility of $s_0$ by simulating $N$ games using $p_w$:
 
-\\[\hat{u}\_N(s\_0) = \frac{1}{N}\sum\_{n=1}^{N}\mu\left(s\_{T^{(n)}}\right)\prod\_{t=1}^{T^{(n)}}p\_w\left(a\_t^{(n)} \lvert s\_{t-1}^{(n)}\right).\\]
+\\[\hat{u}(s\_0,N) = \frac{1}{N}\sum\_{n=1}^{N}\mu\left(s\_{T^{(n)}}\right)\prod\_{t=1}^{T^{(n)}}p\_w\left(a\_t^{(n)} \lvert s\_{t-1}^{(n)}\right).\\]
 
-Due to the law of large numbers, it can be shown that $\lim\_{N \rightarrow \infty}\hat{\mu}\_N(s\_0) = \text{Ev}\lbrace u(s\_0) \rbrace$. Thus, if $N$ is sufficiently large, $\hat{u}\_N(s\_0)$ is a good estimate of $u(s\_0)$, and we can maximize it instead.
+Due to the law of large numbers, it can be shown that $\lim\_{N \rightarrow \infty}\hat{\mu}(s\_0,N) = \text{Ev}\lbrace u(s\_0) \rbrace$. Thus, if $N$ is sufficiently large, $\hat{u}(s\_0,N)$ is a good estimate of $u(s\_0)$, and we can maximize it instead.
 
 A necessary condition for the desired $w$ is that the partial derivative of the above expression w.r.t. $w$ is zero, i.e.,
-\\[\nabla_w\text{Ev}\lbrace \hat{u}\_N(s\_0) \rbrace = 0.\\]
+\\[\nabla_w\text{Ev}\lbrace \hat{u}(s\_0,N) \rbrace = 0.\\]
 
-Computing $\nabla_w\text{Pv}\lbrace \hat{u}\_N(s\_0) \rbrace$ is very difficult, so we often maximize $\nabla_w\log\left(\text{Ev}\lbrace \hat{u}\_N(s_0) \rbrace\right)$ instead; the resulting $w$ is the same in both cases, but $\nabla_w\log\left(\text{Ev}\lbrace \hat{u}\_N(s_0) \rbrace\right)$ is easier to compute:
+Computing $\nabla_w\text{Pv}\lbrace \hat{u}(s\_0,N) \rbrace$ is very difficult, so we often maximize $\nabla_w\log\left(\text{Ev}\lbrace \hat{u}\(s_0,N) \rbrace\right)$ instead; the resulting $w$ is the same in both cases, but $\nabla_w\log\left(\text{Ev}\lbrace \hat{u}(s_0,N) \rbrace\right)$ is easier to compute:
 
-\\[\nabla_w\log\left(\text{Ev}\lbrace \hat{u}\_N(s\_0) \rbrace\right) = \frac{1}{N}\sum_{n=1}^{N}\sum_{t=1}^{T^{(n)}}\frac{\partial}{\partial w}\log\left(p_w\left(a_t^{(n)} \lvert s_{t-1}^{(n)}\right)\right).\\]
+\\[\nabla_w\log\left(\text{Ev}\lbrace \hat{u}(s\_0,N) \rbrace\right) = \frac{1}{N}\sum_{n=1}^{N}\sum_{t=1}^{T^{(n)}}\frac{\partial}{\partial w}\log\left(p_w\left(a_t^{(n)} \lvert s_{t-1}^{(n)}\right)\right).\\]
 
 Solving the above for $w$ is still very difficult, but we can approximate it via an iterative approach:
 
 **Alg. RL:**
 > 1: choose an arbitrary $w_0$<br>
 > 2: **for** $i = 1, \dots, \tau$:<br>
-> 3: &nbsp;&nbsp;&nbsp;&nbsp;simulate $N$ games under $p\_{w\_i}$ and compute $\nabla_w\log\left(\text{Ev}\lbrace \hat{u}\_N(s\_0) \rbrace\right)$<br>
-> 4: &nbsp;&nbsp;&nbsp;&nbsp;update $w_{i+1} = w_{i} + \alpha\nabla_w\log\left(\text{Ev}\lbrace \hat{u}\_N(s\_0) \rbrace\right)$, where $\alpha$ is some scalar
+> 3: &nbsp;&nbsp;&nbsp;&nbsp;simulate $N$ games under $p\_{w\_i}$ and compute $\nabla_w\log\left(\text{Ev}\lbrace \hat{u}(s\_0,N) \rbrace\right)$<br>
+> 4: &nbsp;&nbsp;&nbsp;&nbsp;update $w_{i+1} = w_{i} + \alpha\nabla_w\log\left(\text{Ev}\lbrace \hat{u}(s\_0,N) \rbrace\right)$, where $\alpha$ is some scalar
 
-Intuitively, we should update $w$ in the direction of $\nabla_w\log\left(\text{Ev}\lbrace \hat{u}\_N(s\_0) \rbrace\right)$ since this is the direction along which $\text{Ev}\lbrace \hat{u}\_N(s\_0) \rbrace$ increases the most.
+Intuitively, we should update $w$ in the direction of $\nabla_w\log\left(\text{Ev}\lbrace \hat{u}(s\_0,N) \rbrace\right)$ since this is the direction along which $\text{Ev}\lbrace \hat{u}\_N(s\_0) \rbrace$ increases the most.
 
 ## The AlphaGo Pipeline
 AlphaGo\[^1\] sought to learn $p$ as well as possible, use it to approximate the utility function, and then use that approximation in place of an actual simulation in MTCS. More specifically, suppose $p\_{\rho}$ approximates $p$, and this is used to approximate $u$.
@@ -216,15 +216,17 @@ The architecture of the policy network is as follows:
 
 ### Approximating $p$ via SL
 Alg. SL was used to tune $w$ so that $p_w$ mimics the moves made by expert players. The dataset consists of a set of state-action pairs, as opposed to a set of complete games, i.e.,
-\\[\mathcal{D}\_{1} = \left\lbrace \left(s^{(k)},a^{(k)}\right), s^{(k)} \in \mathcal{S}, a^{(k)} \in \mathcal{A}\left(s^{(k)}\right) \right\rbrace\_{k=1}^{N},\\]
-where $a^{(k)}$ is the action that an expert played when in state $s^{(k)}$. The resulting policy is denoted $p\_{\sigma}$; it achieved an Elo rating of 1517.
+\\[\mathcal{D}\_{1} = \left\lbrace \left(s^{(n)},a^{(n)}\right), s^{(n)} \in \mathcal{S}, a^{(n)} \in \mathcal{A}\left(s^{(n)}\right) \right\rbrace\_{n=1}^{N},\\]
+where $a^{(n)}$ is the action that an expert played when in state $s^{(n)}$. The resulting policy is denoted $p\_{\sigma}$; it achieved an Elo rating of 1517.
 
 ### Improving $p$ via RL
 
 ### Learning $u$ via SL
 The policy $p\_{\rho}$ was used to train a network that can model.
 
-The authors model $u$ as a deep neural-network (DNN), $u\_v$, which we henceforth refer to as the **value network**. The input is identical to that of the policy network. Training consisted of using $p_{\rho}$ to generate $N$ games as in $\mathcal{D}$; from the $n$<sup>th</sup> game, a random state $s_t^{(n)} \not\in \mathcal{T}$ was selected and paired with the game's terminal utility, $\tilde{u}\mu\left(s\_T^{(n)}\right)$. The resulting dataset is denoted $\mathcal{D}\_2$.
+The authors model $u$ as a deep neural-network (DNN), $u\_v$, which we henceforth refer to as the **value network**. The input is identical to that of the policy network. Training consisted of using $p_{\rho}$ to generate $N$ games as in $\mathcal{D}$; from the $n$<sup>th</sup> game, a random state $s_t^{(n)} \not\in \mathcal{T}$ was selected and paired with the game's terminal utility, $\tilde{u}_{p\_w}\left(s\_t^{(n)}\right) := \mu\left(s\_T^{(n)}\right)$. The resulting dataset is
+
+\\[\mathcal{D}\_2$ = \left\lbrace (s^{(n)},\tilde{u}\_{p\_w}\left(s^{(n)}\right)) \right\rbrace_{n=1}^{N}\\]
 
 We want to choose $v$ to maximize the expected mean-squared error of $u_v$ across $\mathcal{D}\_2$ under $p\_{\rho}$, i.e.,
 
