@@ -108,7 +108,7 @@ We can resolve the exploration versus exploitation dilemma and avoid needing an 
 
 We can then estimate the utility of a state, $s$, by repeatedly simulating the game from that state.
 
-Let $N(s,i)$ denote the number of times a state, $s$ has been visited after the $t$th iteration of MCTS, and $U(s,i)$ denote the cumulative utility obtained. During each iteration of MTCS, we perform the following steps:
+Each state keeps track a set of values, $\lbrace N(s,i), U(s,i) \rbrace$, where $N(s,i)$ is the number of times a state, $s$ has been visited after the $t$th iteration of MCTS, and $U(s,i)$ is the cumulative utility obtained. During each iteration of MTCS, we perform the following steps:
 
 1. **Selection**: Starting from $s_0$, choose actions, $a_1, \dots, a_j$, where $a_{j+1} \in \mathcal{A}(s_i), s_j = a_i(s_{j-1})$ and $s_t$ is the first node with unexplored children; the actions should be chosen according to a selection policy that balances exploration versus exploitation.
 
@@ -265,7 +265,11 @@ The resulting utility function is denoted $u\_{v'}$.
 ### Implementing MCTS
 The authors apply Alg. MCTS with a few modifications:
 
-1. The estimated utility, $\hat{u}(s,i)$ is computed as a convex combination of the MTCS estimate and the predicted utility from $u\_{v\'}$, i.e.,
+1. In addition to $N(s,i)$ and $U(s,i)$, each non-terminal state, $s$, keeps track some additional values, $N'(s,i), U'(s,i)$ and $P(s,a)$:
+   - $P(s,a) = p\_{w'}(a|s)$ is the probability of taking action $a$ from $s$ according to $p\_{w'}$
+   - $N'(s,i)$ is the cumulative simulation visits to $s$
+   - $U'(s,i)$ is the cumulative utility obtained over all simulation visits to $s$  
+2. The MTCS estimate $\hat{u}(s,i)$ is now computed as a weighted combination of the selection and simulation phase utility-to-reward ratios, i.e.,
 \\[\hat{u}(s,i) = \lambda\frac{U(s,i)}{N(s,i)} + (1-\lambda)u\_{v\'}\left(s\right),\\]
 for some fixed $\lambda \in [0, 1]$.
 
