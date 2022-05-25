@@ -299,7 +299,7 @@ U(s,i), &\text{otherwise}\end{cases}\end{aligned}\\]
 and
 \\[\begin{aligned}V(s,i+1) = \begin{cases} V(s,i) + (-1)^{T-j-1}u\_{v\'}(s_{t+1}), &s = s_0, \dots, s_t, s_{t+1} \\\\\\
 V(s,i), &\text{otherwise}\end{cases}\end{aligned}\\]
-where the factor $(-1)^{T-j+1}$ modifies $\mu(s\_T)$ to be from the perspective of the turn-taker at $s\_j$.
+where the factor $(-1)^{T-j+1}$ modifies $\mu(s\_T)$ and $u\_{v'}(s\_{t+1})$ to be from the perspective of the turn-taker at $s\_j$.
 
 ---
 
