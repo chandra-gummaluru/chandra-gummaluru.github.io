@@ -224,16 +224,16 @@ where $a^{(n)}$ is the action that an expert played when in state $s^{(n)}$. The
 ### Learning $u$ via SL
 The policy $p\_{\rho}$ was used to train a network that can model.
 
-The authors model $u$ as a deep neural-network (DNN), $u\_v$, which we henceforth refer to as the **value network**. The input is identical to that of the policy network. Training consisted of using $p_{\rho}$ to generate $N$ games as in $\mathcal{D}$; from the $n$<sup>th</sup> game, a random state $s_t^{(n)} \not\in \mathcal{T}$ was selected and paired with the game's terminal utility, $\tilde{u}_{p\_w}^{(n)} := (-1)^{T-t-1}\mu\left(s\_T^{(n)}\right)$. The resulting dataset is
+The authors model $u$ as a deep neural-network (DNN), $u\_v$, which we henceforth refer to as the **value network**. The input is identical to that of the policy network. Training consisted of using $p_{\rho}$ to generate $N$ games as in $\mathcal{D}$; from the $n$<sup>th</sup> game, a random state $s_t^{(n)} \not\in \mathcal{T}$ was selected and paired with the game's terminal utility, $\tilde{u}_{p\_{\rho}}^{(n)} := (-1)^{T-t-1}\mu\left(s\_T^{(n)}\right)$. The resulting dataset is
 
-\\[\mathcal{D}\_2 = \left\lbrace \left(s^{(n)},\tilde{u}\_{p\_w}^{(n)}\right) \right\rbrace_{n=1}^{N}\\]
+\\[\mathcal{D}\_2 = \left\lbrace \left(s^{(n)},\tilde{u}\_{p\_{\rho}}^{(n)}\right) \right\rbrace_{n=1}^{N}\\]
 
 We want to choose $v$ to maximize the expected mean-squared error of $u_v$ across $\mathcal{D}\_2$ under $p\_{\rho}$, i.e.,
 
-\\[\text{MSE}\lbrace \mathcal{D}\_2 \rbrace = \frac{1}{N}\sum_{n=1}^{N}\left(u\_v\left(s^{(n)}\right) - \tilde{u}_{p\_w}^{(n)}\right)^2.\\]
+\\[\text{MSE}\lbrace \mathcal{D}\_2 \rbrace = \frac{1}{N}\sum_{n=1}^{N}\left(u\_v\left(s^{(n)}\right) - \tilde{u}_{p\_{\rho}}^{(n)}\right)^2.\\]
 
 A necessary condition for the desired $w$ is that the partial derivative of the above expression w.r.t. $w$ is zero, i.e.,
-\\[\nabla_w\text{MSE}\lbrace v, \mathcal{D} \rbrace = \frac{2}{N}\sum_{n=1}^{N}\left(u\_v\left(s^{(n)}\right) - \tilde{u}_{p\_w}^{(n)}\right) = 0.\\]
+\\[\nabla_w\text{MSE}\lbrace v, \mathcal{D} \rbrace = \frac{2}{N}\sum_{n=1}^{N}\left(u\_v\left(s^{(n)}\right) - \tilde{u}_{p\_{\rho}}^{(n)}\right)\frac{\partial \left(u\_v\left(s^{(n)}\right) }{\partial v} = 0.\\]
 
 Computing $\nabla_w\text{Pr}\lbrace \mathcal{D} \rbrace$ is very difficult, so we often maximize $\nabla_w\log\left(\text{Pr}\lbrace \mathcal{D} \rbrace\right)$ instead; the resulting $w$ is the same in both cases, but $\nabla_w\log\left(\text{Pr}\lbrace \mathcal{D} \rbrace\right)$ is easier to compute:
 
