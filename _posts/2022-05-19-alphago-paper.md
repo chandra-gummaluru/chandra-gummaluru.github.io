@@ -115,8 +115,8 @@ Define the MTCS estimate as
 
 Each iteration consists of the following phases:
 
-1. **Selection**: Starting from $s_0$, choose actions, $a_1, \dots, a_t$, where $a_{j+1} \in \mathcal{A}(s_j), s_j = a_j(s_{j-1})$ and $s_t$ is the first node with unexplored children; each action is chosen according to
-\\[\hat{a}(s,i) = \text{arg max}\_{a \in \mathcal{A}(s}\left\lbrace \hat{u}(s,i) + \sqrt{\frac{2c\log{i}}{N(s,i)}}\right\rbrace\\]
+1. **Selection**: Starting from $s_0$, choose actions, $a_1, \dots, a_t$, where $a_{j+1} \in \mathcal{A}(s_j), s_j = a_j(s_{j-1})$ and $s_t$ is the first node with unexplored children; each action is chosen according to the policy
+\\[\hat{a}(s,i) = \text{arg max}\_{a \in \mathcal{A}(s}\left\lbrace \hat{u}(s,i) + \sqrt{\frac{2c\log{i}}{N(s,i)}}\right\rbrace\tag{UCT}\\]
 which (as we will show) balances the need for both exploration and exploitation.
 
 3. **Expansion**: Expand $s_t$ to reveal a child, $s_{t+1}$, and update $N(\cdot, \cdot)$ so that:
@@ -149,7 +149,7 @@ The $\delta$ **upper confidence bound** of $\hat{u}(s,i)$ is
 \\[\text{UCB}_\{\delta\}\left(\hat{u}(s,i)\right) = \hat{u}(s,i) + \text{CR}\_{\delta}\left(\hat{u}(s,i)\right).\\]
 
 We want $\delta$ to get smaller as the number of iterations gets larger. If we let $\delta = i^{-c}$ for some $c \geq 1$ and choose actions according to the selection policy:
-\\[\hat{a}(s,i) = \text{arg max}_{a \in \mathcal{A}(s)}\text{UCB}\_{t^{-c}}\left(\hat{u}(s,i)\right) = \text{arg max}\_{a \in \mathcal{A}(s)}\left\lbrace\hat{u}(s,i) + \sqrt{\frac{2c\log i}{N(s,i)}}\right\rbrace,\tag{UCT}\\]
+\\[\hat{a}(s,i) = \text{arg max}_{a \in \mathcal{A}(s)}\text{UCB}\_{t^{-c}}\left(\hat{u}(s,i)\right) = \text{arg max}\_{a \in \mathcal{A}(s)}\left\lbrace\hat{u}(s,i) + \sqrt{\frac{2c\log i}{N(s,i)}}\right\rbrace\\]
 then for large $N(s,i)$, it follows that $\hat{a}(s,i) \approx a^\*(s)$ in the sense that $u(\hat{a}(s,i)) \approx u(a^\*(s))$. We could have also defined the selection policy in terms of the $\delta$ **lower confidence bound**, but in either case, we see that the action identified by the resulting MTCS will have the same expected utility as the one identified by the min-max algorithm.
 
 ## Learning Techniques
