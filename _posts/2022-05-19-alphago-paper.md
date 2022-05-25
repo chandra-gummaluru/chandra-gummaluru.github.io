@@ -116,7 +116,7 @@ Define the MTCS estimate as
 Each iteration consists of the following phases:
 
 1. **Selection**: Starting from $s_0$, choose actions, $a_1, \dots, a_t$, where $a_{j+1} \in \mathcal{A}(s_j), s_j = a_j(s_{j-1})$ and $s_t$ is the first node with unexplored children; each action is chosen according to the policy
-\\[\hat{a}(s,i) = \text{arg max}\_{a \in \mathcal{A}(s}\left\lbrace \hat{u}(s,i) + \sqrt{\frac{2c\log{i}}{N(s,i)}}\right\rbrace\tag{UCT}\\]
+\\[\hat{a}(s,i) = \text{arg max}\_{a \in \mathcal{A}(s)}\left\lbrace \hat{u}(a(s),i) + \sqrt{\frac{2c\log{i}}{N(a(s),i)}}\right\rbrace\tag{UCT}\\]
 which (as we will show) balances the need for both exploration and exploitation.
 
 3. **Expansion**: Expand $s_t$ to reveal a child, $s_{t+1}$, and update $N(\cdot, \cdot)$ so that:
