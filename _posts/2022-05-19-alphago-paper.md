@@ -65,8 +65,8 @@ This leads to the following recurrence for computing $\text{Ev}\lbrace u(s) \rbr
 
 \\[\begin{aligned}\text{Ev}\lbrace u(s) \rbrace = \begin{cases}
 \displaystyle \mu(s), &s \in \mathcal{T} \\\\\\
-\displaystyle\max_{s' \in S(s)}\lbrace \text{Ev}\lbrace u\_p(s') \rbrace \rbrace, & s \not\in \mathcal{T} \text{ and our agent is the turn-taker}\\\\\\
-\displaystyle\sum_{a \in \mathcal{A}(s)}p(a|s)\text{Ev}\lbrace u\_p(a(s)) \rbrace, & s \not\in \mathcal{T} \text{ and the adversary is the turn-taker}
+\displaystyle-\max_{s' \in S(s)}\lbrace \text{Ev}\lbrace u\_p(s') \rbrace \rbrace, & s \not\in \mathcal{T} \text{ and our agent is the turn-taker}\\\\\\
+\displaystyle-\sum_{a \in \mathcal{A}(s)}p(a|s)\text{Ev}\lbrace u\_p(a(s)) \rbrace, & s \not\in \mathcal{T} \text{ and the adversary is the turn-taker}
 \end{cases}\end{aligned}\tag{EM}\label{eq_em_recurrence}\\]
 
 This is called the **expected-max** algorithm.
@@ -76,13 +76,18 @@ In most cases, we do not know $p(\cdot \lvert s)$ if the adversary is the turn-t
 
 \\[\begin{aligned}u(s) = \begin{cases}
 \displaystyle \mu(s), &s \in \mathcal{T} \\\\\\
+\displaystyle-\max_{s' \in S(s)}\lbrace u\_p(s') \rbrace, &s \not\in \mathcal{T}
+\end{cases}\end{aligned}\tag{NM}\label{eq_nm_recurrence}\\]
+
+where the expectations are no longer necessary since $u$ is effectively deterministic. This is called the **neg-max** algorithm. Sometimes $\mu$ and (consequently $u$) are defined to represent the utility from the perspective of the same player across all terminal states (i.e., not necessarily the turn-taker). In this case, (NM) reduces to
+
+\\[\begin{aligned}u(s) = \begin{cases}
+\displaystyle \mu(s), &s \in \mathcal{T} \\\\\\
 \displaystyle\max_{s' \in S(s)}\lbrace u\_p(s') \rbrace, &s \not\in \mathcal{T} \text{ and our agent is the turn-taker} \\\\\\
-\displaystyle\min_{s' \in S(s)}\lbrace -u\_p(s') \rbrace, &s \not\in \mathcal{T} \text{ and the adversary is the turn-taker}
+\displaystyle\min_{s' \in S(s)}\lbrace u\_p(s') \rbrace, &s \not\in \mathcal{T} \text{ and the adversary is the turn-taker}
 \end{cases}\end{aligned}\tag{MM}\label{eq_mm_recurrence}\\]
 
-where the expectations are no longer necessary since $u$ is effectively deterministic. This is called the **min-max** algorithm[^1].
-
-To compute the utilities. the agent must traverse the tree until a state, $s$, is reached whose successors are all leaves, and then compute $\text{Ev}\lbrace u(s) \rbrace$ by working back up the tree.
+In any case, to compute the utilities. the agent must traverse the tree until a state, $s$, is reached whose successors are all leaves, and then compute $\text{Ev}\lbrace u(s) \rbrace$ by working back up the tree.
 
 <img src="https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/go/minmax_search.gif"/>*Computing utilities via the min-max algorithm on a binary game tree of depth 3.*
 
