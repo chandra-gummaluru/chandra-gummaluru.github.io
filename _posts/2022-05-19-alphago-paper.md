@@ -196,12 +196,12 @@ Solving the above for $w$ is still very difficult, but we can approximate it via
 Intuitively, we should update $w$ in the direction of $\nabla_w\log\left(\text{Ev}\lbrace \hat{u}(s\_0,N) \rbrace\right)$ since this is the direction along which $\text{Ev}\lbrace \hat{u}(s\_0,N) \rbrace$ increases the most.
 
 ## The AlphaGo Pipeline
-AlphaGo\[^1\] sought to learn $p$ as well as possible, use it to approximate the utility function, and then use that approximation in place of an actual simulation in MTCS. More specifically, suppose $p\_{\rho}$ approximates $p$, and this is used to approximate $u$.
+The authors of AlphaGo\[^1\] sought to learn a policy function that approximates the min-max policy, $p\_{\rho} \sim p$, then use $p$ to approximate the utility function under min-max, $u\_{p\_{\rho}} \approx u\_p$, and then use $u\_{p\_{\rho}}$ in place of actual simulations in MCTS.
 
-The authors consider the case where $N = 19$. The state is represented as a matrix, $s \in \lbrace -1, 0, 1 \rbrace^{19 \times 19}$.
+They focus on the case where $N = 19$; the state is represented as a matrix, $s \in \lbrace -1, 0, 1 \rbrace^{19 \times 19}$.
 
 ### Modelling $p$
-The authors model $p$ as a deep neural-network (DNN), $p_w$, which we henceforth refer to as the **policy network**. The input to the DNN, several features are computed.
+The authors model $p$ as a deep neural-network (DNN), $p_w$, which we henceforth refer to as the **policy network**. The input to the DNN is a $48$ channel $19 \times 19$ binary image; three of these channels
 
 
 The architecture of the policy network is as follows:
