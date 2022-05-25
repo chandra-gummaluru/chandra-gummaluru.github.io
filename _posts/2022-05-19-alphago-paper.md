@@ -260,7 +260,7 @@ Solving the above for $v$ is still very difficult, but we can approximate it via
 > 3: &nbsp;&nbsp;&nbsp;&nbsp;select a random subset of $\mathcal{D}\_2$ and compute $\nabla_v\text{MSE}\lbrace \mathcal{D}\_2 \rbrace$<br>
 > 4: &nbsp;&nbsp;&nbsp;&nbsp;$v_{i+1} = v_{i} + \alpha\nabla_v\text{MSE}\lbrace \mathcal{D}\_2 \rbrace$, where $\alpha$ is some scalar
 
-The resulting utility function, denoted $u\_{v'}$, was not evaluated for an Elo rating.
+The resulting utility function is denoted $u\_{v'}$.
 
 ---
 
