@@ -278,7 +278,7 @@ The authors apply Alg. MCTS with a few modifications. Each state keeps track of 
 
 Define the MTCS estimate as
 \\[\hat{u}(s,i) = \frac{\lambda U(s,i)+ (1-\lambda)V(s,i)}{N(s,i)},\\]
-for some fixed $\lambda$.
+for some fixed $\lambda \in [0,1]$.
 
 Each iteration consists of the following phases:
 
