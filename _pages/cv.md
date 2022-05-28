@@ -10,6 +10,7 @@ permalink: /cv/
 ## Education
 **MASc Computer Engineering** <br>
 University of Toronto (Jan 22 - Present)
+ - **CGPA**: 4.0/4.0
  - Research areas include stochastic control and mathematical game theory.
 
 **BASc Computer Engineering** <br>
