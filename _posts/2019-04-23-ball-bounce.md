@@ -160,15 +160,16 @@ In Python, we define a function, `dot` to compute the dot-product of two vectors
 
     def dot(u,v):
 	    return u[0]*v[0] + u[1]*v[1]
-It can be shown that $v \cdot u  = \|v\|\|u\|\cos{\theta}$, where $\theta$ is the angle between the vectors.
+	    
+It can be shown that $v \cdot u  = \|v\|\|u\|\cos{\theta}$, where $\theta$ is the angle between the vectors. We will not prove this fact, but you can find it in any standard linear algebra textbook.
 
 We can now project $\vec{u}$ onto $\vec{v}$, as follows:
 \\[\text{proj}_{\vec{v}}(\vec{u}) = \frac{\vec{v} \cdot \vec{u}}{\|\vec{u}\|^2}\vec{u}\\]
+
 In Python, we define a function, `proj` to compute the projection of a vector onto another:
 
     def proj(u,v):
 	    return u * dot(u,v) / (mag(u) ** 2)
-    
     
 
 If $m$ is the slope of the line, the unit vector parallel to the line is
