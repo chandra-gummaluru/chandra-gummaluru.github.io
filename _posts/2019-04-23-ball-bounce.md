@@ -118,14 +118,13 @@ In Python, we define a function, `unit`, to compute unit vectors:
     def unit(v):
 	    return v / mag(v)
 
-
 The numbers $v_1$ and $v_y$ respectively represent _how much_ we move in the $x$ and $y$ directions. Thus, we could write $\vec{v} = v_x\hat{e}^{(x)} + v_y \hat{e}^{(y)}$, where unit vectors
-\\[\hat{e}^{(x)} := \begin{bmatrix} 1 & 0 \end{bmatrix}$ \text{ and } $\hat{e}^{(y)} := \begin{bmatrix} 0 & 1 \end{bmatrix}\\]
+\\[\hat{e}^{(x)} := \begin{bmatrix} 1 & 0 \end{bmatrix} \text{ and } \hat{e}^{(y)} := \begin{bmatrix} 0 & 1 \end{bmatrix}\\]
 are called the _standard basis vectors_ and represent the $x$ and $y$ directions respectively.
 
-Of course, we could have chosen any two (perpendicular) directions. In general, these directions can also be represented with unit vectors, $\hat{e}^{(1)}$ and $\hat{e}^{(2)}$. Thus, if we have $v_1\vec{e}^{(1)} + v_2\hat{e}^{(2)} = v_x\vec{e}^{(x)} + v_y\vec{e}^{(y)}$, then the vector $\begin{bmatrix} v_1 & v_2 \end{bmatrix}$ under the basis $\lbrace \hat{e}^{(1)}, \hat{e}^{(2)} \rbrace$ is equivalent to the vector $\begin{bmatrix} v_x & v_y \end{bmatrix}$ under the standard basis.
+Of course, we could have chosen any two (perpendicular) directions. In general, these directions can also be represented with unit vectors, $\hat{e}^{(1)}$ and $\hat{e}^{(2)}$. If $v_1\vec{e}^{(1)} + v_2\hat{e}^{(2)} = v_x\vec{e}^{(x)} + v_y\vec{e}^{(y)}$, then the vector $\begin{bmatrix} v_1 & v_2 \end{bmatrix}$ under the basis $\lbrace \hat{e}^{(1)}, \hat{e}^{(2)} \rbrace$ is equivalent to the vector $\begin{bmatrix} v_x & v_y \end{bmatrix}$ under the standard basis.
 
-This is because when an object bounces off of a surface, the component of its velocity normal to the surface is negated, while the component of its velocity tangential to the surface is left unchanged. Thus, if the velocity before the collision is $v = \begin{bmatrix} v_t, v_n \end{bmatrix}$, the velocity after the collision is $\vec{v}' = \begin{bmatrix} v_t, -v_n \end{bmatrix}$.
+We are interested in the so-called _tangential/normal basis_, which represents a vector using directions that are tangent to and normal to a surface at some point along the surface. This is because when an object bounces off of a surface, the component of its velocity normal to the surface is negated, while the component of its velocity tangential to the surface is left unchanged. Thus, if the velocity before the collision is $v = \begin{bmatrix} v_t, v_n \end{bmatrix}$, the velocity after the collision is $\vec{v}' = \begin{bmatrix} v_t, -v_n \end{bmatrix}$.
 
 Of course, this implies that $\|\vec{v}'\| = \|\vec{v}\|$, which is typically not the case since some energy is lost during the collision. The exact loss depends on the properties of the colliding objects, but can be modelled using a constant, $0 <= k_r <=1$, called the coefficient of restitution. To ensure that $\|\vec{v}'\| = k_r\|\vec{v}\|$, we can define $\vec{v}' = k_r^2\begin{bmatrix} v_t, -v_n \end{bmatrix}$.  
 
