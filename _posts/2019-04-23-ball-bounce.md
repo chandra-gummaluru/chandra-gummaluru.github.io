@@ -148,15 +148,19 @@ The numbers $v_1$ and $v_y$ respectively represent _how much_ we move in the $x$
 \\[\hat{e}^{(x)} := \begin{bmatrix} 1 & 0 \end{bmatrix} \text{ and } \hat{e}^{(y)} := \begin{bmatrix} 0 & 1 \end{bmatrix}\\]
 are called the _standard basis vectors_ and represent the $x$ and $y$ directions respectively.
 
-Of course, we could have chosen any two (perpendicular) directions. In general, these directions can also be represented with unit vectors, $\hat{e}^{(1)}$ and $\hat{e}^{(2)}$. If $v_1\vec{e}^{(1)} + v_2\hat{e}^{(2)} = v_x\vec{e}^{(x)} + v_y\vec{e}^{(y)}$, then the vector $\begin{bmatrix} v_1 & v_2 \end{bmatrix}$ under the basis $\lbrace \hat{e}^{(1)}, \hat{e}^{(2)} \rbrace$ is equivalent to the vector $\begin{bmatrix} v_x & v_y \end{bmatrix}$ under the standard basis.
+The $x$ and $y$ directions are not special. Indeed, we could have chosen any two (perpendicular) directions. In general, these directions can also be represented with unit vectors, $\hat{e}^{(1)}$ and $\hat{e}^{(2)}$. If $v_1\vec{e}^{(1)} + v_2\hat{e}^{(2)} = v_x\vec{e}^{(x)} + v_y\vec{e}^{(y)}$, then the vector $\begin{bmatrix} v_1 & v_2 \end{bmatrix}$ under the basis $\lbrace \hat{e}^{(1)}, \hat{e}^{(2)} \rbrace$ is equivalent to the vector $\begin{bmatrix} v_x & v_y \end{bmatrix}$ under the standard basis.
 
 We are interested in the _tangential/normal basis_, which represents a vector using directions that are tangent to and normal to a surface at some point along the surface. We need a way switch between the standard basis and the tangential/normal basis, i.e., a change-of-basis transformation.
 
 To do this, we will need to introduce a few additional concepts. Given two vectors, $v$ and $u$, we define the dot-product of the vectors to be
 \\[ v \cdot u = v_xu_x + v_yu_y\\]
+
 In Python, we define a function, `dot` to compute the dot-product of two vectors:
 	
 	def dot(u,v):
 	    return u[0]*v[0] + u[1]*v[1]
 	    
 It turns out that $\vec{v} \dot \vec{u} / \|\vec{u}\|$ gives the magnitude of the component of $\vec{v}$ in the direction given by $\vec{u}$ (see [the proof here](https://tutorial.math.lamar.edu/classes/calcii/dotproduct.aspx)).
+
+Thus, if we are given basis vectors, $\vec{e}^{(1)}$, and $\vec{e}^{(2)}$, and a vector $\begin{bmatrix} v_x & v_y \end{bmatrix}$ represented using the standard basis, the equivalent vector in the new basis is
+\\[\begin{bmatrix}\begin{bmatrix} v_x & v_y \end{bmatrix} \cdot e^{(1)} & \begin{bmatrix} v_x & v_y \end{bmatrix} \cdot e^{(2)}.\\]
