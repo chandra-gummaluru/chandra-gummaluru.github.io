@@ -152,8 +152,8 @@ The $x$ and $y$ directions are not special. Indeed, we could have chosen any two
 
 We are interested in the _tangential/normal basis_, which represents a vector using directions that are tangent to and normal to a surface at some point along the surface. We need a way switch between the standard basis and the tangential/normal basis, i.e., a change-of-basis transformation.
 
-To do this, we will need to introduce a few additional concepts. Given two vectors, $v$ and $u$, we define the dot-product of the vectors to be
-\\[ v \cdot u = v_xu_x + v_yu_y\\]
+To do this, we will need to introduce a few additional concepts. Given two vectors, $\vec{v}$ and $\vec{u}$, we define the dot-product of the vectors to be
+\\[ \vec{v} \cdot \vec{u} = v_xu_x + v_yu_y\\]
 
 In Python, we define a function, `dot` to compute the dot-product of two vectors:
 	
