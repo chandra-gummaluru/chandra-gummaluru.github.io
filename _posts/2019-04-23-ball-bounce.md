@@ -61,6 +61,7 @@ A vector, $\vec{v} = \begin{bmatrix} v_x, v_y \end{bmatrix}$ is an arrow drawn f
 In Python, we will define vectors using lists.
 
     v = [vx, vy]
+    
 Given a vector, $\vec{v}$, we can compute its magnitude as
 \\[|\vec{v}| = \sqrt{v_x^2+v_y^2}\\]
 
