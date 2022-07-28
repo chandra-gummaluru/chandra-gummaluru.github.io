@@ -263,3 +263,5 @@ Putting it all together, the `update_canvas` function becomes:
 
         #wait, and repeat
         canvas.after(frame_rate, update_canvas, dt, p, v, a, surface) 
+
+And that's it. You can see a [live demo here](https://replit.com/@chandragummalur/Ball-Bounce-Simulation#main.py).
