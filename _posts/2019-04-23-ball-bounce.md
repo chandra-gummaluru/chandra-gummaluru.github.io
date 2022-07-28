@@ -55,7 +55,9 @@ We can also write code to evaluate $y=f(x)$ for any input, $x$:
 		    y += c[i]*x ** (n-i)
 	    return y
 	    	    
-Actually drawing $f$ is quite tedious since we have to go through each $x \in [a,b]$, compute $f(x)$ and then plot the point $(x,f(x))$. However, it can be made easier if we approximate $f$ using a set of line segments. We split the domain $[x_1, x_2]$ into $k$ segments of equal length. For each segment, $[x_i, x_{i+1}]$, we evaluate $f$ at its end-points.
+Actually drawing $f$ is quite tedious since we have to go through each $x \in [a,b]$, compute $f(x)$ and then plot the point $(x,f(x))$. However, it can be made easier if we approximate $f$ using a set of line segments.
+
+We split the domain $[x_1, x_2]$ into $k$ segments of equal length. For each segment, $[x_i, x_{i+1}]$, we evaluate $f$ at its end-points.
 
 	# linearize the polynomial defined by coeffs into k segments.
 	# pts = [x1, f(x1), x2, f(x2),...]
@@ -68,7 +70,7 @@ Actually drawing $f$ is quite tedious since we have to go through each $x \in [a
 		pts.append(eval(coeffs, x))
 	    return pts
 
-We can now draw line segments from $(x_i, f(x_i)) to (x_{i+1}, f(x_{i+1})$, approximating $f$.
+We can now draw line segments from $(x_i, f(x_i))$ to $(x_{i+1}, f(x_{i+1})$, approximating $f$.
 	
 	# generate the surface 
 	surface = canvas.create_polygon(get_pts(np.array([-3.75E-9, 8.26E-6, -6.1E-3, 1.44, 4E2]), 1000, 0, canv_width), fill = "#6bd687")
