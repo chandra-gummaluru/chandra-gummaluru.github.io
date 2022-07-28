@@ -93,7 +93,6 @@ We can thus define the ball accordingly:
 	ball = canvas.create_oval([p[0] - radius, p[1] - radius, p[0] + radius, p[1] + radius], fill = "white")
 
 ## Simulating the Physics
-## Writing the Physics
 The final step is to actually simulate the physics within the `update_canvas` function. There are two cases we must consider, namely, whether the ball is above or below the surface.
 
 The height of the surface directly above the ball's current position is given by
