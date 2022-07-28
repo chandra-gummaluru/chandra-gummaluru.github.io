@@ -92,18 +92,17 @@ We use this fact to define a Python function, `differentiate` that computes the 
 	    
 ## Defining the Ball
 Like the surface, the ball can also be defined mathematically; in this case, as a circle of radius, $r$. However, unlike the surface, the ball has properties that change over time. These include:
+
 - its position, i.e., where it is in space
 - its velocity, i.e., how fast is it moving (and in what direction)
 - its acceleration, i.e., how fast is its velocity changing (and in what direction)
 
-	#define the ball.
-	#radius
+We can thus define the ball accordingly:
+
+	# generate the ball.
 	radius = 10
-	#position
 	p = np.array([120.0, 0.0])
-	#velocity
 	v = np.array([4.0, 0.0])
-	#acceleration.
 	a = np.array([0.0, 0.22])
 	ball = canvas.create_oval([p[0] - radius, p[1] - radius, p[0] + radius, p[1] + radius], fill = "white")
 
