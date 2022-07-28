@@ -197,3 +197,21 @@ We use this fact to define a Python function, `differentiate` that computes the 
 		dc.append((len(c) - 1 - i) * c[i])
 
 	    return np.array(dc)
+
+We can now resolve the collision as follows.
+
+1. Let $(x^\*, f(x^\*))$ denote the point of collision.
+
+2. Use `differentiate` and `evaluate_function` to compute $t = f'(x^\*)$, which represents the slope of the line tangent to $f$ at $x^\*$. The slope of the line normal to $f$ at $x^\*$ is then $n = -1/t$.
+   
+3. Convert $t$ and $n$ into vectors, $\vec{t}$ and $\vec{n}$, representing the tangential and normal directions using `slope_to_vec`.
+    
+4. Project $\vec{v}$ onto $\vec{t}$ and $\vec{n}$ using `project`; denote the resulting vectors as $\vec{v}^{(t)}$ and $\vec{v}^{(n)}$.
+
+5. Set $v \leftarrow \vec{v}^{(t)} - k_r\vec{v}^{(n)}$, where $k_r$ is the coefficient of restitution.
+
+6. Project $\vec{v}$ back onto the $x$ and $y$ axes using `project`; denote the resulting vectors as $\vec{v}^{(x)}$ and $\vec{v}^{(y)}$.
+
+7. Set $v \leftarrow \vec{v}^{(x)} + \vec{v}^{(y)}$.
+    
+8. move the ball to the surface, i.e., shift it down by `ysurf - p[1]` and set its vertical position to be `p[1] = ysurf`.
