@@ -14,25 +14,48 @@ In this tutorial, we will aim to simulate a ball bouncing off a curved surface i
 
 *Note that the code we write in this tutorial is neither efficient nor robust. It is only meant to serve as a learning example.*
 
+## Defining the Canvas
+To begin, we want to define a canvas onto which we can draw. In `Python`, we can use the `Tkinter` library for this purpose.
+
+	from tkinter import *
+	
+	#define the canvas width and height.
+	canv_width = 800
+	canv_height = 600
+
+	#create the canvas
+	root = Tk()
+	canvas = Canvas(root, width = canv_width, height = canv_height)
+	canvas.pack()
+
+The canvas uses a coordinate system whose origin $(0,0)$ is at its the bottom-left. The $x$ coordinate increases rightward, and the $y$ coordinate increases upwards.
+
+Once we have the canvas, we can draw the background.
+
+	#draw a rectangle from the point (0,0) to (canv_width, canv_height)
+	back = canvas.create_rectangle(0, 0, canv_width, canv_height, fill = "#95e2e2")
+
 ## Defining the Surface
 
-For simplicity, we shall define the surface using a polynomial function, i.e., a function of the form
-\\[ f(x) = a_0x^n + a_1x^{n-1}\dots + a_{n-1}x + a_n \\]
-The polynomial is defined entirely in terms of the coefficients, $a_0, \dots, a_n$. Thus, we can represent it in Python using a list:
+For simplicity, we shall define the surface using a polynomial function on $[a,b]$, i.e., a function of the form
+\\[ f(x) = c_0x^n + c_1x^{n-1}\dots + c_{n-1}x + c_n,\\]
+where $x \in [a,b].
 
-    a =[a0, a1, a2, a3,...,an]
+The polynomial is defined entirely in terms of the coefficients, $c_0, \dots, c_n$. Thus, we can represent it in Python using a list:
+
+    c =[c0, c1, c2, c3,...,cn]
 
 We can also write code to evaluate $y=f(x)$ for any input, $x$:
 
-    def evaluate_polynomial(a, x):
+    def evaluate_polynomial(c, x):
 	    n = len(a) - 1
 	    y = 0
 	    
 	    for i in range(0, n+1):
-		    y += a(i)*x ** (n-i)
+		    y += c[i]*x ** (n-i)
 	    return y
-
-It is not possible for us to actually draw $f$ exactly since it is curved. Instead, we must approximate $f$ using a set of line segments. We split the domain $[x_1, x_2]$ into $k$ segments of equal length. For each segment, $[x_i, x_{i+1}]$, we evaluate $f$ at its end-points.
+	    	    
+Actually drawing $f$ is quite tedious since we have to go through each $x \in [a,b]$, compute $f(x)$ and then plot the point $(x,f(x))$. However, it can be made easier if we approximate $f$ using a set of line segments. We split the domain $[x_1, x_2]$ into $k$ segments of equal length. For each segment, $[x_i, x_{i+1}]$, we evaluate $f$ at its end-points.
 
 	# linearize the polynomial defined by coeffs into k segments.
 	# pts = [x1, f(x1), x2, f(x2),...]
@@ -45,7 +68,10 @@ It is not possible for us to actually draw $f$ exactly since it is curved. Inste
 		pts.append(eval(coeffs, x))
 	    return pts
 
-We can now draw line segments from $(x_i, f(x_i)) to (x_{i+1}, f(x_{i+1})$.
+We can now draw line segments from $(x_i, f(x_i)) to (x_{i+1}, f(x_{i+1})$, approximating $f$.
+	
+	# generate the surface 
+	surface = canvas.create_polygon(get_pts(np.array([-3.75E-9, 8.26E-6, -6.1E-3, 1.44, 4E2]), 1000, 0, canv_width), fill = "#6bd687")
 
 To determine which way the ball bounces when it hits the ground, we need to find the tangent line to the surface at the point of contact.
 
