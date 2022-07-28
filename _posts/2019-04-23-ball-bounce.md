@@ -98,9 +98,7 @@ The final step is to actually simulate the physics within the `update_canvas` fu
     dt = 1
     dt2 = dt ** 2
     
-There are two cases we must consider, namely, whether the ball is above or below the surface.
-
-The height of the surface directly above the ball's current position is given by
+The physics involved depends on whether the ball is currently above the surface or whether it has collided with it. The height of the surface directly above the ball's current position is given by
 
     ysurf = evaluate_polynomial(c, p[0])
 
@@ -225,3 +223,43 @@ We can now resolve the collision as follows.
 7. Set $v \leftarrow \vec{v}^{(x)} + \vec{v}^{(y)}$.
     
 8. move the ball to the surface, i.e., shift it down by `ysurf - p[1]` and set its vertical position to be `p[1] = ysurf`.
+
+Putting it all together, the `update_canvas` function becomes:
+
+    def update_canvas(dt, p, v, a, surface):
+        # determine the height of the surface directly above the ball.
+        ysurf = eval(surface, p[0])
+
+        # if the ball is below the surface
+        if p[1] > ysurf:
+        
+            #compute the slope of the tangent and normal lines.
+            tangent = eval(differentiate(surface), p[0])
+            normal = -1.0 / tangent
+
+            # compute the tangent and normal vectors.
+            tangent = slope_to_vec(tangent)
+            normal = slope_to_vec(normal)
+
+            #get the tangential and normal components of the velocity vector.
+            vtan = project(v, tangent)
+            vnorm = project(v, normal)
+
+            #negate the normal component.
+            vnorm = - 0.6 * vnorm
+            vtan = 0.99 * vtan
+
+            #back project the new velocity onto the x and y axes.
+            v = project(vtan, xaxis) + project(vnorm, xaxis) + project(vtan, yaxis) + project(vnorm, yaxis)
+
+            canvas.move(ball, 0, ysurf - p[1])
+            p[1] = ysurf
+        else:
+            #update ball position and velocity using the kinematic equations.
+            p += v * dt + 0.5 * a * dt2
+            v += 0.5 * a * dt2
+
+            canvas.move(ball, v[0], v[1])
+
+        #wait, and repeat
+        canvas.after(frame_rate, update_canvas, dt, p, v, a, surface) 
