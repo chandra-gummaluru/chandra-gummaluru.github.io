@@ -112,10 +112,9 @@ Thus, the cases are `p[1] < ysurf` or `p[1] > ysurf`:
 
 Simulating free-fall due to gravity is quite trivial. Indeed, we can simply use the kinematic equations:
 
-$$\Delta p = v\Delta t + \frac{1}{2}a\Delta t^2$$
+\\[\Delta p = v\Delta t + \frac{1}{2}a\Delta t^2\\]
 and
-$$ \Delta v = \frac{1}{2}a\Delta t^2,$$
-where we replace $a$ with $g = \begin{bmatrix} 0 & -9.8 \end{bmatrix}$
+\\[ \Delta v = \frac{1}{2}a\Delta t^2.\\]
 
 Resolving the collision is quite involved, but is based on the idea that when an object collides with a flat surface, its velocity in the direction tangent to the surface remains unchanged, but its velocity normal to the surface is negated.
 
@@ -133,3 +132,27 @@ Given a vector, $\vec{v}$, we can compute its magnitude as
 \\[|\vec{v}| = \sqrt{v_x^2+v_y^2}\\]
 
 In Python, we define a function, `mag`, to do just this:
+
+	def mag(v):
+	    return (v[0] ** 2 + v[1] ** 2) ** 0.5
+	    
+If $|\vec{v}| = 1$, we say that $\vec{v}$ is a unit vector. We can see that
+\\[ \hat{v} = \frac{\vec{v}}{\|\vec{v}\|}\\]
+is a unit-vector in the direction of $\vec{v}$.
+
+In Python, we define a function, `unit`, to compute unit vectors:
+
+	def unit(v):
+	    return v / mag(v) 
+
+The numbers $v_1$ and $v_y$ respectively represent _how much_ we move in the $x$ and $y$ directions. Thus, we could write $\vec{v} = v_x\hat{e}^{(x)} + v_y \hat{e}^{(y)}$, where unit vectors
+\\[\hat{e}^{(x)} := \begin{bmatrix} 1 & 0 \end{bmatrix} \text{ and } \hat{e}^{(y)} := \begin{bmatrix} 0 & 1 \end{bmatrix}\\]
+are called the _standard basis vectors_ and represent the $x$ and $y$ directions respectively.
+
+Of course, we could have chosen any two (perpendicular) directions. In general, these directions can also be represented with unit vectors, $\hat{e}^{(1)}$ and $\hat{e}^{(2)}$. If $v_1\vec{e}^{(1)} + v_2\hat{e}^{(2)} = v_x\vec{e}^{(x)} + v_y\vec{e}^{(y)}$, then the vector $\begin{bmatrix} v_1 & v_2 \end{bmatrix}$ under the basis $\lbrace \hat{e}^{(1)}, \hat{e}^{(2)} \rbrace$ is equivalent to the vector $\begin{bmatrix} v_x & v_y \end{bmatrix}$ under the standard basis.
+
+We are interested in the _tangential/normal basis_, which represents a vector using directions that are tangent to and normal to a surface at some point along the surface. We need a way switch between the standard basis, and the tangential/normal basis.
+
+Given two vectors, $v$ and $u$, we define the dot-product of the vectors to be
+\\[ v \cdot u = v_xu_x + v_yu_y\\]
+In Python, we define a function, `dot` to compute the dot-product of two vectors:
