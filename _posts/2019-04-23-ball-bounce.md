@@ -161,10 +161,16 @@ In Python, we define a function, `dot` to compute the dot-product of two vectors
 	    return u[0]*v[0] + u[1]*v[1]
 
 
-It turns out that if $\vec{u}$ is a unit vector, then $\vec{v} \cdot \vec{u}$ gives the magnitude of the component of $\vec{v}$ in the direction given by $\vec{u}$ (see [the proof here](https://tutorial.math.lamar.edu/classes/calcii/dotproduct.aspx)).
+It can be shown that $\vec{v} \cdot \vec{u}  = \|\vec{v}\|\|\vec{u}\|\cos{\theta}$, where $\theta$ is the angle between the vectors (see [the proof here](https://tutorial.math.lamar.edu/classes/calcii/dotproduct.aspx)). Thus, the _projection_ of $\vec{v}$ onto $\vec{u}$ is given by
+\\[\text{proj}_{\vec{u}}(\vec{v}) = \frac{\vec{v} \cdot \vec{u}}{\|\vec{u}\|^2}\vec{u}\\]
+
+In Python, we define a function, `project` to compute the projection of a vector onto another:
+
+	def project(u,v):
+	    return u * dot(v,u) / (mag(u) ** 2)
 
 Thus, if we are given basis vectors, $\hat{e}^{(1)}$, and $\hat{e}^{(2)}$, and a vector $\begin{bmatrix} v_x & v_y \end{bmatrix}$ represented using the standard basis, the equivalent vector in the new basis is
-\\[\begin{bmatrix}\begin{bmatrix} v_x & v_y \end{bmatrix} \cdot \hat{e}^{(1)} & \begin{bmatrix} v_x & v_y \end{bmatrix} \cdot \hat{e}^{(2)} \end{bmatrix}.\\]
+\\[\text{proj}_{\hat{e}^{(1)}}(\vec{v}) + \text{proj}_{\hat{e}^{(2)}}(\vec{v}).\\]
 
 Now, we need to figure out what the tangential and normal directions are. If $m$ is the slope of tangent line to the surface at some point, then the unit vector parallel to the line is
 \\[ \hat{u} = \frac{\vec{u}}{\|\vec{u}\|}\\] where $\vec{u} = \begin{bmatrix} 1 & m \end{bmatrix}$.
