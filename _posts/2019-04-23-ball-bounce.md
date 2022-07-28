@@ -161,7 +161,7 @@ In Python, we define a function, `dot` to compute the dot-product of two vectors
 	    return u[0]*v[0] + u[1]*v[1]
 
 
-It turns out that $\vec{v} \dot \vec{u} / |\vec{u}|$ gives the magnitude of the component of $\vec{v}$ in the direction given by $\vec{u}$ (see [the proof here](https://tutorial.math.lamar.edu/classes/calcii/dotproduct.aspx)).
+It turns out that if $\vec{u}$ is a unit vector, then $\vec{v} \dot \vec{u}$ gives the magnitude of the component of $\vec{v}$ in the direction given by $\vec{u}$ (see [the proof here](https://tutorial.math.lamar.edu/classes/calcii/dotproduct.aspx)).
 
-Thus, if we are given basis vectors, $\vec{e}^{(1)}$, and $\vec{e}^{(2)}$, and a vector $\begin{bmatrix} v_x & v_y \end{bmatrix}$ represented using the standard basis, the equivalent vector in the new basis is
-\\[\begin{bmatrix}\begin{bmatrix} v_x & v_y \end{bmatrix} \cdot e^{(1)} & \begin{bmatrix} v_x & v_y \end{bmatrix} \cdot e^{(2)} \end{bmatrix}.\\]
+Thus, if we are given basis vectors, $\hat{e}^{(1)}$, and $\hat{e}^{(2)}$, and a vector $\begin{bmatrix} v_x & v_y \end{bmatrix}$ represented using the standard basis, the equivalent vector in the new basis is
+\\[\begin{bmatrix}\begin{bmatrix} v_x & v_y \end{bmatrix} \cdot \hat{e}^{(1)} & \begin{bmatrix} v_x & v_y \end{bmatrix} \cdot \hat{e}^{(2)} \end{bmatrix}.\\]
