@@ -51,7 +51,16 @@ We use this fact to define a Python function, `differentiate` that computes the 
 		    a_[i] = (n-i)*a[i]
 	    return a_	    
 
-
+\\[  \begin{tikzpicture}[auto,vertex/.style={draw,circle}]
+    \node[vertex] (a) {A};
+    \node[vertex,right=1cm of a] (b) {B};
+    \node[vertex,below right=1cm and 0.5cm of a] (c) {C};
+    
+    \path[-{Stealth[]}]
+      (a) edge node {1} (b) 
+      (a) edge (c)
+      (c) edge (b);
+  \end{tikzpicture}\\]
 ## Basic Linear Algebra Functions
 
 We will define points in the space using two-dimensional vectors.
