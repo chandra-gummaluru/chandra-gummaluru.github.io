@@ -93,6 +93,33 @@ We can thus define the ball accordingly:
 	ball = canvas.create_oval([p[0] - radius, p[1] - radius, p[0] + radius, p[1] + radius], fill = "white")
 
 ## Simulating the Physics
+## Writing the Physics
+The final step is to actually simulate the physics within the `update_canvas` function. There are two cases we must consider, namely, whether the ball is above or below the surface.
+
+The height of the surface directly above the ball's current position is given by
+
+    ysurf = evaluate_polynomial(c, p[0])
+
+The height of the ball itself is given by
+
+    p[1]
+    
+Thus, the cases are `p[1] < ysurf` or `p[1] > ysurf`:
+
+1. If `p[1] < ysurf`, i.e., the ball is above the surface, simulate free-fall due to gravity.
+
+2. If the ball is on or below the surface, simulate and resolve the collision.
+
+Simulating free-fall due to gravity is quite trivial. Indeed, we can simply use the kinematic equations:
+
+$$\Delta p = v\Delta t + \frac{1}{2}a\Delta t^2$$
+and
+$$ \Delta v = \frac{1}{2}a\Delta t^2,$$
+where we replace $a$ with $g = \begin{bmatrix} 0 & -9.8 \end{bmatrix}$
+
+Resolving the collision is quite involved, but is based on the idea that when an object collides with a flat surface, its velocity in the direction tangent to the surface remains unchanged, but its velocity normal to the surface is negated.
+
+To represent this idea mathematically, it will be helpful to introduce some concepts from linear algebra.
 
 We will define points in the space using two-dimensional vectors.
 
@@ -106,78 +133,3 @@ Given a vector, $\vec{v}$, we can compute its magnitude as
 \\[|\vec{v}| = \sqrt{v_x^2+v_y^2}\\]
 
 In Python, we define a function, `mag`, to do just this:
-
-    def mag(v):
-	    return (v[0] ** 2 + v[1] ** 2) ** 0.5
-Note that `vx = v[0]` and `vy = v[1]`.
-
-If $\|\vec{v}\| = 1$, we say that $\vec{v}$ is a unit vector. We can see that
-\\[ \hat{v} = \frac{\vec{v}}{\|\vec{v}\|}\\]
-is a unit-vector in the direction of $\vec{v}$.
-In Python, we define a function, `unit`, to compute unit vectors:
-
-    def unit(v):
-	    return v / mag(v)
-
-The numbers $v_1$ and $v_y$ respectively represent _how much_ we move in the $x$ and $y$ directions. Thus, we could write $\vec{v} = v_x\hat{e}^{(x)} + v_y \hat{e}^{(y)}$, where unit vectors
-\\[\hat{e}^{(x)} := \begin{bmatrix} 1 & 0 \end{bmatrix} \text{ and } \hat{e}^{(y)} := \begin{bmatrix} 0 & 1 \end{bmatrix}\\]
-are called the _standard basis vectors_ and represent the $x$ and $y$ directions respectively.
-
-Of course, we could have chosen any two (perpendicular) directions. In general, these directions can also be represented with unit vectors, $\hat{e}^{(1)}$ and $\hat{e}^{(2)}$. If $v_1\vec{e}^{(1)} + v_2\hat{e}^{(2)} = v_x\vec{e}^{(x)} + v_y\vec{e}^{(y)}$, then the vector $\begin{bmatrix} v_1 & v_2 \end{bmatrix}$ under the basis $\lbrace \hat{e}^{(1)}, \hat{e}^{(2)} \rbrace$ is equivalent to the vector $\begin{bmatrix} v_x & v_y \end{bmatrix}$ under the standard basis.
-
-We are interested in the so-called _tangential/normal basis_, which represents a vector using directions that are tangent to and normal to a surface at some point along the surface. This is because when an object bounces off of a surface, the component of its velocity normal to the surface is negated, while the component of its velocity tangential to the surface is left unchanged. Thus, if the velocity before the collision is $v = \begin{bmatrix} v_t, v_n \end{bmatrix}$, the velocity after the collision is $\vec{v}' = \begin{bmatrix} v_t, -v_n \end{bmatrix}$.
-
-Of course, this implies that $\|\vec{v}'\| = \|\vec{v}\|$, which is typically not the case since some energy is lost during the collision. This loss in energy is reflected by a reduction in the normal component of the velocity. The exact reduction depends on the properties of the colliding objects, but can be modelled using a constant, $0 \leq k_r \leq 1$, called the coefficient of restitution. We can define $\vec{v}' = \begin{bmatrix} v_t, -k_rv_n \end{bmatrix}$.  
-
-When an object bounces off of a surface, the component of its velocity normal to the surface is negated, w
-To determine which way the ball bounces when it hits the ground, we need to find the tangent line to the surface at the point of contact.
-
-First, we will need to compute the derivative of a polynomial. Analytically, we know that
-\\[ f'(x) = na_0x^{n-1} + (n-1)a_1x^{n-2} + \dots  2a_{n-2}x + a_{n-1}\\]
-We see that the $i$th coefficient of $f'$ is given by $(n-i)a_i$.
-
-We use this fact to define a Python function, `differentiate` that computes the derivative of a polynomial:
-
-    def differentiate(c):	
-	    n = len(c) - 1
-	    c_ = c[0:n]
-	    for i in range(0, len(c_)):
-		    c_[i] = (n-i)*c[i]
-	    return c_	    
-
-## Basic Linear Algebra Functions
-
-We will define points in the space using two-dimensional vectors.
-
-A vector, $\vec{v} = \begin{bmatrix} v_x, v_y \end{bmatrix}$ is an arrow drawn from $(0,0)$ to $(v_x,v_y)$, and represents the point $(v_x,v_y)$.
-
-In Python, we will define vectors using lists.
-
-    v = [vx, vy]
-    
-Given two vectors, $v$ and $u$, we define the dot-product of the vectors to be
-\\[ v \cdot u = v_xu_x + v_yu_y\\]
-In Python, we define a function, `dot` to compute the dot-product of two vectors:
-
-    def dot(u,v):
-	    return u[0]*v[0] + u[1]*v[1]
-	    
-It can be shown that $v \cdot u  = \|v\|\|u\|\cos{\theta}$, where $\theta$ is the angle between the vectors. We will not prove this fact, but you can find it in any standard linear algebra textbook.
-
-We can now project $\vec{u}$ onto $\vec{v}$, as follows:
-\\[\text{proj}_{\vec{v}}(\vec{u}) = \frac{\vec{v} \cdot \vec{u}}{\|\vec{u}\|^2}\vec{u}\\]
-
-In Python, we define a function, `proj` to compute the projection of a vector onto another:
-
-    def proj(u,v):
-	    return u * dot(u,v) / (mag(u) ** 2)
-    
-
-If $m$ is the slope of the line, the unit vector parallel to the line is
-\\[ \hat{u} = \frac{\vec{u}}{\|\vec{u}\|}\\] where $\vec{u} = \begin{bmatrix} 1 & m \end{bmatrix}$.
-
-    def slope_to_vec(m):
-        uvec = np.array([1.0, m])
-        uhat = uvec / mag(uvec)
-        return uhat
-
