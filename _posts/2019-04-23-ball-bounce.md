@@ -21,7 +21,7 @@ For simplicity, we shall define the surface using a polynomial function, i.e., a
 The polynomial is defined entirely in terms of the coefficients, $a_0, \dots, a_n$. Thus, we can represent it in Python using a list:
 
     a =[a0, a1, a2, a3,...,an]
-    
+
 We can also write code to evaluate $y=f(x)$ for any input, $x$:
 
     def evaluate_polynomial(a, x):
@@ -31,7 +31,11 @@ We can also write code to evaluate $y=f(x)$ for any input, $x$:
 	    for i in range(0, n+1):
 		    y += a(i)*x ** (n-i)
 	    return y
-	    
+
+Instead, we want a piecewise linear approximation of $f$. To achieve this, we will split the domain of $f$ into $k + 1$ segments, say $(-\inf, x_1], [x_1, x_2], \dots, [x_{k-1}, x_k], [x_k, \infty)$. For each segment, $(x_i ,x_{i+1})$, we evaluate $f$ at its limit points, i.e., $f(x_1)$ and $f(x_2)$. We then define the line segment,
+\\[l_i(x) = \frac{f(x_{i+1}) - f(x_i)}{x_{i+1}-x_i}x\\]
+
+
 To determine which way the ball bounces when it hits the ground, we need to find the tangent line to the surface at the point of contact.
 
 First, we will need to compute the derivative of a polynomial. Analytically, we know that
@@ -45,9 +49,7 @@ We use this fact to define a Python function, `differentiate` that computes the 
 	    a_ = a[0:n]
 	    for i in range(0, len(a_)):
 		    a_[i] = (n-i)*a[i]
-	    return a_
-
-	    
+	    return a_	    
 
 
 ## Basic Linear Algebra Functions
