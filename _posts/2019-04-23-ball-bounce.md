@@ -20,15 +20,15 @@ To begin, we want to define a canvas onto which we can draw. In `Python`, we can
 	from tkinter import *
 	
 	#define the canvas width and height.
-	canv_width = 800
-	canv_height = 600
+	cw = 800
+	ch = 600
 
 	#create the canvas
 	root = Tk()
-	canvas = Canvas(root, width = canv_width, height = canv_height)
+	canvas = Canvas(root, width = cw, height = ch)
 	canvas.pack()
 
-The canvas uses a coordinate system whose origin $(0,0)$ is at its the bottom-left. The $x$ coordinate increases rightward, and the $y$ coordinate increases upwards.
+The canvas uses a coordinate system whose origin $(0,0)$ is at its the top-left, and the bottom-right is $(c_w,c_h)$.
 
 Once we have the canvas, we can draw the background.
 
@@ -36,8 +36,7 @@ Once we have the canvas, we can draw the background.
 	back = canvas.create_rectangle(0, 0, canv_width, canv_height, fill = "#95e2e2")
 
 ## Defining the Surface
-
-For simplicity, we shall define the surface using a polynomial function on $[a,b]$, i.e., a function of the form
+The surface can be described using any mathematical curve, but for simplicity, we shall define it using a polynomial function on $[a,b]$, i.e., a function of the form
 \\[ f(x) = c_0x^n + c_1x^{n-1}\dots + c_{n-1}x + c_n,\\]
 where $x \in [a,b]$.
 
@@ -69,11 +68,13 @@ We split the domain $[x_1, x_2]$ into $k$ segments of equal length. For each seg
 		pts.append(x)
 		pts.append(eval(coeffs, x))
 	    return pts
-
-We can now draw line segments from $(x_i, f(x_i))$ to $(x_{i+1}, f(x_{i+1})$, approximating $f$.
+	    
+We can then draw line segments from $(x_i, f(x_i))$ to $(x_{i+1}, f(x_{i+1})$ for $i = 1, \dots, k-1$. The larger we make $k$, the better the approximation becomes. We will choose $x_1 = 0$ and $x_k = cw$ so that we draw the surface along the entire width of the canvas. Of course, when we actually draw the surface, we want to draw a closed curve. Thus, we will introduce additional line segments between $(cw, f(cw))$, $(cw, ch)$, $(0,ch)$ and $(0,f(0))$. 
 	
-	# generate the surface 
-	surface = canvas.create_polygon(get_pts(np.array([-3.75E-9, 8.26E-6, -6.1E-3, 1.44, 4E2]), 1000, 0, canv_width), fill = "#6bd687")
+	# generate the surface using k = 1000.
+	surface = get_pts(np.array([-3.75E-9, 8.26E-6, -6.1E-3, 1.44, 4E2])
+	surface.append([cw, ch, 0, ch])
+	surface = canvas.create_polygon(surface, 1000, 0, canv_width), fill = "#6bd687")
 	    
 ## Defining the Ball
 Like the surface, the ball can also be defined mathematically; in this case, as a circle of radius, $r$. However, unlike the surface, the ball has properties that change over time. These include:
