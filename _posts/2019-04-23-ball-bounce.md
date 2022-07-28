@@ -165,3 +165,29 @@ It turns out that if $\vec{u}$ is a unit vector, then $\vec{v} \dot \vec{u}$ giv
 
 Thus, if we are given basis vectors, $\hat{e}^{(1)}$, and $\hat{e}^{(2)}$, and a vector $\begin{bmatrix} v_x & v_y \end{bmatrix}$ represented using the standard basis, the equivalent vector in the new basis is
 \\[\begin{bmatrix}\begin{bmatrix} v_x & v_y \end{bmatrix} \cdot \hat{e}^{(1)} & \begin{bmatrix} v_x & v_y \end{bmatrix} \cdot \hat{e}^{(2)} \end{bmatrix}.\\]
+
+Now, we need to figure out what the tangential and normal directions are. If $m$ is the slope of tangent line to the surface at some point, then the unit vector parallel to the line is
+\\[ \hat{u} = \frac{\vec{u}}{\|\vec{u}\|}\\] where $\vec{u} = \begin{bmatrix} 1 & m \end{bmatrix}$.
+
+In Python, we can use the following to get a unit vector for a given slope, $m$.
+
+	def slope_to_vec(m):
+	    uvec = np.array([1.0, m])
+	    uhat = uvec / mag(uvec)
+	    return uhat
+	    
+We now need to determine the slope of the tangent/normal lines to the surface. The latter is the negative reciprocal of the former, which itself is given by the derivative of $f$. In this case,
+
+\\[ f'(x) = nc_0x^{n-1} + (n-1)c_1x^{n-2} + \dots  2c_{n-2}x + c_{n-1}\\]
+
+We see that the $i$th coefficient of $f'$ is given by $(n-i)c_i$.
+
+We use this fact to define a Python function, `differentiate` that computes the derivative of a polynomial:
+
+	def differentiate(c):
+	    dc = []
+
+	    for i in range(0, len(c) - 1):
+		dc.append((len(c) - 1 - i) * c[i])
+
+	    return np.array(dc)
