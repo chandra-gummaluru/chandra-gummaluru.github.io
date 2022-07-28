@@ -93,7 +93,12 @@ We can thus define the ball accordingly:
 	ball = canvas.create_oval([p[0] - radius, p[1] - radius, p[0] + radius, p[1] + radius], fill = "white")
 
 ## Simulating the Physics
-The final step is to actually simulate the physics within the `update_canvas` function. There are two cases we must consider, namely, whether the ball is above or below the surface.
+The final step is to actually simulate the physics within the `update_canvas` function. In the real-world, the motion of objects is continuous. However, we will need to discretize it. Thus, we define $\Delta t$ to represent the actual elapsed time between discrete time-steps.
+
+    dt = 1
+    dt2 = dt ** 2
+    
+There are two cases we must consider, namely, whether the ball is above or below the surface.
 
 The height of the surface directly above the ball's current position is given by
 
@@ -149,6 +154,11 @@ The numbers $v_1$ and $v_y$ respectively represent _how much_ we move in the $x$
 are called the _standard basis vectors_ and represent the $x$ and $y$ directions respectively.
 
 The $x$ and $y$ directions are not special. Indeed, we could have chosen any two (perpendicular) directions. In general, these directions can also be represented with unit vectors, $\hat{e}^{(1)}$ and $\hat{e}^{(2)}$. If $v_1\vec{e}^{(1)} + v_2\hat{e}^{(2)} = v_x\vec{e}^{(x)} + v_y\vec{e}^{(y)}$, then the vector $\begin{bmatrix} v_1 & v_2 \end{bmatrix}$ under the basis $\lbrace \hat{e}^{(1)}, \hat{e}^{(2)} \rbrace$ is equivalent to the vector $\begin{bmatrix} v_x & v_y \end{bmatrix}$ under the standard basis.
+
+It is convenient to define some constants representing the standard basis:
+
+    ex = np.array([1.0, 0.0])
+    ey = np.array([0.0, 1.0])
 
 We are interested in the _tangential/normal basis_, which represents a vector using directions that are tangent to and normal to a surface at some point along the surface. We need a way switch between the standard basis and the tangential/normal basis, i.e., a change-of-basis transformation.
 
