@@ -74,21 +74,6 @@ We can now draw line segments from $(x_i, f(x_i))$ to $(x_{i+1}, f(x_{i+1})$, ap
 	
 	# generate the surface 
 	surface = canvas.create_polygon(get_pts(np.array([-3.75E-9, 8.26E-6, -6.1E-3, 1.44, 4E2]), 1000, 0, canv_width), fill = "#6bd687")
-
-To determine which way the ball bounces when it hits the ground, we need to find the tangent line to the surface at the point of contact.
-
-First, we will need to compute the derivative of a polynomial. Analytically, we know that
-\\[ f'(x) = na_0x^{n-1} + (n-1)a_1x^{n-2} + \dots  2a_{n-2}x + a_{n-1}\\]
-We see that the $i$th coefficient of $f'$ is given by $(n-i)a_i$.
-
-We use this fact to define a Python function, `differentiate` that computes the derivative of a polynomial:
-
-    def differentiate(c):	
-	    n = len(c) - 1
-	    c_ = c[0:n]
-	    for i in range(0, len(c_)):
-		    c_[i] = (n-i)*c[i]
-	    return c_	    
 	    
 ## Defining the Ball
 Like the surface, the ball can also be defined mathematically; in this case, as a circle of radius, $r$. However, unlike the surface, the ball has properties that change over time. These include:
@@ -105,6 +90,40 @@ We can thus define the ball accordingly:
 	v = np.array([4.0, 0.0])
 	a = np.array([0.0, 0.22])
 	ball = canvas.create_oval([p[0] - radius, p[1] - radius, p[0] + radius, p[1] + radius], fill = "white")
+
+## Simulating the Physics
+
+We will define points in the space using two-dimensional vectors.
+
+A vector, $\vec{v} = \begin{bmatrix} v_x, v_y \end{bmatrix}$ is an arrow drawn from $(0,0)$ to $(v_x,v_y)$, and represents the point $(v_x,v_y)$.
+
+In Python, we will define vectors using lists.
+
+    v = [vx, vy]
+ 
+All vectors in 2-dimensions can be expressed using two specific vectors.
+
+Writing $\begin{bmatrix} v_x, v_y \end{bmatrix}$ means $v_x\hat{e}_x + v_y\hat{e}_y$, where $\hat{e}_x = \begin{bmatrix} 1 & 0 \end{bmatrix}$ and $\hat{e}_y = \begin{bmatrix} 0 & 1 \end{bmatrix}$ are called the _standard basis vectors_. Of course, we could have chosen another set of basis vectors, say $\hat{e}_1, \hat{e}_2$, in which case, $\vec{v} = \begin{ \begin{bmatrix} v_1, v_2 \end{bmatrix}$, where $v_1$ and $v_2$ are such that $v_x
+
+This is because when an object bounces off of a surface, the component of its velocity normal to the surface is negated, while the component of its velocity tangential to the surface is left unchanged. Thus, if the velocity before the collision is $v = \begin{bmatrix} v_t, v_n \end{bmatrix}$, the velocity after the collision is $\vec{v}' = \begin{bmatrix} v_t, -v_n \end{bmatrix}$.
+
+Of course, this implies that $\|\vec{v}'\| = \|\vec{v}\|$, which is typically not the case since some energy is lost during the collision. The exact loss depends on the properties of the colliding objects, but can be modelled using a constant, $0 <= k_r <=1$, called the coefficient of restitution. To ensure that $\|\vec{v}'\| = k_r\|\vec{v}\|$, we can define $\vec{v}' = k_r^2\begin{bmatrix} v_t, -v_n \end{bmatrix}$.  
+
+When an object bounces off of a surface, the component of its velocity normal to the surface is negated, w
+To determine which way the ball bounces when it hits the ground, we need to find the tangent line to the surface at the point of contact.
+
+First, we will need to compute the derivative of a polynomial. Analytically, we know that
+\\[ f'(x) = na_0x^{n-1} + (n-1)a_1x^{n-2} + \dots  2a_{n-2}x + a_{n-1}\\]
+We see that the $i$th coefficient of $f'$ is given by $(n-i)a_i$.
+
+We use this fact to define a Python function, `differentiate` that computes the derivative of a polynomial:
+
+    def differentiate(c):	
+	    n = len(c) - 1
+	    c_ = c[0:n]
+	    for i in range(0, len(c_)):
+		    c_[i] = (n-i)*c[i]
+	    return c_	    
 
 ## Basic Linear Algebra Functions
 
