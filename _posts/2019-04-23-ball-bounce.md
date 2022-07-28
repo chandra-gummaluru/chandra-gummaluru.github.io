@@ -39,7 +39,7 @@ Once we have the canvas, we can draw the background.
 
 For simplicity, we shall define the surface using a polynomial function on $[a,b]$, i.e., a function of the form
 \\[ f(x) = c_0x^n + c_1x^{n-1}\dots + c_{n-1}x + c_n,\\]
-where $x \in [a,b].
+where $x \in [a,b]$.
 
 The polynomial is defined entirely in terms of the coefficients, $c_0, \dots, c_n$. Thus, we can represent it in Python using a list:
 
@@ -81,23 +81,30 @@ We see that the $i$th coefficient of $f'$ is given by $(n-i)a_i$.
 
 We use this fact to define a Python function, `differentiate` that computes the derivative of a polynomial:
 
-    def differentiate(a):	
-	    n = len(a) - 1
-	    a_ = a[0:n]
-	    for i in range(0, len(a_)):
-		    a_[i] = (n-i)*a[i]
-	    return a_	    
+    def differentiate(c):	
+	    n = len(c) - 1
+	    c_ = c[0:n]
+	    for i in range(0, len(c_)):
+		    c_[i] = (n-i)*c[i]
+	    return c_	    
+	    
+## Defining the Ball
+Like the surface, the ball can also be defined mathematically; in this case, as a circle of radius, $r$. However, unlike the surface, the ball has properties that change over time. These include:
+- its position, i.e., where it is in space
+- its velocity, i.e., how fast is it moving (and in what direction)
+- its acceleration, i.e., how fast is its velocity changing (and in what direction)
 
-\\[  \begin{tikzpicture}[auto,vertex/.style={draw,circle}]
-    \node[vertex] (a) {A};
-    \node[vertex,right=1cm of a] (b) {B};
-    \node[vertex,below right=1cm and 0.5cm of a] (c) {C};
-    
-    \path[-{Stealth[]}]
-      (a) edge node {1} (b) 
-      (a) edge (c)
-      (c) edge (b);
-  \end{tikzpicture}\\]
+	#define the ball.
+	#radius
+	radius = 10
+	#position
+	p = np.array([120.0, 0.0])
+	#velocity
+	v = np.array([4.0, 0.0])
+	#acceleration.
+	a = np.array([0.0, 0.22])
+	ball = canvas.create_oval([p[0] - radius, p[1] - radius, p[0] + radius, p[1] + radius], fill = "white")
+
 ## Basic Linear Algebra Functions
 
 We will define points in the space using two-dimensional vectors.
