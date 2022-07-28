@@ -32,9 +32,20 @@ We can also write code to evaluate $y=f(x)$ for any input, $x$:
 		    y += a(i)*x ** (n-i)
 	    return y
 
-Instead, we want a piecewise linear approximation of $f$. To achieve this, we will split the domain of $f$ into $k + 1$ segments, say $(-\inf, x_1], [x_1, x_2], \dots, [x_{k-1}, x_k], [x_k, \infty)$. For each segment, $(x_i ,x_{i+1})$, we evaluate $f$ at its limit points, i.e., $f(x_1)$ and $f(x_2)$. We then define the line segment,
-\\[l_i(x) = \frac{f(x_{i+1}) - f(x_i)}{x_{i+1}-x_i}x\\]
+It is not possible for us to actually draw $f$ exactly since it is curved. Instead, we must approximate $f$ using a set of line segments. We split the domain $[x_1, x_2]$ into $k$ segments of equal length. For each segment, $[x_i, x_{i+1}]$, we evaluate $f$ at its end-points.
 
+	# linearize the polynomial defined by coeffs into k segments.
+	# pts = [x1, f(x1), x2, f(x2),...]
+	def linearize(coeffs, k, x1, x2):
+	    pts = []
+
+	    for i in range(0, k + 1):
+		x = x1 + (i * (x2 - x1) / n_segs)
+		pts.append(x)
+		pts.append(eval(coeffs, x))
+	    return pts
+
+We can now draw line segments from $(x_i, f(x_i)) to (x_{i+1}, f(x_{i+1})$.
 
 To determine which way the ball bounces when it hits the ground, we need to find the tangent line to the surface at the point of contact.
 
