@@ -82,9 +82,3 @@ University of Toronto (May 19 - Apr 21)
 - Python (7 years)
 - MATLab (4 years)
 - LaTex (4 years)
-
-<script type="text/tikz">
-  \begin{tikzpicture}
-    \draw (0,0) circle (1in);
-  \end{tikzpicture}
-</script>
