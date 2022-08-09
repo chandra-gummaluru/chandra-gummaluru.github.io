@@ -22,7 +22,7 @@ University of Toronto (Sept 16 - Apr 21)
       - [Poster Presentation](https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/notes/poster.pdf)
      
 # Teaching Experience
-<big><b>Course Coordinator/Instructor for CSC384: Introduction to Artificial Intelligence</b></big><br>
+<big><b>Course Coordinator and Instructor for CSC384: Introduction to Artificial Intelligence</b></big><br>
 University of Toronto (May 22 - Present)
  - [Syllabus](https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/ai/csc384s22_syllabus.pdf)
  - Delivered lectures to a class of approximately 125 undergraduate students.
