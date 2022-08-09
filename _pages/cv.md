@@ -4,13 +4,16 @@ title: ""
 author: "Chandra Gummaluru"
 permalink: /cv/
 ---
+
+<big><big><b>Chandra Gummaluru</b></big></big>
+
 ## Education
-**MASc Computer Engineering** <br>
+<big><b>MASc Computer Engineering</b></big><br>
 University of Toronto (Jan 22 - Present)
  - **CGPA**: 4.0/4.0
  - Research areas include stochastic control and mathematical game theory.
 
-**BASc Computer Engineering** <br>
+<big><b>BASc Computer Engineering</b></big><br>
 University of Toronto (Sept 16 - Apr 21)
  - Minor in Artificial Intelligence Engineering
  - **Capstone Project:** Federated Machine Learning - System Design and Practical Architecture
@@ -47,15 +50,14 @@ University of Toronto  (Sept 20 - Dec 20)
  - Delivered tutorials and hosted office hours explaining course concepts for a 4th-year course on computer vision consisting of approximately 250 students as a 4th-year student.
  - Marked approximately 100 assignments and course projects consisting of both theoretical and programmatic concepts of computer vision.
 
-<big><b>Teaching Assistant for APS111/APS112: Engineering Strategies and Practice I and II**</b></big><br>
+<big><b>Teaching Assistant for APS111/APS112: Engineering Strategies and Practice I/II</b></big><br>
 University of Toronto  (Sept 20 - Apr 21)
 
  - Guided 12 teams each consisting of six 1st-year students through the engineering design process, including identifying the problem, specifying the requirements, and providing a design specification
  - Marked reports on project requirements and design specification and provided written feedback within the documents and oral feedback through weekly status meetings.
 
 ## Publications
-
-<big><b>Implementation of Stochastic Completion Fields for Contour Completion**</b></big><br>
+<big><b>Implementation of Stochastic Completion Fields for Contour Completion</b></big><br>
 University of Toronto (May 19 - Apr 21)
 
  - [Paper](https://mrezanejad.github.io/files/bmvc2021.pdf)
@@ -64,21 +66,22 @@ University of Toronto (May 19 - Apr 21)
 
 ## Industry Experience
 
-**Back-end Software Engineer** <br>
+<big><b>Back-end Software Engineer</b></big><br>
 [Coursera Inc.](https://www.coursera.org/) (Sept 19 - Aug 20)
 
  - Designed and developed a custom payments and promotions system in Scala to offer currency internationalization and discounting for [Coursera’s enterprise product](https://www.coursera.org/business/) used by over 50 organizations.
  - Wrote detailed technical design documents and presentations for the systems which were used as model examples for full-time engineers.
 
 ## Co-Curricular Activities
-**Engineering Manager** <br>
+<big><br>Engineering Manager**</b></big><br>
 [University of Toronto Robotics Association](http://www.utra.ca/) (Sept 19 - Apr 21)
 
  - Led a team of 10+ students to develop navigation and path planning algorithms using the Robot Operating System (ROS) in Python for the International Ground Vehicle Competition (IGCV).
 
-## Technical Skills
-- Java (8 years)
-- C/C++ (7 years)
-- Python (7 years)
-- MATLab (4 years)
-- LaTeX (4 years)
+## Technical SkillsJava (8 years)
+<big><br>Programming Languages</b></big><br>
+- Java (9 yrs.)
+- C/C++ (8 yrs.)
+- Python (8 yrs.)
+- MATLab (5 yrs.)
+- LaTeX (5 yrs.)
