@@ -15,7 +15,6 @@ University of Toronto (Jan 22 - Present)
 University of Toronto (Sept 16 - Apr 21)
  - Minor in Artificial Intelligence Engineering
  - **Capstone Project:** Federated Machine Learning - System Design and Practical Architecture
-     <br><br>
       - Developed a [PyTorch](https://pytorch.org/) library that faciliates collaborative machine learning without data centralization
       - Supervised by [Professor Ashish Khisti](https://www.ece.utoronto.ca/people/khisti-a/)
       - Recipient of the Certificate of Distinction (awarded to outstanding projects)
