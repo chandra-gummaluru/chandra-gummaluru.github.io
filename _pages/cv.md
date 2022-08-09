@@ -22,32 +22,32 @@ University of Toronto (Sept 16 - Apr 21)
       - [Poster Presentation](https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/notes/poster.pdf)
      
 ## Teaching Experience
-<p style="font-size:60px;">Course Coordinator/Instructor for CSC384: Introduction to Artificial Intelligence</p><br>
+<big><b>Course Coordinator/Instructor for CSC384: Introduction to Artificial Intelligence</b></big><br>
 University of Toronto (May 22 - Present)
  - [Syllabus](https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/ai/csc384s22_syllabus.pdf)
  - Delivered lectures to a class of approximately 125 undergraduate students.
  - Developed new course assignments and exams.
  - Organized all course content into an online repository for future instructors.
 
-**Course Instructor for CSC384: Introduction to Artificial Intelligence**
+<big><b>Course Instructor for CSC384: Introduction to Artificial Intelligence</b></big><br>
 University of Toronto (Jan 22 - Apr 22)
  - Delivered lectures to a class of approximately 90 undergraduate students.
  - Developed new [course slides](https://chandra-gummaluru.github.io/2022-02-11/ai) based on existing slides from previous instructors.
 
-**Teaching Assistant for CSC384: Introduction to Artificial Intelligence** <br>
+<big><b>Teaching Assistant for CSC384: Introduction to Artificial Intelligence</b></big><br>
 University of Toronto  (Jan 21 - Apr 21)
 
  - Gave a [guest lecture](https://www.youtube.com/watch?v=gy3e1OVj_Hw&feature=youtu.be) concerning inference on Bayesian networks via sampling methods.
  - Conducted tutorials for programming assignments about uninformed search algorithms (e.g., breadth-first, depth-first, and uniform-cost), and informed search algorithms (e.g., A*).
  - Interfaced auto-grader scripts for marking over 400 assignments automatically.
  
-**Teaching Assistant for CSC420: Introduction to Image Understanding** <br>
+<big><b>Teaching Assistant for CSC420: Introduction to Image Understanding</b></big><br>
 University of Toronto  (Sept 20 - Dec 20)
 
  - Delivered tutorials and hosted office hours explaining course concepts for a 4th-year course on computer vision consisting of approximately 250 students as a 4th-year student.
  - Marked approximately 100 assignments and course projects consisting of both theoretical and programmatic concepts of computer vision.
 
-**Teaching Assistant for APS111/APS112: Engineering Strategies and Practice I and II** <br>
+<big><b>Teaching Assistant for APS111/APS112: Engineering Strategies and Practice I and II**</b></big><br>
 University of Toronto  (Sept 20 - Apr 21)
 
  - Guided 12 teams each consisting of six 1st-year students through the engineering design process, including identifying the problem, specifying the requirements, and providing a design specification
@@ -55,7 +55,7 @@ University of Toronto  (Sept 20 - Apr 21)
 
 ## Publications
 
-**Implementation of Stochastic Completion Fields for Contour Completion** <br>
+<big><b>Implementation of Stochastic Completion Fields for Contour Completion**</b></big><br>
 University of Toronto (May 19 - Apr 21)
 
  - [Paper](https://mrezanejad.github.io/files/bmvc2021.pdf)
