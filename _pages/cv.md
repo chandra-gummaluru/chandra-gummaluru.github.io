@@ -30,7 +30,7 @@ University of Toronto (May 22 - Present)
  - Developed new course assignments and exams based on existing ones from previous instructors.
 
 **Course Instructor for CSC384: Introduction to Artificial Intelligence** <br>
-University of Toronto (Jan 22 - Arp 22)
+University of Toronto (Jan 22 - Apr 22)
  - Delivered lectures to a class of approximately 90 undergraduate students.
  - Developed new [course slides](https://chandra-gummaluru.github.io/2022-02-11/ai) based on existing slides from previous instructors.
 
