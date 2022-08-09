@@ -7,7 +7,7 @@ permalink: /cv/
 
 <big><big><b>Chandra Gummaluru</b></big></big>
 
-## Education
+# Education
 <big><b>MASc Computer Engineering</b></big><br>
 University of Toronto (Jan 22 - Present)
  - **CGPA**: 4.0/4.0
@@ -24,7 +24,7 @@ University of Toronto (Sept 16 - Apr 21)
       - [Video Presentation](https://youtu.be/Ep5phZmgyEA)
       - [Poster Presentation](https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/notes/poster.pdf)
      
-## Teaching Experience
+# Teaching Experience
 <big><b>Head Instructor for CSC384: Introduction to Artificial Intelligence</b></big><br>
 University of Toronto (May 22 - Present)
  - [Syllabus](https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/ai/csc384s22_syllabus.pdf)
@@ -56,7 +56,7 @@ University of Toronto  (Sept 20 - Apr 21)
  - Guided 12 teams each consisting of six 1st-year students through the engineering design process, including identifying the problem, specifying the requirements, and providing a design specification
  - Marked reports on project requirements and design specification and provided written feedback within the documents and oral feedback through weekly status meetings.
 
-## Publications
+# Publications
 <big><b>Implementation of Stochastic Completion Fields for Contour Completion</b></big><br>
 University of Toronto (May 19 - Apr 21)
 
@@ -64,7 +64,7 @@ University of Toronto (May 19 - Apr 21)
  - [Codes](https://github.com/sidguptacode/Stochastic_Completion_Fields)
  - [Supplemental Material](https://www.bmvc2021-virtualconference.com/assets/supp/1075_supp.zip)
 
-## Industry Experience
+# Industry Experience
 
 <big><b>Back-end Software Engineer</b></big><br>
 [Coursera Inc.](https://www.coursera.org/) (Sept 19 - Aug 20)
@@ -72,14 +72,15 @@ University of Toronto (May 19 - Apr 21)
  - Designed and developed a custom payments and promotions system in Scala to offer currency internationalization and discounting for [Coursera’s enterprise product](https://www.coursera.org/business/) used by over 50 organizations.
  - Wrote detailed technical design documents and presentations for the systems which were used as model examples for full-time engineers.
 
-## Co-Curricular Activities
+# Co-Curricular Activities
 <big><br>Engineering Manager**</b></big><br>
 [University of Toronto Robotics Association](http://www.utra.ca/) (Sept 19 - Apr 21)
 
  - Led a team of 10+ students to develop navigation and path planning algorithms using the Robot Operating System (ROS) in Python for the International Ground Vehicle Competition (IGCV).
 
-## Technical SkillsJava (8 years)
-<big><br>Programming Languages</b></big><br>
+# Technical Skills
+<big><br>Programming Languages</b></big>
+
 - Java (9 yrs.)
 - C/C++ (8 yrs.)
 - Python (8 yrs.)
