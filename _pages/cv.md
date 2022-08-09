@@ -1,11 +1,9 @@
 ---
 layout: post
-title: ""
+title: "Curriculum Vitae"
 author: "Chandra Gummaluru"
 permalink: /cv/
 ---
-
-<big><big><b>Chandra Gummaluru</b></big></big>
 
 # Education
 <big><b>MASc Computer Engineering</b></big><br>
