@@ -4,9 +4,6 @@ title: "Curriculum Vitae"
 author: "Chandra Gummaluru"
 permalink: /cv/
 ---
-
-<p style ="text-align:center;"><a href ="https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/cv/Gummaluru-Chandra-CV.pdf">Download as PDF</a></p>
-
 ## Education
 **MASc Computer Engineering** <br>
 University of Toronto (Jan 22 - Present)
