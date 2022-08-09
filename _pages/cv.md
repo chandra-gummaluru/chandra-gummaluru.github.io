@@ -63,21 +63,20 @@ University of Toronto (May 19 - Apr 21)
  - [Supplemental Material](https://www.bmvc2021-virtualconference.com/assets/supp/1075_supp.zip)
 
 # Industry Experience
-
-<big><b>Back-end Software Engineer</b></big><br>
+<big><b>Backend Software Engineer</b></big><br>
 [Coursera Inc.](https://www.coursera.org/) (Sept 19 - Aug 20)
 
  - Designed and developed a custom payments and promotions system in Scala to offer currency internationalization and discounting for [Coursera’s enterprise product](https://www.coursera.org/business/) used by over 50 organizations.
  - Wrote detailed technical design documents and presentations for the systems which were used as model examples for full-time engineers.
 
 # Co-Curricular Activities
-<big><br>Engineering Manager</b></big><br>
+<big><b>Engineering Manager</b></big><br>
 [University of Toronto Robotics Association](http://www.utra.ca/) (Sept 19 - Apr 21)
 
  - Led a team of 10+ students to develop navigation and path planning algorithms using the Robot Operating System (ROS) for the International Ground Vehicle Competition (IGCV).
 
 # Technical Skills
-<big><br>Programming Languages</b></big>
+<big><b>Programming Languages</b></big>
 
 - Java (9 yrs.)
 - C/C++ (8 yrs.)
