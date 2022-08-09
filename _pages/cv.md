@@ -76,7 +76,7 @@ University of Toronto (May 19 - Apr 21)
 <big><br>Engineering Manager</b></big><br>
 [University of Toronto Robotics Association](http://www.utra.ca/) (Sept 19 - Apr 21)
 
- - Led a team of 10+ students to develop navigation and path planning algorithms using the Robot Operating System (ROS) in Python for the International Ground Vehicle Competition (IGCV).
+ - Led a team of 10+ students to develop navigation and path planning algorithms using the Robot Operating System (ROS) for the International Ground Vehicle Competition (IGCV).
 
 # Technical Skills
 <big><br>Programming Languages</b></big>
