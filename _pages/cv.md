@@ -13,15 +13,12 @@ University of Toronto (Jan 22 - Present)
 **BASc Computer Engineering** <br>
 University of Toronto (Sept 16 - Apr 21)
  - Minor in Artificial Intelligence Engineering
- - **Capstone Project:** Federated Machine Learning System Design and Practical Architecture
-     <p style='text-align: justify;'>
-     <ul>
-      <li>Developed a framework for collaborative machine learning without data centralization using <a href="https://pytorch.org/">PyTorch</a> under the supervision of Professor Ashish Khisti.</li>
-      <li>Recipient of the Certificate of Distinction</li>
-      <li><a href="https://youtu.be/Ep5phZmgyEA">Video Presentation</a></li>
-      <li><a href="https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/notes/poster.pdf">Poster Presentation</a></li>
-     </ul>
-     </p>
+ - **Capstone Project:** Federated Machine Learning - System Design and Practical Architecture (Supervised by Professor Ashish Khisti)
+     <br><br>
+      - Developed a [PyTorch](https://pytorch.org/) library that faciliates collaborative machine learning without data centralization
+      - Recipient of the Certificate of Distinction
+      - [Video Presentation](https://youtu.be/Ep5phZmgyEA)
+      - [Poster Presentation](https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/notes/poster.pdf)
      
 ## Teaching Experience
 **Course Coordinator/Instructor for CSC384: Introduction to Artificial Intelligence** <br>
