@@ -14,17 +14,21 @@ University of Toronto (Jan 22 - Present)
 University of Toronto (Sept 16 - Apr 21)
  - Minor in Artificial Intelligence Engineering
  - **Capstone Project:** Federated Machine Learning System Design and Practical Architecture
-     - <p style='text-align: justify;'>Developed a framework that enables distributed machine learning (with support for private and non-homogeneous data-sets) using <a href="https://pytorch.org/">PyTorch</a> under the supervision of Professor Ashish Khisti.</p>
-     - Recipient of the Certificate of Distinction
-     - [Video Presentation](https://youtu.be/Ep5phZmgyEA)
-     - [Poster Presentation](https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/notes/poster.pdf)
-     
+     <p style='text-align: justify;'>
+     <ul>
+      <li>Developed a framework that enables distributed machine learning (with support for private and non-homogeneous data-sets) using <a href="https://pytorch.org/">PyTorch</a> under the supervision of Professor Ashish Khisti.</li>
+      <li>Recipient of the Certificate of Distinction</li>
+      <li><a href="https://youtu.be/Ep5phZmgyEA">Video Presentation</a></li>
+      <li><a href="https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/notes/poster.pdf">Poster Presentation</a></li>
+     </ul>
+     </p>
 ## Teaching Experience
 **Course Coordinator/Instructor for CSC384: Introduction to Artificial Intelligence** <br>
 University of Toronto (May 22 - Present)
  - [Syllabus](https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/ai/csc384s22_syllabus.pdf)
  - Delivered lectures to a class of approximately 125 undergraduate students.
- - Developed new course assignments and exams based on existing ones from previous instructors.
+ - Developed new course assignments and exams.
+ - Organized all course content into an online repository for future instructors.
 
 **Course Instructor for CSC384: Introduction to Artificial Intelligence** <br>
 University of Toronto (Jan 22 - Apr 22)
