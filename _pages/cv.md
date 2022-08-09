@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Curriculum Vitae"
+title: ""
 author: "Chandra Gummaluru"
 permalink: /cv/
 ---
