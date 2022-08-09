@@ -16,7 +16,7 @@ University of Toronto (Sept 16 - Apr 21)
  - **Capstone Project:** Federated Machine Learning System Design and Practical Architecture
      <p style='text-align: justify;'>
      <ul>
-      <li>Developed a framework that enables distributed machine learning (with private and non-homogeneous data-sets) using <a href="https://pytorch.org/">PyTorch</a> under the supervision of Professor Ashish Khisti.</li>
+      <li>Developed a framework for distributed machine learning (with private and non-homogeneous data-sets) using <a href="https://pytorch.org/">PyTorch</a> under the supervision of Professor Ashish Khisti.</li>
       <li>Recipient of the Certificate of Distinction</li>
       <li><a href="https://youtu.be/Ep5phZmgyEA">Video Presentation</a></li>
       <li><a href="https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/notes/poster.pdf">Poster Presentation</a></li>
