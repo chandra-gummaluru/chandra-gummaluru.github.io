@@ -13,7 +13,7 @@ An introductory course in artificial intelligence. Topics include; tree search a
 ## Notes on Select Topics
 
 [**Linear Algebra**](https://chandra-gummaluru.github.io/2022-07-25/la) <br>
-Basic concepts in linear algebra. Topics include; vectors and vector spaces, linear transformations, algebra with vectors and matrices </i>
+Basic concepts in linear algebra. Topics include; vectors and vector spaces, linear transformations, algebra with vectors and matrices.
 
 [**Convex Optimization**](https://chandra-gummaluru.github.io/2022-02-11/co) <br>
 Fundamental concepts in convex optimization. Topics include; convex sets, convex functions, unconstrainted and constrained optimization problems, and duality.<br>
