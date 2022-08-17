@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: default
 title: "About"
 author: "Chandra Gummaluru"
 permalink: /about/
