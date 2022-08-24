@@ -12,11 +12,14 @@ An introductory course in artificial intelligence. Topics include; tree search a
 
 ## Notes on Select Topics
 
-[**Linear Algebra**](https://chandra-gummaluru.github.io/2022-07-25/la) <br>
+[**Linear Algebra**](https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/assets/cn_Lin_Alg.pdf) <br>
+_The mathematics of linear spaces and the algebra of linear spaces._
 Basic concepts in linear algebra. Topics include; vectors and vector spaces, linear transformations, algebra with vectors and matrices.
 
+[**Linear Control Theory**](https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/assets/cn_Lin_Ctl_Thry.pdf) <br>
+_The analysis of linear time-invariant dyanmical systems._
+
 [**Convex Optimization**](https://chandra-gummaluru.github.io/2022-02-11/co) <br>
-Fundamental concepts in convex optimization. Topics include; convex sets, convex functions, unconstrainted and constrained optimization problems, and duality.<br>
-<i> Preqrequisites: strong background in linear algebra </i>
+_Optimizing real-valued convex functions subject to constraints._
 
 
