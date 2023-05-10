@@ -26,9 +26,9 @@ University of Toronto (Sept 16 - Apr 21)
 <big><b>Course Coordinator and Instructor</b></big><br>
 Division of Engineering Science, University of Toronto (Jan 22 - Present)
  - Delivered lectures for the following classes (~400 students):
- -     - CSC311: Introduction to Machine Learning (Winter 2023)
- -     - CSC384: Introduction to Artificial Intelligence (Winter 2022, Summer 2022)
- -     - ROB311: Artificial Intelligence (Winter 2023)
+      - CSC311: Introduction to Machine Learning (Winter 2023)
+      - CSC384: Introduction to Artificial Intelligence (Winter 2022, Summer 2022)
+      - ROB311: Artificial Intelligence (Winter 2023)
  - Prepared custom course material (notes, slides, etc.), assignments, and exams.
  - Coordinated multiple groups of teaching assistants.
  
