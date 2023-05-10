@@ -22,18 +22,16 @@ University of Toronto (Sept 16 - Apr 21)
       - [Poster Presentation](https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/notes/poster.pdf)
      
 # Teaching Experience
-<big><b>Course Coordinator and Instructor for CSC384: Introduction to Artificial Intelligence</b></big><br>
-University of Toronto (May 22 - Present)
- - [Syllabus](https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/ai/csc384s22_syllabus.pdf)
- - Delivered lectures to a class of approximately 125 undergraduate students.
- - Developed new course assignments and exams.
- - Organized all course content into an online repository for future instructors.
 
-<big><b>Course Instructor for CSC384: Introduction to Artificial Intelligence</b></big><br>
-University of Toronto (Jan 22 - Apr 22)
- - Delivered lectures to a class of approximately 90 undergraduate students.
- - Developed new [course slides](https://chandra-gummaluru.github.io/2022-02-11/ai) based on existing slides from previous instructors.
-
+<big><b>Course Coordinator and Instructor</b></big><br>
+Division of Engineering Science, University of Toronto (Jan 22 - Present)
+ - Delivered lectures for the following classes (~400 students):
+ -     - CSC311: Introduction to Machine Learning (Winter 2023)
+ -     - CSC384: Introduction to Artificial Intelligence (Winter 2022, Summer 2022)
+ -     - ROB311: Artificial Intelligence (Winter 2023)
+ - Prepared custom course material (notes, slides, etc.), assignments, and exams.
+ - Coordinated multiple groups of teaching assistants.
+ 
 <big><b>Teaching Assistant for CSC384: Introduction to Artificial Intelligence</b></big><br>
 University of Toronto  (Jan 21 - Apr 21)
 
