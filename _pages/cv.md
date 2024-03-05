@@ -9,7 +9,7 @@ permalink: /cv/
 <big><b>MASc Computer Engineering</b></big><br>
 University of Toronto (Jan 22 - Present)
  - **CGPA**: 4.0/4.0
- - Research areas include stochastic control and mathematical game theory.
+ - Research areas include stochastic control and mathematical game theory. Test
 
 <big><b>BASc Computer Engineering</b></big><br>
 University of Toronto (Sept 16 - Apr 21)
