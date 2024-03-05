@@ -7,9 +7,12 @@ permalink: /cv/
 
 # Education
 <big><b>MASc Computer Engineering</b></big><br>
-University of Toronto (Jan 22 - Present)
- - **CGPA**: 4.0/4.0
- - Research areas include stochastic control and mathematical game theory. Test
+University of Toronto (Jan 22 - Apr 24)
+ - **CGPA:** 4.0/4.0
+ - **Research Areas:** Artificial Intelligence, Game Theory, Control Systems, Machine Learning, Optimization
+ - **Thesis:** A Game-Theoretic Approach to Analyzing Transit Systems with Autonomous Vehicles
+	 - Developed a new game-theoretic model to analyze the effectiveness of various automated transit systems
+	 - Supervised by Professor Lacra Pavel 
 
 <big><b>BASc Computer Engineering</b></big><br>
 University of Toronto (Sept 16 - Apr 21)
@@ -24,32 +27,24 @@ University of Toronto (Sept 16 - Apr 21)
 # Teaching Experience
 
 <big><b>Course Coordinator and Instructor</b></big><br>
-Division of Engineering Science, University of Toronto (Jan 22 - Present)
- - Delivered lectures for the following classes (~400 students):
+Department of Computer Science, University of Toronto (Jan 22 - Present)
+ - Delivered lectures for the following classes (~600 students):
       - CSC311: Introduction to Machine Learning (Winter 2023)
-      - CSC384: Introduction to Artificial Intelligence (Winter 2022, Summer 2022)
-      - ROB311: Artificial Intelligence (Winter 2023)
+      - CSC384: Introduction to Artificial Intelligence (Winter 2023, Winter 2022, Summer 2022)
+      - ROB311: Artificial Intelligence (Winter 2024, Winter 2023)
  - Prepared custom course material (notes, slides, etc.), assignments, and exams.
  - Coordinated multiple groups of teaching assistants.
  
-<big><b>Teaching Assistant for CSC384: Introduction to Artificial Intelligence</b></big><br>
-University of Toronto  (Jan 21 - Apr 21)
+<big><b>Teaching Assistant</b></big><br>
+Department of Computer Science, University of Toronto  (Jan 21 - Apr 21)
 
- - Gave a [guest lecture](https://www.youtube.com/watch?v=gy3e1OVj_Hw&feature=youtu.be) concerning inference on Bayesian networks via sampling methods.
- - Conducted tutorials for programming assignments about uninformed search algorithms (e.g., breadth-first, depth-first, and uniform-cost), and informed search algorithms (e.g., A*).
- - Interfaced auto-grader scripts for marking over 400 assignments automatically.
+ - Delivered tutorials in the following classes:
+	 - CSC384: Introduction to Artificial Intelligence (Fall 2022)
+	 - CSC420: Introduction to Image Understanding (Fall 2022)
+	 - APS111/APS112: Engineering Strategies and Practice (Winter 2023, Fall 2022)
+ - Marked homework and tests using several learning management systems
  
-<big><b>Teaching Assistant for CSC420: Introduction to Image Understanding</b></big><br>
-University of Toronto  (Sept 20 - Dec 20)
 
- - Delivered tutorials and hosted office hours explaining course concepts for a 4th-year course on computer vision consisting of approximately 250 students as a 4th-year student.
- - Marked approximately 100 assignments and course projects consisting of both theoretical and programmatic concepts of computer vision.
-
-<big><b>Teaching Assistant for APS111/APS112: Engineering Strategies and Practice I/II</b></big><br>
-University of Toronto  (Sept 20 - Apr 21)
-
- - Guided 12 teams each consisting of six 1st-year students through the engineering design process, including identifying the problem, specifying the requirements, and providing a design specification
- - Marked reports on project requirements and design specification and provided written feedback within the documents and oral feedback through weekly status meetings.
 
 # Publications
 <big><b>Implementation of Stochastic Completion Fields for Contour Completion</b></big><br>
@@ -75,8 +70,8 @@ University of Toronto (May 19 - Apr 21)
 # Technical Skills
 <big><b>Programming Languages</b></big>
 
-- Java (9 yrs.)
-- C/C++ (8 yrs.)
-- Python (8 yrs.)
-- MATLab (5 yrs.)
-- LaTeX (5 yrs.)
+- Java (10 years)
+- C/C++ (9 years)
+- Python (10 years)
+- MATLab (6 years)
+- LaTeX (7 years)
