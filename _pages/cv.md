@@ -34,6 +34,10 @@ Department of Computer Science, University of Toronto (Jan 22 - Present)
       - **ROB311**: Artificial Intelligence (Winter 2024, Winter 2023)
  - Prepared course material (typset notes, lecture slides, assignments, and exams).
  - Coordinated multiple groups of teaching assistants.
+ - [Sample Lecture](https://www.youtube.com/watch?v=gy3e1OVj_Hw)
+ - [Sample Lecture Slides](https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/blob/6f03adb225399efbd3b302b6dc2159997e63b80d/media/cv/rob311w24_ch9_slides_full.pdf)
+ - [Unofficial Student Reviews](https://www.ratemyprofessors.com/professor/2818613) (for official course evaluations, please contact me)
+
  
 <big><b>Teaching Assistant</b></big><br>
 Department of Computer Science, University of Toronto  (Jan 21 - Apr 21)
