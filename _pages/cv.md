@@ -29,22 +29,21 @@ University of Toronto (Sept 16 - Apr 21)
 <big><b>Course Coordinator and Instructor</b></big><br>
 Department of Computer Science, University of Toronto (Jan 22 - Present)
  - Delivered lectures for the following classes (~600 students):
-      - CSC311: Introduction to Machine Learning (Winter 2023)
-      - CSC384: Introduction to Artificial Intelligence (Winter 2023, Winter 2022, Summer 2022)
-      - ROB311: Artificial Intelligence (Winter 2024, Winter 2023)
- - Prepared custom course material (notes, slides, etc.), assignments, and exams.
+      - **CSC311**: Introduction to Machine Learning (Winter 2023)
+      - **CSC384**: Introduction to Artificial Intelligence (Winter 2023, Winter 2022, Summer 2022)
+      - **ROB311**: Artificial Intelligence (Winter 2024, Winter 2023)
+ - Prepared course material (typset notes, lecture slides, assignments, and exams).
  - Coordinated multiple groups of teaching assistants.
  
 <big><b>Teaching Assistant</b></big><br>
 Department of Computer Science, University of Toronto  (Jan 21 - Apr 21)
 
  - Delivered tutorials in the following classes:
-	 - CSC384: Introduction to Artificial Intelligence (Fall 2022)
-	 - CSC420: Introduction to Image Understanding (Fall 2022)
-	 - APS111/APS112: Engineering Strategies and Practice (Winter 2023, Fall 2022)
- - Marked homework and tests using several learning management systems
+	 - **CSC384**: Introduction to Artificial Intelligence (Fall 2022)
+	 - **CSC420**: Introduction to Image Understanding (Fall 2022)
+	 - **APS111/APS112**: Engineering Strategies and Practice (Winter 2023, Fall 2022)
+ - Marked homework and tests using several learning management systems (Quercus, MarkUs, and Crowdmark)
  
-
 
 # Publications
 <big><b>Implementation of Stochastic Completion Fields for Contour Completion</b></big><br>
