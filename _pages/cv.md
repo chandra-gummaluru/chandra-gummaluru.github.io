@@ -5,7 +5,7 @@ author: "Chandra Gummaluru"
 permalink: /cv/
 ---
 
-# Education
+# 📖 Education
 <big><b>MASc Computer Engineering</b></big><br>
 University of Toronto (Jan 22 - Apr 24)
  - **CGPA:** 4.0/4.0
@@ -24,7 +24,7 @@ University of Toronto (Sept 16 - Apr 21)
       - [Video Presentation](https://youtu.be/Ep5phZmgyEA)
       - [Poster Presentation](https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/notes/poster.pdf)
      
-# Teaching Experience
+# 🍎 Teaching Experience
 
 <big><b>Course Coordinator and Instructor</b></big><br>
 Department of Computer Science, University of Toronto (Jan 22 - Present)
@@ -47,9 +47,15 @@ Department of Computer Science, University of Toronto  (Jan 21 - Apr 21)
 	 - **CSC420**: Introduction to Image Understanding (Fall 2022)
 	 - **APS111/APS112**: Engineering Strategies and Practice (Winter 2023, Fall 2022)
  - Marked homework and tests using several learning management systems (Quercus, MarkUs, and Crowdmark)
+
+ - <big><b>Backend Software Engineer</b></big><br>
+[Coursera Inc.](https://www.coursera.org/) (Sept 19 - Aug 20)
+
+ - Designed and developed a custom payments and promotions system in Scala to offer currency internationalization and discounting for [Coursera’s enterprise product](https://www.coursera.org/business/) used by over 50 organizations.
+ - Wrote detailed technical design documents and presentations for the systems which were used as model examples for full-time engineers.
  
 
-# Publications
+# 🗞️Publications
 <big><b>Implementation of Stochastic Completion Fields for Contour Completion</b></big><br>
 University of Toronto (May 19 - Apr 21)
 
@@ -57,20 +63,15 @@ University of Toronto (May 19 - Apr 21)
  - [Codes](https://github.com/sidguptacode/Stochastic_Completion_Fields)
  - [Supplemental Material](https://www.bmvc2021-virtualconference.com/assets/supp/1075_supp.zip)
 
-# Industry Experience
-<big><b>Backend Software Engineer</b></big><br>
-[Coursera Inc.](https://www.coursera.org/) (Sept 19 - Aug 20)
+# 💼 Industry Experience
 
- - Designed and developed a custom payments and promotions system in Scala to offer currency internationalization and discounting for [Coursera’s enterprise product](https://www.coursera.org/business/) used by over 50 organizations.
- - Wrote detailed technical design documents and presentations for the systems which were used as model examples for full-time engineers.
-
-# Co-Curricular Activities
+# 🤝 Co-Curricular Activities
 <big><b>Engineering Manager</b></big><br>
 [University of Toronto Robotics Association](http://www.utra.ca/) (Sept 19 - Apr 21)
 
  - Led a team of 10+ students to develop navigation and path planning algorithms using the Robot Operating System (ROS) for the International Ground Vehicle Competition (IGCV).
 
-# Technical Skills
+# ⚙️ Skills
 <big><b>Programming Languages</b></big>
 
 - Java (10 years)
