@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: post
 title: "Research"
 author: "Chandra Gummaluru"
 permalink: /research/
