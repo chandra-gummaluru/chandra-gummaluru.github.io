@@ -28,12 +28,13 @@ University of Toronto (Sept 16 - Apr 21)
 
 <big><b>Course Coordinator and Instructor</b></big><br>
 Department of Computer Science, University of Toronto (Jan 22 - Present)
- - Delivered lectures for the following classes (~600 students):
-      - **CSC311**: Introduction to Machine Learning (Winter 2023)
-      - **CSC384**: Introduction to Artificial Intelligence (Winter 2023, Winter 2022, Summer 2022)
+ - Delivered lectures for the following classes (>1000 students):
+      - **CSC311**: Machine Learning (Winter 2023)
+      - **CSC384**: Artificial Intelligence (Winter 2023, Winter 2022, Summer 2022)
       - **ROB311**: Artificial Intelligence (Winter 2024, Winter 2023)
- - Prepared course material (typset notes, lecture slides, assignments, and exams).
- - Coordinated multiple groups of teaching assistants.
+- Key concepts include; Search Algorithms, Bayesian Inference, Stochastic Processes, Reinforcement Learning (RL), Supervised/Unsupervised Learning, Neural Networks, Convex Optimization, and Multi-Agent Systems
+ - Prepared course material (typset notes, lecture slides, assignments, and exams)
+ - Served as a course coordinator and managed over 20 teaching assistants
  - [Sample Lecture](https://www.youtube.com/watch?v=gy3e1OVj_Hw)
  - [Sample Lecture Slides](https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/cv/rob311w24_ch9_slides_full.pdf)
  - [Unofficial Student Reviews](https://www.ratemyprofessors.com/professor/2818613) (for official course evaluations, please contact me)
