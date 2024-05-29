@@ -11,4 +11,4 @@ permalink: /about/
 <h1>I'm Chandra</h1>
 I am currently graduate student in the Systems Control Group within the Department of Electrical and Computer Engineering at the University of Toronto. <br><br> You can contact me at [chandra.gummaluru@mail.utoronto.ca](chandra.gummaluru@mail.utoronto.ca).
 
-<embed src="/assets/cn_Lin_Ctl_Thry.pdf" type="application/pdf" style="min-height:100vh;width:100%">
+<embed src="/assets/resume_29_05_24.pdf" type="application/pdf" style="min-height:100vh;width:100%">
