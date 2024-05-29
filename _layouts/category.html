@@ -2,6 +2,10 @@
 layout: default
 ---
 
+<main>
+  {{ content }}
+</main>
+
 <div class="catalogue">
   {% assign category = page.category | default: page.title %}
   {% for post in site.categories[category] %}
