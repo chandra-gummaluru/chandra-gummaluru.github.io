@@ -2,25 +2,19 @@
 layout: default
 ---
 
-<div class="catalogue">
-  {% for post in site.posts %}
-    {% if post.sticky %}
-      {% include catalogue_item.html sticky='true' %}
-    {% endif %}
-  {% endfor %}
+---
+layout: default
+title: "About"
+author: "Chandra Gummaluru"
+permalink: /about/
+---
 
-  {% for post in paginator.posts %}
-    {% include catalogue_item.html %}
-  {% endfor %}
-</div>
+<br>
+<div style="font-size:3em;">About Me</div>
+<div style="font-size:1.5em;">Hello, I'm Chandra!</div>
+<br>
+<img src="https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/profile4.png" alt="profile photo" width="300"/>
 
-<div class="pagination">
-  {% if paginator.previous_page %}
-    <a href="{{ paginator.previous_page_path | prepend: site.baseurl }}" class="left arrow">&#8592;</a>
-  {% endif %}
-  {% if paginator.next_page %}
-    <a href="{{ paginator.next_page_path | prepend: site.baseurl }}" class="right arrow">&#8594;</a>
-  {% endif %}
+I am currently graduate student in the Systems Control Group within the Department of Electrical and Computer Engineering at the University of Toronto. <br><br> You can contact me at [chandra.gummaluru@gmail.com](chandra.gummaluru@gmail.com).
 
-  <span>{{ paginator.page }}</span>
-</div>
+<embed src="/assets/resume_29_05_24.pdf" type="application/pdf" style="min-height:100vh;width:100%">
