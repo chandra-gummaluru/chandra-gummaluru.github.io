@@ -6,7 +6,7 @@ permalink: /about/
 ---
 
 
-<img src="https://raw.githubusercontent.com/chandra-gummaluru/chandra-gummaluru.github.io/master/assets/logo_black.svg" style="float:left;" alt="profile photo" width="30"/>
+<img src="https://raw.githubusercontent.com/chandra-gummaluru/chandra-gummaluru.github.io/master/assets/logo_black.svg" style="float:left;" alt="profile photo" width="40"/>
 <div style="font-size:3em;position:relative;top:-18px;left:5px;">About Me/div>
 <img src="https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/profile4.png" alt="profile photo" width="300"/>
 
