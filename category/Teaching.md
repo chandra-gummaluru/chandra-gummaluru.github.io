@@ -1,6 +1,6 @@
 ---
 layout: category
-title: "Teaching"
+title: "posts/teaching"
 permalink: '/posts/teaching'
 ---
 
