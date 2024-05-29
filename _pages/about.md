@@ -6,7 +6,7 @@ permalink: /about/
 ---
 
 
-<div style="font-size:3em;"">About Me</div>
+<div style="font-size:3em;">About Me</div>
 Hello - I'm Chandra!
 <img src="https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/media/profile4.png" alt="profile photo" width="300"/>
 
