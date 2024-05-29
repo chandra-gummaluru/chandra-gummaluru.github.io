@@ -5,7 +5,7 @@ author: "Chandra Gummaluru"
 permalink: /about/
 ---
 
-
+<br>
 <div style="font-size:3em;">About Me</div>
 <div style="font-size:1em;">Hello, I'm Chandra!</div>
 <br>
