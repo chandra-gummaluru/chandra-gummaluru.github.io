@@ -2,6 +2,6 @@
 layout: category
 title: "Teaching"
 author: "Chandra Gummaluru"
-permalink: /teaching/
+permalink: posts/teaching/
 ---
 
