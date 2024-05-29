@@ -1,7 +1,7 @@
 ---
 layout: category
-title: "posts/research"
-permalink: '/posts/research'
+title: "research"
+permalink: '/research'
 ---
 
 <br>
