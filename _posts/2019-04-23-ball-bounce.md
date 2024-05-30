@@ -2,7 +2,7 @@
 layout: post
 title: "Tutorial: Simulating a Ball Bounce in Python"
 author: "Chandra Gummaluru"
-categories: posts
+categories: tutorials
 ---
 
 In this tutorial, we will aim to simulate a ball bouncing off a curved surface in Python as shown below: 
