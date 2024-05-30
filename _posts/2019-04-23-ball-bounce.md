@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Tutorial: Simulating a Ball Bounce in Python"
+title: Simulating a Bouncing Ball in Python"
 author: "Chandra Gummaluru"
 categories: tutorials
 ---
@@ -70,7 +70,7 @@ We split the domain $[x_1, x_2]$ into $k$ segments of equal length. For each seg
 		pts.append(eval(coeffs, x))
 	    return pts
 	    
-We can then draw line segments from $(x_i, f(x_i))$ to $(x_{i+1}, f(x_{i+1})$ for $i = 1, \dots, k-1$. The larger we make $k$, the better the approximation becomes. We will choose $x_1 = 0$ and $x_k = cw$ so that we draw the surface along the entire width of the canvas. Of course, when we actually draw the surface, we want to draw a closed curve. Thus, we will introduce additional line segments between $(cw, f(cw))$, $(cw, ch)$, $(0,ch)$ and $(0,f(0))$. 
+We can then draw line segments from $(x_i, f(x_i))$ to $(x_{i+1}, f(x_{i+1}))$ for $i = 1, \dots, k-1$. The larger we make $k$, the better the approximation becomes. We will choose $x_1 = 0$ and $x_k = cw$ so that we draw the surface along the entire width of the canvas. Of course, when we actually draw the surface, we want to draw a closed curve. Thus, we will introduce additional line segments between $(cw, f(cw))$, $(cw, ch)$, $(0,ch)$ and $(0,f(0))$. 
 	
 	# generate the surface using k = 1000.
 	surface = get_pts(np.array([-3.75E-9, 8.26E-6, -6.1E-3, 1.44, 4E2])
