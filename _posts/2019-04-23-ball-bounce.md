@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Simulating a Bouncing Ball in Python"
+title: Simulating a Bouncing Ball in Python
 author: "Chandra Gummaluru"
 categories: tutorials
 ---
@@ -182,7 +182,8 @@ Thus, if we are given basis vectors, $\hat{e}^{(1)}$, and $\hat{e}^{(2)}$, and a
 \\[\text{proj}_{\hat{e}^{(1)}}(\vec{v}) + \text{proj}_{\hat{e}^{(2)}}(\vec{v}).\\]
 
 Now, we need to figure out what the tangential and normal directions are. If $m$ is the slope of tangent line to the surface at some point, then the unit vector parallel to the line is
-\\[ \hat{u} = \frac{\vec{u}}{\|\vec{u}\|}\\] where $\vec{u} = \begin{bmatrix} 1 & m \end{bmatrix}$.
+\\[ \hat{u} = \frac{\vec{u}}{\|\vec{u}\|}\\]
+where $\vec{u} = \begin{bmatrix} 1 & m \end{bmatrix}$.
 
 In Python, we can use the following to get a unit vector for a given slope, $m$.
 
