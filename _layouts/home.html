@@ -43,8 +43,9 @@ You can find my resume below. If you are having trouble viewing it, click <a hre
       // Prepare canvas using PDF page dimensions
       var canvas = document.getElementById('the-canvas');
       var context = canvas.getContext('2d');
-      canvas.height = 2*viewport.height;
-      canvas.width = 2*viewport.width;
+      canvas.height = viewport.height;
+      canvas.width = 
+        viewport.width;
 
       // Render PDF page into canvas context
       var renderContext = {
@@ -62,4 +63,4 @@ You can find my resume below. If you are having trouble viewing it, click <a hre
   });
 </script>
 
-<canvas style="width:200%;" id="the-canvas"></canvas>
+<canvas style="width:100%;" id="the-canvas"></canvas>
