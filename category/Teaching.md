@@ -8,7 +8,7 @@ permalink: '/teaching'
 <div style="font-size:3em;">Teaching</div>
 Here you can find material for various courses I have taught. You can also find a short teaching sample below.
 
-<div style="font-size:2em;">Teaching Sample</div>
+<div style="font-size:1.5em;">Teaching Sample</div>
 <iframe style="width:100%;height:auto;aspect-ratio:16 / 9;" src="https://www.youtube.com/embed/GaVHIYpJI1c" title="Teaching Sample Bayes Theorem" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-<div style="font-size:2em;">Courses</div>
+<div style="font-size:1.5em;">Courses</div>
