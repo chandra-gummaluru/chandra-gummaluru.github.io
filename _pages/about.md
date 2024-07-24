@@ -11,7 +11,7 @@ permalink: "/about/"
 
 I am currently graduate student in the Systems Control Group within the Department of Electrical and Computer Engineering at the University of Toronto.
 <br><br>
-You can find my resume below. If you are having trouble viewing it, click <a href="/assets/resume_default_jul_24.pdf">here</a>. Please feel free to contact me by email at chandra.gummaluru@gmail.com.
+You can find my resume below. If you are having trouble viewing it, click <a href="https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/assets/resume_default_jul_24.pdf">here</a>. Please feel free to contact me by email at chandra.gummaluru@gmail.com.
 
 <img src="https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/assets/signature.svg" alt="signature" width="150"/>
 
