@@ -15,4 +15,4 @@ You can find my resume below. If you are having trouble viewing it, click <a hre
 
 <img src="https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/assets/signature.svg" alt="signature" width="150"/>
 
-<embed src="https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/master/assets/resume_default_jul_24.pdf" type="application/pdf" style="min-height:100vh;width:100%">
+<embed src=/assets/resume_default_jul_24.pdf" type="application/pdf" style="min-height:100vh;width:100%">
