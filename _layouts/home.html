@@ -16,54 +16,52 @@ You can find my resume below. If you are having trouble viewing it, click <a hre
 
 <hr>
 
-<script src="//mozilla.github.io/pdf.js/build/pdf.mjs" type="module"></script>
+<div class="tip" markdown="1">
 
-<script type="module">
-  // If absolute URL from the remote server is provided, configure the CORS
-  // header on that server.
-  var url = 'https://raw.githubusercontent.com/chandra-gummaluru/chandra-gummaluru.github.io/master/assets/resume_default_jul_24.pdf';
+  # Experience
 
-  // Loaded via <script> tag, create shortcut to access PDF.js exports.
-  var { pdfjsLib } = globalThis;
 
-  // The workerSrc property shall be specified.
-  pdfjsLib.GlobalWorkerOptions.workerSrc = '//mozilla.github.io/pdf.js/build/pdf.worker.mjs';
+**Machine Learning Instructor** | University of Toronto, UTIAS, DCS
+Jan 2021 - Present
+-   Lectured **1000+ undergraduate students** across **7 courses** covering topics in Algorithms, Data Science, Supervised/Unsupervised Learning, Reinforcement Learning, Probabilistic Reasoning, Computer Vision
 
-  // Asynchronous download of PDF
-  var loadingTask = pdfjsLib.getDocument(url);
-  loadingTask.promise.then(function(pdf) {
-    console.log('PDF loaded');
+-   Exceeded departmental performance in course evaluations and achieved **5/5 overall instructional quality**
+    
 
-    // Fetch the first page
-    var pageNumber = 1;
-    pdf.getPage(pageNumber).then(function(page) {
-      console.log('Page loaded');
+**Artificial Intelligence Research Student** | University of Toronto
+Jan 2021 - Apr 2024
 
-      var scale = 5;
-      var viewport = page.getViewport({scale: scale});
+-   Developed a scalable mathematical framework (using Q-learning) to simulate routing decisions of self-interested autonomous vehicles and simulate the resulting traffic
+    
+-   Trained a deep neural network in PyTorch to estimate travel demand patterns decreasing the estimation error by **1.24x** in comparison to existing estimation algorithms
+    
+-   Reduced simulation commute times by **25%** using the new framework
 
-      // Prepare canvas using PDF page dimensions
-      var canvas = document.getElementById('the-canvas');
-      var context = canvas.getContext('2d');
-      canvas.height = viewport.height;
-      canvas.width = viewport.width;
+  
+**Computer Vision Research Assistant** | Bernhardt-Walther Lab 
+Apr 2020 - Sep 2021
 
-      // Render PDF page into canvas context
-      var renderContext = {
-        canvasContext: context,
-        viewport: viewport
-      };
-      var renderTask = page.render(renderContext);
-      renderTask.promise.then(function () {
-        console.log('Page rendered');
-      });
-    });
-  }, function (reason) {
-    // PDF loading error
-    console.error(reason);
-  });
-</script>
+-   Trained **2 CNN models** using OpenCV and PyTorch (on CPUs and on GPUs with CUDA) to perform inpainting from an incomplete image and a complete outline
+    
+-   Wrote a new edge-detection algorithm with an F1 score (precision and recall) **1.5x** higher in comparison to existing algorithms such as gPb and DexiNed
+    
+-   Co-authored the paper “Contour-guided Image Completion with Perceptual Grouping” published in BMVC 2021 presenting the new models
+    
+**Software Engineer** | Coursera 
+Sep 2019 - Sep 2020
 
-<canvas style="width:100%;" id="the-canvas"></canvas>
+-   Led a team of **8 engineers** in developing a payment system in Scala to support international transactions for Coursera's enterprise product, used by **50+ organizations**
+    
+-   Implemented and maintained **20+ RESTful APIs** to enable sales teams to provide promotions and discounts to their clients
+
+  
+**Machine Learning Team Lead** | U of T Robotics Association
+May 2019 - Dec 2020
+
+-   Engineered **2 CNN models** to identify common road obstacles given 3D point-clouds from LIDAR sensors to augment a Simultaneous Localization and Mapping (SLAM) algorithms
+    
+-   Performed graphical processing 2D images, 3D mesh models, and stereographic image pairs
+  
+</div>
 
 <hr>
