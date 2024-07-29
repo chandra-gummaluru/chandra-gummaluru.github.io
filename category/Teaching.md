@@ -15,10 +15,10 @@ This short sample video is meant to showcase my teaching style.
 <div style="font-size:1.5em;">Courses</div>
 You can find a list of courses I have taught or will be teaching below.
 
-- CSC384: Introduction to Artificial Intelligence <br> Department of Computer Science, U of T
-- CSC311: Introduction to Machine Learning, DCS, U of T
-- ROB311: Artificial Intelligence, UTIAS
-- ROB310: Mathematics for Robotics, UTIAS
+- CSC384: Introduction to Artificial Intelligence | Department of Computer Science, University of Toronto <br> <em>Winter 2023, Summer 2023, Winter 2024</em>
+- CSC311: Introduction to Machine Learning | Department of Computer Science, University of Toronto <br> <em> Winter 2023 </em>
+- ROB311: Artificial Intelligence | University of Toronto Institute for Aerospace Studies <br> <em> Winter 2023, Winter 2024 </em>
+- ROB310: Mathematics for Robotics | University of Toronto Institute for Aerospace Studies <br> <em> Fall 2024 </em>
 
 <br>
 <div style="font-size:1.5em;">Teaching Resources</div>
