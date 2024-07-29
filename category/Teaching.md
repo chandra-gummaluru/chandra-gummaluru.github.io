@@ -16,11 +16,11 @@ This short sample video is meant to showcase my teaching style.
 You can find a list of courses I have taught or will be teaching below.
 
 - [CSC384: Introduction to Artificial Intelligence](https://artsci.calendar.utoronto.ca/course/csc384h1) \| DCS, University of Toronto <br> <em>Winter 2023, Summer 2023, Winter 2024</em>
-<br>
+<br><br>
 - [CSC311: Introduction to Machine Learning](https://artsci.calendar.utoronto.ca/course/csc311h1) \| DCS, University of Toronto <br> <em> Winter 2023 </em>
-<br>
+<br><br>
 - [ROB311: Artificial Intelligence](https://engineering.calendar.utoronto.ca/course/rob311h1) \| UTIAS <br> <em> Winter 2023, Winter 2024 </em>
-<br>
+<br><br>
 - [ROB310: Mathematics for Robotics](https://engineering.calendar.utoronto.ca/course/rob310h1) \| UTIAS <br> <em> Fall 2024 </em>
 
 <br>
