@@ -15,4 +15,3 @@ permalink: '/teaching'
   {% endfor %}
 </div>
 <div style="font-size:1.8em;">Resources</div>
-You can find teaching resources for various subjects below.
