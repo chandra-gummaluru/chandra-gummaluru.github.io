@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Accompaniment Generation for Melodies"
+title: "Beamer+: A Multimedia Toolkit for Interactive Presentations"
 author: "Chandra Gummaluru"
 categories: teaching_projects
 ---
