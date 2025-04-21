@@ -6,7 +6,6 @@ permalink: '/teaching'
 
 <br>
 <div style="font-size:3em;">Teaching</div>
-Here you can find material I have developed for teaching purposes.
 
 <div style="font-size:1.5em;">Portfolio</div>
 <div class="catalogue">
