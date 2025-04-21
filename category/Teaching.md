@@ -7,7 +7,7 @@ permalink: '/teaching'
 <br>
 <div style="font-size:3em;">Teaching</div>
 This page contains a selection of courses I’ve taught, along with related materials, projects, and other pedagogical contributions.
-<br>
+<br><br>
 <hr>
 <div style="font-size:1.8em;">Portfolio</div>
 <hr>
