@@ -19,6 +19,12 @@ This page contains a selection of courses I’ve taught, along with related mate
 </div>
 <hr>
 <div style="font-size:1.8em;">Projects</div>
+<div class="catalogue">
+  {% assign category = "teaching_projects" %}
+  {% for post in site.categories[category] %}
+    {% include catalogue_item.html post=post %}
+  {% endfor %}
+</div>
 <hr>
 <div style="font-size:1.8em;">Course Material</div>
 <hr>
