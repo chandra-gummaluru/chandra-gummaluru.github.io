@@ -1,9 +1,11 @@
-```
+---
 layout: post
-title: Beamer+: A Multimedia Toolkit for Interactive Presentations
+title: "Accompaniment Generation for Melodies"
 author: "Chandra Gummaluru"
 categories: teaching_projects
-```
+---
+
+This project concerns the creation of a machine learning model capable of adding accompaniments to melodies. The hope is that a user can upload a recording of themselves playing a melody, and then download the recording with a generated accompaniment added on.
 
 As someone who teaches and presents technical topics often, I found myself limited by the static nature of traditional Beamer slides. I wanted a more dynamic experience—something that could combine beautifully typeset slides with video playback, drawing, and annotation tools. That’s why I created **Beamer+**.
 
