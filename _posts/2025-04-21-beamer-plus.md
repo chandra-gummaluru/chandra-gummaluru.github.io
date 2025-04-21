@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Beamer+: A Multimedia Toolkit for Interactive Presentations"
+title: "Beamer+: Interactive Presentations"
 author: "Chandra Gummaluru"
 categories: teaching_projects
 ---
