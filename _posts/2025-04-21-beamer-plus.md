@@ -29,4 +29,6 @@ The app runs locally and loads your Beamer-generated PDFs and video clips from a
 
 ## Try It
 
-You can find the open-source project [here](https://github.com/chandra-gummaluru/beamer_plus) To get started, just download the executable, add your slides and videos, and you're ready to present! Got a feature in mind? I’d love to hear it—reach out anytime!
+You can find the open-source project [here](https://github.com/chandra-gummaluru/beamer_plus) To get started, just download the executable, add your slides and videos, and you're ready to present!
+
+Got a feature in mind? I’d love to hear it—reach out anytime!
