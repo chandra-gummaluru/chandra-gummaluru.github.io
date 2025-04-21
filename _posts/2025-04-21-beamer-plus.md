@@ -1,9 +1,9 @@
----
+```
 layout: post
 title: Beamer+: A Multimedia Toolkit for Interactive Presentations
 author: "Chandra Gummaluru"
 categories: teaching_projects
----
+```
 
 As someone who teaches and presents technical topics often, I found myself limited by the static nature of traditional Beamer slides. I wanted a more dynamic experience—something that could combine beautifully typeset slides with video playback, drawing, and annotation tools. That’s why I created **Beamer+**.
 
