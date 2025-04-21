@@ -18,6 +18,8 @@ As someone who teaches and presents technical topics often, I found myself limit
 
 With Beamer+, you can turn a static PDF into a more engaging and interactive lecture or demo—perfect for classrooms, conferences, or online content creation.
 
+![beamer-plus-ui](https://github.com/user-attachments/assets/8793a043-201f-4b2e-87ef-d673d5ffab3a)
+
 ## Why I Built It
 
 As an educator and AI researcher, I regularly use slides that integrate visual intuition, code snippets, and now more frequently, **demonstrations via video**. I wanted a seamless way to switch between slides and short video clips without disrupting the flow of my presentation. I also wanted to annotate and draw on slides during discussions—all while keeping everything self-contained and customizable.
