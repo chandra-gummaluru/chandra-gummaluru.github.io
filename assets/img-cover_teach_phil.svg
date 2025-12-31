@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 1200 900"
+   version="1.1"
+   id="svg15"
+   sodipodi:docname="teaching-philosophy-placeholder.svg"
+   inkscape:version="1.4.2 (f4327f4, 2025-05-13)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview15"
+     pagecolor="#ffffff"
+     bordercolor="#111111"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="0.85888889"
+     inkscape:cx="599.6119"
+     inkscape:cy="450"
+     inkscape:window-width="1920"
+     inkscape:window-height="991"
+     inkscape:window-x="-9"
+     inkscape:window-y="458"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg15" />
+  <!-- Background gradient -->
+  <defs
+     id="defs3">
+    <linearGradient
+       id="bg"
+       x1="0%"
+       y1="0%"
+       x2="100%"
+       y2="100%">
+      <stop
+         offset="0%"
+         style="stop-color:#f4e8d8;stop-opacity:1"
+         id="stop1" />
+      <stop
+         offset="50%"
+         style="stop-color:#e8d4c0;stop-opacity:1"
+         id="stop2" />
+      <stop
+         offset="100%"
+         style="stop-color:#d4c4b0;stop-opacity:1"
+         id="stop3" />
+    </linearGradient>
+    <filter
+       id="watercolor"
+       x="-0.0070588235"
+       y="-0.017008518"
+       width="1.0144284"
+       height="1.0274753">
+      <feTurbulence
+         type="fractalNoise"
+         baseFrequency="0.05"
+         numOctaves="3"
+         result="noise"
+         id="feTurbulence3" />
+      <feDisplacementMap
+         in="SourceGraphic"
+         in2="noise"
+         scale="10"
+         id="feDisplacementMap3" />
+      <feGaussianBlur
+         stdDeviation="1"
+         id="feGaussianBlur3" />
+    </filter>
+  </defs>
+  <rect
+     width="1200"
+     height="900"
+     fill="url(#bg)"
+     id="rect3" />
+  <!-- Tree silhouette -->
+  <g
+     filter="url(#watercolor)"
+     opacity="0.3"
+     id="g5"
+     transform="translate(0,-56)">
+    <path
+       d="m 600,800 q -20,-200 0,-400 20,200 0,400"
+       fill="none"
+       stroke="#8b7355"
+       stroke-width="20"
+       id="path3" />
+    <circle
+       cx="600"
+       cy="350"
+       r="150"
+       fill="#9db89d"
+       opacity="0.6"
+       id="circle3" />
+    <circle
+       cx="550"
+       cy="300"
+       r="120"
+       fill="#a8c4a8"
+       opacity="0.5"
+       id="circle4" />
+    <circle
+       cx="650"
+       cy="300"
+       r="120"
+       fill="#a8c4a8"
+       opacity="0.5"
+       id="circle5" />
+  </g>
+  <!-- Book -->
+  <g
+     filter="url(#watercolor)"
+     id="g12"
+     transform="translate(19.464424,-32.564036)">
+    <rect
+       x="400"
+       y="600"
+       width="180"
+       height="240"
+       rx="5"
+       fill="#fff8f0"
+       opacity="0.9"
+       id="rect5" />
+    <rect
+       x="580"
+       y="600"
+       width="180"
+       height="240"
+       rx="5"
+       fill="#fef9f2"
+       opacity="0.8"
+       id="rect6" />
+    <line
+       x1="580"
+       y1="610"
+       x2="580"
+       y2="830"
+       stroke="#d4c4b0"
+       stroke-width="2"
+       id="line6" />
+    <!-- Pages -->
+    <line
+       x1="420"
+       y1="650"
+       x2="560"
+       y2="650"
+       stroke="#c8b8a8"
+       stroke-width="1"
+       opacity="0.5"
+       id="line7" />
+    <line
+       x1="420"
+       y1="680"
+       x2="550"
+       y2="680"
+       stroke="#c8b8a8"
+       stroke-width="1"
+       opacity="0.5"
+       id="line8" />
+    <line
+       x1="420"
+       y1="710"
+       x2="560"
+       y2="710"
+       stroke="#c8b8a8"
+       stroke-width="1"
+       opacity="0.5"
+       id="line9" />
+    <line
+       x1="600"
+       y1="650"
+       x2="740"
+       y2="650"
+       stroke="#c8b8a8"
+       stroke-width="1"
+       opacity="0.5"
+       id="line10" />
+    <line
+       x1="600"
+       y1="680"
+       x2="730"
+       y2="680"
+       stroke="#c8b8a8"
+       stroke-width="1"
+       opacity="0.5"
+       id="line11" />
+    <line
+       x1="600"
+       y1="710"
+       x2="740"
+       y2="710"
+       stroke="#c8b8a8"
+       stroke-width="1"
+       opacity="0.5"
+       id="line12" />
+  </g>
+  <!-- Floating elements -->
+  <g
+     opacity="0.4"
+     filter="url(#watercolor)"
+     id="g14"
+     transform="translate(0,-56)">
+    <!-- Light bulb -->
+    <circle
+       cx="300"
+       cy="400"
+       r="30"
+       fill="none"
+       stroke="#e8b86d"
+       stroke-width="3"
+       id="circle12" />
+    <rect
+       x="285"
+       y="430"
+       width="30"
+       height="20"
+       fill="#e8b86d"
+       opacity="0.6"
+       id="rect12" />
+    <!-- Geometric shapes -->
+    <circle
+       cx="850"
+       cy="350"
+       r="25"
+       fill="none"
+       stroke="#7d9d9c"
+       stroke-width="3"
+       id="circle13" />
+    <polygon
+       points="875,550 900,500 925,550 "
+       fill="none"
+       stroke="#c07d7d"
+       stroke-width="3"
+       id="polygon13" />
+    <!-- Mathematical symbol -->
+    <text
+       x="280"
+       y="550"
+       font-size="40px"
+       font-family="serif"
+       fill="#8b7355"
+       opacity="0.6"
+       id="text13">∫</text>
+    <text
+       x="880"
+       y="450"
+       font-size="35px"
+       font-family="serif"
+       fill="#8b7355"
+       opacity="0.6"
+       id="text14">π</text>
+  </g>
+  <!-- Title -->
+  <!-- Subtle watercolor texture overlay -->
+  <rect
+     width="1200"
+     height="900"
+     fill="none"
+     filter="url(#watercolor)"
+     opacity="0.1"
+     id="rect15" />
+</svg>
