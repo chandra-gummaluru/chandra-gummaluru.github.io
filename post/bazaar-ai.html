@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bazaar-AI: A Reinforcement Learning Playground | Chandra Gummaluru</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../post-styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav-container">
+        <div class="nav-content">
+            <a href="../index.html" class="logo">Chandra Gummaluru</a>
+            <div class="nav-links">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="../teaching.html" class="nav-link">Teaching</a>
+                <a href="../research.html" class="nav-link">Research</a>
+                <a href="../projects.html" class="nav-link active">Projects</a>
+                <a href="../blog.html" class="nav-link">Blog</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Banner -->
+    <section class="post-hero">
+        <div class="post-hero-content">
+            <div class="post-meta">
+                <span class="post-category">Teaching Project</span>
+                <span class="post-date">December 29, 2025</span>
+            </div>
+            <h1 class="post-hero-title">Bazaar-AI</h1>
+            <p class="post-hero-subtitle">A Reinforcement Learning Playground</p>
+        </div>
+        <div class="post-hero-graphic">
+            <div class="graphic-circle"></div>
+            <div class="graphic-square"></div>
+            <div class="graphic-triangle"></div>
+        </div>
+    </section>
+
+    <!-- Content -->
+    <article class="post-content">
+        <div class="post-container">
+            
+            <!-- Introduction -->
+            <section class="content-block">
+                <div class="block-content">
+                    <p style="font-size: 1.25rem; line-height: 1.8;">
+                        As someone who teaches AI, I've always wanted a way to give students hands-on experience with the challenges of training agents while keeping things engaging and fun. That's why I created <strong>Bazaar-AI</strong>, a lightweight simulation framework based on the card game Jaipur that's designed for training and evaluating AI agents.
+                    </p>
+                </div>
+            </section>
+
+            <!-- What is Bazaar-AI -->
+            <section class="content-block">
+                <div class="block-content">
+                    <h2>What Is Bazaar-AI?</h2>
+                    <p><strong>Bazaar-AI</strong> is a Python-based library built on top of <a href="https://github.com/chandra-gummaluru/arelai" style="color: var(--color-accent); text-decoration: none;">Arelai</a> that faithfully recreates the strategic card game Jaipur. It provides:</p>
+                </div>
+            </section>
+
+            <!-- Feature Grid -->
+            <section class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🎮</div>
+                    <h3>Complete Game Implementation</h3>
+                    <p>Accurately modeling all Jaipur rules in a flexible Python framework.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>Plug-and-Play Agent Interface</h3>
+                    <p>Create custom agents by extending a single class with just two methods.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Serializable Game State</h3>
+                    <p>Easy conversion of states into observations for RL algorithms.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Custom Reward Functions</h3>
+                    <p>Define your own training signals to shape agent behavior.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🖥️</div>
+                    <h3>Visual Simulator</h3>
+                    <p>Polished web-based UI for watching agents compete in real time.</p>
+                </div>
+            </section>
+
+            <!-- Video Demo -->
+            <section class="content-block" style="text-align: center;">
+                <video width="100%" autoplay loop muted playsinline style="border: 2px solid var(--color-border); border-radius: 12px; max-width: 900px; box-shadow: 0 8px 24px rgba(0,0,0,0.1);">
+                    <source src="https://github.com/chandra-gummaluru/chandra-gummaluru.github.io/raw/refs/heads/master/assets/bazaar_ai_demo_1.mp4" type="video/mp4">
+                </video>
+                <p style="margin-top: 1rem; color: var(--color-text-light); font-style: italic;">
+                    Watch agents compete in the visual simulator
+                </p>
+            </section>
+
+            <section class="content-block">
+                <div class="block-content">
+                    <p>With Bazaar-AI, students can experiment with different RL approaches—from simple heuristics to Monte Carlo Tree Search to deep reinforcement learning—all within a rich, strategic environment.</p>
+                </div>
+            </section>
+
+            <!-- Why Jaipur -->
+            <section class="content-block alt-block">
+                <div class="block-icon">🎯</div>
+                <div class="block-content">
+                    <h2>Why Jaipur?</h2>
+                    <p>Jaipur is an ideal game for AI research and education because it captures many challenges found in real-world decision-making, including:</p>
+                    
+                    <div class="step-list">
+                        <div class="step-item">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h4>Partial Observability</h4>
+                                <p>Players cannot see the deck or their opponent's full hand, requiring decisions to be made under uncertainty.</p>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h4>Delayed Rewards</h4>
+                                <p>Actions taken now may only pay off several turns later, testing an agent's ability to plan ahead.</p>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h4>Combinatorial Action Spaces</h4>
+                                <p>The sheer number of possible trades forces agents to generalize rather than memorize.</p>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <h4>Risk Management</h4>
+                                <p>Agents must balance high-value trades against the risk of letting opponents claim bonuses first.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <p style="margin-top: 2rem;">These features make Jaipur an excellent testbed for algorithms that need to handle complex, strategic environments.</p>
+                </div>
+            </section>
+
+            <!-- Getting Started -->
+            <section class="content-block highlight-block">
+                <div class="block-icon">🚀</div>
+                <div class="block-content">
+                    <h2>Getting Started</h2>
+                    
+                    <h3 style="margin-top: 2rem; font-size: 1.5rem; color: var(--color-secondary);">1. Installation</h3>
+                    <p>First, install the library:</p>
+                    
+                    <div class="code-showcase">
+                        <div class="code-header">
+                            <span>Install</span>
+                            <span class="code-language">Bash</span>
+                        </div>
+                        <pre><code>pip install bazaar-ai</code></pre>
+                    </div>
+
+                    <h3 style="margin-top: 2rem; font-size: 1.5rem; color: var(--color-secondary);">2. Try the Demo</h3>
+                    <p>Run a game between the built-in agents:</p>
+                    
+                    <div class="code-showcase">
+                        <div class="code-header">
+                            <span>Run Simulator</span>
+                            <span class="code-language">Bash</span>
+                        </div>
+                        <pre><code># from the directory with your agents/ folder
+bazaar-simulate</code></pre>
+                    </div>
+
+                    <p>This will start a local web server and open your browser to the simulator. You can select different agents and watch them compete.</p>
+
+                    <h3 style="margin-top: 2rem; font-size: 1.5rem; color: var(--color-secondary);">3. Build Your Own Agent</h3>
+                    <p>Create a directory to store your agents called <code style="background: #f5f5f5; padding: 0.2rem 0.4rem; border-radius: 3px; font-family: var(--font-mono);">agents</code>. Create a new file in <code style="background: #f5f5f5; padding: 0.2rem 0.4rem; border-radius: 3px; font-family: var(--font-mono);">agents/my_agent.py</code>:</p>
+                    
+                    <div class="code-showcase">
+                        <div class="code-header">
+                            <span>Simple Agent Example</span>
+                            <span class="code-language">Python</span>
+                        </div>
+                        <pre><code>from bazaar_ai.trader import Trader, TraderAction
+from bazaar_ai.market import MarketObservation
+
+class MyAgent(Trader):
+    def __init__(self, seed, name):
+        super().__init__(seed, name)
+        
+    def select_action(self, actions, observation, simulate_action_fnc):
+        # Start simple - maybe just pick randomly?
+        import random
+        return random.choice(actions)
+    
+    def calculate_reward(self, old_obs, new_obs, has_acted, env_reward):
+        pass  # No learning yet</code></pre>
+                    </div>
+
+                    <p style="margin-top: 1.5rem;">Then test it in the simulator by selecting it from the dropdown menu.</p>
+                </div>
+            </section>
+
+            <!-- Source Code -->
+            <section class="cta-section">
+                <div class="cta-content">
+                    <h2>Source Code</h2>
+                    <p>The complete project is open source and available on GitHub:</p>
+                    <div class="cta-buttons">
+                        <a href="https://github.com/chandra-gummaluru/arelai" class="btn-primary">Base Library (Arelai)</a>
+                        <a href="https://github.com/chandra-gummaluru/bazaar_ai" class="btn-secondary">Core Library (Bazaar-AI)</a>
+                    </div>
+                    <p style="margin-top: 2rem; font-size: 1rem;">
+                        Whether you're teaching a course on AI, or just want to build a game-playing agent for fun, Bazaar-AI provides an accessible and engaging platform to get started.
+                    </p>
+                    <p style="margin-top: 1rem; font-size: 1rem;">
+                        Have ideas for improvements or new features? Found a bug? I'd love to hear from you—feel free to open an issue or reach out directly!
+                    </p>
+                </div>
+            </section>
+
+        </div>
+    </article>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-text">© 2025 Chandra Gummaluru</p>
+            <div class="footer-links">
+                <a href="mailto:chandra@cs.toronto.edu" class="footer-link">Email</a>
+                <a href="https://github.com/chandra-gummaluru" class="footer-link">GitHub</a>
+                <a href="#" class="footer-link">Google Scholar</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../script.js"></script>
+    <script src="../post-script.js"></script>
+</body>
+</html>
