@@ -150,7 +150,7 @@
 }
 
 .block-content p {
-    font-size: 1.125rem;
+    font-size: 1.25rem;
     line-height: 1.8;
     margin-bottom: 1.5rem;
     color: var(--color-text);
@@ -202,6 +202,7 @@
 }
 
 .feature-card p {
+    font-size: 1.25rem;
     color: var(--color-text-light);
     line-height: 1.6;
 }
