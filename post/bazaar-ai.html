@@ -152,14 +152,14 @@
                     <h2>Getting Started</h2>
                     
                     <h3 style="margin-top: 2rem; font-size: 1.5rem; color: var(--color-secondary);">1. Installation</h3>
-                    <p>First, install the library:</p>
+                    <p>First, clone the repository:</p>
                     
                     <div class="code-showcase">
                         <div class="code-header">
                             <span>Install</span>
                             <span class="code-language">Bash</span>
                         </div>
-                        <pre><code>pip install bazaar-ai</code></pre>
+                        <pre><code>git clone https://github.com/chandra-gummaluru/bazaar-ai.git</code></pre>
                     </div>
 
                     <h3 style="margin-top: 2rem; font-size: 1.5rem; color: var(--color-secondary);">2. Try the Demo</h3>
@@ -170,11 +170,13 @@
                             <span>Run Simulator</span>
                             <span class="code-language">Bash</span>
                         </div>
-                        <pre><code># from the directory with your agents/ folder
-bazaar-simulate</code></pre>
+                        <pre><code>
+                            cd bazaar-ai
+                            bash launch-bazaar-ai
+                        </code></pre>
                     </div>
 
-                    <p>This will start a local web server and open your browser to the simulator. You can select different agents and watch them compete.</p>
+                    <p>This will start a local web server and open your browser to the UI. You can select different agents and watch them compete.</p>
 
                     <h3 style="margin-top: 2rem; font-size: 1.5rem; color: var(--color-secondary);">3. Build Your Own Agent</h3>
                     <p>Create a directory to store your agents called <code style="background: #f5f5f5; padding: 0.2rem 0.4rem; border-radius: 3px; font-family: var(--font-mono); font-size: 1rem;">agents</code>. Create a new file in <code style="background: #f5f5f5; padding: 0.2rem 0.4rem; border-radius: 3px; font-family: var(--font-mono); font-size: 1rem;">agents/my_agent.py</code>:</p>
@@ -184,8 +186,9 @@ bazaar-simulate</code></pre>
                             <span>Simple Agent Example</span>
                             <span class="code-language">Python</span>
                         </div>
-                        <pre><code>from bazaar_ai.trader import Trader, TraderAction
-from bazaar_ai.market import MarketObservation
+                        <pre><code>
+                            from backend.trader import Trader, TraderAction
+from backend.market import MarketObservation
 
 class MyAgent(Trader):
     def __init__(self, seed, name):
@@ -200,7 +203,7 @@ class MyAgent(Trader):
         pass  # No learning yet</code></pre>
                     </div>
 
-                    <p style="margin-top: 1.5rem;">Then test it in the simulator by selecting it from the dropdown menu.</p>
+                    <p style="margin-top: 1.5rem;">Then test it in the UI by selecting it from the dropdown menu.</p>
                 </div>
             </section>
 
