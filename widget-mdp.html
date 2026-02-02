@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markov Decision Process Widget | Chandra Gummaluru</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        .widget-container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .widget-iframe {
+            width: 100%;
+            height: 800px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            background: white;
+        }
+        .widget-description {
+            margin-bottom: 2rem;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav-container">
+        <div class="nav-content">
+            <a href="index.html" class="logo">Chandra Gummaluru</a>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="teaching.html" class="nav-link">Teaching</a>
+                <a href="research.html" class="nav-link">Research</a>
+                <a href="projects.html" class="nav-link">Projects</a>
+                <a href="blog.html" class="nav-link">Blog</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Content Section -->
+    <section class="content-section" style="padding-top: 8rem;">
+        <div class="widget-container">
+            <a href="teaching-widgets.html" class="back-link">← Back to Teaching Widgets</a>
+            
+            <div class="widget-description">
+                <h1 class="section-title">Markov Decision Process</h1>
+                <p class="section-description">
+                    Interactive MDP simulation for understanding states, actions, rewards, and decision-making policies. 
+                    Experiment with different scenarios and see how agents learn optimal strategies.
+                </p>
+            </div>
+
+            <iframe src="assets/widgets/mdp-widget.html" class="widget-iframe" title="Markov Decision Process Widget"></iframe>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-text">© 2025 Chandra Gummaluru</p>
+            <div class="footer-links">
+                <a href="mailto:chandra@cs.toronto.edu" class="footer-link">Email</a>
+                <a href="https://github.com/chandra-gummaluru" class="footer-link">GitHub</a>
+                <a href="#" class="footer-link">Google Scholar</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

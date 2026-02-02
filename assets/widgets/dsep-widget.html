@@ -1,0 +1,1392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>D-Separation Widget</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; }
+    
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 18px;
+    }
+
+    #widget-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      background: #ffffff;
+    }
+
+    #status-bar-top {
+      padding: 12px 20px;
+      background: #f8f9fa;
+      border-top: 2px solid #ddd;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      font-style: italic;
+      color: #666;
+      text-align: center;
+    }
+
+    #status-bar-top.ready {
+      color: #666;
+    }
+
+    #status-bar-top.checking {
+      color: #666;
+    }
+
+    #status-bar-top.independent {
+      color: #27ae60;
+      font-weight: 600;
+    }
+
+    #status-bar-top.dependent {
+      color: #c0392b;
+      font-weight: 600;
+    }
+
+    #query-panel {
+      padding: 12px 20px;
+      background: rgba(255, 255, 255, 0.95);
+      border-bottom: 2px solid #666;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    #main-content {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    #canvas-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: #fafafa;
+      border-right: 2px solid #666;
+      position: relative;
+    }
+
+    .query-text {
+      font-size: 14px;
+      color: #666;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .mode-btn {
+      padding: 8px 16px;
+      border: 2px solid #666;
+      border-radius: 4px;
+      background: white;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: #333;
+    }
+
+    .mode-btn:hover:not(:disabled) {
+      background: #f0f0f0;
+    }
+
+    .mode-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .mode-btn.active {
+      background: #424242;
+      color: white;
+      border-color: #424242;
+    }
+
+    .var-display {
+      padding: 8px 16px;
+      border: 2px solid #666;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 16px;
+      font-weight: 700;
+      min-width: 60px;
+      text-align: center;
+      background: white;
+    }
+
+    .var-display.empty {
+      color: #999;
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    .given-vars-inline {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      flex-wrap: wrap;
+      padding: 8px 12px;
+      background: #f5f5f5;
+      border: 2px solid #666;
+      border-radius: 4px;
+      min-width: 100px;
+      min-height: 38px;
+    }
+
+    .given-var-tag {
+      background: #e0e0e0;
+      color: #333;
+      padding: 4px 10px;
+      border-radius: 3px;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .given-var-tag:hover {
+      background: #d0d0d0;
+    }
+
+    .icon-btn-inline {
+      width: 36px;
+      height: 36px;
+      background: white;
+      border: 2px solid #666;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      transition: all 0.2s;
+      color: #333;
+      flex-shrink: 0;
+    }
+
+    .icon-btn-inline:hover:not(:disabled) {
+      background: #f0f0f0;
+    }
+
+    .icon-btn-inline:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    #canvas-container {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #canvas-container.panning {
+      cursor: grabbing !important;
+    }
+
+    #networkCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      cursor: grab;
+    }
+
+    .canvas-controls {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      display: flex;
+      gap: 8px;
+      z-index: 10;
+    }
+
+    .canvas-controls-right {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      display: flex;
+      gap: 8px;
+      z-index: 10;
+    }
+
+    .canvas-control-btn {
+      width: 44px;
+      height: 44px;
+      background: rgba(255, 255, 255, 0.95);
+      border: 2px solid #666;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      transition: all 0.2s;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      color: #333;
+    }
+
+    .canvas-control-btn:hover:not(:disabled) {
+      background: #bbbbbb;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .canvas-control-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    #status-section {
+      display: none;
+    }
+
+    /* Sidebar */
+    #sidebar {
+      width: 400px;
+      background: white;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    #sidebar-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+    }
+
+    .info-section {
+      margin-bottom: 25px;
+    }
+
+    .info-label {
+      font-weight: 700;
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .path-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .path-card {
+      background: white;
+      border: 2px solid #ddd;
+      border-radius: 4px;
+      padding: 12px;
+      transition: all 0.3s;
+    }
+
+    .path-card.active {
+      border-color: #ffc107;
+      background: #fffbf0;
+    }
+
+    .path-card.blocked {
+      border-color: #e74c3c;
+      background: #fef5f5;
+    }
+
+    .path-card.unblocked {
+      border-color: #2ecc71;
+      background: #e8f8f0;
+    }
+
+    .path-header {
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      font-weight: 700;
+      color: #666;
+      margin-bottom: 8px;
+    }
+
+    .path-route {
+      font-family: 'Courier New', monospace;
+      font-size: 18px;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 12px;
+      letter-spacing: 1px;
+    }
+
+    .junction-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .junction-card {
+      background: #f8f9fa;
+      border: 2px solid #ddd;
+      border-radius: 3px;
+      padding: 10px 12px;
+      font-family: 'Courier New', monospace;
+      font-size: 15px;
+      transition: all 0.3s;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .junction-card.checking {
+      border-color: #ffc107;
+      background: #fff3cd;
+      animation: pulse 1s infinite;
+    }
+
+    .junction-card.blocked {
+      border-color: #e74c3c;
+      background: #f8d7da;
+    }
+
+    .junction-card.unblocked {
+      border-color: #2ecc71;
+      background: #e8f8f0;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    .junction-nodes {
+      flex: 1;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .junction-type {
+      font-weight: 600;
+      color: #666;
+      font-size: 13px;
+      margin-left: 12px;
+    }
+
+    .junction-status {
+      width: 100%;
+      margin-top: 6px;
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .junction-status.blocked {
+      color: #e74c3c;
+    }
+
+    .junction-status.unblocked {
+      color: #2ecc71;
+    }
+
+    /* File Input */
+    #file-input {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="widget-container">
+    <div id="query-panel">
+      <button class="mode-btn" id="set-q-btn" title="Click to set Query variable Q">Set Q</button>
+      <div class="var-display empty" id="q-display">-</div>
+      <span class="query-text">⊥</span>
+      <button class="mode-btn" id="set-e-btn" title="Click to set Evidence variable E">Set E</button>
+      <div class="var-display empty" id="e-display">-</div>
+      <span class="query-text">|</span>
+      <button class="mode-btn" id="set-givens-btn" title="Click to select Given variables">Set Givens</button>
+      <div class="given-vars-inline" id="given-vars-inline"></div>
+      <button class="icon-btn-inline" id="check-btn" disabled title="Check D-Separation">
+        <i class="fas fa-search"></i>
+      </button>
+    </div>
+    <div id="main-content">
+      <div id="canvas-section">
+
+        <div id="canvas-container">
+          <canvas id="networkCanvas"></canvas>
+          
+          <div class="canvas-controls-right">
+            <button class="canvas-control-btn" id="stepBtn" disabled title="Step">
+              <i class="fas fa-play"></i>
+            </button>
+            <button class="canvas-control-btn" id="resetBtn" disabled title="Reset">
+              <i class="fas fa-undo"></i>
+            </button>
+          </div>
+        </div>
+        
+        <div id="status-section" style="display: none;">
+        </div>
+      </div>
+
+      <div id="sidebar">
+        <div id="sidebar-content" style="padding: 20px;">
+          <div class="info-section" id="paths-section" style="display: none;">
+            <div class="path-list" id="path-list"></div>
+          </div>
+
+          <div class="info-section" style="display: none;" id="no-paths-message">
+            <div style="color: #999; font-style: italic; text-align: center; padding: 40px 20px;">
+              Enter variables and click search to check D-separation
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="status-bar-top" class="ready">Ready</div>
+  </div>
+
+  <script>
+    // Network data
+    let network = {
+      nodes: {},
+      edges: [],
+      layout: {}
+    };
+
+    // Query state
+    let varA = null;
+    let varB = null;
+    let givenVars = new Set();
+    let allPaths = [];
+    let currentPathIndex = -1;
+    let currentJunctionIndex = -1;
+    let isChecking = false;
+    let pathResults = [];
+    
+    // Selection mode
+    let selectionMode = null; // null, 'Q', 'E', or 'givens'
+    let hoveredNode = null; // Track hovered node for highlighting
+
+    // Canvas
+    const canvas = document.getElementById('networkCanvas');
+    const ctx = canvas.getContext('2d');
+    const canvasContainer = document.getElementById('canvas-container');
+    let canvasWidth, canvasHeight;
+    
+    // Pan and zoom
+    let panX = 0;
+    let panY = 0;
+    let zoom = 1;
+    let isPanning = false;
+    let lastMouseX = 0;
+    let lastMouseY = 0;
+    
+    // Touch state
+    let lastTouchDistance = 0;
+    let touchStartX = 0;
+    let touchStartY = 0;
+
+    // Highlighted elements
+    let highlightedPath = [];
+    let highlightedJunction = [];
+    let highlightedNodes = new Set();
+    let highlightedEdges = new Set();
+
+    // UI Elements
+    const stepBtn = document.getElementById('stepBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const checkBtn = document.getElementById('check-btn');
+    const setQBtn = document.getElementById('set-q-btn');
+    const setEBtn = document.getElementById('set-e-btn');
+    const setGivensBtn = document.getElementById('set-givens-btn');
+
+    function resizeCanvas() {
+      const container = document.getElementById('canvas-container');
+      canvas.width = container.clientWidth;
+      canvas.height = container.clientHeight;
+      canvasWidth = canvas.width;
+      canvasHeight = canvas.height;
+      drawNetwork();
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    // Pan and zoom
+    canvas.addEventListener('mousedown', (e) => {
+      // Check if we're in selection mode and clicked on a node
+      if (selectionMode !== null) {
+        const rect = canvas.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
+        const clickedNode = getNodeAtPosition(mouseX, mouseY);
+        
+        if (clickedNode) {
+          handleNodeClick(clickedNode);
+          e.preventDefault();
+          return;
+        }
+      }
+      
+      // Normal panning behavior
+      isPanning = true;
+      lastMouseX = e.clientX;
+      lastMouseY = e.clientY;
+      canvasContainer.classList.add('panning');
+    });
+
+    canvas.addEventListener('mousemove', (e) => {
+      if (isPanning) {
+        const dx = e.clientX - lastMouseX;
+        const dy = e.clientY - lastMouseY;
+        panX += dx;
+        panY += dy;
+        lastMouseX = e.clientX;
+        lastMouseY = e.clientY;
+        drawNetwork();
+      } else if (selectionMode !== null) {
+        // Update cursor when hovering over nodes in selection mode
+        const rect = canvas.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
+        const newHoveredNode = getNodeAtPosition(mouseX, mouseY);
+        
+        if (newHoveredNode !== hoveredNode) {
+          hoveredNode = newHoveredNode;
+          drawNetwork();
+        }
+        
+        canvas.style.cursor = hoveredNode ? 'pointer' : 'default';
+      }
+    });
+
+    canvas.addEventListener('mouseup', () => {
+      isPanning = false;
+      canvasContainer.classList.remove('panning');
+    });
+
+    canvas.addEventListener('mouseleave', () => {
+      isPanning = false;
+      canvasContainer.classList.remove('panning');
+      if (hoveredNode) {
+        hoveredNode = null;
+        drawNetwork();
+      }
+    });
+
+    canvas.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      
+      const rect = canvas.getBoundingClientRect();
+      const mouseX = e.clientX - rect.left;
+      const mouseY = e.clientY - rect.top;
+      
+      const worldX = (mouseX - panX) / zoom;
+      const worldY = (mouseY - panY) / zoom;
+      
+      const zoomFactor = e.deltaY > 0 ? 0.9 : 1.1;
+      zoom *= zoomFactor;
+      zoom = Math.max(0.3, Math.min(3, zoom));
+      
+      panX = mouseX - worldX * zoom;
+      panY = mouseY - worldY * zoom;
+      
+      drawNetwork();
+    });
+
+    // Touch events for tablets
+    canvas.addEventListener('touchstart', (e) => {
+      e.preventDefault();
+      
+      if (e.touches.length === 1) {
+        // Single finger - pan
+        isPanning = true;
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+        lastMouseX = touchStartX;
+        lastMouseY = touchStartY;
+        canvasContainer.classList.add('panning');
+      } else if (e.touches.length === 2) {
+        // Two fingers - prepare for pinch zoom
+        isPanning = false;
+        const touch1 = e.touches[0];
+        const touch2 = e.touches[1];
+        lastTouchDistance = Math.hypot(
+          touch2.clientX - touch1.clientX,
+          touch2.clientY - touch1.clientY
+        );
+      }
+    });
+
+    canvas.addEventListener('touchmove', (e) => {
+      e.preventDefault();
+      
+      if (e.touches.length === 1 && isPanning) {
+        // Single finger - pan
+        const touch = e.touches[0];
+        const dx = touch.clientX - lastMouseX;
+        const dy = touch.clientY - lastMouseY;
+        panX += dx;
+        panY += dy;
+        lastMouseX = touch.clientX;
+        lastMouseY = touch.clientY;
+        drawNetwork();
+      } else if (e.touches.length === 2) {
+        // Two fingers - pinch zoom
+        const touch1 = e.touches[0];
+        const touch2 = e.touches[1];
+        const currentDistance = Math.hypot(
+          touch2.clientX - touch1.clientX,
+          touch2.clientY - touch1.clientY
+        );
+        
+        if (lastTouchDistance > 0) {
+          const rect = canvas.getBoundingClientRect();
+          const centerX = (touch1.clientX + touch2.clientX) / 2 - rect.left;
+          const centerY = (touch1.clientY + touch2.clientY) / 2 - rect.top;
+          
+          const worldX = (centerX - panX) / zoom;
+          const worldY = (centerY - panY) / zoom;
+          
+          const zoomFactor = currentDistance / lastTouchDistance;
+          zoom *= zoomFactor;
+          zoom = Math.max(0.3, Math.min(3, zoom));
+          
+          panX = centerX - worldX * zoom;
+          panY = centerY - worldY * zoom;
+          
+          drawNetwork();
+        }
+        
+        lastTouchDistance = currentDistance;
+      }
+    });
+
+    canvas.addEventListener('touchend', (e) => {
+      e.preventDefault();
+      
+      if (e.touches.length === 0) {
+        isPanning = false;
+        lastTouchDistance = 0;
+        canvasContainer.classList.remove('panning');
+      } else if (e.touches.length === 1) {
+        // One finger remaining, reset for pan
+        lastTouchDistance = 0;
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+        lastMouseX = touchStartX;
+        lastMouseY = touchStartY;
+      }
+    });
+
+    canvas.addEventListener('touchcancel', (e) => {
+      e.preventDefault();
+      isPanning = false;
+      lastTouchDistance = 0;
+      canvasContainer.classList.remove('panning');
+    });
+
+    function loadNetwork(data) {
+      network = data;
+      
+      updateStatus('Network loaded. Click "Set Q", "Set E", or "Set Givens" to select variables', 'ready');
+      drawNetwork();
+    }
+
+    // Mode button handlers
+    setQBtn.addEventListener('click', () => {
+      if (selectionMode === 'Q') {
+        // Cancel mode
+        selectionMode = null;
+        hoveredNode = null;
+        setQBtn.classList.remove('active');
+        updateStatus('Selection cancelled', 'ready');
+        drawNetwork();
+      } else {
+        // Enter Q selection mode
+        selectionMode = 'Q';
+        hoveredNode = null;
+        setQBtn.classList.add('active');
+        setEBtn.classList.remove('active');
+        setGivensBtn.classList.remove('active');
+        updateStatus('Click a node to set variable Q', 'checking');
+      }
+      canvas.style.cursor = selectionMode !== null ? 'pointer' : 'grab';
+    });
+
+    setEBtn.addEventListener('click', () => {
+      if (selectionMode === 'E') {
+        // Cancel mode
+        selectionMode = null;
+        hoveredNode = null;
+        setEBtn.classList.remove('active');
+        updateStatus('Selection cancelled', 'ready');
+        drawNetwork();
+      } else {
+        // Enter E selection mode
+        selectionMode = 'E';
+        hoveredNode = null;
+        setEBtn.classList.add('active');
+        setQBtn.classList.remove('active');
+        setGivensBtn.classList.remove('active');
+        updateStatus('Click a node to set variable E', 'checking');
+      }
+      canvas.style.cursor = selectionMode !== null ? 'pointer' : 'grab';
+    });
+
+    setGivensBtn.addEventListener('click', () => {
+      if (selectionMode === 'givens') {
+        // Finish givens selection
+        selectionMode = null;
+        hoveredNode = null;
+        setGivensBtn.classList.remove('active');
+        updateStatus('Given variables set', 'ready');
+        updateCheckBtnState();
+        drawNetwork();
+      } else {
+        // Enter givens selection mode
+        selectionMode = 'givens';
+        hoveredNode = null;
+        setGivensBtn.classList.add('active');
+        setQBtn.classList.remove('active');
+        setEBtn.classList.remove('active');
+        updateStatus('Click nodes to add to givens, then click "Set Givens" again when done', 'checking');
+      }
+      canvas.style.cursor = selectionMode !== null ? 'pointer' : 'grab';
+    });
+
+    function getNodeAtPosition(canvasX, canvasY) {
+      // Convert canvas coordinates to world coordinates
+      const worldX = (canvasX - panX) / zoom;
+      const worldY = (canvasY - panY) / zoom;
+      
+      // Check each node
+      for (const [varName, pos] of Object.entries(network.layout)) {
+        const dx = worldX - pos.x;
+        const dy = worldY - pos.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        
+        if (distance <= 45) { // Node radius
+          return varName;
+        }
+      }
+      
+      return null;
+    }
+
+    function handleNodeClick(nodeName) {
+      if (selectionMode === 'Q') {
+        // Remove from E and givens if present
+        if (varB === nodeName) {
+          varB = null;
+          updateEDisplay();
+        }
+        givenVars.delete(nodeName);
+        
+        varA = nodeName;
+        updateQDisplay();
+        updateGivenDisplay();
+        selectionMode = null;
+        hoveredNode = null;
+        setQBtn.classList.remove('active');
+        canvas.style.cursor = 'grab';
+        updateStatus('Q variable set', 'ready');
+        updateCheckBtnState();
+        drawNetwork();
+      } else if (selectionMode === 'E') {
+        // Remove from Q and givens if present
+        if (varA === nodeName) {
+          varA = null;
+          updateQDisplay();
+        }
+        givenVars.delete(nodeName);
+        
+        varB = nodeName;
+        updateEDisplay();
+        updateGivenDisplay();
+        selectionMode = null;
+        hoveredNode = null;
+        setEBtn.classList.remove('active');
+        canvas.style.cursor = 'grab';
+        updateStatus('E variable set', 'ready');
+        updateCheckBtnState();
+        drawNetwork();
+      } else if (selectionMode === 'givens') {
+        // Toggle given variable
+        if (givenVars.has(nodeName)) {
+          givenVars.delete(nodeName);
+        } else {
+          // Remove from Q and E if present
+          if (varA === nodeName) {
+            varA = null;
+            updateQDisplay();
+          }
+          if (varB === nodeName) {
+            varB = null;
+            updateEDisplay();
+          }
+          givenVars.add(nodeName);
+        }
+        updateGivenDisplay();
+        updateCheckBtnState();
+      }
+    }
+
+    function updateQDisplay() {
+      const display = document.getElementById('q-display');
+      if (varA) {
+        display.innerHTML = `$${varA}$`;
+        display.classList.remove('empty');
+        if (window.renderMathInElement) {
+          renderMathInElement(display, {
+            delimiters: [{left: '$', right: '$', display: false}],
+            throwOnError: false
+          });
+        }
+      } else {
+        display.textContent = '-';
+        display.classList.add('empty');
+      }
+    }
+
+    function updateEDisplay() {
+      const display = document.getElementById('e-display');
+      if (varB) {
+        display.innerHTML = `$${varB}$`;
+        display.classList.remove('empty');
+        if (window.renderMathInElement) {
+          renderMathInElement(display, {
+            delimiters: [{left: '$', right: '$', display: false}],
+            throwOnError: false
+          });
+        }
+      } else {
+        display.textContent = '-';
+        display.classList.add('empty');
+      }
+    }
+
+    function updateGivenDisplay() {
+      const container = document.getElementById('given-vars-inline');
+      if (givenVars.size === 0) {
+        container.innerHTML = '';
+      } else {
+        container.innerHTML = Array.from(givenVars)
+          .map(v => `<span class="given-var-tag" onclick="removeGiven('${v}')">$${v}$ ×</span>`)
+          .join('');
+        if (window.renderMathInElement) {
+          renderMathInElement(container, {
+            delimiters: [{left: '$', right: '$', display: false}],
+            throwOnError: false
+          });
+        }
+      }
+    }
+
+    function removeGiven(varName) {
+      givenVars.delete(varName);
+      updateGivenDisplay();
+      updateCheckBtnState();
+    }
+
+    function updateCheckBtnState() {
+      // Enable check button only if both Q and E are set
+      checkBtn.disabled = !(varA && varB);
+    }
+
+    // Load default network on start
+    window.addEventListener('load', () => {
+      const defaultNetwork = {
+        "nodes": {
+          "A": {},
+          "B": {},
+          "C": {},
+          "D": {},
+          "E": {},
+          "F": {},
+          "G": {}
+        },
+        "edges": [
+          {"from": "A", "to": "C"},
+          {"from": "B", "to": "C"},
+          {"from": "C", "to": "D"},
+          {"from": "C", "to": "E"},
+          {"from": "D", "to": "F"},
+          {"from": "E", "to": "F"},
+          {"from": "F", "to": "G"},
+          {"from": "B", "to": "E"}
+        ],
+        "layout": {
+          "A": {"x": 120, "y": 80},
+          "B": {"x": 380, "y": 80},
+          "C": {"x": 250, "y": 200},
+          "D": {"x": 150, "y": 320},
+          "E": {"x": 350, "y": 320},
+          "F": {"x": 250, "y": 440},
+          "G": {"x": 250, "y": 560}
+        }
+      };
+      loadNetwork(defaultNetwork);
+    });
+
+    // Check D-separation
+    checkBtn.addEventListener('click', startDSeparationCheck);
+
+    function startDSeparationCheck() {
+      if (!varA || !varB) {
+        alert('Please set both Q and E variables');
+        return;
+      }
+      
+      if (!network.nodes[varA] || !network.nodes[varB]) {
+        alert('Invalid variables');
+        return;
+      }
+      
+      // Find all paths
+      allPaths = findAllPaths(varA, varB);
+      
+      if (allPaths.length === 0) {
+        const givenStr = givenVars.size > 0 ? ` \\mid ${Array.from(givenVars).map(v => v).join(', ')}` : '';
+        updateStatus(`$${varA} \\perp ${varB}${givenStr}$`, 'independent');
+        return;
+      }
+      
+      currentPathIndex = -1;
+      currentJunctionIndex = -1;
+      isChecking = true;
+      pathResults = allPaths.map(() => ({ blocked: false, junctions: [] }));
+      
+      document.getElementById('paths-section').style.display = 'block';
+      updatePathList();
+      
+      stepBtn.disabled = false;
+      resetBtn.disabled = false;
+      checkBtn.disabled = true;
+      
+      updateStatus(`Found ${allPaths.length} path(s).`, 'checking');
+    }
+
+    stepBtn.addEventListener('click', executeStep);
+
+    function executeStep() {
+      if (!isChecking) return;
+      
+      // Move to next junction or path
+      if (currentPathIndex === -1 || currentJunctionIndex >= allPaths[currentPathIndex].length - 3) {
+        // Move to next path
+        currentPathIndex++;
+        currentJunctionIndex = -1;
+        
+        if (currentPathIndex >= allPaths.length) {
+          // Done checking all paths
+          finishCheck();
+          return;
+        }
+        
+        const path = allPaths[currentPathIndex];
+        highlightedPath = path;
+        highlightedJunction = [];
+        const pathStr = path.map(v => `$${v}$`).join(' — ');
+        updateStatus(`Checking path ${currentPathIndex + 1}/${allPaths.length}: ${pathStr}`, 'checking');
+        updatePathList();
+        drawNetwork();
+        return;
+      }
+      
+      // Check next junction
+      currentJunctionIndex++;
+      const path = allPaths[currentPathIndex];
+      const junction = [
+        path[currentJunctionIndex],
+        path[currentJunctionIndex + 1],
+        path[currentJunctionIndex + 2]
+      ];
+      
+      highlightedJunction = junction;
+      
+      const junctionType = getJunctionType(junction);
+      const isBlocked = isJunctionBlocked(junction, junctionType);
+      
+      pathResults[currentPathIndex].junctions.push({
+        nodes: junction,
+        type: junctionType,
+        blocked: isBlocked
+      });
+      
+      if (isBlocked) {
+        pathResults[currentPathIndex].blocked = true;
+        const juncStr = junction.map(v => `$${v}$`).join('');
+        updateStatus(`Junction ${juncStr} (${junctionType}) is blocked. Switching to the next path...`, 'checking');
+        updatePathList();
+        drawNetwork();
+        
+        // This path is blocked, move to next path on next step
+        currentJunctionIndex = path.length; // Force next path
+      } else {
+        const juncStr = junction.map(v => `$${v}$`).join('');
+        updateStatus(`Junction ${juncStr} (${junctionType}) is unblocked. Continuing...`, 'checking');
+        updatePathList();
+        drawNetwork();
+      }
+    }
+
+    function finishCheck() {
+      isChecking = false;
+      stepBtn.disabled = true;
+      checkBtn.disabled = false;
+      
+      const allBlocked = pathResults.every(r => r.blocked);
+      const givenStr = givenVars.size > 0 ? ` \\mid ${Array.from(givenVars).map(v => v).join(', ')}` : '';
+      
+      if (allBlocked) {
+        updateStatus(`$${varA} \\perp ${varB}${givenStr}$`, 'independent');
+      } else {
+        updateStatus(`$${varA} \\not\\perp ${varB}${givenStr}$`, 'dependent');
+      }
+      
+      updatePathList();
+      highlightedPath = [];
+      highlightedJunction = [];
+      drawNetwork();
+    }
+
+    resetBtn.addEventListener('click', resetCheck);
+
+    function resetCheck() {
+      currentPathIndex = -1;
+      currentJunctionIndex = -1;
+      isChecking = false;
+      pathResults = [];
+      highlightedPath = [];
+      highlightedJunction = [];
+      varA = null;
+      varB = null;
+      givenVars.clear();
+      
+      updateQDisplay();
+      updateEDisplay();
+      updateGivenDisplay();
+      updateCheckBtnState();
+      
+      document.getElementById('paths-section').style.display = 'none';
+      
+      stepBtn.disabled = true;
+      resetBtn.disabled = true;
+      
+      updateStatus('Reset. Click "Set Q", "Set E", or "Set Givens" to select variables', 'ready');
+      drawNetwork();
+    }
+
+    function findAllPaths(start, end, visited = new Set(), path = []) {
+      visited.add(start);
+      path.push(start);
+      
+      if (start === end) {
+        const result = [path.slice()];
+        visited.delete(start);
+        path.pop();
+        return result;
+      }
+      
+      const paths = [];
+      
+      // Get neighbors (both parents and children)
+      const neighbors = getNeighbors(start);
+      
+      for (const neighbor of neighbors) {
+        if (!visited.has(neighbor)) {
+          const subPaths = findAllPaths(neighbor, end, visited, path);
+          paths.push(...subPaths);
+        }
+      }
+      
+      visited.delete(start);
+      path.pop();
+      return paths;
+    }
+
+    function getNeighbors(node) {
+      const neighbors = new Set();
+      
+      for (const edge of network.edges) {
+        if (edge.from === node) neighbors.add(edge.to);
+        if (edge.to === node) neighbors.add(edge.from);
+      }
+      
+      return Array.from(neighbors);
+    }
+
+    function getJunctionType(junction) {
+      const [a, b, c] = junction;
+      
+      // Check edge directions
+      const aToB = network.edges.some(e => e.from === a && e.to === b);
+      const bToA = network.edges.some(e => e.from === b && e.to === a);
+      const bToC = network.edges.some(e => e.from === b && e.to === c);
+      const cToB = network.edges.some(e => e.from === c && e.to === b);
+      
+      // Causal chain: A → B → C or A ← B ← C
+      if ((aToB && bToC) || (bToA && cToB)) return 'causal chain';
+      
+      // Common cause (fork): A ← B → C
+      if (bToA && bToC) return 'common cause';
+      
+      // Common effect (collider/v-structure): A → B ← C
+      if (aToB && cToB) return 'common effect';
+      
+      return 'unknown';
+    }
+
+    function isJunctionBlocked(junction, type) {
+      const [a, b, c] = junction;
+      
+      if (type === 'causal chain' || type === 'common cause') {
+        // Blocked if middle node is in given set
+        return givenVars.has(b);
+      } else if (type === 'common effect') {
+        // Blocked if middle node AND its descendants are NOT in given set
+        return !givenVars.has(b) && !hasDescendantInGiven(b);
+      }
+      
+      return false;
+    }
+
+    function hasDescendantInGiven(node) {
+      const descendants = getDescendants(node);
+      return descendants.some(d => givenVars.has(d));
+    }
+
+    function getDescendants(node, visited = new Set()) {
+      if (visited.has(node)) return [];
+      visited.add(node);
+      
+      const descendants = [];
+      for (const edge of network.edges) {
+        if (edge.from === node) {
+          descendants.push(edge.to);
+          descendants.push(...getDescendants(edge.to, visited));
+        }
+      }
+      
+      return descendants;
+    }
+
+    function updatePathList() {
+      const listDiv = document.getElementById('path-list');
+      
+      let html = allPaths.map((path, idx) => {
+        const isActive = idx === currentPathIndex;
+        const result = pathResults[idx];
+        let className = 'path-card';
+        
+        if (isActive) {
+          className += ' active';
+        } else if (result && result.blocked) {
+          className += ' blocked';
+        } else if (result && !result.blocked && idx < currentPathIndex) {
+          className += ' unblocked';
+        }
+        
+        let cardHtml = `<div class="${className}" id="path-${idx}">`;
+        cardHtml += `<div class="path-header">Path ${idx + 1}</div>`;
+        const pathStr = path.map(v => `$${v}$`).join(' — ');
+        cardHtml += `<div class="path-route">${pathStr}</div>`;
+        
+        // Show junction cards only for active path
+        if (isActive && result && result.junctions.length > 0) {
+          cardHtml += `<div class="junction-cards">`;
+          result.junctions.forEach((j, jIdx) => {
+            const isCurrentJunction = jIdx === currentJunctionIndex;
+            let junctionClass = 'junction-card';
+            if (isCurrentJunction) {
+              junctionClass += ' checking';
+            } else if (j.blocked) {
+              junctionClass += ' blocked';
+            } else {
+              junctionClass += ' unblocked';
+            }
+            
+            cardHtml += `<div class="${junctionClass}">`;
+            const junctionStr = j.nodes.map(v => `$${v}$`).join('');
+            cardHtml += `<div class="junction-nodes">${junctionStr}</div>`;
+            cardHtml += `<div class="junction-type">${j.type}</div>`;
+            // Only show status text for blocked junctions
+            if (!isCurrentJunction && j.blocked) {
+              cardHtml += `<div class="junction-status blocked">BLOCKED</div>`;
+            }
+            cardHtml += `</div>`;
+          });
+          cardHtml += `</div>`;
+        }
+        
+        cardHtml += '</div>';
+        return cardHtml;
+      }).join('');
+      
+      listDiv.innerHTML = html;
+      
+      // Render KaTeX in path list
+      if (window.renderMathInElement) {
+        renderMathInElement(listDiv, {
+          delimiters: [{left: '$', right: '$', display: false}],
+          throwOnError: false
+        });
+      }
+      
+      // Scroll active path to top
+      if (currentPathIndex >= 0) {
+        setTimeout(() => {
+          const activeCard = document.getElementById(`path-${currentPathIndex}`);
+          if (activeCard) {
+            activeCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }, 50);
+      }
+    }
+
+    function updateStatus(message, statusClass = 'ready') {
+      const statusBar = document.getElementById('status-bar-top');
+      statusBar.innerHTML = message;
+      statusBar.className = statusClass;
+      // Render any KaTeX in the status
+      if (window.renderMathInElement) {
+        renderMathInElement(statusBar, {
+          delimiters: [
+            {left: '$$', right: '$$', display: true},
+            {left: '$', right: '$', display: false}
+          ],
+          throwOnError: false
+        });
+      }
+    }
+
+    function drawNetwork() {
+      ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+      
+      if (Object.keys(network.nodes).length === 0) {
+        ctx.fillStyle = '#999';
+        ctx.font = '16px Open Sans';
+        ctx.textAlign = 'center';
+        ctx.fillText('Load a Bayesian Network to begin', canvasWidth / 2, canvasHeight / 2);
+        return;
+      }
+      
+      ctx.save();
+      ctx.translate(panX, panY);
+      ctx.scale(zoom, zoom);
+      
+      // Draw edges
+      for (const edge of network.edges) {
+        const from = network.layout[edge.from];
+        const to = network.layout[edge.to];
+        
+        // Check if this edge is part of the highlighted path (consecutive nodes)
+        let isInPath = false;
+        if (highlightedPath.length > 0) {
+          for (let i = 0; i < highlightedPath.length - 1; i++) {
+            const pathFrom = highlightedPath[i];
+            const pathTo = highlightedPath[i + 1];
+            // Check both directions since path is undirected
+            if ((edge.from === pathFrom && edge.to === pathTo) || 
+                (edge.from === pathTo && edge.to === pathFrom)) {
+              isInPath = true;
+              break;
+            }
+          }
+        }
+        
+        // Check if this edge is part of the highlighted junction (consecutive nodes)
+        let isInJunction = false;
+        if (highlightedJunction.length > 0) {
+          for (let i = 0; i < highlightedJunction.length - 1; i++) {
+            const juncFrom = highlightedJunction[i];
+            const juncTo = highlightedJunction[i + 1];
+            // Check both directions
+            if ((edge.from === juncFrom && edge.to === juncTo) || 
+                (edge.from === juncTo && edge.to === juncFrom)) {
+              isInJunction = true;
+              break;
+            }
+          }
+        }
+        
+        ctx.strokeStyle = isInJunction ? '#ffc107' : (isInPath ? '#ffe082' : '#666');
+        ctx.lineWidth = isInJunction ? 4 : (isInPath ? 3 : 2);
+        
+        const angle = Math.atan2(to.y - from.y, to.x - from.x);
+        const endX = to.x - Math.cos(angle) * 50;
+        const endY = to.y - Math.sin(angle) * 50;
+        
+        ctx.beginPath();
+        ctx.moveTo(from.x, from.y);
+        ctx.lineTo(endX, endY);
+        ctx.stroke();
+        
+        // Arrowhead
+        ctx.beginPath();
+        ctx.moveTo(endX, endY);
+        ctx.lineTo(
+          endX - 10 * Math.cos(angle - Math.PI / 6),
+          endY - 10 * Math.sin(angle - Math.PI / 6)
+        );
+        ctx.moveTo(endX, endY);
+        ctx.lineTo(
+          endX - 10 * Math.cos(angle + Math.PI / 6),
+          endY - 10 * Math.sin(angle + Math.PI / 6)
+        );
+        ctx.stroke();
+      }
+      
+      // Draw nodes
+      for (const [varName, pos] of Object.entries(network.layout)) {
+        const isInPath = highlightedPath.includes(varName);
+        const isInJunction = highlightedJunction.includes(varName);
+        const isHovered = varName === hoveredNode;
+        
+        let fillColor = '#ffffff';
+        let borderColor = '#666';
+        let borderWidth = 2;
+        
+        if (isInJunction) {
+          fillColor = '#fff3cd';
+          borderColor = '#ffc107';
+          borderWidth = 4;
+        } else if (isInPath) {
+          fillColor = '#fffbec';
+          borderColor = '#ffe082';
+          borderWidth = 3;
+        } else if (isHovered && selectionMode !== null) {
+          borderColor = '#ffc107';
+          borderWidth = 3;
+        }
+        
+        ctx.fillStyle = fillColor;
+        ctx.strokeStyle = borderColor;
+        ctx.lineWidth = borderWidth;
+        ctx.beginPath();
+        ctx.arc(pos.x, pos.y, 45, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+        
+        // Render LaTeX for node label (italic)
+        ctx.fillStyle = '#333';
+        ctx.font = 'italic bold 20px "Times New Roman", serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(varName, pos.x, pos.y);
+      }
+      
+      ctx.restore();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,1557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>MDP Simulation Widget - Caveman Environment</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * { margin: 0; padding: 0; }
+    
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 18px;
+    }
+
+    #widget-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      background: #ffffff;
+    }
+
+    /* Top Control Panel */
+    #top-panel {
+      padding: 16px 24px;
+      background: white;
+      border-bottom: 2px solid #666;
+      display: flex;
+      align-items: center;
+    }
+
+    .top-control-btn {
+      width: 44px;
+      height: 44px;
+      background: white;
+      border: 2px solid #666;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      transition: all 0.2s;
+      color: #333;
+    }
+
+    .top-control-btn:hover:not(:disabled) {
+      background: #f0f0f0;
+      transform: translateY(-2px);
+    }
+
+    .top-control-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    /* Status Bar */
+    #status-bar {
+      padding: 20px 24px;
+      background: white;
+      border-top: 3px solid #666;
+      display: flex;
+      align-items: center;
+      gap: 100px;
+    }
+
+    .status-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .status-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #999;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .status-value {
+      font-family: 'Courier New', monospace;
+      font-size: 28px;
+      font-weight: 700;
+      color: #333;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .state-icon {
+      font-size: 32px;
+    }
+
+    #main-content {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    /* Left Panel - 3D Visualization */
+    #visualization-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: #fafafa;
+      border-right: 2px solid #666;
+      position: relative;
+    }
+
+    #scene-container {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(to bottom, #87CEEB 0%, #B8E0F5 40%, #E8F5E9 70%, #90C695 100%);
+    }
+
+    .canvas-controls {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      display: flex;
+      gap: 8px;
+      z-index: 10;
+    }
+
+    .canvas-control-btn {
+      width: 44px;
+      height: 44px;
+      background: rgba(255, 255, 255, 0.95);
+      border: 2px solid #666;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      transition: all 0.2s;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      color: #333;
+    }
+
+    .canvas-control-btn:hover:not(:disabled) {
+      background: #bbbbbb;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .canvas-control-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    /* Right Panel - Actions */
+    #actions-section {
+      width: 400px;
+      background: white;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    #actions-header {
+      padding: 20px;
+      background: #f9f9f9;
+      border-bottom: 2px solid #ddd;
+    }
+
+    #actions-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 8px;
+    }
+
+    #actions-subtitle {
+      font-size: 14px;
+      color: #666;
+    }
+
+    #actions-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+    }
+
+    .action-card {
+      background: white;
+      border: 2px solid #ddd;
+      border-radius: 4px;
+      padding: 20px;
+      margin-bottom: 16px;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+
+    .action-card:hover:not(.disabled) {
+      border-color: #3498db;
+      background: #f0f8ff;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(52, 152, 219, 0.2);
+    }
+
+    .action-card.disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      background: #f5f5f5;
+    }
+
+    .action-name {
+      font-family: 'Courier New', monospace;
+      font-size: 20px;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .action-icon {
+      font-size: 28px;
+    }
+
+    .action-description {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 12px;
+    }
+
+    .action-outcomes {
+      background: #fafafa;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      padding: 12px;
+      font-family: 'Courier New', monospace;
+      font-size: 16px;
+    }
+
+    .outcome-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      color: #333;
+      font-weight: 600;
+    }
+
+    .outcome-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .outcome-prob {
+      font-weight: 700;
+      color: #3498db;
+    }
+
+    .outcome-reward {
+      font-weight: 700;
+    }
+
+    .outcome-reward.positive {
+      color: #27ae60;
+    }
+
+    .outcome-reward.negative {
+      color: #e74c3c;
+    }
+
+    /* Floating Text Animation */
+    .floating-text {
+      position: absolute;
+      font-family: 'Georgia', 'Times New Roman', serif;
+      font-size: 56px;
+      font-weight: 900;
+      pointer-events: none;
+      z-index: 100;
+      animation: floatUp 2s ease-out forwards;
+      color: #FFFFFF;
+      -webkit-text-stroke: 3px #000000;
+      text-stroke: 3px #000000;
+      paint-order: stroke fill;
+      filter: drop-shadow(3px 3px 6px rgba(0, 0, 0, 0.5));
+    }
+
+    @keyframes floatUp {
+      0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+      50% {
+        opacity: 1;
+        transform: translateY(-60px) scale(1.2);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-120px) scale(0.8);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="widget-container">
+    <!-- Top Control Panel -->
+    <div id="top-panel">
+      <div style="flex: 1;"></div>
+      <button class="top-control-btn" id="resetBtn" title="Reset Simulation">
+        <i class="fas fa-redo"></i>
+      </button>
+    </div>
+
+    <!-- Main Content -->
+    <div id="main-content">
+      <!-- 3D Visualization -->
+      <div id="visualization-section">
+        <div class="canvas-controls">
+          <button class="canvas-control-btn" id="resetViewBtn" title="Reset View">
+            <i class="fas fa-home"></i>
+          </button>
+        </div>
+        <div id="scene-container"></div>
+      </div>
+
+      <!-- Actions Panel -->
+      <div id="actions-section">
+        <div id="actions-header">
+          <div id="actions-title">Available Actions</div>
+          <div id="actions-subtitle">Choose what the caveman should do</div>
+        </div>
+        
+        <div id="actions-content">
+          <!-- Actions will be populated here -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Status Bar -->
+    <div id="status-bar">
+      <div class="status-group">
+        <div class="status-label">Current State</div>
+        <div class="status-value">
+          <span class="state-icon" id="stateIcon">🌱</span>
+          <span id="stateName">Bud</span>
+        </div>
+      </div>
+      
+      <div class="status-group">
+        <div class="status-label">Total Reward</div>
+        <div class="status-value" id="totalReward">0</div>
+      </div>
+      
+      <div class="status-group">
+        <div class="status-label">Steps</div>
+        <div class="status-value" id="stepCount">0</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+  <script>
+    // GLTF Loader for Poly Pizza models
+    const loader = new THREE.GLTFLoader();
+    
+    // Texture loader
+    const textureLoader = new THREE.TextureLoader();
+    
+    // Create simple procedural textures using canvas
+    function createBarkTexture() {
+      const canvas = document.createElement('canvas');
+      canvas.width = 256;
+      canvas.height = 256;
+      const ctx = canvas.getContext('2d');
+      
+      // Base bark color
+      ctx.fillStyle = '#654321';
+      ctx.fillRect(0, 0, 256, 256);
+      
+      // Add vertical lines for bark texture
+      for (let i = 0; i < 20; i++) {
+        ctx.strokeStyle = `rgba(${80 + Math.random() * 40}, ${30 + Math.random() * 20}, ${10 + Math.random() * 10}, 0.6)`;
+        ctx.lineWidth = 2 + Math.random() * 3;
+        const x = Math.random() * 256;
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x + (Math.random() - 0.5) * 30, 256);
+        ctx.stroke();
+      }
+      
+      // Add horizontal cracks
+      for (let i = 0; i < 8; i++) {
+        ctx.strokeStyle = `rgba(40, 20, 10, 0.5)`;
+        ctx.lineWidth = 1;
+        const y = Math.random() * 256;
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.bezierCurveTo(64, y + 5, 128, y - 5, 256, y);
+        ctx.stroke();
+      }
+      
+      const texture = new THREE.CanvasTexture(canvas);
+      texture.wrapS = THREE.RepeatWrapping;
+      texture.wrapT = THREE.RepeatWrapping;
+      return texture;
+    }
+    
+    function createLeafTexture() {
+      const canvas = document.createElement('canvas');
+      canvas.width = 512;
+      canvas.height = 512;
+      const ctx = canvas.getContext('2d');
+      
+      // Base green
+      ctx.fillStyle = '#2d5016';
+      ctx.fillRect(0, 0, 512, 512);
+      
+      // Add random leaf-like spots
+      for (let i = 0; i < 150; i++) {
+        const x = Math.random() * 512;
+        const y = Math.random() * 512;
+        const size = 8 + Math.random() * 12;
+        const greenShade = Math.floor(45 + Math.random() * 40);
+        ctx.fillStyle = `rgba(${greenShade}, ${80 + Math.random() * 60}, ${greenShade - 10}, 0.7)`;
+        ctx.beginPath();
+        ctx.ellipse(x, y, size, size * 1.5, Math.random() * Math.PI, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      
+      const texture = new THREE.CanvasTexture(canvas);
+      return texture;
+    }
+    
+    function createGrassTexture() {
+      const canvas = document.createElement('canvas');
+      canvas.width = 512;
+      canvas.height = 512;
+      const ctx = canvas.getContext('2d');
+      
+      // Base grass color
+      ctx.fillStyle = '#4a6b3a';
+      ctx.fillRect(0, 0, 512, 512);
+      
+      // Add grass blades
+      for (let i = 0; i < 200; i++) {
+        const x = Math.random() * 512;
+        const y = Math.random() * 512;
+        const height = 5 + Math.random() * 8;
+        ctx.strokeStyle = `rgba(${50 + Math.random() * 60}, ${100 + Math.random() * 50}, ${40 + Math.random() * 30}, 0.6)`;
+        ctx.lineWidth = 1 + Math.random();
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.lineTo(x + (Math.random() - 0.5) * 3, y - height);
+        ctx.stroke();
+      }
+      
+      const texture = new THREE.CanvasTexture(canvas);
+      texture.wrapS = THREE.RepeatWrapping;
+      texture.wrapT = THREE.RepeatWrapping;
+      texture.repeat.set(4, 4);
+      return texture;
+    }
+    
+    function createSkinTexture() {
+      const canvas = document.createElement('canvas');
+      canvas.width = 128;
+      canvas.height = 128;
+      const ctx = canvas.getContext('2d');
+      
+      // Base skin tone
+      ctx.fillStyle = '#d4a574';
+      ctx.fillRect(0, 0, 128, 128);
+      
+      // Add some subtle variations
+      for (let i = 0; i < 50; i++) {
+        const x = Math.random() * 128;
+        const y = Math.random() * 128;
+        const size = 2 + Math.random() * 4;
+        ctx.fillStyle = `rgba(${200 + Math.random() * 30}, ${150 + Math.random() * 30}, ${100 + Math.random() * 30}, 0.3)`;
+        ctx.beginPath();
+        ctx.arc(x, y, size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      
+      const texture = new THREE.CanvasTexture(canvas);
+      return texture;
+    }
+    
+    function createFurTexture() {
+      const canvas = document.createElement('canvas');
+      canvas.width = 256;
+      canvas.height = 256;
+      const ctx = canvas.getContext('2d');
+      
+      // Base brown
+      ctx.fillStyle = '#8B6F47';
+      ctx.fillRect(0, 0, 256, 256);
+      
+      // Add fur strands
+      for (let i = 0; i < 300; i++) {
+        const x = Math.random() * 256;
+        const y = Math.random() * 256;
+        ctx.strokeStyle = `rgba(${100 + Math.random() * 60}, ${70 + Math.random() * 40}, ${30 + Math.random() * 30}, 0.5)`;
+        ctx.lineWidth = 0.5 + Math.random();
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.lineTo(x + (Math.random() - 0.5) * 5, y + 3 + Math.random() * 4);
+        ctx.stroke();
+      }
+      
+      const texture = new THREE.CanvasTexture(canvas);
+      return texture;
+    }
+
+    // MDP State Definitions
+    const STATES = {
+      BUD: { name: 'bud', label: 'Bud', icon: '🌱', type: 'tree' },
+      RAW: { name: 'raw', label: 'Raw', icon: '🍏', type: 'tree' },
+      RIPE: { name: 'ripe', label: 'Ripe', icon: '🍎', type: 'tree' },
+      ROTTEN: { name: 'rotten', label: 'Rotten', icon: '🍂', type: 'tree' },
+      DEATH: { name: 'death', label: 'Death', icon: '💀', type: 'terminal' }
+    };
+
+    const ACTIONS = {
+      HUNT: {
+        name: 'hunt',
+        label: 'Hunt',
+        icon: '🏹',
+        description: 'Hunt animals for food',
+        availableIn: ['bud'],
+        outcomes: [
+          { nextState: 'bud', probability: 0.6, reward: 400 },
+          { nextState: 'death', probability: 0.4, reward: 0 }
+        ]
+      },
+      WAIT: {
+        name: 'wait',
+        label: 'Wait',
+        icon: '⏰',
+        description: 'Wait for fruit to ripen',
+        availableIn: ['bud', 'raw', 'rotten'],
+        outcomes: {
+          bud: [
+            { nextState: 'bud', probability: 0.4, reward: 0 },
+            { nextState: 'raw', probability: 0.6, reward: 0 }
+          ],
+          raw: [
+            { nextState: 'raw', probability: 0.2, reward: 0 },
+            { nextState: 'ripe', probability: 0.6, reward: 0 },
+            { nextState: 'rotten', probability: 0.2, reward: 0 }
+          ],
+          rotten: [
+            { nextState: 'bud', probability: 1.0, reward: 0 }
+          ]
+        }
+      },
+      EAT: {
+        name: 'eat',
+        label: 'Eat',
+        icon: '🍽️',
+        description: 'Eat fruit from the tree',
+        availableIn: ['raw', 'ripe', 'rotten'],
+        outcomes: {
+          raw: [
+            { nextState: 'bud', probability: 1.0, reward: 100 }
+          ],
+          ripe: [
+            { nextState: 'bud', probability: 1.0, reward: 200 }
+          ],
+          rotten: [
+            { nextState: 'bud', probability: 0.8, reward: 50 },
+            { nextState: 'death', probability: 0.2, reward: 0 }
+          ]
+        }
+      }
+    };
+
+    // Simulation State
+    let currentState = 'bud';
+    let totalReward = 0;
+    let stepCount = 0;
+
+    // Three.js Scene Setup
+    let scene, camera, renderer, controls;
+    let tree, animals, caveman, ground;
+
+    function initScene() {
+      const container = document.getElementById('scene-container');
+      const width = container.clientWidth;
+      const height = container.clientHeight;
+
+      // Scene
+      scene = new THREE.Scene();
+      scene.fog = new THREE.Fog(0xb8e0f5, 20, 60);
+      // Add a subtle sky gradient background
+      scene.background = new THREE.Color(0xc5e8f7);
+
+      // Camera
+      camera = new THREE.PerspectiveCamera(60, width / height, 0.1, 1000);
+      camera.position.set(6, 4, 6);
+      camera.lookAt(0, 1, 0);
+
+      // Renderer with simpler Minecraft-style settings
+      renderer = new THREE.WebGLRenderer({ 
+        antialias: false,  // Minecraft doesn't have antialiasing
+        alpha: false
+      });
+      renderer.setSize(width, height);
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.BasicShadowMap; // Simpler shadows
+      container.appendChild(renderer.domElement);
+
+      // Simplified Minecraft-style lighting
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+      scene.add(ambientLight);
+
+      // Main directional light (sun)
+      const directionalLight = new THREE.DirectionalLight(0xffffff, 0.6);
+      directionalLight.position.set(5, 10, 5);
+      directionalLight.castShadow = true;
+      directionalLight.shadow.mapSize.width = 2048;
+      directionalLight.shadow.mapSize.height = 2048;
+      directionalLight.shadow.camera.left = -15;
+      directionalLight.shadow.camera.right = 15;
+      directionalLight.shadow.camera.top = 15;
+      directionalLight.shadow.camera.bottom = -15;
+      scene.add(directionalLight);
+
+      // Ground - simple blocky grass
+      const groundGeometry = new THREE.PlaneGeometry(30, 30);
+      const groundMaterial = new THREE.MeshLambertMaterial({ 
+        color: 0x7CB342,
+        flatShading: true
+      });
+      ground = new THREE.Mesh(groundGeometry, groundMaterial);
+      ground.rotation.x = -Math.PI / 2;
+      ground.receiveShadow = true;
+      scene.add(ground);
+
+      // Add some simple blocky grass patches
+      const grassMaterial = new THREE.MeshLambertMaterial({ 
+        color: 0x8BC34A,
+        flatShading: true,
+        side: THREE.DoubleSide
+      });
+      
+      for (let i = 0; i < 30; i++) {
+        // Crossed planes for grass (Minecraft style)
+        const grass1 = new THREE.Mesh(
+          new THREE.PlaneGeometry(0.3, 0.3),
+          grassMaterial
+        );
+        const grass2 = new THREE.Mesh(
+          new THREE.PlaneGeometry(0.3, 0.3),
+          grassMaterial
+        );
+        
+        const angle = Math.random() * Math.PI * 2;
+        const radius = 1 + Math.random() * 12;
+        const x = Math.cos(angle) * radius;
+        const z = Math.sin(angle) * radius;
+        
+        grass1.position.set(x, 0.15, z);
+        grass1.rotation.y = Math.PI / 4;
+        
+        grass2.position.set(x, 0.15, z);
+        grass2.rotation.y = -Math.PI / 4;
+        
+        scene.add(grass1);
+        scene.add(grass2);
+      }
+
+      // Add some blocky rocks
+      const rockMaterial = new THREE.MeshLambertMaterial({ 
+        color: 0x757575,
+        flatShading: true
+      });
+      
+      for (let i = 0; i < 10; i++) {
+        const rockSize = 0.2 + Math.random() * 0.2;
+        const rock = new THREE.Mesh(
+          new THREE.BoxGeometry(rockSize, rockSize * 0.6, rockSize),
+          rockMaterial
+        );
+        const angle = Math.random() * Math.PI * 2;
+        const radius = 5 + Math.random() * 8;
+        rock.position.set(
+          Math.cos(angle) * radius,
+          rockSize * 0.3,
+          Math.sin(angle) * radius
+        );
+        rock.rotation.y = Math.random() * Math.PI;
+        rock.castShadow = true;
+        rock.receiveShadow = true;
+        scene.add(rock);
+      }
+
+      // Create objects
+      createTree();
+      createCaveman();
+      createAnimals();
+
+      // Handle resize
+      window.addEventListener('resize', onWindowResize);
+      
+      // Animation loop
+      animate();
+    }
+
+    function createTree() {
+      // Try to load tree model from local file
+      loader.load(
+        './models/tree.glb',
+        function (gltf) {
+          tree = gltf.scene;
+          tree.scale.set(2, 2, 2);
+          tree.position.y = 0;
+          tree.traverse((child) => {
+            if (child.isMesh) {
+              child.castShadow = true;
+              child.receiveShadow = true;
+            }
+          });
+          
+          tree.userData.model = gltf.scene;
+          scene.add(tree);
+          updateTreeAppearance();
+        },
+        undefined,
+        function (error) {
+          console.log('Using fallback tree (place tree.glb in models folder to use 3D model)');
+          createFallbackTree();
+        }
+      );
+    }
+    
+    function createFallbackTree() {
+      const treeGroup = new THREE.Group();
+
+      // Simple trunk
+      const trunkMaterial = new THREE.MeshLambertMaterial({ 
+        color: 0x8B4513,
+        flatShading: true
+      });
+      
+      for (let i = 0; i < 3; i++) {
+        const trunkBlock = new THREE.Mesh(
+          new THREE.BoxGeometry(0.6, 0.6, 0.6),
+          trunkMaterial
+        );
+        trunkBlock.position.y = 0.3 + i * 0.6;
+        trunkBlock.castShadow = true;
+        trunkBlock.receiveShadow = true;
+        treeGroup.add(trunkBlock);
+      }
+
+      // Simple foliage
+      const foliageGroup = new THREE.Group();
+      const foliageMaterial = new THREE.MeshLambertMaterial({ 
+        color: 0x228B22,
+        flatShading: true
+      });
+      
+      const foliagePositions = [
+        [-1, 2.1, -1], [0, 2.1, -1], [1, 2.1, -1],
+        [-1, 2.1, 0], [0, 2.1, 0], [1, 2.1, 0],
+        [-1, 2.1, 1], [0, 2.1, 1], [1, 2.1, 1],
+        [-1, 2.7, -1], [0, 2.7, -1], [1, 2.7, -1],
+        [-1, 2.7, 0], [0, 2.7, 0], [1, 2.7, 0],
+        [-1, 2.7, 1], [0, 2.7, 1], [1, 2.7, 1],
+        [0, 3.3, -1], [-1, 3.3, 0], [0, 3.3, 0], [1, 3.3, 0], [0, 3.3, 1],
+        [0, 3.9, 0]
+      ];
+      
+      foliagePositions.forEach(pos => {
+        const leafBlock = new THREE.Mesh(
+          new THREE.BoxGeometry(0.6, 0.6, 0.6),
+          foliageMaterial.clone()
+        );
+        leafBlock.position.set(pos[0] * 0.6, pos[1], pos[2] * 0.6);
+        leafBlock.castShadow = true;
+        foliageGroup.add(leafBlock);
+      });
+
+      treeGroup.add(foliageGroup);
+      tree = treeGroup;
+      tree.userData.foliageGroup = foliageGroup;
+      scene.add(tree);
+      updateTreeAppearance();
+    }
+
+    function createCaveman() {
+      // Load caveman/character model from local file
+      loader.load(
+        './models/character.glb',
+        function (gltf) {
+          caveman = gltf.scene;
+          caveman.scale.set(1.5, 1.5, 1.5);
+          caveman.position.set(2.5, 0, 2.5);
+          caveman.traverse((child) => {
+            if (child.isMesh) {
+              child.castShadow = true;
+              child.receiveShadow = true;
+            }
+          });
+          scene.add(caveman);
+        },
+        undefined,
+        function (error) {
+          console.log('Using fallback caveman (place character.glb in models folder to use 3D model)');
+          createFallbackCaveman();
+        }
+      );
+    }
+    
+    function createFallbackCaveman() {
+      const cavemanGroup = new THREE.Group();
+      
+      const skinMaterial = new THREE.MeshLambertMaterial({ 
+        color: 0xFFDBAC,
+        flatShading: true
+      });
+      
+      const furMaterial = new THREE.MeshLambertMaterial({ 
+        color: 0x8B6F47,
+        flatShading: true
+      });
+
+      // Legs
+      const leftLeg = new THREE.Mesh(
+        new THREE.BoxGeometry(0.3, 0.9, 0.3),
+        skinMaterial
+      );
+      leftLeg.position.set(-0.2, 0.45, 0);
+      leftLeg.castShadow = true;
+      cavemanGroup.add(leftLeg);
+
+      const rightLeg = new THREE.Mesh(
+        new THREE.BoxGeometry(0.3, 0.9, 0.3),
+        skinMaterial
+      );
+      rightLeg.position.set(0.2, 0.45, 0);
+      rightLeg.castShadow = true;
+      cavemanGroup.add(rightLeg);
+
+      // Torso
+      const torso = new THREE.Mesh(
+        new THREE.BoxGeometry(0.8, 1.0, 0.4),
+        furMaterial
+      );
+      torso.position.y = 1.35;
+      torso.castShadow = true;
+      cavemanGroup.add(torso);
+
+      // Head
+      const head = new THREE.Mesh(
+        new THREE.BoxGeometry(0.6, 0.6, 0.6),
+        skinMaterial
+      );
+      head.position.y = 2.15;
+      head.castShadow = true;
+      cavemanGroup.add(head);
+
+      // Hair
+      const hair = new THREE.Mesh(
+        new THREE.BoxGeometry(0.62, 0.25, 0.62),
+        new THREE.MeshLambertMaterial({ color: 0x3d2817, flatShading: true })
+      );
+      hair.position.y = 2.4;
+      hair.castShadow = true;
+      cavemanGroup.add(hair);
+
+      // Eyes
+      const eyeMaterial = new THREE.MeshLambertMaterial({ color: 0x000000 });
+      
+      const leftEye = new THREE.Mesh(
+        new THREE.BoxGeometry(0.08, 0.08, 0.05),
+        eyeMaterial
+      );
+      leftEye.position.set(-0.12, 2.2, 0.32);
+      cavemanGroup.add(leftEye);
+
+      const rightEye = new THREE.Mesh(
+        new THREE.BoxGeometry(0.08, 0.08, 0.05),
+        eyeMaterial
+      );
+      rightEye.position.set(0.12, 2.2, 0.32);
+      cavemanGroup.add(rightEye);
+
+      // Arms
+      const leftArm = new THREE.Mesh(
+        new THREE.BoxGeometry(0.25, 0.9, 0.25),
+        skinMaterial
+      );
+      leftArm.position.set(-0.52, 1.2, 0);
+      leftArm.rotation.z = Math.PI / 8;
+      leftArm.castShadow = true;
+      cavemanGroup.add(leftArm);
+
+      const rightArm = new THREE.Mesh(
+        new THREE.BoxGeometry(0.25, 0.9, 0.25),
+        skinMaterial
+      );
+      rightArm.position.set(0.52, 1.2, 0);
+      rightArm.rotation.z = -Math.PI / 8;
+      rightArm.castShadow = true;
+      cavemanGroup.add(rightArm);
+
+      cavemanGroup.position.set(2.5, 0, 2.5);
+      caveman = cavemanGroup;
+      scene.add(caveman);
+    }
+
+    function createAnimals() {
+      const animalsGroup = new THREE.Group();
+      
+      // Load 2 deer models and 1 rabbit model from local files
+      const animalData = [
+        { url: './models/deer.glb', angle: Math.PI / 4, type: 'deer' },
+        { url: './models/deer.glb', angle: Math.PI / 4 + (2 * Math.PI / 3), type: 'deer' },
+        { url: './models/rabbit.glb', angle: Math.PI / 4 + (4 * Math.PI / 3), type: 'rabbit' }
+      ];
+      
+      animalData.forEach((data, i) => {
+        loader.load(
+          data.url,
+          function (gltf) {
+            const animal = gltf.scene;
+            animal.scale.set(data.type === 'rabbit' ? 0.8 : 1.2, data.type === 'rabbit' ? 0.8 : 1.2, data.type === 'rabbit' ? 0.8 : 1.2);
+            
+            const radius = 4.5;
+            animal.position.set(
+              Math.cos(data.angle) * radius,
+              0,
+              Math.sin(data.angle) * radius
+            );
+            animal.rotation.y = -data.angle + Math.PI / 2;
+            
+            animal.traverse((child) => {
+              if (child.isMesh) {
+                child.castShadow = true;
+                child.receiveShadow = true;
+              }
+            });
+            
+            animalsGroup.add(animal);
+          },
+          undefined,
+          function (error) {
+            console.log('Using fallback animal (place deer.glb and rabbit.glb in models folder to use 3D models)');
+            createFallbackAnimal(animalsGroup, i, data.angle);
+          }
+        );
+      });
+      
+      animals = animalsGroup;
+      scene.add(animals);
+      updateAnimalsVisibility();
+    }
+    
+    function createFallbackAnimal(parent, index, angle) {
+      const animalGroup = new THREE.Group();
+      const animalMaterial = new THREE.MeshLambertMaterial({ 
+        color: index === 0 ? 0x8B7355 : index === 1 ? 0xA0826D : 0x6B4423,
+        flatShading: true
+      });
+      
+      if (index < 2) {
+        // Blocky deer
+        const body = new THREE.Mesh(
+          new THREE.BoxGeometry(0.7, 0.4, 0.3),
+          animalMaterial
+        );
+        body.position.y = 0.5;
+        body.castShadow = true;
+        animalGroup.add(body);
+        
+        const head = new THREE.Mesh(
+          new THREE.BoxGeometry(0.3, 0.3, 0.3),
+          animalMaterial
+        );
+        head.position.set(0.5, 0.5, 0);
+        head.castShadow = true;
+        animalGroup.add(head);
+        
+        // Legs
+        const positions = [
+          [0.25, 0.25, -0.12],
+          [0.25, 0.25, 0.12],
+          [-0.25, 0.25, -0.12],
+          [-0.25, 0.25, 0.12]
+        ];
+        
+        positions.forEach(pos => {
+          const leg = new THREE.Mesh(
+            new THREE.BoxGeometry(0.1, 0.5, 0.1),
+            animalMaterial
+          );
+          leg.position.set(...pos);
+          leg.castShadow = true;
+          animalGroup.add(leg);
+        });
+      } else {
+        // Blocky rabbit
+        const body = new THREE.Mesh(
+          new THREE.BoxGeometry(0.35, 0.3, 0.4),
+          animalMaterial
+        );
+        body.position.y = 0.3;
+        body.castShadow = true;
+        animalGroup.add(body);
+        
+        const head = new THREE.Mesh(
+          new THREE.BoxGeometry(0.28, 0.25, 0.25),
+          animalMaterial
+        );
+        head.position.set(0.28, 0.35, 0);
+        head.castShadow = true;
+        animalGroup.add(head);
+      }
+      
+      const radius = 4.5;
+      animalGroup.position.set(
+        Math.cos(angle) * radius,
+        0,
+        Math.sin(angle) * radius
+      );
+      animalGroup.rotation.y = -angle + Math.PI / 2;
+      
+      parent.add(animalGroup);
+    }
+
+    function updateTreeAppearance() {
+      if (!tree) return;
+      
+      // Clear existing fruits
+      const fruitsToRemove = [];
+      tree.traverse((child) => {
+        if (child.userData.isFruit) {
+          fruitsToRemove.push(child);
+        }
+      });
+      fruitsToRemove.forEach(fruit => {
+        tree.remove(fruit);
+      });
+      
+      // Update tree color based on state (if using blocky fallback)
+      if (tree.userData.foliageGroup) {
+        tree.userData.foliageGroup.children.forEach(foliage => {
+          switch(currentState) {
+            case 'bud':
+              foliage.material.color.setHex(0x228B22);
+              break;
+            case 'raw':
+              foliage.material.color.setHex(0x228B22);
+              break;
+            case 'ripe':
+              foliage.material.color.setHex(0x228B22);
+              break;
+            case 'rotten':
+              foliage.material.color.setHex(0x8B7355);
+              break;
+            case 'death':
+              foliage.material.color.setHex(0x505050);
+              break;
+          }
+        });
+      } else {
+        // Update model tree colors
+        tree.traverse((child) => {
+          if (child.isMesh && child.material) {
+            if (child.material.name && child.material.name.includes('leaf')) {
+              switch(currentState) {
+                case 'bud':
+                case 'raw':
+                case 'ripe':
+                  child.material.color.setHex(0x228B22);
+                  break;
+                case 'rotten':
+                  child.material.color.setHex(0x8B7355);
+                  break;
+                case 'death':
+                  child.material.color.setHex(0x505050);
+                  break;
+              }
+            }
+          }
+        });
+      }
+      
+      // Add fruits based on state using Poly Pizza apple model
+      const fruitPositions = {
+        bud: 0,  // No fruits in bud state
+        raw: 10,
+        ripe: 12,
+        rotten: 6
+      };
+      
+      const numFruits = fruitPositions[currentState] || 0;
+      
+      for (let i = 0; i < numFruits; i++) {
+        const angle = (i / 12) * Math.PI * 2; // Use fixed denominator for consistent angles
+        const radius = 1.2 + (Math.sin(i * 2.5) * 0.25 + 0.25); // Deterministic radius based on index
+        const fruitPos = new THREE.Vector3(
+          Math.cos(angle) * radius,
+          2.5 + Math.sin(i * 1.3) * 0.4,
+          Math.sin(angle) * radius
+        );
+        
+        // Load apple model from local file
+        loader.load(
+          './models/apple.glb',
+          function (gltf) {
+            const apple = gltf.scene;
+            apple.position.copy(fruitPos);
+            apple.scale.set(0.3, 0.3, 0.3);
+            
+            // Color based on state
+            apple.traverse((child) => {
+              if (child.isMesh) {
+                switch(currentState) {
+                  case 'bud':
+                    child.material = new THREE.MeshLambertMaterial({ color: 0x90EE90 });
+                    break;
+                  case 'raw':
+                    child.material = new THREE.MeshLambertMaterial({ color: 0x7CFC00 });
+                    break;
+                  case 'ripe':
+                    child.material = new THREE.MeshLambertMaterial({ color: 0xFF0000 });
+                    break;
+                  case 'rotten':
+                    child.material = new THREE.MeshLambertMaterial({ color: 0x654321 });
+                    break;
+                }
+                child.castShadow = true;
+              }
+            });
+            
+            apple.userData.isFruit = true;
+            tree.add(apple);
+          },
+          undefined,
+          function (error) {
+            // Fallback to simple cube if model fails
+            const appleMaterial = new THREE.MeshLambertMaterial({ 
+              color: currentState === 'bud' ? 0x90EE90 : 
+                     currentState === 'raw' ? 0x7CFC00 : 
+                     currentState === 'ripe' ? 0xFF0000 : 0x654321,
+              flatShading: true
+            });
+            const apple = new THREE.Mesh(
+              new THREE.BoxGeometry(0.25, 0.28, 0.25),
+              appleMaterial
+            );
+            apple.position.copy(fruitPos);
+            apple.castShadow = true;
+            apple.userData.isFruit = true;
+            tree.add(apple);
+          }
+        );
+      }
+    }
+
+    function updateAnimalsVisibility() {
+      animals.visible = currentState === 'bud';
+    }
+
+    function onWindowResize() {
+      const container = document.getElementById('scene-container');
+      const width = container.clientWidth;
+      const height = container.clientHeight;
+      
+      camera.aspect = width / height;
+      camera.updateProjectionMatrix();
+      renderer.setSize(width, height);
+    }
+
+    function animate() {
+      requestAnimationFrame(animate);
+      
+      const time = Date.now() * 0.001; // time in seconds
+      
+      // Gentle tree swaying in the wind
+      if (tree) {
+        tree.rotation.y = Math.sin(time * 0.3) * 0.02;
+        tree.position.y = Math.sin(time * 0.5) * 0.01;
+      }
+      
+      // Animate animals with more natural movement
+      if (animals && animals.visible) {
+        animals.rotation.y = time * 0.1;
+        // Add subtle bobbing to animals
+        animals.children.forEach((animal, i) => {
+          animal.position.y = Math.sin(time * 2 + i) * 0.02;
+        });
+      }
+      
+      // Subtle caveman idle animation
+      if (caveman && currentState !== 'death') {
+        caveman.position.y = Math.sin(time * 1.5) * 0.01;
+      }
+      
+      renderer.render(scene, camera);
+    }
+
+    // UI Update Functions
+    function updateUI() {
+      const state = STATES[currentState.toUpperCase()];
+      
+      // Update status bar
+      document.getElementById('stateIcon').textContent = state.icon;
+      document.getElementById('stateName').textContent = state.label;
+      document.getElementById('totalReward').textContent = totalReward;
+      document.getElementById('stepCount').textContent = stepCount;
+      
+      // Update available actions
+      updateActionsPanel();
+      
+      // Update 3D scene
+      updateTreeAppearance();
+      updateAnimalsVisibility();
+    }
+
+    function updateActionsPanel() {
+      const container = document.getElementById('actions-content');
+      container.innerHTML = '';
+      
+      // If dead, just show nothing - the empty panel speaks for itself
+      if (currentState === 'death') {
+        return;
+      }
+      
+      for (const actionKey in ACTIONS) {
+        const action = ACTIONS[actionKey];
+        const isAvailable = action.availableIn.includes(currentState);
+        
+        if (!isAvailable && currentState !== 'ripe') continue;
+        
+        const outcomes = action.outcomes[currentState] || action.outcomes;
+        
+        const card = document.createElement('div');
+        card.className = `action-card ${!isAvailable ? 'disabled' : ''}`;
+        
+        let outcomesHTML = '';
+        if (Array.isArray(outcomes)) {
+          outcomesHTML = outcomes.map(outcome => {
+            const nextStateLabel = STATES[outcome.nextState.toUpperCase()].label;
+            const prob = (outcome.probability * 100).toFixed(0);
+            const reward = outcome.reward >= 0 ? `+${outcome.reward}` : `${outcome.reward}`;
+            const rewardClass = outcome.reward > 0 ? 'positive' : outcome.reward < 0 ? 'negative' : '';
+            return `
+              <div class="outcome-item">
+                <span>${nextStateLabel}</span>
+                <span>
+                  <span class="outcome-prob">${prob}%</span>
+                  <span style="color: #000;">(<span class="outcome-reward ${rewardClass}">${reward}</span>)</span>
+                </span>
+              </div>
+            `;
+          }).join('');
+        }
+        
+        card.innerHTML = `
+          <div class="action-name">
+            ${action.label}
+          </div>
+          <div class="action-description">${action.description}</div>
+          ${outcomesHTML ? `
+            <div class="action-outcomes">
+              ${outcomesHTML}
+            </div>
+          ` : ''}
+        `;
+        
+        if (isAvailable) {
+          card.addEventListener('click', () => takeAction(actionKey));
+        }
+        
+        container.appendChild(card);
+      }
+    }
+
+    function takeAction(actionKey) {
+      const action = ACTIONS[actionKey];
+      const outcomes = action.outcomes[currentState] || action.outcomes;
+      
+      // Choose outcome based on probabilities
+      const rand = Math.random();
+      let cumProb = 0;
+      let chosenOutcome = null;
+      
+      for (const outcome of outcomes) {
+        cumProb += outcome.probability;
+        if (rand <= cumProb) {
+          chosenOutcome = outcome;
+          break;
+        }
+      }
+      
+      if (!chosenOutcome) {
+        chosenOutcome = outcomes[outcomes.length - 1];
+      }
+      
+      // Show transition
+      showTransition(action, chosenOutcome);
+      
+      // Update state after delay
+      setTimeout(() => {
+        currentState = chosenOutcome.nextState;
+        totalReward += chosenOutcome.reward;
+        stepCount++;
+        
+        updateUI();
+      }, 1500);
+    }
+
+    function showTransition(action, outcome) {
+      // Show floating text above caveman
+      const container = document.getElementById('scene-container');
+      const rect = container.getBoundingClientRect();
+      
+      // Project caveman's 3D position to 2D screen space
+      const vector = new THREE.Vector3(
+        caveman.position.x,
+        caveman.position.y + 2.5, // Above the caveman's head
+        caveman.position.z
+      );
+      vector.project(camera);
+      
+      const x = (vector.x * 0.5 + 0.5) * rect.width;
+      const y = (-(vector.y * 0.5) + 0.5) * rect.height;
+      
+      // Animate caveman based on action
+      if (action.name === 'hunt') {
+        animateHunt(outcome);
+      } else if (action.name === 'eat') {
+        animateEat();
+      }
+      // For wait action, caveman does nothing (already handled by removing animations)
+      
+      // Always show reward as floating text if there is one
+      if (outcome.reward !== 0) {
+        setTimeout(() => {
+          const floatingText = document.createElement('div');
+          floatingText.className = 'floating-text';
+          floatingText.style.left = `${rect.left + x}px`;
+          floatingText.style.top = `${rect.top + y}px`;
+          
+          if (outcome.reward > 0) {
+            floatingText.textContent = `+${outcome.reward}`;
+          } else if (outcome.reward < 0) {
+            floatingText.textContent = `${outcome.reward}`;
+          }
+          
+          document.body.appendChild(floatingText);
+          
+          // Remove after animation
+          setTimeout(() => {
+            floatingText.remove();
+          }, 2000);
+        }, 300);
+      }
+    }
+    
+    function animateHunt(outcome) {
+      if (!caveman || !animals || animals.children.length === 0) return;
+      
+      const originalPos = caveman.position.clone();
+      const originalRotation = caveman.rotation.clone();
+      
+      // Pick a random animal
+      const targetAnimal = animals.children[Math.floor(Math.random() * animals.children.length)];
+      if (!targetAnimal) return;
+      
+      // Get the animal's world position (accounting for parent group transformations)
+      const animalWorldPos = new THREE.Vector3();
+      targetAnimal.getWorldPosition(animalWorldPos);
+      
+      // Make caveman run towards animal
+      const duration = 800;
+      const startTime = Date.now();
+      
+      function runToAnimal() {
+        const elapsed = Date.now() - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        // Move caveman towards animal's world position
+        caveman.position.x = originalPos.x + (animalWorldPos.x - originalPos.x) * progress;
+        caveman.position.z = originalPos.z + (animalWorldPos.z - originalPos.z) * progress;
+        
+        if (progress < 1) {
+          requestAnimationFrame(runToAnimal);
+        } else {
+          // Attack - determine success or failure
+          setTimeout(() => {
+            if (outcome.nextState === 'death') {
+              // Caveman dies - fall down
+              const fallDuration = 500;
+              const fallStart = Date.now();
+              
+              function fallCaveman() {
+                const fallElapsed = Date.now() - fallStart;
+                const fallProgress = Math.min(fallElapsed / fallDuration, 1);
+                
+                caveman.rotation.z = fallProgress * Math.PI / 2; // Rotate 90 degrees
+                caveman.position.y = originalPos.y - fallProgress * 0.5;
+                
+                if (fallProgress < 1) {
+                  requestAnimationFrame(fallCaveman);
+                }
+              }
+              fallCaveman();
+            } else {
+              // Success - don't make animal fall, just return caveman home
+              setTimeout(() => {
+                const returnDuration = 600;
+                const returnStart = Date.now();
+                
+                function returnHome() {
+                  const returnElapsed = Date.now() - returnStart;
+                  const returnProgress = Math.min(returnElapsed / returnDuration, 1);
+                  
+                  caveman.position.x = caveman.position.x + (originalPos.x - caveman.position.x) * returnProgress;
+                  caveman.position.z = caveman.position.z + (originalPos.z - caveman.position.z) * returnProgress;
+                  
+                  if (returnProgress < 1) {
+                    requestAnimationFrame(returnHome);
+                  }
+                }
+                returnHome();
+              }, 300);
+            }
+          }, 100);
+        }
+      }
+      runToAnimal();
+    }
+    
+    function animateEat() {
+      if (!caveman || !tree) return;
+      
+      const originalPos = caveman.position.clone();
+      
+      // Find a fruit to pick
+      let targetFruit = null;
+      tree.traverse((child) => {
+        if (child.userData.isFruit && !targetFruit) {
+          targetFruit = child;
+        }
+      });
+      
+      if (!targetFruit) return;
+      
+      // Move caveman's hand towards fruit (simulate reaching)
+      const duration = 600;
+      const startTime = Date.now();
+      const fruitOriginalScale = targetFruit.scale.clone();
+      
+      function reachForFruit() {
+        const elapsed = Date.now() - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        
+        // Scale down fruit as if being picked
+        targetFruit.scale.multiplyScalar(1 - progress * 0.5);
+        
+        // Move fruit towards caveman
+        targetFruit.position.y -= progress * 0.02;
+        
+        if (progress < 1) {
+          requestAnimationFrame(reachForFruit);
+        } else {
+          // Make fruit disappear
+          tree.remove(targetFruit);
+        }
+      }
+      reachForFruit();
+    }
+
+    function resetSimulation() {
+      currentState = 'bud';
+      totalReward = 0;
+      stepCount = 0;
+      
+      // Reset caveman position and rotation
+      if (caveman) {
+        caveman.position.set(2.5, 0, 2.5);
+        caveman.rotation.set(0, 0, 0);
+      }
+      
+      updateUI();
+    }
+
+    // Event Listeners
+    document.getElementById('resetBtn').addEventListener('click', resetSimulation);
+    
+    document.getElementById('resetViewBtn').addEventListener('click', () => {
+      camera.position.set(5, 3, 5);
+      camera.lookAt(0, 1, 0);
+    });
+
+    // Mouse controls for camera
+    let isMouseDown = false;
+    let mouseX = 0, mouseY = 0;
+
+    document.getElementById('scene-container').addEventListener('mousedown', (e) => {
+      isMouseDown = true;
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+
+    document.addEventListener('mouseup', () => {
+      isMouseDown = false;
+    });
+
+    document.addEventListener('mousemove', (e) => {
+      if (!isMouseDown) return;
+      
+      const deltaX = e.clientX - mouseX;
+      const deltaY = e.clientY - mouseY;
+      
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      
+      // Rotate camera around the scene
+      const rotationSpeed = 0.005;
+      const radius = Math.sqrt(camera.position.x ** 2 + camera.position.z ** 2);
+      const angle = Math.atan2(camera.position.z, camera.position.x);
+      
+      const newAngle = angle - deltaX * rotationSpeed;
+      camera.position.x = radius * Math.cos(newAngle);
+      camera.position.z = radius * Math.sin(newAngle);
+      camera.position.y = Math.max(1, camera.position.y - deltaY * 0.02);
+      
+      camera.lookAt(0, 1, 0);
+    });
+
+    // Zoom with mouse wheel
+    document.getElementById('scene-container').addEventListener('wheel', (e) => {
+      e.preventDefault();
+      const zoomSpeed = 0.1;
+      const radius = Math.sqrt(camera.position.x ** 2 + camera.position.z ** 2);
+      const newRadius = radius + (e.deltaY > 0 ? zoomSpeed : -zoomSpeed);
+      
+      if (newRadius > 2 && newRadius < 15) {
+        const angle = Math.atan2(camera.position.z, camera.position.x);
+        camera.position.x = newRadius * Math.cos(angle);
+        camera.position.z = newRadius * Math.sin(angle);
+      }
+    });
+
+    // Initialize
+    initScene();
+    updateUI();
+  </script>
+</body>
+</html>

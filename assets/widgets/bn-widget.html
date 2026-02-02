@@ -1,0 +1,1753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Bayesian Network Sampling Widget</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; }
+    
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 18px;
+    }
+
+    #widget-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      background: #ffffff;
+    }
+
+    #main-content {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    /* Left Panel - Graph */
+    #graph-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: #fafafa;
+      border-right: 2px solid #666;
+      position: relative;
+    }
+
+    #graph-controls {
+      padding: 12px 20px;
+      background: rgba(255, 255, 255, 0.95);
+      border-bottom: 2px solid #666;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .control-btn {
+      width: 44px;
+      height: 44px;
+      background: rgba(255, 255, 255, 0.95);
+      border: 2px solid #666;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 18px;
+      transition: all 0.2s;
+      color: #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .control-btn:hover:not(:disabled) {
+      background: #bbbbbb;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .control-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    #graph-container {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #graph-container.panning {
+      cursor: grabbing !important;
+    }
+    
+    #graphCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      cursor: grab;
+    }
+
+    .canvas-controls {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      display: flex;
+      gap: 8px;
+      z-index: 10;
+    }
+
+    .canvas-control-btn {
+      width: 44px;
+      height: 44px;
+      background: rgba(255, 255, 255, 0.95);
+      border: 2px solid #666;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      transition: all 0.2s;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      color: #333;
+    }
+
+    .canvas-control-btn:hover:not(:disabled) {
+      background: #bbbbbb;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .canvas-control-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    /* Right Panel - Samples */
+    #samples-section {
+      width: 350px;
+      background: white;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      border-left: 2px solid #666;
+    }
+
+    #samples-header {
+      display: none;
+    }
+
+    #samples-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+    }
+
+    #samples-stats {
+      padding: 16px;
+      border-top: 2px solid #ddd;
+      background: #fafafa;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 16px;
+      color: #333;
+    }
+
+    #samples-stats > div {
+      margin-bottom: 6px;
+    }
+
+    #samples-stats > div:last-child {
+      margin-bottom: 0;
+      margin-top: 10px;
+      font-size: 17px;
+    }
+
+    .sample-card {
+      background: white;
+      border: 2px solid #ddd;
+      border-radius: 4px;
+      padding: 10px 14px;
+      margin-bottom: 10px;
+      font-family: 'Courier New', monospace;
+      font-size: 16px;
+    }
+
+    /* Highlighting for evidence and query-evidence matches (must come after .sample-card) */
+    .sample-card.evidence-match {
+      background: #fffbea !important;
+      border-color: #f39c12 !important;
+    }
+
+    .sample-card.query-evidence-match {
+      background: #fff3cd !important;
+      border-color: #d68910 !important;
+      box-shadow: 0 2px 8px rgba(214, 137, 16, 0.3);
+    }
+
+    .sample-card.current {
+      /* No special styling for current card */
+    }
+
+    .sample-number {
+      display: none;
+    }
+
+    .sample-values {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .sample-value {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .sample-var {
+      color: #666;
+      font-weight: 600;
+    }
+
+    .sample-val {
+      color: #333;
+      font-weight: 700;
+    }
+
+    /* Bottom Panel - Current Sample Progress */
+    #current-sample-panel {
+      background: rgba(255, 255, 255, 0.98);
+      border-top: 3px solid #3498db;
+      padding: 16px 20px;
+      box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    #current-sample-header {
+      display: none;
+    }
+
+    #current-sample-values {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      font-family: 'Courier New', monospace;
+      font-size: 18px;
+    }
+
+    .current-value {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .current-var {
+      color: #666;
+      font-weight: 600;
+      font-size: 18px;
+    }
+
+    .current-val {
+      color: #333;
+      font-weight: 700;
+      font-size: 20px;
+    }
+
+    .current-val.pending {
+      color: #bbb;
+    }
+
+    .current-val.sampling {
+      color: #3498db;
+      animation: pulse 1s infinite;
+    }
+
+    /* Query/Evidence Panel */
+    #query-evidence-panel {
+      background: rgba(255, 255, 255, 0.98);
+      border-bottom: 2px solid #999;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    #query-evidence-panel .control-buttons {
+      margin-left: auto;
+      display: flex;
+      gap: 8px;
+    }
+
+    .qe-label {
+      font-size: 14px;
+      color: #666;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .mode-btn {
+      padding: 8px 16px;
+      border: 2px solid #666;
+      border-radius: 4px;
+      background: white;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: #333;
+    }
+
+    .mode-btn:hover:not(:disabled) {
+      background: #f0f0f0;
+    }
+
+    .mode-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .mode-btn.active {
+      background: #424242;
+      color: white;
+      border-color: #424242;
+    }
+
+    .var-display-set {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      flex-wrap: wrap;
+      padding: 8px 12px;
+      background: #f5f5f5;
+      border: 2px solid #666;
+      border-radius: 4px;
+      min-width: 100px;
+      min-height: 38px;
+    }
+
+    .var-tag {
+      background: #e0e0e0;
+      color: #333;
+      padding: 4px 10px;
+      border-radius: 3px;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .var-tag:hover {
+      background: #d0d0d0;
+    }
+
+    .var-tag.locked {
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+
+    .var-tag.locked:hover {
+      background: #e0e0e0;
+    }
+
+    .evidence-tag {
+      background: #fff3cd;
+      color: #856404;
+      border: 1px solid #ffc107;
+    }
+
+    .evidence-tag:hover {
+      background: #ffe082;
+    }
+
+    .evidence-tag.locked:hover {
+      background: #fff3cd;
+    }
+
+    /* Value Selection Modal */
+    #value-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    #value-modal.show {
+      display: flex;
+    }
+
+    .modal-content {
+      background: white;
+      border: 3px solid #666;
+      border-radius: 8px;
+      padding: 30px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      min-width: 300px;
+    }
+
+    .modal-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #333;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+    }
+
+    .modal-btn {
+      padding: 15px 40px;
+      border: 2px solid #666;
+      border-radius: 4px;
+      background: white;
+      font-size: 24px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: #333;
+      font-family: 'Courier New', monospace;
+    }
+
+    .modal-btn:hover {
+      background: #f0f0f0;
+      transform: scale(1.05);
+    }
+
+    .modal-btn:active {
+      transform: scale(0.95);
+    }
+
+    .evidence-value-btn.active {
+      background: #4CAF50;
+      color: white;
+      border-color: #4CAF50;
+    }
+
+    .sample-card.evidence-match {
+      background: #fffbea;
+      border-color: #f39c12;
+    }
+
+    .sample-card.query-evidence-match {
+      background: #fff3cd;
+      border-color: #d68910;
+      box-shadow: 0 2px 8px rgba(214, 137, 16, 0.3);
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    /* Status bar */
+    #status-bar {
+      display: none;
+    }
+
+    /* Probability Table Panel */
+    #prob-table-panel {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: #ffffff;
+      border: 1px solid #666;
+      border-radius: 4px;
+      padding: 16px;
+      min-width: 280px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      z-index: 10;
+      display: none;
+    }
+
+    .prob-table-title {
+      font-weight: 700;
+      font-size: 18px;
+      color: #333;
+      margin-bottom: 14px;
+      border-bottom: 1px solid #666;
+      padding-bottom: 10px;
+      text-align: center;
+    }
+
+    .prob-table-content {
+      font-family: 'Courier New', monospace;
+      font-size: 15px;
+    }
+
+    .prob-table-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 2px;
+      padding: 6px 10px;
+      background: #f5f5f5;
+      border-radius: 2px;
+    }
+
+    .prob-table-value {
+      color: #333;
+      font-weight: 600;
+    }
+
+    .prob-table-prob {
+      color: #333;
+      font-weight: 700;
+    }
+
+    /* Full CPT Panel */
+    #full-cpt-panel {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: #ffffff;
+      border: 2px solid #666;
+      border-radius: 4px;
+      padding: 16px;
+      min-width: 300px;
+      max-width: 500px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+      z-index: 11;
+      display: none;
+    }
+
+    .full-cpt-title {
+      font-weight: 700;
+      font-size: 18px;
+      color: #333;
+      margin-bottom: 14px;
+      border-bottom: 2px solid #666;
+      padding-bottom: 10px;
+      text-align: center;
+    }
+
+    .full-cpt-content {
+      font-family: 'Courier New', monospace;
+      font-size: 15px;
+    }
+
+    .full-cpt-section {
+      margin-bottom: 12px;
+    }
+
+    .full-cpt-section:last-child {
+      margin-bottom: 0;
+    }
+
+    .full-cpt-condition {
+      font-weight: 600;
+      color: #555;
+      margin-bottom: 4px;
+      font-size: 14px;
+    }
+
+    .full-cpt-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 2px;
+      padding: 6px 10px;
+      background: #f5f5f5;
+      border-radius: 2px;
+    }
+
+    .full-cpt-value {
+      color: #333;
+      font-weight: 600;
+    }
+
+    .full-cpt-prob {
+      color: #333;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+  <div id="widget-container">
+    <div id="query-evidence-panel">
+      <span class="qe-label">Query:</span>
+      <button class="mode-btn" id="set-query-btn" title="Click to select Query variables">Set Query</button>
+      <div class="var-display-set" id="query-display"></div>
+      <span class="qe-label">Evidence:</span>
+      <button class="mode-btn" id="set-evidence-btn" title="Click to set Evidence variables">Set Evidence</button>
+      <div class="var-display-set" id="evidence-display"></div>
+      <div class="control-buttons">
+        <button id="stepBtn" class="control-btn" title="Step">
+          <i class="fas fa-step-forward"></i>
+        </button>
+        <button id="sampleBtn" class="control-btn" title="Complete Sample">
+          <i class="fas fa-dice"></i>
+        </button>
+        <button id="clearSamplesBtn" class="control-btn" title="Clear Samples">
+          <i class="fas fa-trash"></i>
+        </button>
+      </div>
+    </div>
+    
+    <div id="main-content">
+      <!-- Left: Bayesian Network Graph -->
+      <div id="graph-section">
+        <div id="graph-container">
+          <div class="canvas-controls">
+            <button id="zoomInBtn" class="canvas-control-btn" title="Zoom In">
+              <i class="fas fa-plus"></i>
+            </button>
+            <button id="zoomOutBtn" class="canvas-control-btn" title="Zoom Out">
+              <i class="fas fa-minus"></i>
+            </button>
+            <button id="resetViewBtn" class="canvas-control-btn" title="Reset View">
+              <i class="fas fa-compress"></i>
+            </button>
+          </div>
+          
+          <div id="prob-table-panel">
+            <div class="prob-table-title"></div>
+            <div class="prob-table-content"></div>
+          </div>
+          
+          <div id="full-cpt-panel">
+            <div class="full-cpt-title"></div>
+            <div class="full-cpt-content"></div>
+          </div>
+          
+          <canvas id="graphCanvas"></canvas>
+        </div>
+        
+        <div id="current-sample-panel">
+          <div id="current-sample-header">Current Sample Progress:</div>
+          <div id="current-sample-values"></div>
+        </div>
+      </div>
+      
+      <!-- Right: Completed Samples -->
+      <div id="samples-section">
+        <div id="samples-header">
+          <i class="fas fa-list"></i> Completed Samples
+        </div>
+        <div id="samples-content"></div>
+        <div id="samples-stats"></div>
+      </div>
+    </div>
+    
+    <div id="status-bar">
+      <i id="status-icon" class="fas fa-info-circle"></i>
+      <div id="status-message">Ready to sample</div>
+    </div>
+    
+    <div id="value-modal">
+      <div class="modal-content">
+        <div class="modal-title">Select value for <span id="modal-var"></span></div>
+        <div class="modal-buttons">
+          <button class="modal-btn" id="modal-btn-0">0</button>
+          <button class="modal-btn" id="modal-btn-1">1</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Global state
+    let currentNetwork = null;
+    let currentSample = {};
+    let samplingOrder = [];
+    let currentStep = -1; // Start at -1 so no node is highlighted initially
+    let completedSamples = [];
+    let isAnimating = false;
+    let showingTable = false;
+    let queryVariables = new Set();
+    let evidenceVariables = {}; // {variable: value}
+    let queryValues = {}; // {variable: value} - for query variables with values
+    let selectionMode = null; // null, 'query', or 'evidence'
+    let hoveredNode = null;
+    let samplingStarted = false; // Track if sampling has begun
+    let queryEvidenceLocked = false; // Lock query/evidence after first sample
+    
+    // Canvas state
+    const canvas = document.getElementById('graphCanvas');
+    const ctx = canvas.getContext('2d');
+    const container = document.getElementById('graph-container');
+    let canvasWidth, canvasHeight;
+    let zoom = 1;
+    let panX = 0;
+    let panY = 0;
+    let isPanning = false;
+    let lastPanX = 0;
+    let lastPanY = 0;
+    
+    // UI elements
+    const stepBtn = document.getElementById('stepBtn');
+    const sampleBtn = document.getElementById('sampleBtn');
+    const clearSamplesBtn = document.getElementById('clearSamplesBtn');
+    const statusMessage = document.getElementById('status-message');
+    const statusIcon = document.getElementById('status-icon');
+    const setQueryBtn = document.getElementById('set-query-btn');
+    const setEvidenceBtn = document.getElementById('set-evidence-btn');
+    const queryDisplay = document.getElementById('query-display');
+    const evidenceDisplay = document.getElementById('evidence-display');
+    const valueModal = document.getElementById('value-modal');
+    const modalVar = document.getElementById('modal-var');
+    const modalBtn0 = document.getElementById('modal-btn-0');
+    const modalBtn1 = document.getElementById('modal-btn-1');
+    let pendingVariable = null;
+    let pendingMode = null;
+    
+    // Listen for network configuration from parent (support both CSP and BN widget patterns)
+    window.addEventListener('message', (event) => {
+      if (event.data) {
+        if (event.data.type === 'loadNetwork' && event.data.network) {
+          loadNetwork(event.data.network);
+        } else if (event.data.type === 'widget-config' && event.data.config && event.data.config.network) {
+          loadNetwork(event.data.config.network);
+        }
+      }
+    });
+    
+    function resizeCanvas() {
+      const rect = container.getBoundingClientRect();
+      canvasWidth = rect.width;
+      canvasHeight = rect.height;
+      
+      // Set canvas size with device pixel ratio for sharp rendering
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = canvasWidth * dpr;
+      canvas.height = canvasHeight * dpr;
+      canvas.style.width = canvasWidth + 'px';
+      canvas.style.height = canvasHeight + 'px';
+      ctx.scale(dpr, dpr);
+      
+      if (currentNetwork) {
+        drawGraph();
+      }
+    }
+    
+    function loadNetwork(network) {
+      currentNetwork = network;
+      resetSampling();
+      updateQueryDisplay();
+      updateEvidenceDisplay();
+      drawGraph();
+      updateStatus('Network loaded. Set a query variable to begin.');
+      updateButtonStates();
+    }
+    
+    function updateButtonStates() {
+      const hasQuery = queryVariables.size > 0 && Object.keys(queryValues).length > 0;
+      stepBtn.disabled = !hasQuery || (samplingStarted && currentStep >= samplingOrder.length);
+      sampleBtn.disabled = !hasQuery || (samplingStarted && currentStep >= samplingOrder.length);
+      
+      // Disable query/evidence buttons if locked
+      setQueryBtn.disabled = queryEvidenceLocked;
+      setEvidenceBtn.disabled = queryEvidenceLocked;
+    }
+    
+    function updateQueryDisplay() {
+      if (queryVariables.size === 0) {
+        queryDisplay.innerHTML = '';
+      } else {
+        queryDisplay.innerHTML = Array.from(queryVariables)
+          .map(v => {
+            const val = queryValues[v] !== undefined ? `=${queryValues[v]}` : '';
+            const lockedClass = queryEvidenceLocked ? 'locked' : '';
+            const onClick = queryEvidenceLocked ? '' : `onclick="removeQuery('${v}')"`;
+            const times = queryEvidenceLocked ? '' : ' \u00d7';
+            return `<span class="var-tag ${lockedClass}" ${onClick}>$${v}${val}$${times}</span>`;
+          })
+          .join('');
+        if (window.renderMathInElement) {
+          renderMathInElement(queryDisplay, {
+            delimiters: [{left: '$', right: '$', display: false}],
+            throwOnError: false
+          });
+        }
+      }
+      updateButtonStates();
+    }
+
+    function updateEvidenceDisplay() {
+      if (Object.keys(evidenceVariables).length === 0) {
+        evidenceDisplay.innerHTML = '';
+      } else {
+        evidenceDisplay.innerHTML = Object.entries(evidenceVariables)
+          .map(([v, val]) => {
+            const lockedClass = queryEvidenceLocked ? 'locked' : '';
+            const onClick = queryEvidenceLocked ? '' : `onclick="removeEvidence('${v}')"`;
+            const times = queryEvidenceLocked ? '' : ' \u00d7';
+            return `<span class="var-tag evidence-tag ${lockedClass}" ${onClick}>$${v}=${val}$${times}</span>`;
+          })
+          .join('');
+        if (window.renderMathInElement) {
+          renderMathInElement(evidenceDisplay, {
+            delimiters: [{left: '$', right: '$', display: false}],
+            throwOnError: false
+          });
+        }
+      }
+    }
+
+    function removeQuery(varName) {
+      if (queryEvidenceLocked) return;
+      queryVariables.delete(varName);
+      delete queryValues[varName];
+      updateQueryDisplay();
+      updateSamplesDisplay();
+      updateCurrentSampleDisplay();
+    }
+
+    function removeEvidence(varName) {
+      if (queryEvidenceLocked) return;
+      delete evidenceVariables[varName];
+      updateEvidenceDisplay();
+      updateSamplesDisplay();
+      updateCurrentSampleDisplay();
+    }
+    
+    function resetSampling() {
+      currentSample = {};
+      currentStep = -1; // Start before first node
+      showingTable = false;
+      samplingStarted = false;
+      samplingOrder = computeSamplingOrder();
+      updateCurrentSampleDisplay();
+      updateSamplesDisplay();
+      updateButtonStates();
+    }
+    
+    function computeSamplingOrder() {
+      if (!currentNetwork) return [];
+      
+      // Topological sort to determine sampling order
+      const nodes = currentNetwork.variables.slice();
+      const order = [];
+      const visited = new Set();
+      const temp = new Set();
+      
+      function visit(node) {
+        if (temp.has(node)) {
+          throw new Error('Cycle detected in Bayesian network');
+        }
+        if (visited.has(node)) return;
+        
+        temp.add(node);
+        
+        // Visit parents first
+        const parents = currentNetwork.parents[node] || [];
+        for (const parent of parents) {
+          visit(parent);
+        }
+        
+        temp.delete(node);
+        visited.add(node);
+        order.push(node);
+      }
+      
+      for (const node of nodes) {
+        if (!visited.has(node)) {
+          visit(node);
+        }
+      }
+      
+      return order;
+    }
+    
+    function formatValue(value) {
+      if (value === 'true') return '1';
+      if (value === 'false') return '0';
+      return value;
+    }
+    
+    function sampleNode(node) {
+      const parents = currentNetwork.parents[node] || [];
+      const cpt = currentNetwork.cpts[node];
+      
+      // Get parent values
+      const parentValues = parents.map(p => currentSample[p]);
+      
+      // Find the appropriate probability distribution
+      let probs;
+      if (parents.length === 0) {
+        // No parents, use prior probabilities
+        probs = cpt;
+      } else {
+        // Look up conditional probability based on parent values
+        const key = parentValues.join(',');
+        probs = cpt[key];
+        
+        if (!probs) {
+          console.error(`No CPT entry found for ${node} with parents ${key}`);
+          return null;
+        }
+      }
+      
+      // Sample from the distribution
+      const values = Object.keys(probs);
+      const probArray = values.map(v => probs[v]);
+      const rand = Math.random();
+      let cumulative = 0;
+      
+      for (let i = 0; i < values.length; i++) {
+        cumulative += probArray[i];
+        if (rand < cumulative) {
+          return values[i];
+        }
+      }
+      
+      return values[values.length - 1]; // Fallback
+    }
+    
+    async function stepSampling() {
+      if (!currentNetwork) return;
+      if (queryVariables.size === 0 || Object.keys(queryValues).length === 0) return;
+      
+      // Lock query/evidence on first step
+      if (!queryEvidenceLocked) {
+        queryEvidenceLocked = true;
+        updateQueryDisplay();
+        updateEvidenceDisplay();
+        updateButtonStates();
+      }
+      
+      // If we haven't started yet, move to first node
+      if (currentStep === -1) {
+        samplingStarted = true;
+        currentStep = 0;
+        if (!showingTable && currentStep < samplingOrder.length) {
+          const node = samplingOrder[currentStep];
+          showProbabilityTable(node);
+          drawGraph();
+          updateStatus(`Click Step again to sample ${node}`);
+          showingTable = true;
+        }
+        return;
+      }
+      
+      if (currentStep >= samplingOrder.length) return;
+      
+      const node = samplingOrder[currentStep];
+      
+      // Two-step process:
+      // Step 1: Show probability table and highlight node
+      if (!showingTable) {
+        showProbabilityTable(node);
+        drawGraph(); // Highlight node in yellow
+        updateStatus(`Click Step again to sample ${node}`);
+        showingTable = true;
+        return;
+      }
+      
+      // Step 2: Actually sample the value
+      const value = sampleNode(node);
+      currentSample[node] = value; // Store original value (true/false)
+      currentStep++;
+      showingTable = false;
+      
+      updateCurrentSampleDisplay();
+      drawGraph();
+      hideProbabilityTable();
+      
+      if (currentStep >= samplingOrder.length) {
+        // Sample complete
+        completedSamples.push({...currentSample});
+        updateSamplesDisplay();
+        updateStatus(`Sample ${completedSamples.length} completed`);
+        stepBtn.disabled = true;
+        
+        setTimeout(() => {
+          resetSampling();
+          updateStatus('Ready for next sample');
+        }, 1000);
+      } else {
+        updateStatus(`Sampled ${node} = ${formatValue(currentSample[node])}`);
+      }
+    }
+    
+    async function completeSample() {
+      if (!currentNetwork) return;
+      if (queryVariables.size === 0 || Object.keys(queryValues).length === 0) return;
+      
+      // Lock query/evidence on first sample
+      if (!queryEvidenceLocked) {
+        queryEvidenceLocked = true;
+        updateQueryDisplay();
+        updateEvidenceDisplay();
+        updateButtonStates();
+      }
+      
+      // Sample all variables immediately without animation
+      samplingStarted = true;
+      currentStep = -1;
+      currentSample = {};
+      
+      for (const node of samplingOrder) {
+        currentSample[node] = sampleNode(node);
+      }
+      
+      // Store the sample
+      completedSamples.push({ ...currentSample });
+      
+      // Update displays
+      updateCurrentSampleDisplay();
+      updateSamplesDisplay();
+      
+      // Reset for next sample
+      resetSampling();
+      
+      updateStatus('Sample completed.');
+    }
+    
+    function resetProblem() {
+      currentSample = {};
+      currentStep = -1;
+      showingTable = false;
+      samplingStarted = false;
+      samplingOrder = computeSamplingOrder();
+      hideProbabilityTable();
+      updateCurrentSampleDisplay();
+      drawGraph();
+      updateStatus('Reset. Ready to sample.');
+      updateButtonStates();
+    }
+    
+    function clearSamples() {
+      completedSamples = [];
+      queryEvidenceLocked = false;
+      updateSamplesDisplay();
+      updateCurrentSampleDisplay();
+      updateQueryDisplay();
+      updateEvidenceDisplay();
+      updateStatus('All samples cleared');
+    }
+    
+    function updateCurrentSampleDisplay() {
+      const container = document.getElementById('current-sample-values');
+      
+      if (!currentNetwork || samplingOrder.length === 0) {
+        container.innerHTML = '<span style="color: #999;">No network loaded</span>';
+        return;
+      }
+      
+      let html = '';
+      for (const node of samplingOrder) {
+        const value = currentSample[node];
+        const isCurrent = samplingOrder.indexOf(node) === currentStep;
+        let valClass = 'current-val';
+        let valText = '?';
+        if (value !== undefined) {
+          valText = formatValue(value);
+        } else if (isCurrent) {
+          valClass += ' sampling';
+          valText = '?';
+        } else {
+          valClass += ' pending';
+        }
+        html += `
+          <div class="current-value">
+            <span class="current-var latex-var" data-latex="${node}">${node}</span>:
+            <span class="${valClass} latex-val" data-latex="${valText}">${valText}</span>
+          </div>
+        `;
+      }
+
+      container.innerHTML = html;
+
+      // Render LaTeX for variable names and values
+      setTimeout(() => {
+        if (window.katex) {
+          document.querySelectorAll('#current-sample-values .latex-var').forEach(el => {
+            const originalText = el.dataset.latex || el.textContent;
+            el.textContent = '';
+            katex.render(originalText, el, { throwOnError: false });
+            el.dataset.latex = originalText;
+          });
+          document.querySelectorAll('#current-sample-values .latex-val').forEach(el => {
+            const originalText = el.dataset.latex || el.textContent;
+            el.textContent = '';
+            katex.render(originalText, el, { throwOnError: false });
+            el.dataset.latex = originalText;
+          });
+        }
+      }, 0);
+    }
+    
+    function updateSamplesDisplay() {
+      const samplesContainer = document.getElementById('samples-content');
+      const statsContainer = document.getElementById('samples-stats');
+      
+      if (completedSamples.length === 0) {
+        samplesContainer.innerHTML = '<div style="padding: 20px; color: #999; text-align: center;">No samples yet</div>';
+        statsContainer.innerHTML = '';
+        return;
+      }
+      
+      let html = '';
+      const eVars = Object.keys(evidenceVariables);
+      const qVars = Array.from(queryVariables);
+      let matchE = 0, matchQE = 0;
+      
+      // Collect match info for each sample
+      const sampleMatchInfo = completedSamples.map(sample => {
+        // Check if sample matches evidence (or if there's no evidence, always true)
+        const matchesE = eVars.length === 0 || eVars.every(v => formatValue(sample[v]) === evidenceVariables[v]);
+        
+        // Check if sample matches query (with values assigned)
+        const matchesQ = qVars.length > 0 && qVars.every(v => {
+          const queryVal = queryValues[v];
+          return queryVal !== undefined && formatValue(sample[v]) === queryVal;
+        });
+        
+        if (matchesE) {
+          matchE++;
+          if (matchesQ) {
+            matchQE++;
+          }
+        }
+        
+        return { sample, matchesE, matchesQ };
+      });
+      
+      // Render samples in reverse order (latest first)
+      for (let i = sampleMatchInfo.length - 1; i >= 0; i--) {
+        const { sample, matchesE, matchesQ } = sampleMatchInfo[i];
+        let cardClass = 'sample-card';
+        
+        // Highlighting logic: dark yellow if matches both Q and E, light yellow if only E
+        if (matchesE && matchesQ) {
+          cardClass += ' query-evidence-match';
+        } else if (matchesE) {
+          cardClass += ' evidence-match';
+        }
+        
+        html += `
+          <div class="${cardClass}">
+            <div class="sample-number">Sample ${i + 1}</div>
+            <div class="sample-values">
+        `;
+        for (const node of samplingOrder) {
+          const value = formatValue(sample[node]);
+          html += `
+            <div class="sample-value">
+              <span class="sample-var latex-var" data-latex="${node}">${node}</span>:
+              <span class="sample-val">${value}</span>
+            </div>
+          `;
+        }
+        html += `
+            </div>
+          </div>
+        `;
+      }
+      
+      samplesContainer.innerHTML = html;
+      
+      // Update stats section
+      let approx = '?';
+      if (matchE > 0 && qVars.length > 0 && Object.keys(queryValues).length > 0) {
+        approx = (matchQE / matchE).toFixed(3);
+      } else if (eVars.length === 0 || qVars.length === 0 || Object.keys(queryValues).length === 0) {
+        approx = '-';
+      } else {
+        approx = '0.000';
+      }
+      
+      let statsHtml = `
+        <div><b># with E:</b> ${matchE}</div>
+        <div><b># with Q and E:</b> ${matchQE}</div>
+        <div id="prob-estimate"></div>
+      `;
+      
+      statsContainer.innerHTML = statsHtml;
+      
+      // Render LaTeX for variable names in samples
+      setTimeout(() => {
+        if (window.katex) {
+          document.querySelectorAll('#samples-content .latex-var').forEach(el => {
+            const originalText = el.dataset.latex || el.textContent;
+            el.textContent = '';
+            katex.render(originalText, el, { throwOnError: false });
+            el.dataset.latex = originalText;
+          });
+          
+          // Render probability estimate with LaTeX
+          const probEl = document.getElementById('prob-estimate');
+          if (probEl) {
+            probEl.innerHTML = '';
+            const latexStr = `\\textsf{pr}(Q|E) = ${approx}`;
+            katex.render(latexStr, probEl, { throwOnError: false });
+          }
+        }
+      }, 0);
+    }
+    
+    function showProbabilityTable(node) {
+      const panel = document.getElementById('prob-table-panel');
+      const titleEl = panel.querySelector('.prob-table-title');
+      const contentEl = panel.querySelector('.prob-table-content');
+      
+      const parents = currentNetwork.parents[node] || [];
+      const cpt = currentNetwork.cpts[node];
+      
+      // Create LaTeX notation for the title
+      let latexTitle = '';
+      if (parents.length === 0) {
+        // No parents: pr(M)
+        latexTitle = `\\textsf{pr}(${node})`;
+      } else {
+        // Has parents: pr(M|A = T, B = F)
+        const parentValues = parents.map(p => currentSample[p]);
+        const conditions = parents.map((p, i) => `${p} = ${formatValue(parentValues[i])}`).join(', ');
+        latexTitle = `\\textsf{pr}(${node} \\mid ${conditions})`;
+      }
+      
+      titleEl.innerHTML = `<span id="latex-title"></span>`;
+      
+      let html = '';
+      
+      if (parents.length === 0) {
+        // No parents - show prior probabilities
+        const values = Object.keys(cpt).sort();
+        for (const value of values) {
+          const prob = (cpt[value] * 100).toFixed(1);
+          const displayValue = formatValue(value);
+          html += `
+            <div class="prob-table-row">
+                <span class="prob-table-value prob-table-latex">${displayValue}</span>
+                <span class="prob-table-prob prob-table-latex">${prob}\\%</span>
+            </div>
+          `;
+        }
+      } else {
+        // Has parents - show conditional probabilities
+        const parentValues = parents.map(p => currentSample[p]);
+        const key = parentValues.join(',');
+        const probs = cpt[key];
+        
+        if (probs) {
+          const values = Object.keys(probs).sort();
+          for (const value of values) {
+            const prob = (probs[value] * 100).toFixed(1);
+            const displayValue = formatValue(value);
+            html += `
+              <div class="prob-table-row">
+                <span class="prob-table-value prob-table-latex">${displayValue}</span>
+                <span class="prob-table-prob prob-table-latex">${prob}\\%</span>
+              </div>
+            `;
+          }
+        }
+      }
+      
+      contentEl.innerHTML = html;
+      panel.style.display = 'block';
+      
+      // Render LaTeX after panel is visible
+      setTimeout(() => {
+        const latexEl = document.getElementById('latex-title');
+        if (latexEl && window.katex) {
+          katex.render(latexTitle, latexEl, {
+            throwOnError: false,
+            displayMode: false
+          });
+        }
+        if (window.katex) {
+          document.querySelectorAll('#prob-table-panel .prob-table-latex').forEach(el => {
+            const originalText = el.textContent;
+            el.textContent = '';
+            katex.render(originalText, el, { throwOnError: false, displayMode: false });
+          });
+        }
+      }, 10);
+    }
+    
+    function hideProbabilityTable() {
+      document.getElementById('prob-table-panel').style.display = 'none';
+    }
+    
+    function showFullCPT(node) {
+      const panel = document.getElementById('full-cpt-panel');
+      const titleEl = panel.querySelector('.full-cpt-title');
+      const contentEl = panel.querySelector('.full-cpt-content');
+      
+      const parents = currentNetwork.parents[node] || [];
+      const cpt = currentNetwork.cpts[node];
+      
+      // Set title using LaTeX
+      titleEl.innerHTML = '<span id="full-cpt-latex-title"></span>';
+      
+      let html = '';
+      
+      if (parents.length === 0) {
+        // No parents - show prior probabilities
+        const values = Object.keys(cpt).sort();
+        html += '<div class="full-cpt-section">';
+        for (const value of values) {
+          const prob = (cpt[value] * 100).toFixed(1);
+          const displayValue = formatValue(value);
+          html += `
+            <div class="full-cpt-row">
+              <span class="full-cpt-value full-cpt-latex">${displayValue}</span>
+              <span class="full-cpt-prob full-cpt-latex">${prob}\\%</span>
+            </div>
+          `;
+        }
+        html += '</div>';
+      } else {
+        // Has parents - show all conditional probabilities
+        const keys = Object.keys(cpt).sort();
+        
+        for (const key of keys) {
+          const probs = cpt[key];
+          const parentValues = key.split(',');
+          const conditions = parents.map((p, i) => `${p} = ${formatValue(parentValues[i])}`).join(', ');
+          
+          html += '<div class="full-cpt-section">';
+          html += `<div class="full-cpt-condition">${conditions}</div>`;
+          
+          const values = Object.keys(probs).sort();
+          for (const value of values) {
+            const prob = (probs[value] * 100).toFixed(1);
+            const displayValue = formatValue(value);
+            html += `
+              <div class="full-cpt-row">
+                <span class="full-cpt-value full-cpt-latex">${displayValue}</span>
+                <span class="full-cpt-prob full-cpt-latex">${prob}\\%</span>
+              </div>
+            `;
+          }
+          html += '</div>';
+        }
+      }
+      
+      contentEl.innerHTML = html;
+      panel.style.display = 'block';
+      
+      // Render LaTeX for title
+      setTimeout(() => {
+        const titleLatexEl = document.getElementById('full-cpt-latex-title');
+        if (titleLatexEl && window.katex) {
+          let titleLatex = '';
+          if (parents.length === 0) {
+            titleLatex = `\\textsf{pr}(${node})`;
+          } else {
+            const parentList = parents.join(',');
+            titleLatex = `\\textsf{pr}(${node}|${parentList})`;
+          }
+          katex.render(titleLatex, titleLatexEl, {
+            throwOnError: false,
+            displayMode: false
+          });
+        }
+        
+        // Render LaTeX for values and probabilities
+        if (window.katex) {
+          document.querySelectorAll('#full-cpt-panel .full-cpt-latex').forEach(el => {
+            const originalText = el.textContent;
+            el.textContent = '';
+            katex.render(originalText, el, { throwOnError: false, displayMode: false });
+          });
+        }
+      }, 10);
+    }
+    
+    function hideFullCPT() {
+      document.getElementById('full-cpt-panel').style.display = 'none';
+    }
+    
+    function updateStatus(message) {
+      statusMessage.textContent = message;
+    }
+    
+    function drawGraph() {
+      ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+      
+      if (!currentNetwork) {
+        ctx.fillStyle = '#999';
+        ctx.font = '16px Open Sans';
+        ctx.textAlign = 'center';
+        ctx.fillText('Loading network...', canvasWidth / 2, canvasHeight / 2);
+        return;
+      }
+      
+      ctx.save();
+      ctx.translate(panX, panY);
+      ctx.scale(zoom, zoom);
+      
+      // Draw edges (parent -> child)
+      ctx.strokeStyle = '#666';
+      ctx.lineWidth = 2;
+      
+      for (const node of currentNetwork.variables) {
+        const parents = currentNetwork.parents[node] || [];
+        const childPos = currentNetwork.layout[node];
+        
+        for (const parent of parents) {
+          const parentPos = currentNetwork.layout[parent];
+          
+          // Draw arrow
+          const dx = childPos.x - parentPos.x;
+          const dy = childPos.y - parentPos.y;
+          const angle = Math.atan2(dy, dx);
+          const len = Math.sqrt(dx * dx + dy * dy);
+          
+          const startX = parentPos.x + Math.cos(angle) * 35;
+          const startY = parentPos.y + Math.sin(angle) * 35;
+          const endX = childPos.x - Math.cos(angle) * 35;
+          const endY = childPos.y - Math.sin(angle) * 35;
+          
+          ctx.beginPath();
+          ctx.moveTo(startX, startY);
+          ctx.lineTo(endX, endY);
+          ctx.stroke();
+          
+          // Arrowhead
+          const arrowSize = 10;
+          ctx.beginPath();
+          ctx.moveTo(endX, endY);
+          ctx.lineTo(
+            endX - arrowSize * Math.cos(angle - Math.PI / 6),
+            endY - arrowSize * Math.sin(angle - Math.PI / 6)
+          );
+          ctx.lineTo(
+            endX - arrowSize * Math.cos(angle + Math.PI / 6),
+            endY - arrowSize * Math.sin(angle + Math.PI / 6)
+          );
+          ctx.closePath();
+          ctx.fill();
+        }
+      }
+      
+      // Draw nodes
+      for (const node of currentNetwork.variables) {
+        const pos = currentNetwork.layout[node];
+        const value = currentSample[node];
+        const isCurrent = currentStep >= 0 && samplingOrder[currentStep] === node;
+        const isSampled = currentStep >= 0 && value !== undefined;
+        const isHovered = node === hoveredNode;
+        
+        let fillColor = '#ffffff';
+        let borderColor = '#666';
+        let borderWidth = 2;
+        
+        if (isCurrent) {
+          fillColor = '#fff9c4';
+          borderColor = '#f39c12';
+          borderWidth = 4;
+        } else if (isSampled) {
+          fillColor = '#d5f4e6';
+          borderColor = '#27ae60';
+          borderWidth = 3;
+        } else if (isHovered && selectionMode !== null) {
+          borderColor = '#ffc107';
+          borderWidth = 3;
+        } else if (isHovered && !samplingStarted) {
+          borderColor = '#3498db';
+          borderWidth = 3;
+        }
+        
+        ctx.fillStyle = fillColor;
+        ctx.strokeStyle = borderColor;
+        ctx.lineWidth = borderWidth;
+        ctx.beginPath();
+        ctx.arc(pos.x, pos.y, 35, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+        
+        // Draw node name
+        ctx.fillStyle = '#333';
+        ctx.font = 'italic 20px Georgia, serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(node, pos.x, pos.y);
+      }
+      
+      ctx.restore();
+    }
+    
+    function sleep(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+    
+    // Event Listeners
+    window.addEventListener('resize', resizeCanvas);
+    
+    // Mode button handlers
+    setQueryBtn.addEventListener('click', () => {
+      if (queryEvidenceLocked) return;
+      
+      if (selectionMode === 'query') {
+        // Finish query selection
+        selectionMode = null;
+        hoveredNode = null;
+        setQueryBtn.classList.remove('active');
+        canvas.style.cursor = 'grab';
+        drawGraph();
+      } else {
+        // Enter query selection mode
+        selectionMode = 'query';
+        hoveredNode = null;
+        setQueryBtn.classList.add('active');
+        setEvidenceBtn.classList.remove('active');
+        canvas.style.cursor = 'pointer';
+      }
+    });
+
+    setEvidenceBtn.addEventListener('click', () => {
+      if (queryEvidenceLocked) return;
+      
+      if (selectionMode === 'evidence') {
+        // Finish evidence selection
+        selectionMode = null;
+        hoveredNode = null;
+        setEvidenceBtn.classList.remove('active');
+        canvas.style.cursor = 'grab';
+        drawGraph();
+      } else {
+        // Enter evidence selection mode
+        selectionMode = 'evidence';
+        hoveredNode = null;
+        setEvidenceBtn.classList.add('active');
+        setQueryBtn.classList.remove('active');
+        canvas.style.cursor = 'pointer';
+      }
+    });
+
+    function getNodeAtPosition(canvasX, canvasY) {
+      if (!currentNetwork) return null;
+      
+      // Convert canvas coordinates to world coordinates
+      const worldX = (canvasX - panX) / zoom;
+      const worldY = (canvasY - panY) / zoom;
+      
+      // Check each node
+      for (const varName of currentNetwork.variables) {
+        const pos = currentNetwork.layout[varName];
+        const dx = worldX - pos.x;
+        const dy = worldY - pos.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        
+        if (distance <= 45) { // Node radius
+          return varName;
+        }
+      }
+      
+      return null;
+    }
+
+    function handleNodeClick(nodeName) {
+      if (selectionMode === 'query') {
+        // Show modal to set query value
+        pendingVariable = nodeName;
+        pendingMode = 'query';
+        modalVar.textContent = nodeName;
+        valueModal.classList.add('show');
+      } else if (selectionMode === 'evidence') {
+        // Show modal to set evidence value
+        pendingVariable = nodeName;
+        pendingMode = 'evidence';
+        modalVar.textContent = nodeName;
+        valueModal.classList.add('show');
+      } else if (!samplingStarted) {
+        // If not in selection mode and sampling hasn't started, show full CPT
+        showFullCPT(nodeName);
+      }
+    }
+
+    // Modal button handlers
+    modalBtn0.addEventListener('click', () => {
+      if (pendingVariable && pendingMode) {
+        if (pendingMode === 'query') {
+          // Remove from evidence if present
+          if (evidenceVariables[pendingVariable] !== undefined) {
+            delete evidenceVariables[pendingVariable];
+            updateEvidenceDisplay();
+          }
+          queryVariables.add(pendingVariable);
+          queryValues[pendingVariable] = '0';
+          updateQueryDisplay();
+          updateSamplesDisplay();
+          updateCurrentSampleDisplay();
+        } else if (pendingMode === 'evidence') {
+          // Remove from query if present
+          if (queryVariables.has(pendingVariable)) {
+            queryVariables.delete(pendingVariable);
+            delete queryValues[pendingVariable];
+            updateQueryDisplay();
+          }
+          evidenceVariables[pendingVariable] = '0';
+          updateEvidenceDisplay();
+          updateSamplesDisplay();
+          updateCurrentSampleDisplay();
+        }
+      }
+      valueModal.classList.remove('show');
+      pendingVariable = null;
+      pendingMode = null;
+    });
+
+    modalBtn1.addEventListener('click', () => {
+      if (pendingVariable && pendingMode) {
+        if (pendingMode === 'query') {
+          // Remove from evidence if present
+          if (evidenceVariables[pendingVariable] !== undefined) {
+            delete evidenceVariables[pendingVariable];
+            updateEvidenceDisplay();
+          }
+          queryVariables.add(pendingVariable);
+          queryValues[pendingVariable] = '1';
+          updateQueryDisplay();
+          updateSamplesDisplay();
+          updateCurrentSampleDisplay();
+        } else if (pendingMode === 'evidence') {
+          // Remove from query if present
+          if (queryVariables.has(pendingVariable)) {
+            queryVariables.delete(pendingVariable);
+            delete queryValues[pendingVariable];
+            updateQueryDisplay();
+          }
+          evidenceVariables[pendingVariable] = '1';
+          updateEvidenceDisplay();
+          updateSamplesDisplay();
+          updateCurrentSampleDisplay();
+        }
+      }
+      valueModal.classList.remove('show');
+      pendingVariable = null;
+      pendingMode = null;
+    });
+
+    // Close modal on background click
+    valueModal.addEventListener('click', (e) => {
+      if (e.target === valueModal) {
+        valueModal.classList.remove('show');
+        pendingVariable = null;
+        pendingMode = null;
+      }
+    });
+    
+    // Pan and zoom controls
+    container.addEventListener('mousedown', (e) => {
+      if (e.target !== canvas) return;
+      
+      // Check if we're in selection mode and clicked on a node
+      if (selectionMode !== null) {
+        const rect = canvas.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
+        const clickedNode = getNodeAtPosition(mouseX, mouseY);
+        
+        if (clickedNode) {
+          handleNodeClick(clickedNode);
+          e.preventDefault();
+          return;
+        }
+      }
+      
+      // Check if we're not in selection mode and not sampling, and clicked on a node
+      if (selectionMode === null && !samplingStarted) {
+        const rect = canvas.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
+        const clickedNode = getNodeAtPosition(mouseX, mouseY);
+        
+        if (clickedNode) {
+          handleNodeClick(clickedNode);
+          e.preventDefault();
+          return;
+        }
+      }
+      
+      isPanning = true;
+      lastPanX = e.clientX;
+      lastPanY = e.clientY;
+      container.classList.add('panning');
+    });
+
+    container.addEventListener('mousemove', (e) => {
+      if (isPanning) {
+        const dx = e.clientX - lastPanX;
+        const dy = e.clientY - lastPanY;
+        panX += dx;
+        panY += dy;
+        lastPanX = e.clientX;
+        lastPanY = e.clientY;
+        drawGraph();
+      } else if (selectionMode !== null || !samplingStarted) {
+        // Update cursor when hovering over nodes in selection mode OR before sampling starts
+        const rect = canvas.getBoundingClientRect();
+        const mouseX = e.clientX - rect.left;
+        const mouseY = e.clientY - rect.top;
+        const newHoveredNode = getNodeAtPosition(mouseX, mouseY);
+        
+        if (newHoveredNode !== hoveredNode) {
+          hoveredNode = newHoveredNode;
+          drawGraph();
+        }
+        
+        canvas.style.cursor = hoveredNode ? 'pointer' : (selectionMode !== null ? 'default' : 'grab');
+      }
+    });
+
+    container.addEventListener('mouseup', () => {
+      isPanning = false;
+      container.classList.remove('panning');
+    });
+
+    container.addEventListener('mouseleave', () => {
+      isPanning = false;
+      container.classList.remove('panning');
+      if (hoveredNode) {
+        hoveredNode = null;
+        drawGraph();
+      }
+      hideFullCPT();
+    });
+
+    container.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      const zoomFactor = e.deltaY > 0 ? 0.9 : 1.1;
+      zoom *= zoomFactor;
+      zoom = Math.max(0.2, Math.min(3, zoom));
+      drawGraph();
+    });
+
+    document.getElementById('zoomInBtn').addEventListener('click', () => {
+      zoom *= 1.2;
+      zoom = Math.min(3, zoom);
+      drawGraph();
+    });
+
+    document.getElementById('zoomOutBtn').addEventListener('click', () => {
+      zoom *= 0.8;
+      zoom = Math.max(0.2, zoom);
+      drawGraph();
+    });
+
+    document.getElementById('resetViewBtn').addEventListener('click', () => {
+      zoom = 1;
+      panX = 0;
+      panY = 0;
+      drawGraph();
+    });
+
+    stepBtn.addEventListener('click', stepSampling);
+    sampleBtn.addEventListener('click', completeSample);
+    clearSamplesBtn.addEventListener('click', clearSamples);
+
+    // Initialize on window load
+    window.addEventListener('load', () => {
+      resizeCanvas();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,2101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Graph Search Algorithm Widget</title>
+  <!-- MathJax for LaTeX rendering -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.js"></script>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$']],
+        displayMath: [['$$', '$$']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 18px;
+    }
+
+    #widget-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      background: #ffffff;
+      border: 2px solid #666;
+      border-radius: 4px;
+    }
+
+    #main-content {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    #canvas-section {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: #fafafa;
+      border-right: 2px solid #666;
+      position: relative;
+    }
+
+    #canvas-toolbar {
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.95);
+      border-bottom: 2px solid #666;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .toolbar-controls {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .toolbar-selectors {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .toolbar-buttons {
+      display: flex;
+      gap: 8px;
+    }
+
+  .toolbar-button {
+    padding: 8px 16px;
+    border: 2px solid #666;
+    border-radius: 4px;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    background: white;
+    color: #333;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 160px;
+    justify-content: center;
+  }
+
+    .toolbar-button:hover {
+      background: #f5f5f5;
+    }
+
+    .toolbar-button#stepBtn {
+      background: #2ecc71;
+      border-color: #27ae60;
+      color: white;
+    }
+
+    .toolbar-button#stepBtn:hover {
+      background: #27ae60;
+    }
+
+    .toolbar-select {
+      padding: 2px 12px;
+      border: 2px solid #666;
+      height: 44px;
+      border-radius: 4px;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 14px;
+      background: white;
+      color: #333;
+      width: 280px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .toolbar-select-small {
+      padding: 2px 12px;
+      border: 2px solid #666;
+      height: 44px;
+      border-radius: 4px;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 14px;
+      background: white;
+      color: #333;
+      width: 80px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .toolbar-select:hover, .toolbar-select-small:hover {
+      background: #f5f5f5;
+    }
+
+    .toolbar-select:focus, .toolbar-select-small:focus {
+      outline: none;
+      border-color: #3498db;
+    }
+
+    .toolbar-select:disabled, .toolbar-select-small:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      background: #f0f0f0;
+    }
+
+    .icon-button {
+      width: 48px;
+      height: 48px;
+      background: white;
+      border: 2px solid #666;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      transition: all 0.2s;
+      position: relative;
+    }
+
+    .icon-button:hover {
+      background: #bbbbbb;
+      transform: translateY(-2px);
+    }
+
+    .icon-button.active {
+      background: #3498db;
+      border-color: #2980b9;
+      color: white;
+    }
+
+    .icon-button .tooltip {
+      position: absolute;
+      bottom: -35px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #333;
+      color: white;
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-size: 13px;
+      white-space: nowrap;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+      font-family: 'Open Sans', sans-serif;
+    }
+
+    .icon-button:hover .tooltip {
+      opacity: 1;
+    }
+
+    .toolbar-divider {
+      width: 2px;
+      height: 40px;
+      background: #666;
+      margin: 0 4px;
+    }
+
+    #canvas-container {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      cursor: grab;
+    }
+
+    #canvas-container.panning {
+      cursor: grabbing;
+    }
+
+    #graphCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .canvas-controls {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      display: flex;
+      gap: 8px;
+      z-index: 10;
+    }
+
+    .canvas-controls-right {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      display: flex;
+      gap: 8px;
+      z-index: 10;
+    }
+
+    .canvas-control-btn {
+      width: 44px;
+      height: 44px;
+      background: rgba(255, 255, 255, 0.95);
+      border: 2px solid #666;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      transition: all 0.2s;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .canvas-control-btn:hover {
+      background: #bbbbbb;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .canvas-control-btn.active {
+      background: #3498db;
+      border-color: #2980b9;
+      color: white;
+    }
+
+    #mode-indicator {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #3498db;
+      color: white;
+      padding: 10px 18px;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 15px;
+      font-weight: 600;
+      display: none;
+      border: 2px solid #2980b9;
+    }
+
+    #mode-indicator.active {
+      display: block;
+    }
+
+    #legend {
+      position: absolute;
+      bottom: 16px;
+      left: 16px;
+      right: 16px;
+      padding: 12px 16px;
+      background: rgba(255, 255, 255, 0.95);
+      border: 2px solid #666;
+      border-radius: 4px;
+      display: flex;
+      gap: 24px;
+      align-items: center;
+      flex-wrap: wrap;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      z-index: 5;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1rem;
+      color: #666;
+      font-weight: 500;
+    }
+
+    .legend-circle {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid #666;
+      position: relative;
+      overflow: visible;
+    }
+
+    #control-panel {
+      min-width: 300px;
+      width: 30%;
+      background: #eee;
+      border-left: 2px solid #666;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .section {
+      padding: 18px;
+      border-bottom: 2px solid #666;
+    }
+
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #666;
+      margin-bottom: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .control-group {
+      margin-bottom: 16px;
+    }
+
+    .control-label {
+      display: block;
+      font-size: 1rem;
+      color: #666;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    select, input[type="text"], input[type="number"] {
+      width: 100%;
+      padding: 10px 12px;
+      border: 2px solid #666;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 16px;
+      background: white;
+      color: #333;
+    }
+
+    select:focus, input:focus {
+      outline: none;
+      border-color: #3498db;
+    }
+
+    .checkbox-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .checkbox-wrapper {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      margin-top: 2px;
+      cursor: pointer;
+      accent-color: #3498db;
+    }
+
+    .checkbox-label {
+      font-size: 1rem;
+      cursor: pointer;
+      user-select: none;
+      color: #666;
+      flex: 1;
+      font-weight: 500;
+    }
+
+    .checkbox-sublabel {
+      font-size: 0.9rem;
+      color: #999;
+      margin-left: 30px;
+      margin-top: -8px;
+      line-height: 1.4;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px 18px;
+      font-family: 'Georgia', 'Times New Roman', serif;
+      font-size: 1rem;
+      color: #666;
+      background-color: #ffffff;
+      border: 2px solid #666;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+
+    button:hover {
+      background-color: #bbbbbb;
+    }
+
+    button.primary {
+      background-color: #2ecc71;
+      color: white;
+      border-color: #27ae60;
+      font-weight: bold;
+    }
+
+    button.primary:hover {
+      background-color: #27ae60;
+    }
+
+    button.secondary {
+      background-color: #3498db;
+      color: white;
+      border-color: #2980b9;
+    }
+
+    button.secondary:hover {
+      background-color: #2980b9;
+    }
+
+    button.danger {
+      background-color: #e74c3c;
+      color: white;
+      border-color: #c0392b;
+    }
+
+    button.danger:hover {
+      background-color: #c0392b;
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .button-group {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .button-group button {
+      margin-bottom: 0;
+    }
+
+    #open-set-display {
+      background: #eeeeee;
+      border-radius: 4px;
+      padding: 14px;
+      min-height: 85%;
+      max-height: 100%;
+      overflow-y: auto;
+      overflow-x: hidden;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      word-wrap: break-word;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    #openSetPaths {
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    .open-set-header {
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: #666;
+      font-size: 1rem;
+    }
+
+    .path-item {
+      padding: 12px 14px;
+      margin-bottom: 8px;
+      background: #fafafa;
+      border: 2px solid #ddd;
+      border-radius: 4px;
+      font-size: 15px;
+      line-height: 1.6;
+      transition: all 0.3s ease;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+    }
+
+    .path-item.exploring {
+      background: #ffd966;
+      border-color: #666;
+      font-weight: 600;
+    }
+
+    .path-item.added {
+      background: #ffd966;
+      border-color: #666;
+      animation: slideInAndFade 0.8s ease forwards;
+    }
+
+    .path-item.removed {
+      background: #ffd966;
+      border-color: #666;
+      animation: fadeOutSlide 0.8s ease forwards;
+    }
+
+    @keyframes slideInAndFade {
+      0% {
+        opacity: 0;
+        transform: translateX(-30px);
+        background: #ffd966;
+        border-color: #666;
+      }
+      20% {
+        opacity: 1;
+        transform: translateX(0);
+        background: #ffd966;
+        border-color: #666;
+      }
+      100% {
+        opacity: 1;
+        transform: translateX(0);
+        background: #fafafa;
+        border-color: #ddd;
+      }
+    }
+
+    @keyframes fadeOutSlide {
+      0% {
+        opacity: 1;
+        transform: translateX(0);
+        max-height: 100px;
+        margin-bottom: 8px;
+      }
+      60% {
+        opacity: 0;
+        max-height: 100px;
+        margin-bottom: 8px;
+        transform: translateX(20px);
+        padding: 12px 14px;
+      }
+      100% {
+        opacity: 0;
+        transform: translateX(30px);
+        max-height: 0;
+        margin-bottom: 0px;
+        padding-top: 0;
+        padding-bottom: 0;
+      }
+    }
+
+    .path-route {
+      color: #333;
+      font-weight: 600;
+      font-size: 20px;
+      flex: 0 1 auto;
+    }
+
+    .path-cost {
+      color: #666;
+      font-size: 20px;
+      flex: 0 0 auto;
+      white-space: nowrap;
+    }
+
+    .path-status {
+      color: #2ecc71;
+      font-size: 12px;
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    .path-status.removed-status {
+      color: #dc3545;
+    }
+
+    #status-bar {
+      padding: 12px 0 0 0;
+      margin-top: 12px;
+      border-top: 1px solid #ccc;
+      font-family: 'Courier New', monospace;
+      font-size: 16px;
+      font-style: italic;
+      color: #666;
+    }
+
+    #status-bar.ready {
+      color: #666;
+    }
+
+    #status-bar.searching {
+      color: #666;
+    }
+
+    #status-bar.success {
+      color: #27ae60;
+      font-weight: 600;
+    }
+
+    #status-bar.error {
+      color: #c0392b;
+      font-weight: 600;
+    }
+
+    #status-message {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 14px;
+      border: 2px solid #666;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 18px;
+      color: #666;
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      right: 10px;
+      display: none;
+    }
+
+    #status-message.show {
+      display: block;
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #ddd;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #999;
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #666;
+    }
+
+    /* Modal styles */
+    #modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    #modal-overlay.show {
+      display: flex;
+    }
+
+    .modal {
+      background: white;
+      border: 3px solid #666;
+      border-radius: 8px;
+      padding: 28px;
+      min-width: 400px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    }
+
+    .modal-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #666;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .modal-content {
+      margin-bottom: 24px;
+    }
+
+    .modal-label {
+      display: block;
+      font-size: 1rem;
+      color: #666;
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+
+    .modal-input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 2px solid #666;
+      border-radius: 4px;
+      font-family: 'Courier New', monospace;
+      font-size: 18px;
+      background: white;
+      color: #333;
+      text-align: center;
+    }
+
+    .modal-input:focus {
+      outline: none;
+      border-color: #3498db;
+    }
+
+    .modal-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .modal-buttons button {
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="widget-container">
+    <div id="main-content">
+      <div id="canvas-section">
+        <div id="canvas-toolbar">
+          <div class="toolbar-controls">
+
+              <div class="toolbar-selectors">
+                <select class="toolbar-select" id="algorithmSelect">
+                  <option value="bfs">Breadth-First Search</option>
+                  <option value="dfs">Depth-First Search</option>
+                  <option value="ucs">Cheapest-First Search</option>
+                  <option value="astar">A* Search</option>
+                </select>
+                <span style="color: #666; font-weight: 600;">with</span>
+                <select class="toolbar-select" id="cycleCheckSelect">
+                  <option value="none">No Cycle Checking</option>
+                  <option value="intra">Within a Path</option>
+                  <option value="inter">Between Paths</option>
+                  <option value="both">Within & Between Paths</option>
+                </select>
+                <span style="color: #666; font-weight: 600;">from</span>
+                <select class="toolbar-select-small" id="startNodeSelect"></select>
+                <span style="color: #666; font-weight: 600;">to</span>
+                <select class="toolbar-select-small" id="goalNodeSelect"></select>
+              </div>
+
+          </div>
+        </div>
+
+        <div id="canvas-container">
+          <div class="canvas-controls">
+            <button class="canvas-control-btn" id="addNodeBtn" title="Add Node">
+              <i class="fa-solid fa-circle-plus"></i>
+            </button>
+            <button class="canvas-control-btn" id="addEdgeBtn" title="Add Edge">
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+            <button class="canvas-control-btn" id="removeBtn" title="Remove">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+            <button class="canvas-control-btn" id="resetGraphBtn" title="Reset Graph">
+              <i class="fa-solid fa-rotate-right"></i>
+            </button>
+          </div>
+          <div class="canvas-controls-right">
+            <button class="canvas-control-btn" id="stepBtn" title="Step Through">
+              <i class="fa-solid fa-forward-step"></i>
+            </button>
+            <button class="canvas-control-btn" id="resetBtn" title="Reset Visualization">
+              <i class="fa-solid fa-arrow-rotate-left"></i>
+            </button>
+          </div>
+          <canvas id="graphCanvas"></canvas>
+          <div id="mode-indicator"></div>
+          <div id="status-message"></div>
+          
+          <div id="legend">
+            <div class="legend-item">
+              <div class="legend-circle" style="background: #e8dfd3;"></div>
+              <span>Unexplored</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-circle" style="background: #ffe89d; border-color: #e6c555;"></div>
+              <span>Exploring</span>
+            </div>
+            <div class="legend-item">
+              <div class="legend-circle" style="background: #7dd3a0; border-color: #5ab67d;"></div>
+              <span>Solution</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="control-panel">
+          <div id="open-set-display">
+            <div id="closedNodesDisplay" style="margin-bottom: 16px; padding-bottom: 12px; border-bottom: 2px solid #ccc;">
+              <div style="font-weight: 600; margin-bottom: 8px; color: #666; font-size: 14px;">CLOSED NODES</div>
+              <div id="closedNodesList" style="color: #000000; font-weight: 600; font-size: 20px; min-height: 24px;"></div>
+            </div>
+            <div style="font-weight: 600; margin-bottom: 12px; color: #666; font-size: 14px;">OPEN SET</div>
+            <div id="openSetPaths"></div>
+            <div id="status-bar" class="ready">
+              Ready...
+            </div>
+          </div>
+        </div>
+    </div>
+  </div>
+
+  <!-- Modal for edge weight input -->
+  <div id="modal-overlay">
+    <div class="modal">
+      <div class="modal-title" id="modalTitle">Set Edge Weight</div>
+      <div class="modal-content">
+        <label class="modal-label" id="modalLabel">Enter weight for edge:</label>
+        <input type="number" class="modal-input" id="modalWeightInput" value="1" min="0" step="1">
+      </div>
+      <div class="modal-buttons">
+        <button class="secondary" id="modalConfirm">Confirm</button>
+        <button id="modalCancel">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Visualization state BEFORE any functions that use it
+    let visualizationState = {
+      openSet: [{ path: 'A', cost: 0 }],
+      visitedNodes: new Set(),
+      currentPath: null,
+      finalPath: null,
+      isRunning: false,
+      isPaused: false,
+      exploringNode: null,
+      stepPhase: 'explore' // 'explore' or 'expand'
+    };
+
+    // Hover state for deletion highlighting
+    let hoveredNode = null;
+    let hoveredEdgeIndex = null;
+
+    // Graph editing state
+    let selectedNode = null;
+    let editMode = null;
+
+    // Graph data structure - will be initialized by createDefaultGraph
+    let graph = {
+      nodes: {},
+      edges: []
+    };
+
+    // Start and goal node values
+    let startNodeValue = 'A';
+    let goalNodeValue = 'G';
+
+    // Helper function to get next available node name
+    function getNextNodeName() {
+      const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      const existingNodes = Object.keys(graph.nodes);
+      
+      for (let letter of alphabet) {
+        if (!existingNodes.includes(letter)) {
+          return letter;
+        }
+      }
+      
+      // If all single letters used, start with AA, AB, etc.
+      for (let i = 0; i < alphabet.length; i++) {
+        for (let j = 0; j < alphabet.length; j++) {
+          const name = alphabet[i] + alphabet[j];
+          if (!existingNodes.includes(name)) {
+            return name;
+          }
+        }
+      }
+      
+      return 'Z' + (existingNodes.length + 1);
+    }
+
+    // Modal handling
+    let modalResolve = null;
+
+    function showModal(title, label, defaultValue = '1', minValue = 0) {
+      return new Promise((resolve) => {
+        modalResolve = resolve;
+        document.getElementById('modalTitle').textContent = title;
+        document.getElementById('modalLabel').textContent = label;
+        document.getElementById('modalWeightInput').value = defaultValue;
+        document.getElementById('modalWeightInput').min = minValue;
+        document.getElementById('modal-overlay').classList.add('show');
+        document.getElementById('modalWeightInput').focus();
+        document.getElementById('modalWeightInput').select();
+      });
+    }
+
+    function showWeightModal() {
+      return showModal('Set Edge Weight', 'Enter weight for edge:', '1', 1);
+    }
+
+    function showHeuristicModal() {
+      return showModal('Set Heuristic Value', 'Enter heuristic value for node:', '0', 0);
+    }
+
+    document.getElementById('modalConfirm').addEventListener('click', () => {
+      const weight = parseInt(document.getElementById('modalWeightInput').value) || 1;
+      document.getElementById('modal-overlay').classList.remove('show');
+      if (modalResolve) {
+        modalResolve(weight);
+        modalResolve = null;
+      }
+    });
+
+    document.getElementById('modalCancel').addEventListener('click', () => {
+      document.getElementById('modal-overlay').classList.remove('show');
+      if (modalResolve) {
+        modalResolve(null);
+        modalResolve = null;
+      }
+    });
+
+    document.getElementById('modalWeightInput').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        document.getElementById('modalConfirm').click();
+      } else if (e.key === 'Escape') {
+        document.getElementById('modalCancel').click();
+      }
+    });
+
+    // Default graph setup
+    function createDefaultGraph() {
+      graph = {
+        nodes: {
+          'A': { x: 200, y: 200, heuristic: 7 },
+          'B': { x: 400, y: 100, heuristic: 6 },
+          'C': { x: 400, y: 300, heuristic: 6 },
+          'D': { x: 600, y: 100, heuristic: 4 },
+          'E': { x: 600, y: 200, heuristic: 3 },
+          'F': { x: 600, y: 300, heuristic: 4 },
+          'G': { x: 800, y: 200, heuristic: 0 }
+        },
+        edges: [
+          // Forward edges forming main paths
+          { from: 'A', to: 'B', weight: 2 },
+          { from: 'A', to: 'C', weight: 3 },
+          { from: 'B', to: 'D', weight: 2 },
+          { from: 'B', to: 'E', weight: 3 },
+          { from: 'C', to: 'E', weight: 2 },
+          { from: 'C', to: 'F', weight: 3 },
+          { from: 'D', to: 'G', weight: 3 },
+          { from: 'E', to: 'G', weight: 2 },
+          { from: 'F', to: 'G', weight: 3 },
+          // Back edges creating cycles (no crossings)
+          { from: 'B', to: 'A', weight: 2 },  // Simple cycle: A-B-A
+          { from: 'E', to: 'C', weight: 2 },  // Cycle: C-E-C
+          { from: 'D', to: 'B', weight: 1 },  // Cycle: B-D-B
+          // Additional edge for path checking
+          { from: 'D', to: 'E', weight: 1 }
+        ]
+      };
+      updateNodeButtons();
+      drawGraph();
+    }
+
+    // Canvas setup
+    const canvas = document.getElementById('graphCanvas');
+    const ctx = canvas.getContext('2d');
+    const canvasContainer = document.getElementById('canvas-container');
+
+    // Helper function to check if an edge is part of a path
+    function isEdgeInPath(edgeFrom, edgeTo, pathString) {
+      if (!pathString) return false;
+      
+      const pathNodes = pathString.split(' → ');
+      
+      // Check all consecutive pairs in the path
+      for (let i = 0; i < pathNodes.length - 1; i++) {
+        if (pathNodes[i] === edgeFrom && pathNodes[i + 1] === edgeTo) {
+          return true;
+        }
+      }
+      
+      return false;
+    }
+
+    // Helper function to find edges between same two nodes
+    function getEdgesBetweenNodes(nodeA, nodeB) {
+      return graph.edges.filter(e => 
+        (e.from === nodeA && e.to === nodeB) || 
+        (e.from === nodeB && e.to === nodeA)
+      );
+    }
+
+    // Helper function to calculate curve offset for multiple edges
+    function getCurveOffset(edge, allEdges) {
+      // Find edges in the same direction
+      const sameDirectionEdges = allEdges.filter(e => 
+        e.from === edge.from && e.to === edge.to
+      );
+      
+      // Find edges in the opposite direction
+      const oppositeDirectionEdges = allEdges.filter(e => 
+        e.from === edge.to && e.to === edge.from
+      );
+      
+      const hasSameDirection = sameDirectionEdges.length > 0;
+      const hasOppositeDirection = oppositeDirectionEdges.length > 0;
+      const isSameDirection = sameDirectionEdges.includes(edge);
+      
+      // Calculate total number of edges between these two nodes
+      const totalEdgeCount = sameDirectionEdges.length + oppositeDirectionEdges.length;
+      
+      if (totalEdgeCount === 1) {
+        // Single edge, no curve needed
+        return 0;
+      }
+      
+      // Base offset to ensure edges don't overlap
+      const baseOffset = 35;
+      const additionalSpacing = 25;
+      
+      if (hasSameDirection && hasOppositeDirection) {
+        // Edges in both directions - curve them in opposite directions
+        const edgeIndex = isSameDirection ? 
+          sameDirectionEdges.indexOf(edge) : 
+          oppositeDirectionEdges.indexOf(edge);
+        
+        const direction = isSameDirection ? 1 : -1;
+        const relevantEdges = isSameDirection ? sameDirectionEdges : oppositeDirectionEdges;
+        
+        // If multiple edges in same direction, space them out
+        if (relevantEdges.length > 1) {
+          return direction * (baseOffset + edgeIndex * additionalSpacing);
+        }
+        
+        return direction * baseOffset;
+      } else if (hasSameDirection && sameDirectionEdges.length > 1) {
+        // Multiple edges in same direction only - spread symmetrically
+        const edgeIndex = sameDirectionEdges.indexOf(edge);
+        const totalEdges = sameDirectionEdges.length;
+        
+        // For even number of edges, alternate positive/negative
+        // For odd number, center one at 0 and alternate around it
+        if (totalEdges === 2) {
+          return edgeIndex === 0 ? -baseOffset : baseOffset;
+        } else {
+          const halfCount = Math.floor(totalEdges / 2);
+          const adjustedIndex = edgeIndex - halfCount;
+          
+          if (adjustedIndex === 0 && totalEdges % 2 === 1) {
+            return 0; // Center edge for odd count
+          }
+          
+          const sign = adjustedIndex > 0 ? 1 : -1;
+          const distance = Math.abs(adjustedIndex);
+          return sign * (baseOffset + (distance - (totalEdges % 2 === 0 ? 0.5 : 1)) * additionalSpacing);
+        }
+      }
+      
+      return 0;
+    }
+
+    // Helper function to draw LaTeX-style arrowhead
+    function drawLatexArrow(ctx, x, y, angle, size, color) {
+      // LaTeX arrow has a specific shape: narrow angle, longer than it is wide
+      const arrowLength = size * 1.2; // Length from tip to base
+      const arrowAngle = Math.PI / 10; // About 18 degrees on each side
+      
+      ctx.save();
+      ctx.fillStyle = color;
+      
+      // Draw filled triangle for arrow tip
+      ctx.beginPath();
+      ctx.moveTo(x, y); // Arrow tip
+      
+      // Left side of arrow
+      ctx.lineTo(
+        x - arrowLength * Math.cos(angle - arrowAngle),
+        y - arrowLength * Math.sin(angle - arrowAngle)
+      );
+      
+      // Right side of arrow
+      ctx.lineTo(
+        x - arrowLength * Math.cos(angle + arrowAngle),
+        y - arrowLength * Math.sin(angle + arrowAngle)
+      );
+      
+      ctx.closePath();
+      ctx.fill();
+      
+      ctx.restore();
+    }
+
+    // Pan and zoom state (declare before resizeCanvas)
+    let zoom = 1;
+    let panX = 0;
+    let panY = 0;
+    let isPanning = false;
+    let lastMouseX = 0;
+    let lastMouseY = 0;
+
+    function resizeCanvas() {
+      canvas.width = canvasContainer.clientWidth;
+      canvas.height = canvasContainer.clientHeight;
+      drawGraph();
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    // Node selection mode (for start/goal buttons) - REMOVED, now using dropdowns
+    
+    // Populate start and goal node dropdowns
+    function updateNodeDropdowns() {
+      const startSelect = document.getElementById('startNodeSelect');
+      const goalSelect = document.getElementById('goalNodeSelect');
+      
+      const nodeNames = Object.keys(graph.nodes).sort();
+      
+      // Update start dropdown
+      startSelect.innerHTML = '';
+      nodeNames.forEach(name => {
+        const option = document.createElement('option');
+        option.value = name;
+        option.textContent = name;
+        if (name === startNodeValue) option.selected = true;
+        startSelect.appendChild(option);
+      });
+      
+      // Update goal dropdown
+      goalSelect.innerHTML = '';
+      nodeNames.forEach(name => {
+        const option = document.createElement('option');
+        option.value = name;
+        option.textContent = name;
+        if (name === goalNodeValue) option.selected = true;
+        goalSelect.appendChild(option);
+      });
+    }
+    
+    // Handle start node selection
+    document.getElementById('startNodeSelect').addEventListener('change', (e) => {
+      startNodeValue = e.target.value;
+      // Reset open set with new start node if not running
+      if (!visualizationState.isRunning) {
+        visualizationState.openSet = [{ path: startNodeValue, cost: 0 }];
+        updateOpenSetDisplay();
+      }
+      drawGraph();
+    });
+    
+    // Handle goal node selection
+    document.getElementById('goalNodeSelect').addEventListener('change', (e) => {
+      goalNodeValue = e.target.value;
+      drawGraph();
+    });
+
+    function updateNodeButtons() {
+      // Check if start and goal nodes exist
+      const startExists = graph.nodes[startNodeValue] !== undefined;
+      const goalExists = graph.nodes[goalNodeValue] !== undefined;
+      
+      // If start node doesn't exist, find first available node
+      if (!startExists) {
+        const nodeNames = Object.keys(graph.nodes);
+        if (nodeNames.length > 0) {
+          startNodeValue = nodeNames[0];
+        }
+      }
+      
+      // If goal node doesn't exist or is same as start, find different node
+      if (!goalExists || goalNodeValue === startNodeValue) {
+        const nodeNames = Object.keys(graph.nodes);
+        for (const name of nodeNames) {
+          if (name !== startNodeValue) {
+            goalNodeValue = name;
+            break;
+          }
+        }
+      }
+      
+      // Update dropdowns
+      updateNodeDropdowns();
+    }
+
+    // Drawing functions
+    function drawGraph() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      ctx.save();
+      ctx.translate(panX, panY);
+      ctx.scale(zoom, zoom);
+
+      // Draw edges first
+      graph.edges.forEach((edge, edgeIndex) => {
+        const fromNode = graph.nodes[edge.from];
+        const toNode = graph.nodes[edge.to];
+        
+        if (!fromNode || !toNode) return;
+
+        // Calculate curve offset for multiple edges
+        const curveOffset = getCurveOffset(edge, graph.edges);
+
+        // Determine edge color based on visualization state
+        let edgeColor = '#999';
+        let edgeWidth = 3;
+        let edgeOpacity = 1.0;
+        
+        // Check if this edge is hovered in remove mode
+        if (editMode === 'remove' && hoveredEdgeIndex === edgeIndex) {
+          edgeColor = '#e74c3c'; // Red for deletion
+          edgeWidth = 5;
+        }
+        // Check if edge is in the final path (green)
+        else if (isEdgeInPath(edge.from, edge.to, visualizationState.finalPath)) {
+          edgeColor = '#5ab67d'; // Darker green for solution path
+          edgeWidth = 5;
+        }
+        // Check if edge is in the current path being explored (darker yellow)
+        else if (isEdgeInPath(edge.from, edge.to, visualizationState.currentPath)) {
+          edgeColor = '#e6c555'; // Darker yellow for exploring
+          edgeWidth = 5;
+        }
+
+        ctx.strokeStyle = edgeColor;
+        ctx.lineWidth = edgeWidth;
+        ctx.globalAlpha = edgeOpacity;
+        
+        // Draw curved or straight line based on curveOffset
+        if (Math.abs(curveOffset) > 0.1) {
+          // Calculate perpendicular offset for curve
+          const dx = toNode.x - fromNode.x;
+          const dy = toNode.y - fromNode.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          const perpX = -dy / dist;
+          const perpY = dx / dist;
+          
+          // Control point for quadratic curve
+          const midX = (fromNode.x + toNode.x) / 2 + perpX * curveOffset;
+          const midY = (fromNode.y + toNode.y) / 2 + perpY * curveOffset;
+          
+          ctx.beginPath();
+          ctx.moveTo(fromNode.x, fromNode.y);
+          ctx.quadraticCurveTo(midX, midY, toNode.x, toNode.y);
+          ctx.stroke();
+          
+          // Draw arrowhead at the end of curve
+          // Calculate the position along the curve where arrow should be (accounting for node radius)
+          const nodeRadius = 30;
+          
+          // Binary search to find t value where curve intersects node boundary
+          let tArrow = 1.0;
+          for (let i = 0; i < 10; i++) {
+            const px = (1-tArrow)*(1-tArrow)*fromNode.x + 2*(1-tArrow)*tArrow*midX + tArrow*tArrow*toNode.x;
+            const py = (1-tArrow)*(1-tArrow)*fromNode.y + 2*(1-tArrow)*tArrow*midY + tArrow*tArrow*toNode.y;
+            const distToNode = Math.sqrt((px - toNode.x)**2 + (py - toNode.y)**2);
+            if (distToNode > nodeRadius + 5) break;
+            tArrow -= 0.01;
+          }
+          
+          // Calculate position and tangent at arrow position
+          const arrowX = (1-tArrow)*(1-tArrow)*fromNode.x + 2*(1-tArrow)*tArrow*midX + tArrow*tArrow*toNode.x;
+          const arrowY = (1-tArrow)*(1-tArrow)*fromNode.y + 2*(1-tArrow)*tArrow*midY + tArrow*tArrow*toNode.y;
+          
+          // Calculate tangent direction
+          const tangentX = 2*(1-tArrow)*(midX - fromNode.x) + 2*tArrow*(toNode.x - midX);
+          const tangentY = 2*(1-tArrow)*(midY - fromNode.y) + 2*tArrow*(toNode.y - midY);
+          const angle = Math.atan2(tangentY, tangentX);
+          
+          const arrowSize = 12;
+          drawLatexArrow(ctx, arrowX, arrowY, angle, arrowSize, edgeColor);
+          
+          // Draw weight label at true curve midpoint (t=0.5 on the quadratic curve)
+          const t = 0.5;
+          const curveMidX = (1-t)*(1-t)*fromNode.x + 2*(1-t)*t*midX + t*t*toNode.x;
+          const curveMidY = (1-t)*(1-t)*fromNode.y + 2*(1-t)*t*midY + t*t*toNode.y;
+          
+          ctx.save();
+          ctx.font = 'bold 18px "Courier New"';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          
+          // Draw white outline for text visibility
+          ctx.strokeStyle = '#fafafa';
+          ctx.lineWidth = 4;
+          ctx.strokeText(edge.weight, curveMidX, curveMidY);
+          
+          // Draw the text itself
+          ctx.fillStyle = '#333';
+          ctx.fillText(edge.weight, curveMidX, curveMidY);
+          ctx.restore();
+        } else {
+          // Straight line for single edges
+          ctx.beginPath();
+          ctx.moveTo(fromNode.x, fromNode.y);
+          ctx.lineTo(toNode.x, toNode.y);
+          ctx.stroke();
+
+          // Draw arrowhead
+          const angle = Math.atan2(toNode.y - fromNode.y, toNode.x - fromNode.x);
+          const arrowSize = 12;
+          const arrowX = toNode.x - Math.cos(angle) * 35;
+          const arrowY = toNode.y - Math.sin(angle) * 35;
+          
+          drawLatexArrow(ctx, arrowX, arrowY, angle, arrowSize, edgeColor);
+
+          // Draw weight label (on the edge)
+          const midX = (fromNode.x + toNode.x) / 2;
+          const midY = (fromNode.y + toNode.y) / 2;
+          
+          ctx.save();
+          ctx.font = 'bold 18px "Courier New"';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          
+          // Draw white outline for text visibility
+          ctx.strokeStyle = '#fafafa';
+          ctx.lineWidth = 4;
+          ctx.strokeText(edge.weight, midX, midY);
+          
+          // Draw the text itself
+          ctx.fillStyle = '#333';
+          ctx.fillText(edge.weight, midX, midY);
+          ctx.restore();
+        }
+        
+        // Reset global alpha after edge
+        ctx.globalAlpha = 1.0;
+      });
+
+      // Draw nodes
+      Object.entries(graph.nodes).forEach(([name, node]) => {
+        let fillColor = '#e8dfd3'; // Unexplored
+        let borderColor = '#666';
+        let borderWidth = 2;
+        
+        // Check if this node is the selected source in addEdge mode
+        if (editMode === 'addEdge' && selectedNode === name) {
+          fillColor = '#c3e6ff'; // Light blue for selected source
+          borderColor = '#3498db'; // Blue border
+          borderWidth = 4;
+        }
+        // Check if this node is hovered as potential target in addEdge mode
+        else if (editMode === 'addEdge' && selectedNode && hoveredNode === name) {
+          fillColor = '#d4f1d4'; // Light green for potential target
+          borderColor = '#27ae60'; // Green border
+          borderWidth = 4;
+        }
+        // Check if hovering a node in addEdge mode (no source selected yet)
+        else if (editMode === 'addEdge' && !selectedNode && hoveredNode === name) {
+          fillColor = '#e3f2fd'; // Very light blue for hoverable
+          borderColor = '#3498db'; // Blue border
+          borderWidth = 3;
+        }
+        // Check if this node is hovered in remove mode
+        else if (editMode === 'remove' && hoveredNode === name) {
+          fillColor = '#ffcccc'; // Light red for deletion preview
+          borderColor = '#e74c3c'; // Red border
+          borderWidth = 4;
+        }
+        // Check if node is in the final path (green fill)
+        else if (visualizationState.finalPath && visualizationState.finalPath.includes(name)) {
+          fillColor = '#7dd3a0'; // Solution path - green fill
+          borderColor = '#5ab67d'; // Darker green outline
+          borderWidth = 2;
+        }
+        // Check if node is in the current path being explored (yellow fill with darker outline)
+        else if (visualizationState.currentPath && visualizationState.currentPath.includes(name)) {
+          fillColor = '#ffe89d'; // Exploring (yellow) - entire path
+          borderColor = '#e6c555'; // Darker yellow outline
+          borderWidth = 2;
+        }
+
+        // Draw node circle
+        ctx.fillStyle = fillColor;
+        ctx.strokeStyle = borderColor;
+        ctx.lineWidth = borderWidth;
+        ctx.beginPath();
+        ctx.arc(node.x, node.y, 30, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+
+        // Draw node label
+        ctx.fillStyle = '#333';
+        ctx.font = 'bold 24px "Courier New"';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(name, node.x, node.y);
+
+        // Draw heuristic value for A* if selected
+        const algorithm = document.getElementById('algorithmSelect').value;
+        if (algorithm === 'astar' && node.heuristic !== undefined) {
+          ctx.fillStyle = '#666';
+          ctx.font = 'bold 18px "Courier New"';
+          ctx.fillText(`(${node.heuristic})`, node.x, node.y + 50);
+        }
+      });
+
+      ctx.restore();
+    }
+
+    // Function to manage button states during search
+    function updateButtonStates(state) {
+      const algorithmSelect = document.getElementById('algorithmSelect');
+      const cycleCheckSelect = document.getElementById('cycleCheckSelect');
+      const startNodeSelect = document.getElementById('startNodeSelect');
+      const goalNodeSelect = document.getElementById('goalNodeSelect');
+      const addNodeBtn = document.getElementById('addNodeBtn');
+      const addEdgeBtn = document.getElementById('addEdgeBtn');
+      const removeBtn = document.getElementById('removeBtn');
+      const resetGraphBtn = document.getElementById('resetGraphBtn');
+      const stepBtn = document.getElementById('stepBtn');
+      const resetBtn = document.getElementById('resetBtn');
+      
+      if (state === 'searching') {
+        // Disable everything except step and reset
+        algorithmSelect.disabled = true;
+        cycleCheckSelect.disabled = true;
+        startNodeSelect.disabled = true;
+        goalNodeSelect.disabled = true;
+        addNodeBtn.disabled = true;
+        addEdgeBtn.disabled = true;
+        removeBtn.disabled = true;
+        resetGraphBtn.disabled = true;
+        stepBtn.disabled = false;
+        resetBtn.disabled = false;
+      } else if (state === 'finished') {
+        // Disable everything except reset
+        algorithmSelect.disabled = true;
+        cycleCheckSelect.disabled = true;
+        startNodeSelect.disabled = true;
+        goalNodeSelect.disabled = true;
+        addNodeBtn.disabled = true;
+        addEdgeBtn.disabled = true;
+        removeBtn.disabled = true;
+        resetGraphBtn.disabled = true;
+        stepBtn.disabled = true;
+        resetBtn.disabled = false;
+      } else {
+        // Enable all buttons (ready state)
+        algorithmSelect.disabled = false;
+        cycleCheckSelect.disabled = false;
+        startNodeSelect.disabled = false;
+        goalNodeSelect.disabled = false;
+        addNodeBtn.disabled = false;
+        addEdgeBtn.disabled = false;
+        removeBtn.disabled = false;
+        resetGraphBtn.disabled = false;
+        stepBtn.disabled = false;
+        resetBtn.disabled = false;
+      }
+    }
+
+    // Search algorithms
+    function getNeighbors(node) {
+      return graph.edges
+        .filter(edge => edge.from === node)
+        .map(edge => ({ node: edge.to, cost: edge.cost || edge.weight }));
+    }
+
+    function* searchGenerator() {
+      const algorithm = document.getElementById('algorithmSelect').value;
+      const cycleCheck = document.getElementById('cycleCheckSelect').value;
+      
+      // Initialize
+      visualizationState.openSet = [{ path: startNodeValue, cost: 0 }];
+      visualizationState.visitedNodes = new Set();
+      visualizationState.exploringNode = null;
+      visualizationState.stepPhase = 'explore';
+      
+      const allVisitedNodes = new Set(); // For inter-path cycle checking
+      
+      updateOpenSetDisplay();
+      drawGraph();
+      
+      while (visualizationState.openSet.length > 0) {
+        // Sort open set based on algorithm
+        if (algorithm === 'dfs') {
+          // DFS: Most recent (end of array)
+          visualizationState.openSet.sort((a, b) => 0); // Keep order
+        } else if (algorithm === 'bfs') {
+          // BFS: Oldest first (beginning of array)
+          visualizationState.openSet.sort((a, b) => 0); // Keep order
+        } else if (algorithm === 'ucs') {
+          // UCS: Lowest cost first
+          visualizationState.openSet.sort((a, b) => a.cost - b.cost);
+        } else if (algorithm === 'astar') {
+          // A*: Lowest f = g + h
+          visualizationState.openSet.sort((a, b) => {
+            const pathA = a.path.split(' → ');
+            const pathB = b.path.split(' → ');
+            const lastNodeA = pathA[pathA.length - 1];
+            const lastNodeB = pathB[pathB.length - 1];
+            const hA = graph.nodes[lastNodeA]?.heuristic || 0;
+            const hB = graph.nodes[lastNodeB]?.heuristic || 0;
+            return (a.cost + hA) - (b.cost + hB);
+          });
+        }
+        
+        // Get next path to explore
+        let currentPathObj;
+        if (algorithm === 'dfs') {
+          currentPathObj = visualizationState.openSet.pop(); // Take from end for DFS
+        } else {
+          currentPathObj = visualizationState.openSet.shift(); // Take from beginning for others
+        }
+        
+        const currentPath = currentPathObj.path;
+        const currentCost = currentPathObj.cost;
+        const pathNodes = currentPath.split(' → ');
+        const currentNode = pathNodes[pathNodes.length - 1];
+        
+        // Mark this node as exploring (yellow) when path is removed from open set
+        visualizationState.currentPath = currentPath;
+        visualizationState.exploringNode = currentNode;
+        visualizationState.stepPhase = 'explore';
+        
+        updateOpenSetDisplay();
+        const compactPath = currentPath.replace(/ → /g, '');
+        updateStatusBar(`Exploring: ${compactPath} (cost: ${currentCost})`);
+        drawGraph();
+        
+        yield { status: 'exploring', path: currentPath, node: currentNode };
+        
+        // Check if goal reached
+        if (currentNode === goalNodeValue) {
+          visualizationState.finalPath = currentPath;
+          visualizationState.exploringNode = null;
+          const compactPath = currentPath.replace(/ → /g, '');
+          updateStatusBar(`Goal found! Path: ${compactPath} (cost: ${currentCost})`, 'success');
+          drawGraph();
+          return { status: 'success', path: currentPath, cost: currentCost };
+        }
+        
+        // Mark node as visited for inter-path cycle checking
+        if (cycleCheck === 'inter' || cycleCheck === 'both') {
+          allVisitedNodes.add(currentNode);
+        }
+        
+        // Expand node - add children
+        visualizationState.stepPhase = 'expand';
+        const neighbors = getNeighbors(currentNode);
+        const addedPaths = [];
+        
+        for (const neighbor of neighbors) {
+          const neighborNode = neighbor.node;
+          
+          // Check cycles
+          let skipNeighbor = false;
+          
+          // Intra-path cycle checking
+          if (cycleCheck === 'intra' || cycleCheck === 'both') {
+            if (pathNodes.includes(neighborNode)) {
+              skipNeighbor = true;
+            }
+          }
+          
+          // Inter-path cycle checking
+          if (cycleCheck === 'inter' || cycleCheck === 'both') {
+            if (allVisitedNodes.has(neighborNode)) {
+              skipNeighbor = true;
+            }
+          }
+          
+          if (!skipNeighbor) {
+            const newPath = `${currentPath} → ${neighborNode}`;
+            const newCost = currentCost + neighbor.cost;
+            visualizationState.openSet.push({ path: newPath, cost: newCost });
+            addedPaths.push({ path: newPath, cost: newCost });
+          }
+        }
+        
+        // NOW mark as explored (green outline) AFTER adding children
+        visualizationState.visitedNodes.add(currentNode);
+        visualizationState.exploringNode = null;
+        
+        if (addedPaths.length > 0) {
+          updateStatusBar(`Added ${addedPaths.length} new paths`);
+        } else {
+          updateStatusBar(`No valid neighbors to expand`);
+        }
+        
+        updateOpenSetDisplay();
+        drawGraph();
+        
+        yield { status: 'expanded', addedPaths };
+      }
+      
+      visualizationState.exploringNode = null;
+      updateStatusBar('No path to goal found', 'error');
+      drawGraph();
+      return { status: 'failure' };
+    }
+
+    let searchGen = null;
+    let previousOpenSet = [];
+    let removedPaths = [];
+
+    function updateOpenSetDisplay() {
+      const container = document.getElementById('openSetPaths');
+      const closedNodesList = document.getElementById('closedNodesList');
+      
+      // Update closed nodes list
+      const closedNodesArray = Array.from(visualizationState.visitedNodes);
+      if (closedNodesArray.length > 0) {
+        closedNodesList.textContent = closedNodesArray.join(', ');
+      } else {
+        closedNodesList.textContent = '—';
+      }
+      
+      // Get algorithm to determine display order
+      const algorithm = document.getElementById('algorithmSelect').value;
+      
+      // Create a sorted copy of the open set for display
+      let displayOpenSet = [...visualizationState.openSet];
+      
+      if (algorithm === 'dfs') {
+        // DFS: Show in reverse order (last in, first out)
+        displayOpenSet.reverse();
+      } else if (algorithm === 'bfs') {
+        // BFS: Show in order (first in, first out)
+        // Already in correct order
+      } else if (algorithm === 'ucs') {
+        // UCS: Show sorted by cost (lowest first)
+        displayOpenSet.sort((a, b) => a.cost - b.cost);
+      } else if (algorithm === 'astar') {
+        // A*: Show sorted by f = g + h (lowest first)
+        displayOpenSet.sort((a, b) => {
+          const pathA = a.path.split(' → ');
+          const pathB = b.path.split(' → ');
+          const lastNodeA = pathA[pathA.length - 1];
+          const lastNodeB = pathB[pathB.length - 1];
+          const hA = graph.nodes[lastNodeA]?.heuristic || 0;
+          const hB = graph.nodes[lastNodeB]?.heuristic || 0;
+          return (a.cost + hA) - (b.cost + hB);
+        });
+      }
+      
+      // Track which paths are new
+      const newPaths = visualizationState.openSet
+        .filter(p => !previousOpenSet.find(prev => prev.path === p.path));
+      
+      // Track which paths were removed
+      removedPaths = previousOpenSet
+        .filter(prev => !visualizationState.openSet.find(p => p.path === prev.path));
+      
+      // Clear and rebuild
+      container.innerHTML = '';
+      
+      // Show removed paths briefly with animation (at the top)
+      removedPaths.forEach(pathObj => {
+        const pathDiv = document.createElement('div');
+        pathDiv.className = 'path-item removed';
+        const compactPath = pathObj.path.replace(/ → /g, '');
+        
+        // For A*, show estimated cost (g + h)
+        let costDisplay;
+        if (algorithm === 'astar') {
+          const pathNodes = pathObj.path.split(' → ');
+          const lastNode = pathNodes[pathNodes.length - 1];
+          const heuristic = graph.nodes[lastNode]?.heuristic || 0;
+          const estimatedCost = pathObj.cost + heuristic;
+          costDisplay = `<span class="path-cost">${estimatedCost} (${pathObj.cost}+${heuristic})</span>`;
+        } else {
+          costDisplay = `<span class="path-cost">${pathObj.cost}</span>`;
+        }
+        
+        pathDiv.innerHTML = `
+          <span class="path-route">${compactPath}</span>
+          ${costDisplay}
+        `;
+        container.appendChild(pathDiv);
+      });
+      
+      // Show current open set in sorted order
+      displayOpenSet.forEach((pathObj, index) => {
+        const pathDiv = document.createElement('div');
+        const isNew = newPaths.find(p => p.path === pathObj.path);
+        const isExploring = visualizationState.currentPath === pathObj.path;
+        
+        pathDiv.className = 'path-item';
+        if (isExploring) {
+          pathDiv.classList.add('exploring');
+        } else if (isNew) {
+          pathDiv.classList.add('added');
+        }
+        
+        const compactPath = pathObj.path.replace(/ → /g, '');
+        
+        // For A*, show estimated cost (g + h)
+        let costDisplay;
+        if (algorithm === 'astar') {
+          const pathNodes = pathObj.path.split(' → ');
+          const lastNode = pathNodes[pathNodes.length - 1];
+          const heuristic = graph.nodes[lastNode]?.heuristic || 0;
+          const estimatedCost = pathObj.cost + heuristic;
+          costDisplay = `<span class="path-cost">${estimatedCost} (${pathObj.cost}+${heuristic})</span>`;
+        } else {
+          costDisplay = `<span class="path-cost">${pathObj.cost}</span>`;
+        }
+        
+        pathDiv.innerHTML = `
+          <span class="path-route">${compactPath}</span>
+          ${costDisplay}
+        `;
+        container.appendChild(pathDiv);
+      });
+      
+      // Update previous state
+      previousOpenSet = JSON.parse(JSON.stringify(visualizationState.openSet));
+      
+      // Auto-remove the removed paths after animation
+      setTimeout(() => {
+        removedPaths = [];
+      }, 800);
+    }
+
+    function updateStatusBar(message, className = 'searching') {
+      const statusBar = document.getElementById('status-bar');
+      statusBar.textContent = message;
+      statusBar.className = className;
+    }
+
+    // Step through search
+    document.getElementById('stepBtn').addEventListener('click', () => {
+      if (!searchGen) {
+        searchGen = searchGenerator();
+        visualizationState.isRunning = true;
+        updateButtonStates('searching');
+      }
+      
+      const result = searchGen.next();
+      if (result.done) {
+        searchGen = null;
+        visualizationState.isRunning = false;
+        updateButtonStates('finished');
+      }
+    });
+
+    // Reset search
+    document.getElementById('resetBtn').addEventListener('click', () => {
+      searchGen = null;
+      visualizationState = {
+        openSet: [{ path: startNodeValue, cost: 0 }],
+        visitedNodes: new Set(),
+        currentPath: null,
+        finalPath: null,
+        isRunning: false,
+        isPaused: false,
+        exploringNode: null,
+        stepPhase: 'explore'
+      };
+      previousOpenSet = [];
+      removedPaths = [];
+      updateStatusBar('Ready...', 'ready');
+      updateOpenSetDisplay();
+      drawGraph();
+      updateButtonStates('ready');
+    });
+
+    document.getElementById('resetGraphBtn').addEventListener('click', () => {
+      createDefaultGraph();
+      previousOpenSet = [];
+      removedPaths = [];
+      document.getElementById('resetBtn').click();
+    });
+
+    // Graph editing event handlers
+    document.getElementById('addNodeBtn').addEventListener('click', () => {
+      editMode = 'addNode';
+      hoveredNode = null;
+      hoveredEdgeIndex = null;
+      document.getElementById('mode-indicator').textContent = 'Click canvas to add node';
+      document.getElementById('mode-indicator').classList.add('active');
+      drawGraph();
+    });
+
+    document.getElementById('addEdgeBtn').addEventListener('click', () => {
+      editMode = 'addEdge';
+      selectedNode = null;
+      hoveredNode = null;
+      hoveredEdgeIndex = null;
+      document.getElementById('mode-indicator').textContent = 'Click two nodes to connect';
+      document.getElementById('mode-indicator').classList.add('active');
+      drawGraph();
+    });
+
+    document.getElementById('removeBtn').addEventListener('click', () => {
+      editMode = 'remove';
+      hoveredNode = null;
+      hoveredEdgeIndex = null;
+      document.getElementById('mode-indicator').textContent = 'Click node or edge to remove';
+      document.getElementById('mode-indicator').classList.add('active');
+      drawGraph();
+    });
+
+    // Pan and zoom functionality
+    canvas.addEventListener('mousedown', (e) => {
+      // Only pan if no edit mode is active
+      if (!editMode) {
+        isPanning = true;
+        lastMouseX = e.clientX;
+        lastMouseY = e.clientY;
+        canvasContainer.classList.add('panning');
+      }
+    });
+
+    canvas.addEventListener('mousemove', (e) => {
+      if (isPanning) {
+        const dx = e.clientX - lastMouseX;
+        const dy = e.clientY - lastMouseY;
+        panX += dx;
+        panY += dy;
+        lastMouseX = e.clientX;
+        lastMouseY = e.clientY;
+        drawGraph();
+      } else if (editMode === 'remove') {
+        // Track hover state for deletion preview
+        const worldCoords = screenToWorld(e.clientX, e.clientY);
+        const x = worldCoords.x;
+        const y = worldCoords.y;
+        
+        // Check for edge hover first
+        const edgeIndex = getEdgeAtPosition(x, y);
+        const nodeAtPos = getNodeAtPosition(x, y);
+        
+        let needsRedraw = false;
+        
+        if (edgeIndex !== null) {
+          if (hoveredEdgeIndex !== edgeIndex) {
+            hoveredEdgeIndex = edgeIndex;
+            hoveredNode = null;
+            needsRedraw = true;
+          }
+        } else if (nodeAtPos) {
+          if (hoveredNode !== nodeAtPos) {
+            hoveredNode = nodeAtPos;
+            hoveredEdgeIndex = null;
+            needsRedraw = true;
+          }
+        } else {
+          if (hoveredNode !== null || hoveredEdgeIndex !== null) {
+            hoveredNode = null;
+            hoveredEdgeIndex = null;
+            needsRedraw = true;
+          }
+        }
+        
+        if (needsRedraw) {
+          drawGraph();
+        }
+      } else if (editMode === 'addEdge') {
+        // Track hover state for edge addition preview
+        const worldCoords = screenToWorld(e.clientX, e.clientY);
+        const x = worldCoords.x;
+        const y = worldCoords.y;
+        
+        const nodeAtPos = getNodeAtPosition(x, y);
+        
+        if (hoveredNode !== nodeAtPos) {
+          hoveredNode = nodeAtPos;
+          drawGraph();
+        }
+      }
+    });
+
+    canvas.addEventListener('mouseup', () => {
+      isPanning = false;
+      canvasContainer.classList.remove('panning');
+    });
+
+    canvas.addEventListener('mouseleave', () => {
+      isPanning = false;
+      canvasContainer.classList.remove('panning');
+      
+      // Clear hover state
+      if (hoveredNode !== null || hoveredEdgeIndex !== null) {
+        hoveredNode = null;
+        hoveredEdgeIndex = null;
+        drawGraph();
+      }
+    });
+
+    // Zoom with mouse wheel
+    canvas.addEventListener('wheel', (e) => {
+      e.preventDefault();
+      
+      const rect = canvas.getBoundingClientRect();
+      const mouseX = e.clientX - rect.left;
+      const mouseY = e.clientY - rect.top;
+      
+      // Calculate mouse position in world coordinates before zoom
+      const worldX = (mouseX - panX) / zoom;
+      const worldY = (mouseY - panY) / zoom;
+      
+      // Update zoom
+      const zoomFactor = e.deltaY > 0 ? 0.9 : 1.1;
+      zoom *= zoomFactor;
+      zoom = Math.max(0.3, Math.min(3, zoom)); // Clamp between 0.3x and 3x
+      
+      // Adjust pan to keep mouse position fixed
+      panX = mouseX - worldX * zoom;
+      panY = mouseY - worldY * zoom;
+      
+      drawGraph();
+    });
+
+    // Helper function to convert screen coordinates to world coordinates
+    function screenToWorld(screenX, screenY) {
+      const rect = canvas.getBoundingClientRect();
+      const canvasX = screenX - rect.left;
+      const canvasY = screenY - rect.top;
+      return {
+        x: (canvasX - panX) / zoom,
+        y: (canvasY - panY) / zoom
+      };
+    }
+
+    canvas.addEventListener('click', async (e) => {
+      const worldCoords = screenToWorld(e.clientX, e.clientY);
+      const x = worldCoords.x;
+      const y = worldCoords.y;
+
+      if (editMode === 'addNode') {
+        const name = getNextNodeName();
+        const heur = await showHeuristicModal();
+        if (heur !== null) {
+          graph.nodes[name] = { x, y, heuristic: parseInt(heur) };
+          updateNodeButtons();
+          drawGraph();
+        }
+        editMode = null;
+        document.getElementById('mode-indicator').classList.remove('active');
+      } else if (editMode === 'addEdge') {
+        const clickedNode = getNodeAtPosition(x, y);
+        if (clickedNode) {
+          if (!selectedNode) {
+            selectedNode = clickedNode;
+            hoveredNode = null; // Clear hover since we just selected
+            document.getElementById('mode-indicator').textContent = `From ${selectedNode} - click target`;
+            drawGraph(); // Redraw to show selected node
+          } else {
+            const weight = await showWeightModal();
+            if (weight !== null) {
+              graph.edges.push({
+                from: selectedNode,
+                to: clickedNode,
+                weight: weight
+              });
+              drawGraph();
+            }
+            selectedNode = null;
+            hoveredNode = null;
+            editMode = null;
+            document.getElementById('mode-indicator').classList.remove('active');
+          }
+        }
+      } else if (editMode === 'remove') {
+        // Check for edge click first
+        const clickedEdgeIndex = getEdgeAtPosition(x, y);
+        if (clickedEdgeIndex !== null) {
+          graph.edges.splice(clickedEdgeIndex, 1);
+          hoveredEdgeIndex = null;
+          hoveredNode = null;
+          drawGraph();
+          editMode = null;
+          document.getElementById('mode-indicator').classList.remove('active');
+          return;
+        }
+        
+        // If no edge clicked, check for node
+        const clickedNode = getNodeAtPosition(x, y);
+        if (clickedNode) {
+          delete graph.nodes[clickedNode];
+          graph.edges = graph.edges.filter(e => e.from !== clickedNode && e.to !== clickedNode);
+          hoveredEdgeIndex = null;
+          hoveredNode = null;
+          updateNodeButtons();
+          drawGraph();
+          editMode = null;
+          document.getElementById('mode-indicator').classList.remove('active');
+        }
+      }
+    });
+
+    function getNodeAtPosition(x, y) {
+      for (const [name, node] of Object.entries(graph.nodes)) {
+        const dx = x - node.x;
+        const dy = y - node.y;
+        if (Math.sqrt(dx * dx + dy * dy) <= 30) {
+          return name;
+        }
+      }
+      return null;
+    }
+
+    function getEdgeAtPosition(x, y) {
+      const tolerance = 15; // Distance from edge line to consider a click
+      
+      for (let i = 0; i < graph.edges.length; i++) {
+        const edge = graph.edges[i];
+        const fromNode = graph.nodes[edge.from];
+        const toNode = graph.nodes[edge.to];
+        
+        if (!fromNode || !toNode) continue;
+        
+        const curveOffset = getCurveOffset(edge, graph.edges);
+        
+        if (Math.abs(curveOffset) > 0.1) {
+          // Handle curved edge - sample points along the curve
+          const dx = toNode.x - fromNode.x;
+          const dy = toNode.y - fromNode.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          const perpX = -dy / dist;
+          const perpY = dx / dist;
+          
+          const midX = (fromNode.x + toNode.x) / 2 + perpX * curveOffset;
+          const midY = (fromNode.y + toNode.y) / 2 + perpY * curveOffset;
+          
+          // Sample 20 points along the quadratic curve
+          for (let t = 0; t <= 1; t += 0.05) {
+            const curveX = (1-t)*(1-t)*fromNode.x + 2*(1-t)*t*midX + t*t*toNode.x;
+            const curveY = (1-t)*(1-t)*fromNode.y + 2*(1-t)*t*midY + t*t*toNode.y;
+            const distToCurve = Math.sqrt((x - curveX) ** 2 + (y - curveY) ** 2);
+            if (distToCurve <= tolerance) return i;
+          }
+        } else {
+          // Handle straight edge
+          const dx = toNode.x - fromNode.x;
+          const dy = toNode.y - fromNode.y;
+          const lengthSquared = dx * dx + dy * dy;
+          
+          if (lengthSquared === 0) {
+            // Edge has zero length (from and to are same position)
+            const dist = Math.sqrt((x - fromNode.x) ** 2 + (y - fromNode.y) ** 2);
+            if (dist <= tolerance) return i;
+            continue;
+          }
+          
+          // Calculate projection of point onto line
+          const t = Math.max(0, Math.min(1, ((x - fromNode.x) * dx + (y - fromNode.y) * dy) / lengthSquared));
+          const projX = fromNode.x + t * dx;
+          const projY = fromNode.y + t * dy;
+          
+          // Calculate distance from point to projection
+          const dist = Math.sqrt((x - projX) ** 2 + (y - projY) ** 2);
+          
+          if (dist <= tolerance) {
+            return i;
+          }
+        }
+      }
+      
+      return null;
+    }
+
+    // Initial display - load default graph
+    createDefaultGraph(); // This will set up the graph and call updateNodeButtons and drawGraph
+    updateOpenSetDisplay();
+  </script>
+</body>
+</html>
