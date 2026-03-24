@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Spectral:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
         :root {
             --bg-top: #5a271c;
@@ -329,8 +330,8 @@
 
         .content {
             position: relative;
-            display: grid;
-            grid-template-columns: 1fr;
+            display: flex;
+            flex-direction: column;
             gap: 18px;
             padding: 0;
             align-content: start;
@@ -372,14 +373,16 @@
         }
 
         .right-col {
-            display: grid;
+            display: flex;
+            flex-direction: column;
             gap: 18px;
-            align-content: end;
+            flex: 1 1 auto;
             padding-top: 80px;
         }
 
         .callout {
             position: relative;
+            flex: 1 1 auto;
             padding: 32px 28px 36px;
             border-radius: 18px;
             background:
@@ -387,6 +390,8 @@
             border: 2px solid rgba(239, 207, 116, 0.38);
             color: #fff1d5;
             box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+            display: flex;
+            flex-direction: column;
         }
 
         .callout h3 {
@@ -400,9 +405,26 @@
         .callout p {
             margin: 0;
             line-height: 1.65;
-            font-size: 1.2rem;
+            font-size: 1.45rem;
             color: rgba(255, 242, 216, 0.92);
         }
+
+        .callout-inner {
+            flex: 1 1 auto;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .callout-qr {
+            flex: 0 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+
 
         /* ── Pillars ── */
         .poster-wrap {
@@ -534,6 +556,47 @@
             100% { opacity: 0.82; filter: brightness(0.98); }
         }
 
+        /* ── QR Code Block ── */
+        .qr-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            padding: 18px 22px 20px;
+        }
+
+        .qr-label {
+            font-family: 'Marcellus', serif;
+            font-size: 1rem;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--ink);
+            opacity: 0.82;
+        }
+
+        .qr-canvas-wrap {
+            border-radius: 8px;
+            overflow: hidden;
+            border: 2px solid rgba(127, 58, 42, 0.38);
+            box-shadow: 0 4px 12px rgba(20, 8, 5, 0.18);
+            line-height: 0;
+        }
+
+        .qr-canvas-wrap canvas,
+        .qr-canvas-wrap img {
+            display: block;
+        }
+
+        .qr-url {
+            font-family: 'Spectral', serif;
+            font-size: 0.72rem;
+            letter-spacing: 0.06em;
+            color: var(--ink);
+            opacity: 0.65;
+            text-align: center;
+            word-break: break-all;
+        }
+
         @media (max-width: 860px) {
             body {
                 padding: 12px;
@@ -654,7 +717,7 @@
                         <div class="hero-event-location">MS 3154 (Medical Sciences Building)</div>
                     </div>
                     <p>
-                        Autonomous agents enter the market, trade under pressure, and compete for dominance in a live head-to-head strategy battle.
+                        A live artificial intelligence competition for statistical, reinforcement, and evolutionary learning agents.
                     </p>
             </section>
 
@@ -662,14 +725,14 @@
                 <aside class="right-col">
                     <section class="callout">
                         <h3>Enter the Market</h3>
-                        <p>
-                            Come see which AI can turn a pile of goods into a pile of gold — no mercy, no hand-holding, just raw strategy.
-                        </p>
-                        <ul class="callout-points">
-                            <li>Agent vs agent competition with no human intervention during play.</li>
-                            <li>Agents built with statistical learning, reinforcement learning, or evolutionary strategies.</li>
-                            <li>Watch the leaderboard shift in real time as the market opens, deals are made, and one agent pulls ahead.</li>
-                        </ul>
+                        <div class="callout-inner">
+                            <p>
+                                Come see student-built AI agents enter the market, trade under pressure, and compete for dominance in a head-to-head strategy battle.
+                            </p>
+                            <div class="callout-qr">
+                                <div class="qr-canvas-wrap" id="qr-code"></div>
+                            </div>
+                        </div>
                     </section>
                 </aside>
             </section>
@@ -682,5 +745,15 @@
         <span class="poster-pillar pillar-right"></span>
     </div>
     </div>
+    <script>
+        new QRCode(document.getElementById('qr-code'), {
+            text: 'https://chandra-gummaluru.github.io/post/bazaar-ai-poster.html',
+            width: 180,
+            height: 180,
+            colorDark: '#4c281b',
+            colorLight: '#f3d9a8',
+            correctLevel: QRCode.CorrectLevel.H
+        });
+    </script>
 </body>
 </html>
