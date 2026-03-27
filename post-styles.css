@@ -4,7 +4,7 @@
 
 /* Hero Banner */
 .post-hero {
-    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    background: #353535;
     color: white;
     padding: 8rem 2rem 4rem;
     position: relative;
@@ -282,7 +282,7 @@
 
 /* Code Showcase */
 .code-showcase {
-    background: #2c3e50;
+    background: #232323;
     border-radius: 12px;
     overflow: hidden;
     margin: 2rem 0;
@@ -290,7 +290,7 @@
 }
 
 .code-header {
-    background: #1a252f;
+    background: #111111;
     padding: 1rem 1.5rem;
     display: flex;
     justify-content: space-between;
@@ -301,7 +301,7 @@
 }
 
 .code-language {
-    color: #4a90e2;
+    color: #b5b5b5;
 }
 
 .code-showcase pre {

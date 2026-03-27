@@ -4,14 +4,14 @@
 :root {
     /* Colors - Academic with dark gray accent */
     --color-primary: #353535;
-    --color-secondary: #34495e;
+    --color-secondary: #4a4a4a;
     --color-accent: #606060;
-    --color-accent-light: #888888;
-    --color-text: #2c3e50;
-    --color-text-light: #7f8c8d;
+    --color-accent-light: #8a8a8a;
+    --color-text: #2f2f2f;
+    --color-text-light: #6f6f6f;
     --color-background: #fdfbf7;
     --color-surface: #ffffff;
-    --color-border: #ecf0f1;
+    --color-border: #dddddd;
     
     /* Typography */
     --font-serif: 'Crimson Pro', Georgia, serif;
