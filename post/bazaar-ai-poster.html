@@ -3,13 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bazaar AI Competition Poster</title>
+    <title>Bazaar AI Showdown | Chandra Gummaluru</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../post-styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Spectral:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=JetBrains+Mono:wght@400;500&family=Marcellus&family=Spectral:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
-        :root {
+        /* Page Layout */
+        html, body {
+            margin: 0;
+        }
+        
+        body {
+            display: flex;
+            flex-direction: column;
+            background: #1f0e0b;
+        }
+
+        /* Bazaar Poster Styles */
+        .bazaar-poster-section {
             --bg-top: #5a271c;
             --bg-bottom: #1f0e0b;
             --brass: #d4af37;
@@ -21,16 +35,8 @@
             --border: #7f3a2a;
             --stripe-dark: #5f2b1e;
             --stripe-light: #b56f3d;
-        }
-
-        * {
-            box-sizing: border-box;
-        }
-
-        html,
-        body {
-            margin: 0;
-            min-height: 100%;
+            
+            position: relative;
             font-family: 'Spectral', serif;
             color: #fff7ea;
             background:
@@ -38,21 +44,28 @@
                 radial-gradient(circle at 82% 12%, rgba(255, 214, 130, 0.14), transparent 24%),
                 radial-gradient(circle at 50% 100%, rgba(0, 0, 0, 0.46), transparent 34%),
                 linear-gradient(180deg, var(--bg-top) 0%, #33150f 52%, var(--bg-bottom) 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 80px 0;
         }
 
-        body {
-            display: grid;
-            place-items: center;
-            padding: 12px 80px;
+        .post-content {
+            display: flex;
+            flex-direction: column;
+            background: none !important;
+        }
+
+        .footer {
+            margin-top: 1.5rem !important;
         }
 
         .poster {
             position: relative;
             width: 100%;
-            min-height: 620px;
             overflow: hidden;
             border: 4px solid rgba(255, 222, 165, 0.18);
-            border-radius: 28px;
+            border-radius: 0;
             background: #2a0f09;
             box-shadow: none;
         }
@@ -63,8 +76,8 @@
             display: grid;
             grid-template-columns: minmax(0, 1.08fr) minmax(380px, 0.92fr);
             gap: 28px;
-            padding: 10px 46px 30px;
-            align-items: stretch;
+            padding: 10px 46px 40px;
+            align-items: start;
         }
 
         .poster::before {
@@ -86,12 +99,12 @@
             pointer-events: none;
         }
 
-        .hero {
+        .poster-hero {
             position: relative;
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
-            padding: 8px 6px 0;
+            padding: 4px 6px 0;
         }
 
         .hero-top-row {
@@ -101,7 +114,7 @@
             align-items: flex-start;
             justify-content: center;
             gap: 28px;
-            padding: 18px 46px 0;
+            padding: 10px 46px 0;
             width: 100%;
         }
 
@@ -293,39 +306,11 @@
         }
 
         .headline p {
-            margin: 18px 0 0;
+            margin: 10px 0 0;
             max-width: 610px;
             font-size: clamp(1.02rem, 1.5vw, 1.24rem);
             line-height: 1.52;
             color: rgba(255, 241, 220, 0.92);
-        }
-
-        .callout-points {
-            margin: 18px 0 0;
-            padding: 0;
-            list-style: none;
-            display: grid;
-            gap: 14px;
-        }
-
-        .callout-points li {
-            position: relative;
-            padding-left: 28px;
-            font-size: 1.12rem;
-            line-height: 1.5;
-            color: rgba(255, 242, 216, 0.92);
-        }
-
-        .callout-points li::before {
-            content: "";
-            position: absolute;
-            left: 0;
-            top: 0.62em;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: radial-gradient(circle, var(--brass-soft), #d08a35);
-            box-shadow: 0 0 0 2px rgba(95, 44, 29, 0.22);
         }
 
         .content {
@@ -337,53 +322,17 @@
             align-content: start;
         }
 
-        .parchment {
-            position: relative;
-            padding: 22px 22px 24px;
-            border-radius: 22px;
-            color: var(--ink);
-            background:
-                linear-gradient(165deg, rgba(255, 237, 204, 0.98), rgba(240, 211, 164, 0.95)),
-                repeating-linear-gradient(45deg, rgba(173, 94, 58, 0.05) 0 12px, rgba(255,255,255,0.04) 12px 24px);
-            border: 3px solid var(--border);
-            box-shadow: inset 0 1px 0 rgba(255,255,255,0.45), 0 16px 30px rgba(21, 10, 7, 0.3);
-        }
-
-        .parchment::before,
-        .parchment::after {
-            content: "";
-            position: absolute;
-            width: 18px;
-            height: 18px;
-            border: 2px solid rgba(127, 58, 42, 0.44);
-        }
-
-        .parchment::before {
-            top: 10px;
-            left: 10px;
-            border-right: 0;
-            border-bottom: 0;
-        }
-
-        .parchment::after {
-            right: 10px;
-            bottom: 10px;
-            border-left: 0;
-            border-top: 0;
-        }
-
         .right-col {
             display: flex;
             flex-direction: column;
-            gap: 18px;
-            flex: 1 1 auto;
-            padding-top: 80px;
+            gap: 12px;
+            padding-top: 10px;
         }
 
         .callout {
             position: relative;
-            flex: 1 1 auto;
-            padding: 32px 28px 36px;
+            flex: 0 0 auto;
+            padding: 16px 24px 18px;
             border-radius: 18px;
             background:
                 linear-gradient(180deg, rgba(98, 39, 26, 0.88), rgba(48, 18, 13, 0.95));
@@ -400,20 +349,23 @@
             font-size: 1.75rem;
             text-transform: uppercase;
             letter-spacing: 0.08em;
+            text-align: center;
         }
 
         .callout p {
-            margin: 0;
-            line-height: 1.65;
-            font-size: 1.45rem;
+            margin: 0 0 16px;
+            line-height: 1.5;
+            font-size: 1.1rem;
             color: rgba(255, 242, 216, 0.92);
+            text-align: center;
         }
 
         .callout-inner {
             flex: 1 1 auto;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 20px;
+            gap: 16px;
         }
 
         .callout-qr {
@@ -424,9 +376,7 @@
             gap: 8px;
         }
 
-
-
-        /* ── Pillars ── */
+        /* Pillars */
         .poster-wrap {
             position: relative;
             width: min(100%, 1600px);
@@ -434,14 +384,17 @@
 
         .poster-pillars {
             position: absolute;
-            inset: 0;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
             pointer-events: none;
             z-index: 2;
         }
 
         .poster-pillar {
             position: absolute;
-            top: 0;
+            top: 40px;
             bottom: 0;
             width: 52px;
             border: 2px solid rgba(96, 44, 31, 0.78);
@@ -453,6 +406,9 @@
             box-shadow: inset 0 0 0 1px rgba(255, 234, 196, 0.26);
             opacity: 0.92;
         }
+
+        .poster-pillar.pillar-left  { left: 28px; }
+        .poster-pillar.pillar-right { right: 28px; }
 
         .poster-pillar::before {
             content: '';
@@ -469,9 +425,6 @@
                 linear-gradient(180deg, #f0cd94, #a7603f);
             box-shadow: 0 6px 10px rgba(20, 7, 4, 0.28), inset 0 1px 0 rgba(255, 238, 207, 0.5);
         }
-
-        .poster-pillar.pillar-left  { left: -52px; }
-        .poster-pillar.pillar-right { right: -52px; }
 
         @keyframes torchFlicker {
             0% { transform: translateY(0) scale(1); opacity: 0.95; }
@@ -492,7 +445,7 @@
             100% { transform: rotate(1deg); }
         }
 
-        /* ── String of lights ── */
+        /* String of lights */
         .poster-light-strand {
             position: relative;
             z-index: 1;
@@ -556,24 +509,7 @@
             100% { opacity: 0.82; filter: brightness(0.98); }
         }
 
-        /* ── QR Code Block ── */
-        .qr-block {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            padding: 18px 22px 20px;
-        }
-
-        .qr-label {
-            font-family: 'Marcellus', serif;
-            font-size: 1rem;
-            letter-spacing: 0.28em;
-            text-transform: uppercase;
-            color: var(--ink);
-            opacity: 0.82;
-        }
-
+        /* QR Code Block */
         .qr-canvas-wrap {
             border-radius: 8px;
             overflow: hidden;
@@ -587,19 +523,9 @@
             display: block;
         }
 
-        .qr-url {
-            font-family: 'Spectral', serif;
-            font-size: 0.72rem;
-            letter-spacing: 0.06em;
-            color: var(--ink);
-            opacity: 0.65;
-            text-align: center;
-            word-break: break-all;
-        }
-
         @media (max-width: 860px) {
-            body {
-                padding: 12px;
+            .bazaar-poster-section {
+                padding: 20px 12px;
             }
 
             .poster {
@@ -660,91 +586,118 @@
                 width: 66px;
                 height: 104px;
             }
-
-            .footer-copy {
-                position: relative;
-                left: auto;
-                right: auto;
-                bottom: auto;
-                padding: 24px;
-                flex-direction: column;
-                align-items: flex-start;
-            }
         }
     </style>
 </head>
 <body>
-    <div class="poster-wrap">
-    <main class="poster">
-        <div class="hero-top-row">
-            <div class="torch-row" aria-hidden="true">
-                <div class="torch left">
-                    <div class="flame-glow"></div>
-                    <div class="flame"></div>
-                    <div class="torch-cup"></div>
-                    <div class="torch-stick"></div>
-                </div>
-            </div>
-
-            <div class="sign-wrap">
-                <div class="sign">
-                    <span class="kicker">Grand Bazaar</span>
-                    <span class="brand">AI Arena</span>
-                </div>
-            </div>
-
-            <div class="torch-row" aria-hidden="true">
-                <div class="torch right">
-                    <div class="flame-glow"></div>
-                    <div class="flame"></div>
-                    <div class="torch-cup"></div>
-                    <div class="torch-stick"></div>
-                </div>
+    <!-- Navigation -->
+    <nav class="nav-container">
+        <div class="nav-content">
+            <a href="../index.html" class="logo">Chandra Gummaluru</a>
+            <div class="nav-links">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="../teaching.html" class="nav-link">Teaching</a>
+                <a href="../research.html" class="nav-link">Research</a>
+                <a href="../projects.html" class="nav-link active">Projects</a>
+                <a href="../blog.html" class="nav-link">Blog</a>
             </div>
         </div>
+    </nav>
 
-        <div class="poster-light-strand" aria-hidden="true">
-            <span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span>
-        </div>
+    <!-- Content -->
+    <article class="post-content" style="padding-top: 6rem;">
 
-        <div class="main-layout">
-            <section class="hero">
-                <div class="headline">
-                    <span class="eyebrow">Hosted by Chandra Gummaluru</span>
-                    <h1>Bazaar AI<br>Showdown</h1>
-                    <div class="hero-event-block">
-                        <div class="hero-event-date">April 02, 3:15 PM</div>
-                        <div class="hero-event-location">MS 3154 (Medical Sciences Building)</div>
-                    </div>
-                    <p>
-                        A live artificial intelligence competition for statistical, reinforcement, and evolutionary learning agents.
-                    </p>
-            </section>
-
-            <section class="content">
-                <aside class="right-col">
-                    <section class="callout">
-                        <h3>Enter the Market</h3>
-                        <div class="callout-inner">
-                            <p>
-                                Come see student-built AI agents enter the market, trade under pressure, and compete for dominance in a head-to-head strategy battle.
-                            </p>
-                            <div class="callout-qr">
-                                <div class="qr-canvas-wrap" id="qr-code"></div>
+        <!-- Bazaar Poster -->
+        <section class="bazaar-poster-section">
+            <div class="poster-wrap">
+                <main class="poster">
+                    <div class="hero-top-row">
+                        <div class="torch-row" aria-hidden="true">
+                            <div class="torch left">
+                                <div class="flame-glow"></div>
+                                <div class="flame"></div>
+                                <div class="torch-cup"></div>
+                                <div class="torch-stick"></div>
                             </div>
                         </div>
-                    </section>
-                </aside>
-            </section>
+
+                        <div class="sign-wrap">
+                            <div class="sign">
+                                <span class="kicker">Grand Bazaar</span>
+                                <span class="brand">AI Arena</span>
+                            </div>
+                        </div>
+
+                        <div class="torch-row" aria-hidden="true">
+                            <div class="torch right">
+                                <div class="flame-glow"></div>
+                                <div class="flame"></div>
+                                <div class="torch-cup"></div>
+                                <div class="torch-stick"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="poster-light-strand" aria-hidden="true">
+                        <span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span><span class="poster-bulb"></span>
+                    </div>
+
+                    <div class="main-layout">
+                        <section class="poster-hero">
+                            <div class="headline">
+                                <span class="eyebrow">Hosted by Chandra Gummaluru</span>
+                                <h1>Bazaar AI<br>Showdown</h1>
+                                <div class="hero-event-block">
+                                    <div class="hero-event-date">April 02, 3:15 PM</div>
+                                    <div class="hero-event-location">MS 3154 (Medical Sciences Building)</div>
+                                </div>
+                                <p>
+                                    A live artificial intelligence competition for statistical, reinforcement, and evolutionary learning agents.
+                                </p>
+                            </div>
+                        </section>
+
+                        <section class="content">
+                            <aside class="right-col">
+                                <section class="callout">
+                                    <h3>Enter the Market</h3>
+                                    <div class="callout-inner">
+                                        <p>
+                                            Come see student-built AI agents enter the market, trade under pressure, and compete for dominance in a head-to-head strategy battle.
+                                        </p>
+                                        <div class="callout-qr">
+                                            <div class="qr-canvas-wrap" id="qr-code"></div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </aside>
+                        </section>
+                    </div>
+                </main>
+            </div>
+
+            <div class="poster-pillars" aria-hidden="true">
+                <span class="poster-pillar pillar-left"></span>
+                <span class="poster-pillar pillar-right"></span>
+            </div>
+        </section>
+
+    </article>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-text">© 2025 Chandra Gummaluru</p>
+            <div class="footer-links">
+                <a href="mailto:chandra@cs.toronto.edu" class="footer-link">Email</a>
+                <a href="https://github.com/chandra-gummaluru" class="footer-link">GitHub</a>
+                <a href="#" class="footer-link">Google Scholar</a>
+            </div>
         </div>
+    </footer>
 
-    </main>
-
-    <div class="poster-pillars" aria-hidden="true">
-        <span class="poster-pillar pillar-left"></span>
-        <span class="poster-pillar pillar-right"></span>
-    </div>
-    </div>
+    <script src="../script.js"></script>
+    <script src="../post-script.js"></script>
     <script>
         new QRCode(document.getElementById('qr-code'), {
             text: 'https://chandra-gummaluru.github.io/post/bazaar-ai-poster.html',
