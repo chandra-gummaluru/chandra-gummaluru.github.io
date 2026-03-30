@@ -778,6 +778,66 @@ body {
 }
 
 /* ========================================
+   Blog Page Specific
+   ======================================== */
+.blog-posts {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.blog-post {
+    display: block;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 2rem;
+    text-decoration: none;
+    transition: var(--transition-smooth);
+}
+
+.blog-post:hover {
+    border-color: var(--color-accent);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.blog-post-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+}
+
+.blog-post-meta .card-badge {
+    margin-bottom: 0;
+}
+
+.blog-post-date {
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    color: var(--color-text-light);
+}
+
+.blog-post-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: 0.5rem;
+    transition: var(--transition-smooth);
+}
+
+.blog-post:hover .blog-post-title {
+    color: var(--color-accent);
+}
+
+.blog-post-excerpt {
+    font-size: 1.1rem;
+    color: var(--color-text-light);
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ========================================
    CV Page Specific
    ======================================== */
 .cv-section {
