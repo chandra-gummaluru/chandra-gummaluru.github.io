@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arelai: An Open-Source RL Agent Framework | Chandra Gummaluru</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../post-styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav-container">
+        <div class="nav-content">
+            <a href="../index.html" class="logo">Chandra Gummaluru</a>
+            <div class="nav-links">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="../teaching.html" class="nav-link">Teaching</a>
+                <a href="../research.html" class="nav-link">Research</a>
+                <a href="../projects.html" class="nav-link active">Projects</a>
+                <a href="../blog.html" class="nav-link">Blog</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Banner -->
+    <section class="post-hero" style="background: linear-gradient(135deg, #2d3436 0%, #636e72 100%);">
+        <div class="post-hero-content">
+            <div class="post-meta">
+                <span class="post-category">Framework</span>
+                <span class="post-date">Open Source</span>
+            </div>
+            <h1 class="post-hero-title">Arelai</h1>
+            <p class="post-hero-subtitle">An Open-Source Reinforcement Learning Agent Framework</p>
+        </div>
+        <div class="post-hero-graphic">
+            <div class="graphic-circle"></div>
+            <div class="graphic-square"></div>
+            <div class="graphic-triangle"></div>
+        </div>
+    </section>
+
+    <!-- Content -->
+    <article class="post-content">
+        <div class="post-container">
+            
+            <!-- Introduction -->
+            <section class="content-block">
+                <div class="block-content">
+                    <p style="font-size: 1.25rem; line-height: 1.8;">
+                        <strong>Arelai</strong> is a lightweight open-source Python framework for developing and evaluating reinforcement learning agents. Designed with pedagogy in mind, it provides a minimal, scaffolded API that guides learners through the core abstractions of RL—environments, observations, actions, and reward signals—without obscuring the underlying concepts behind library complexity.
+                    </p>
+                </div>
+            </section>
+
+            <!-- Design Philosophy -->
+            <section class="content-block alt-block">
+                <div class="block-icon"><svg><use href="../assets/icons.svg#icon-target"/></svg></div>
+                <div class="block-content">
+                    <h2>Design Philosophy</h2>
+                    <p>Many existing RL frameworks prioritize performance and flexibility at the cost of accessibility. Arelai takes a different approach: clarity over complexity.</p>
+                    
+                    <div class="step-list">
+                        <div class="step-item">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h4>Minimal API Surface</h4>
+                                <p>Only the essential abstractions are exposed. No hidden magic, no unnecessary wrappers—just the core concepts you need to understand RL.</p>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h4>Scaffolded Learning</h4>
+                                <p>The framework guides users through implementing agents step-by-step, reinforcing conceptual understanding as they build.</p>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number">3</div>
+                            <div class="step-content">
+                                <h4>Transparent Internals</h4>
+                                <p>Every component is readable and modifiable. Students can trace exactly how observations flow through the system.</p>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number">4</div>
+                            <div class="step-content">
+                                <h4>General Purpose</h4>
+                                <p>While designed for teaching, Arelai is fully capable of powering research projects and production applications.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Core Abstractions -->
+            <section class="content-block">
+                <div class="block-content">
+                    <h2>Core Abstractions</h2>
+                    <p>Arelai is built around the fundamental concepts of reinforcement learning, exposed through clean interfaces:</p>
+                </div>
+            </section>
+
+            <!-- Feature Grid -->
+            <section class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon"><svg><use href="../assets/icons.svg#icon-monitor"/></svg></div>
+                    <h3>Environments</h3>
+                    <p>Define the world your agent operates in, including state transitions and termination conditions.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><svg><use href="../assets/icons.svg#icon-chart"/></svg></div>
+                    <h3>Observations</h3>
+                    <p>What the agent perceives about the environment—partial or complete views of the state.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><svg><use href="../assets/icons.svg#icon-rocket"/></svg></div>
+                    <h3>Actions</h3>
+                    <p>The decisions an agent can make, discrete or continuous, affecting the environment state.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><svg><use href="../assets/icons.svg#icon-target"/></svg></div>
+                    <h3>Reward Signals</h3>
+                    <p>Feedback that shapes learning—customizable to encourage specific agent behaviors.</p>
+                </div>
+            </section>
+
+            <!-- Code Example -->
+            <section class="content-block highlight-block">
+                <div class="block-icon"><svg><use href="../assets/icons.svg#icon-robot"/></svg></div>
+                <div class="block-content">
+                    <h2>Getting Started</h2>
+                    
+                    <h3 style="margin-top: 2rem; font-size: 1.5rem; color: var(--color-secondary);">Installation</h3>
+                    <p>Clone the repository to get started:</p>
+                    
+                    <div class="code-showcase">
+                        <div class="code-header">
+                            <span>Install</span>
+                            <span class="code-language">Bash</span>
+                        </div>
+                        <pre><code>git clone https://github.com/chandra-gummaluru/arelai.git
+cd arelai
+pip install -e .</code></pre>
+                    </div>
+
+                    <h3 style="margin-top: 2rem; font-size: 1.5rem; color: var(--color-secondary);">Creating an Agent</h3>
+                    <p>Implement your own agent by extending the base class:</p>
+                    
+                    <div class="code-showcase">
+                        <div class="code-header">
+                            <span>Agent Template</span>
+                            <span class="code-language">Python</span>
+                        </div>
+                        <pre><code>from arelai import Agent
+
+class MyAgent(Agent):
+    def __init__(self, seed, name):
+        super().__init__(seed, name)
+        
+    def select_action(self, actions, observation):
+        """
+        Choose an action given the available actions
+        and current observation of the environment.
+        """
+        # Your decision logic here
+        return actions[0]
+    
+    def learn(self, old_obs, action, reward, new_obs):
+        """
+        Update the agent's policy based on experience.
+        """
+        # Your learning algorithm here
+        pass</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Powers Bazaar-AI -->
+            <section class="content-block">
+                <div class="block-content">
+                    <h2>Powers Bazaar-AI</h2>
+                    <p>Arelai serves as the backend engine powering <a href="bazaar-ai.html" style="color: var(--color-accent); text-decoration: none;"><strong>Bazaar-AI</strong></a>, the interactive reinforcement learning playground based on the card game Jaipur. This real-world application demonstrates that Arelai's minimal design doesn't compromise capability—it can handle complex, multi-agent environments with partial observability and large action spaces.</p>
+                    
+                    <p style="margin-top: 1.5rem;">While Bazaar-AI showcases what's possible with Arelai, the framework is fully general-purpose and suitable for use in any RL or agent-based learning context.</p>
+                </div>
+            </section>
+
+            <!-- Source Code -->
+            <section class="cta-section">
+                <div class="cta-content">
+                    <h2>Source Code</h2>
+                    <p>Arelai is open source and available on GitHub. Contributions, bug reports, and feature requests are welcome.</p>
+                    <div class="cta-buttons">
+                        <a href="https://github.com/chandra-gummaluru/arelai" class="btn-primary">View on GitHub</a>
+                    </div>
+                    <p style="margin-top: 2rem; font-size: 1rem;">
+                        Whether you're teaching an introductory AI course, learning RL on your own, or building research prototypes, Arelai provides a clear foundation to build on.
+                    </p>
+                </div>
+            </section>
+
+        </div>
+    </article>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-text">© 2025 Chandra Gummaluru</p>
+            <div class="footer-links">
+                <a href="mailto:chandra@cs.toronto.edu" class="footer-link">Email</a>
+                <a href="https://github.com/chandra-gummaluru" class="footer-link">GitHub</a>
+                <a href="#" class="footer-link">Google Scholar</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../script.js"></script>
+    <script src="../post-script.js"></script>
+</body>
+</html>
