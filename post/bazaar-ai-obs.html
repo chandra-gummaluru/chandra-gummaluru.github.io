@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=JetBrains+Mono:wght@400;500&family=Marcellus&family=Spectral:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
     <style>
         /* Reset & Base */
         *, *::before, *::after { box-sizing: border-box; }
@@ -368,14 +369,11 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding-top: 60px;
+            padding-top: 0;
         }
 
         .rule-sign-ropes {
-            display: flex;
-            justify-content: space-between;
-            width: 320px;
-            height: 80px;
+            display: none;
         }
 
         .rule-sign-ropes::before,
@@ -389,84 +387,226 @@
 
         .rule-sign {
             position: relative;
-            min-width: 520px;
-            max-width: 700px;
-            padding: 40px 60px 48px;
-            border-radius: 16px;
-            border: 3px solid rgba(102, 46, 32, 0.85);
-            background:
-                linear-gradient(175deg, rgba(185, 115, 52, 0.98), rgba(130, 72, 28, 0.97)),
-                repeating-linear-gradient(90deg, rgba(255, 210, 140, 0.09) 0 8px, rgba(90, 38, 14, 0.13) 8px 16px),
-                repeating-linear-gradient(0deg,  rgba(255, 210, 140, 0.05) 0 5px, rgba(90, 38, 14, 0.07) 5px 10px);
-            box-shadow:
-                0 24px 50px rgba(16, 6, 2, 0.55),
-                inset 0 2px 0 rgba(255, 232, 180, 0.25),
-                inset 0 -2px 0 rgba(0, 0, 0, 0.22),
-                inset 3px 0 0 rgba(255, 220, 160, 0.12),
-                inset -3px 0 0 rgba(0, 0, 0, 0.14);
+            width: min(96vw, 1240px);
+            padding: 20px 30px 26px;
+            border-radius: 0;
+            border: none;
+            background: none;
+            box-shadow: none;
             text-align: center;
-            transform-origin: 50% -80px;
-            animation: signSway 6s ease-in-out infinite;
+            transform: none;
+            animation: none;
         }
 
         .rule-number {
-            position: absolute;
-            top: -24px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 48px;
-            height: 48px;
-            border-radius: 50%;
-            background: linear-gradient(180deg, #f0cd94, #a7603f);
-            border: 3px solid rgba(94, 43, 30, 0.85);
+            position: static;
+            width: auto;
+            height: auto;
+            border-radius: 0;
+            background: none;
+            border: none;
             display: flex;
             align-items: center;
             justify-content: center;
             font-family: 'Marcellus', serif;
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             font-weight: 700;
-            color: #4a2518;
-            box-shadow: 0 6px 14px rgba(20, 8, 5, 0.4);
+            color: #fff2cf;
+            letter-spacing: 0.12em;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+            margin-bottom: 12px;
         }
 
         .rule-icon-large {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
-            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.35));
+            display: none;
         }
 
         .rule-title {
             font-family: 'Marcellus', serif;
-            font-size: 1.8rem;
+            font-size: 2.2rem;
             letter-spacing: 0.12em;
             text-transform: uppercase;
-            color: #fff8e8;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.45);
-            margin-bottom: 16px;
+            color: #fff3d4;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.62);
+            margin-bottom: 18px;
         }
 
         .rule-description {
             font-family: 'Spectral', serif;
-            font-size: 1.35rem;
-            line-height: 1.55;
-            color: rgba(255, 240, 210, 0.92);
-            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
-            max-width: 520px;
+            font-size: 1.6rem;
+            line-height: 1.5;
+            color: rgba(255, 243, 216, 0.97);
+            text-shadow: 0 1px 6px rgba(0, 0, 0, 0.55);
+            max-width: 620px;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .rule-description strong {
-            color: #fff8e8;
+            color: #fff9eb;
             font-weight: 600;
         }
 
-        .rule-counter {
-            margin-top: 40px;
-            font-family: 'Marcellus', serif;
-            font-size: 0.9rem;
-            letter-spacing: 0.2em;
+        .rule-visual {
+            margin-top: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .action-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 11px 18px;
+            border-radius: 10px;
+            border: 1.5px solid #f4d8ab;
+            background: rgba(80, 40, 20, 0.5);
+            color: #f4d8ab;
+            font-weight: 700;
+            font-size: 1.15rem;
+            letter-spacing: 0.04em;
             text-transform: uppercase;
-            color: rgba(255, 234, 190, 0.6);
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+        }
+
+        .mini-card {
+            width: 80px;
+            height: 108px;
+            border-radius: 10px;
+            border: 2px solid #6b2f21;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            color: #fff6e4;
+        }
+
+        .mini-card .icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+        }
+
+        .resource-svg.svg-sm {
+            width: 30px;
+            height: 30px;
+        }
+
+        .ui-badge-svg.ui-badge-sm {
+            width: 32px;
+            height: 32px;
+        }
+
+        .mini-card .label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            opacity: 0.95;
+        }
+
+        .mini-card.diamond { background: #9E1B44; border-color: #F7D4A6; }
+        .mini-card.gold    { background: #B8780A; border-color: #FFE2A9; }
+        .mini-card.silver  { background: #1A6E88; border-color: #BCE1E8; }
+        .mini-card.fabric  { background: #6B28A8; border-color: #D8B7F4; }
+        .mini-card.spice   { background: #3A6E25; border-color: #B8DDA0; }
+        .mini-card.leather { background: #C24A0A; border-color: #FFD4A3; }
+        .mini-card.camel   { background: #B07A37; border-color: #FFE0B4; }
+
+        .mini-coin {
+            width: 56px;
+            height: 56px;
+            border-radius: 999px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff8ec;
+            font-size: 1.2rem;
+            font-weight: 700;
+            border: 2px solid #f4d8ab;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.32);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.18), rgba(0, 0, 0, 0.08)), #9f5a2e;
+        }
+
+        .mini-coin.diamond { border-color: #F7D4A6; background-color: #9E1B44; }
+        .mini-coin.gold    { border-color: #FFE2A9; background-color: #B8780A; }
+        .mini-coin.silver  { border-color: #BCE1E8; background-color: #1A6E88; }
+        .mini-coin.fabric  { border-color: #D8B7F4; background-color: #6B28A8; }
+        .mini-coin.spice   { border-color: #B8DDA0; background-color: #3A6E25; }
+        .mini-coin.leather { border-color: #FFD4A3; background-color: #C24A0A; }
+
+        .bonus-slot {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.35));
+        }
+
+        .game-token {
+            width: 56px;
+            height: 56px;
+            border-radius: 999px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #f0d4a5;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.18), rgba(0, 0, 0, 0.08)), #7b3f2d;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.32);
+        }
+
+        .coin-grid {
+            margin-top: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .coin-row {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .coin-head {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .coin-head .resource-svg.svg-sm {
+            width: 22px;
+            height: 22px;
+        }
+
+        .coin-stack-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .coin-row .name {
+            min-width: 0;
+            text-align: center;
+            color: #fff6e3;
+            font-size: 1rem;
+            font-weight: 600;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.45);
+        }
+
+        .rule-counter {
+            display: none;
         }
 
         .rule-screen {
@@ -739,12 +879,20 @@
                     <div class="rule-sign-ropes"></div>
                     <div class="rule-sign">
                         <div class="rule-number">1</div>
-                        <div class="rule-icon-large">⚔️</div>
-                        <div class="rule-title">Build Your Deck</div>
+                        <div class="rule-icon-large"><i class="fa-solid fa-layer-group"></i></div>
+                        <div class="rule-title">Goods and Coin Stacks</div>
                         <div class="rule-description">
-                            You have <strong>10 days</strong> to acquire items, build synergies, and prepare your loadout to defeat your opponent.
+                            There are <strong>6 goods types</strong>, and each has an associated coin stack taken in <strong>decreasing order</strong> when sold.
                         </div>
-                        <div class="rule-counter">Rule 1 of 5</div>
+                        <div class="coin-grid">
+                            <div class="coin-row"><div class="coin-head"><span class="icon resource-slot" data-good="DIAMOND"></span><span class="name">Ruby</span></div><div class="coin-stack-row"><span class="mini-coin diamond">7</span><span class="mini-coin diamond">7</span><span class="mini-coin diamond">5</span><span class="mini-coin diamond">5</span><span class="mini-coin diamond">5</span></div></div>
+                            <div class="coin-row"><div class="coin-head"><span class="icon resource-slot" data-good="GOLD"></span><span class="name">Gold</span></div><div class="coin-stack-row"><span class="mini-coin gold">6</span><span class="mini-coin gold">6</span><span class="mini-coin gold">5</span><span class="mini-coin gold">5</span><span class="mini-coin gold">5</span></div></div>
+                            <div class="coin-row"><div class="coin-head"><span class="icon resource-slot" data-good="SILVER"></span><span class="name">Silver</span></div><div class="coin-stack-row"><span class="mini-coin silver">5</span><span class="mini-coin silver">5</span><span class="mini-coin silver">5</span><span class="mini-coin silver">5</span><span class="mini-coin silver">5</span></div></div>
+                            <div class="coin-row"><div class="coin-head"><span class="icon resource-slot" data-good="FABRIC"></span><span class="name">Fabric</span></div><div class="coin-stack-row"><span class="mini-coin fabric">5</span><span class="mini-coin fabric">3</span><span class="mini-coin fabric">3</span><span class="mini-coin fabric">2</span><span class="mini-coin fabric">2</span><span class="mini-coin fabric">1</span><span class="mini-coin fabric">1</span></div></div>
+                            <div class="coin-row"><div class="coin-head"><span class="icon resource-slot" data-good="SPICE"></span><span class="name">Spice</span></div><div class="coin-stack-row"><span class="mini-coin spice">5</span><span class="mini-coin spice">3</span><span class="mini-coin spice">3</span><span class="mini-coin spice">2</span><span class="mini-coin spice">2</span><span class="mini-coin spice">1</span><span class="mini-coin spice">1</span></div></div>
+                            <div class="coin-row"><div class="coin-head"><span class="icon resource-slot" data-good="LEATHER"></span><span class="name">Leather</span></div><div class="coin-stack-row"><span class="mini-coin leather">4</span><span class="mini-coin leather">3</span><span class="mini-coin leather">2</span><span class="mini-coin leather">1</span><span class="mini-coin leather">1</span><span class="mini-coin leather">1</span><span class="mini-coin leather">1</span><span class="mini-coin leather">1</span><span class="mini-coin leather">1</span></div></div>
+                        </div>
+                        <div class="rule-counter">Rule 1 of 9</div>
                     </div>
                 </div>
             </div>
@@ -753,12 +901,17 @@
                     <div class="rule-sign-ropes"></div>
                     <div class="rule-sign">
                         <div class="rule-number">2</div>
-                        <div class="rule-icon-large">💰</div>
-                        <div class="rule-title">Trade at the Bazaar</div>
+                        <div class="rule-icon-large"><i class="fa-solid fa-handshake"></i></div>
+                        <div class="rule-title">Take Your Turn</div>
                         <div class="rule-description">
-                            Buy, sell, and trade items at the <strong>Bazaar</strong> between combat rounds to upgrade your strategy.
+                            On each turn you must do <strong>one</strong> action: <strong>Take</strong> a good, <strong>Trade</strong> goods, or <strong>Sell</strong> goods.
                         </div>
-                        <div class="rule-counter">Rule 2 of 5</div>
+                        <div class="rule-visual">
+                            <span class="action-chip">Take</span>
+                            <span class="action-chip">Trade</span>
+                            <span class="action-chip">Sell</span>
+                        </div>
+                        <div class="rule-counter">Rule 2 of 9</div>
                     </div>
                 </div>
             </div>
@@ -767,12 +920,21 @@
                     <div class="rule-sign-ropes"></div>
                     <div class="rule-sign">
                         <div class="rule-number">3</div>
-                        <div class="rule-icon-large">🎯</div>
-                        <div class="rule-title">Automated Combat</div>
+                        <div class="rule-icon-large"><i class="fa-solid fa-hand-holding"></i></div>
+                        <div class="rule-title">Take a Good</div>
                         <div class="rule-description">
-                            Battles are <strong>fully automated</strong> — victory depends on strategy and preparation, not reflexes.
+                            Pick <strong>1 good</strong> from the market and add it to your hand. If you take <strong>Camels</strong>, you must take <strong>all</strong> of them at once. Your hand limit is <strong>7 goods</strong> (camels don't count).
                         </div>
-                        <div class="rule-counter">Rule 3 of 5</div>
+                        <div class="rule-visual">
+                            <span class="mini-card diamond"><span class="icon resource-slot" data-good="DIAMOND"></span><span class="label">Ruby</span></span>
+                            <span class="mini-card gold"><span class="icon resource-slot" data-good="GOLD"></span><span class="label">Gold</span></span>
+                            <span class="mini-card silver"><span class="icon resource-slot" data-good="SILVER"></span><span class="label">Silver</span></span>
+                            <span class="mini-card fabric"><span class="icon resource-slot" data-good="FABRIC"></span><span class="label">Fabric</span></span>
+                            <span class="mini-card spice"><span class="icon resource-slot" data-good="SPICE"></span><span class="label">Spice</span></span>
+                            <span class="mini-card leather"><span class="icon resource-slot" data-good="LEATHER"></span><span class="label">Leather</span></span>
+                            <span class="mini-card camel"><span class="icon resource-slot" data-good="CAMEL"></span><span class="label">Camel</span></span>
+                        </div>
+                        <div class="rule-counter">Rule 3 of 9</div>
                     </div>
                 </div>
             </div>
@@ -781,12 +943,19 @@
                     <div class="rule-sign-ropes"></div>
                     <div class="rule-sign">
                         <div class="rule-number">4</div>
-                        <div class="rule-icon-large">🏆</div>
-                        <div class="rule-title">Win Condition</div>
+                        <div class="rule-icon-large"><i class="fa-solid fa-arrows-rotate"></i></div>
+                        <div class="rule-title">Trade Goods</div>
                         <div class="rule-description">
-                            First player to reduce their opponent's <strong>health to zero</strong> wins the match.
+                            Swap <strong>2 or more</strong> goods from your hand (including camels) with an equal number from the market.
                         </div>
-                        <div class="rule-counter">Rule 4 of 5</div>
+                        <div class="rule-visual">
+                            <span class="mini-card fabric"><span class="icon resource-slot" data-good="FABRIC"></span><span class="label">Fabric</span></span>
+                            <span class="mini-card spice"><span class="icon resource-slot" data-good="SPICE"></span><span class="label">Spice</span></span>
+                            <i class="fa-solid fa-arrows-rotate" style="color:#f4d8ab;font-size:1.25rem;margin:0 4px;"></i>
+                            <span class="mini-card gold"><span class="icon resource-slot" data-good="GOLD"></span><span class="label">Gold</span></span>
+                            <span class="mini-card silver"><span class="icon resource-slot" data-good="SILVER"></span><span class="label">Silver</span></span>
+                        </div>
+                        <div class="rule-counter">Rule 4 of 9</div>
                     </div>
                 </div>
             </div>
@@ -795,12 +964,78 @@
                     <div class="rule-sign-ropes"></div>
                     <div class="rule-sign">
                         <div class="rule-number">5</div>
-                        <div class="rule-icon-large">🤖</div>
-                        <div class="rule-title">AI Controlled</div>
+                        <div class="rule-icon-large"><i class="fa-solid fa-coins"></i></div>
+                        <div class="rule-title">Sell Goods</div>
                         <div class="rule-description">
-                            AI agents make <strong>all decisions</strong> — no human intervention allowed during gameplay.
+                            Sell goods of <strong>one type</strong> from your hand to earn coins. <strong>Ruby, Gold and Silver</strong> require selling at least <strong>2</strong>. Higher-value coins are taken first.
                         </div>
-                        <div class="rule-counter">Rule 5 of 5</div>
+                        <div class="rule-visual">
+                            <span class="mini-card diamond"><span class="icon resource-slot" data-good="DIAMOND"></span><span class="label">Ruby</span></span>
+                            <span class="mini-card diamond"><span class="icon resource-slot" data-good="DIAMOND"></span><span class="label">Ruby</span></span>
+                            <i class="fa-solid fa-arrow-right" style="color:#f4d8ab;font-size:1.05rem;margin:0 4px;"></i>
+                            <span class="mini-coin diamond">7</span>
+                            <span class="mini-coin diamond">7</span>
+                        </div>
+                        <div class="rule-counter">Rule 5 of 9</div>
+                    </div>
+                </div>
+            </div>
+            <div class="rule-screen" data-rule="5">
+                <div class="rule-sign-container">
+                    <div class="rule-sign-ropes"></div>
+                    <div class="rule-sign">
+                        <div class="rule-number">6</div>
+                        <div class="rule-icon-large"><i class="fa-solid fa-trophy"></i></div>
+                        <div class="rule-title">Bonus Tokens</div>
+                        <div class="rule-description">
+                            Sell <strong>3, 4, or 5+</strong> goods at once to earn a bonus token worth extra points.
+                        </div>
+                        <div class="rule-visual">
+                            <span class="mini-card spice"><span class="icon resource-slot" data-good="SPICE"></span><span class="label">Spice</span></span>
+                            <span class="mini-card spice"><span class="icon resource-slot" data-good="SPICE"></span><span class="label">Spice</span></span>
+                            <span class="mini-card spice"><span class="icon resource-slot" data-good="SPICE"></span><span class="label">Spice</span></span>
+                            <i class="fa-solid fa-arrow-right" style="color:#f4d8ab;font-size:1.05rem;margin:0 4px;"></i>
+                            <span class="mini-coin spice">5</span>
+                            <span class="mini-coin spice">3</span>
+                            <span class="mini-coin spice">3</span>
+                            <span class="game-token"><span class="bonus-slot" data-badge="BONUS3"></span></span>
+                        </div>
+                        <div class="rule-counter">Rule 6 of 9</div>
+                    </div>
+                </div>
+            </div>
+            <div class="rule-screen" data-rule="6">
+                <div class="rule-sign-container">
+                    <div class="rule-sign-ropes"></div>
+                    <div class="rule-sign">
+                        <div class="rule-number">7</div>
+                        <div class="rule-icon-large"><i class="fa-solid fa-horse-head"></i></div>
+                        <div class="rule-title">Camel Bonus</div>
+                        <div class="rule-description">
+                            At game end, the player with the <strong>most camels</strong> earns <strong>5 bonus points</strong>.
+                        </div>
+                        <div class="rule-visual">
+                            <span class="mini-card camel"><span class="icon resource-slot" data-good="CAMEL"></span><span class="label">Camel</span></span>
+                            <span class="mini-card camel"><span class="icon resource-slot" data-good="CAMEL"></span><span class="label">Camel</span></span>
+                            <span class="mini-card camel"><span class="icon resource-slot" data-good="CAMEL"></span><span class="label">Camel</span></span>
+                            <i class="fa-solid fa-arrow-right" style="color:#f4d8ab;font-size:1.05rem;margin:0 4px;"></i>
+                            <span class="game-token"><span class="bonus-slot" data-badge="CAMEL"></span></span>
+                        </div>
+                        <div class="rule-counter">Rule 7 of 9</div>
+                    </div>
+                </div>
+            </div>
+            <div class="rule-screen" data-rule="7">
+                <div class="rule-sign-container">
+                    <div class="rule-sign-ropes"></div>
+                    <div class="rule-sign">
+                        <div class="rule-number">8</div>
+                        <div class="rule-icon-large"><i class="fa-solid fa-flag-checkered"></i></div>
+                        <div class="rule-title">Game End</div>
+                        <div class="rule-description">
+                            The market closes when <strong>3 or more</strong> goods coin stacks are empty, or when the deck runs out. The player with the <strong>most points wins</strong>.
+                        </div>
+                        <div class="rule-counter">Rule 8 of 9</div>
                     </div>
                 </div>
             </div>
@@ -809,11 +1044,104 @@
     </div>
 
     <script>
+        const resourceCardStyles = {
+            DIAMOND: { iconColor: '#ffd5ea' },
+            GOLD:    { iconColor: '#ffe4b0' },
+            SILVER:  { iconColor: '#d6f6ff' },
+            FABRIC:  { iconColor: '#ebccff' },
+            SPICE:   { iconColor: '#d2edbf' },
+            LEATHER: { iconColor: '#ffd7b7' },
+            CAMEL:   { iconColor: '#ffe1bc' }
+        };
+
+        const resourceIconSVG = {
+            DIAMOND: `
+                <path d="M50 14 L79 41 L50 88 L21 41 Z" fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="round"/>
+                <path d="M21 41 L79 41 M50 14 L50 88 M34 23 L50 41 L66 23" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+            `,
+            GOLD: `
+                <ellipse cx="50" cy="34" rx="22" ry="11" fill="currentColor" opacity="0.95"/>
+                <ellipse cx="50" cy="50" rx="22" ry="11" fill="currentColor" opacity="0.82"/>
+                <ellipse cx="50" cy="66" rx="22" ry="11" fill="currentColor" opacity="0.7"/>
+                <ellipse cx="50" cy="34" rx="22" ry="11" fill="none" stroke="currentColor" stroke-width="4"/>
+            `,
+            SILVER: `
+                <circle cx="50" cy="50" r="28" fill="none" stroke="currentColor" stroke-width="6"/>
+                <circle cx="50" cy="50" r="17" fill="none" stroke="currentColor" stroke-width="4" opacity="0.9"/>
+                <path d="M43 40 C45 36, 55 36, 57 40 C55 44, 45 44, 43 48 C45 52, 55 52, 57 56" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+            `,
+            FABRIC: `
+                <path d="M20 65 C30 44, 44 42, 55 52 C64 60, 74 60, 82 50" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round"/>
+                <path d="M21 49 C31 28, 45 26, 56 36 C65 44, 75 44, 83 34" fill="none" stroke="currentColor" stroke-width="7" stroke-linecap="round" opacity="0.85"/>
+            `,
+            SPICE: `
+                <path d="M35 68 C31 52, 41 36, 56 30 C66 26, 74 18, 78 10 C79 24, 74 35, 66 43 C55 53, 50 63, 48 78" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="39" cy="73" r="5" fill="currentColor"/>
+            `,
+            LEATHER: `
+                <path d="M21 28 C30 18, 44 16, 57 20 C67 23, 78 22, 84 16 C84 28, 80 37, 83 47 C86 60, 80 75, 64 80 C50 84, 35 84, 25 75 C16 67, 15 53, 20 43 C24 35, 22 33, 21 28 Z" fill="none" stroke="currentColor" stroke-width="5" stroke-linejoin="round"/>
+            `,
+            CAMEL: `
+                <path d="M18 63 L26 63 L26 76 M70 63 L78 63 L78 76 M30 63 C30 56, 34 48, 42 48 C46 48, 48 52, 52 52 C56 52, 58 45, 66 45 C74 45, 78 52, 78 60 L78 63 L30 63 Z" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M66 45 C67 38, 72 33, 78 33 C81 33, 84 35, 86 39" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+            `
+        };
+
+        const uiBadgeIconSVG = {
+            BONUS3: `
+                <circle cx="50" cy="50" r="34" fill="currentColor" opacity="0.22"/>
+                <circle cx="50" cy="50" r="31" fill="none" stroke="currentColor" stroke-width="6"/>
+                <path d="M50 28 L67 60 L33 60 Z" fill="none" stroke="currentColor" stroke-width="6" stroke-linejoin="round"/>
+                <circle cx="50" cy="68" r="4" fill="currentColor"/>
+            `,
+            CAMEL: `
+                <path d="M16 62 L24 62 L24 76 M68 62 L76 62 L76 76 M28 62 C28 55, 33 48, 40 48 C44 48, 47 52, 50 52 C54 52, 57 44, 64 44 C72 44, 76 51, 76 59 L76 62 L28 62 Z" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M64 44 C66 37, 71 32, 77 32 C80 32, 83 34, 85 38" fill="none" stroke="currentColor" stroke-width="6" stroke-linecap="round"/>
+            `
+        };
+
+        function getResourceIconSvg(goodType, sizeClass = 'svg-sm') {
+            const style = resourceCardStyles[goodType] || resourceCardStyles.LEATHER;
+            const icon = resourceIconSVG[goodType] || resourceIconSVG.LEATHER;
+            return `
+                <svg class="resource-svg ${sizeClass}" viewBox="0 0 100 100" aria-hidden="true" style="color:${style.iconColor}">
+                    ${icon}
+                </svg>
+            `;
+        }
+
+        function getUiBadgeIconSvg(iconType, sizeClass = 'ui-badge-sm', color = '#d4a85f') {
+            const icon = uiBadgeIconSVG[iconType] || uiBadgeIconSVG.BONUS3;
+            return `
+                <svg class="ui-badge-svg ${sizeClass}" viewBox="0 0 100 100" aria-hidden="true" style="color:${color}">
+                    ${icon}
+                </svg>
+            `;
+        }
+
+        function injectResourceIcons() {
+            document.querySelectorAll('.resource-slot[data-good]').forEach((el) => {
+                const goodType = el.getAttribute('data-good');
+                el.innerHTML = getResourceIconSvg(goodType, 'svg-sm');
+            });
+        }
+
+        function injectBadgeIcons() {
+            document.querySelectorAll('.bonus-slot[data-badge]').forEach((el) => {
+                const badge = el.getAttribute('data-badge');
+                el.innerHTML = getUiBadgeIconSvg(badge, 'ui-badge-sm', '#f3dbb5');
+            });
+        }
+
         let currentView = 'cover';
         let currentRule = 0;
-        const totalRules = 5;
-        const ruleInterval = 5000;
+        const totalRules = document.querySelectorAll('.rule-screen').length;
+        const ruleInterval = 8000;
         let ruleTimer = null;
+        let isRulesPaused = false;
+
+        injectResourceIcons();
+        injectBadgeIcons();
 
         function showView(view) {
             currentView = view;
@@ -833,7 +1161,12 @@
                 stopRulesCycle();
             } else if (view === 'rules') {
                 rulesView.classList.add('active');
-                startRulesCycle();
+                if (!isRulesPaused) {
+                    startRulesCycle();
+                } else {
+                    stopRulesCycle();
+                    showRule(currentRule);
+                }
             }
         }
 
@@ -872,10 +1205,21 @@
             }
         }
 
+        function toggleRulesPause() {
+            isRulesPaused = !isRulesPaused;
+            if (currentView !== 'rules') return;
+            if (isRulesPaused) {
+                stopRulesCycle();
+            } else {
+                startRulesCycle();
+            }
+        }
+
         document.addEventListener('keydown', function(e) {
             if (e.key === '1') showView('cover');
             if (e.key === '2') showView('bracket');
             if (e.key === '3') showView('rules');
+            if (e.key === 'p' || e.key === 'P') toggleRulesPause();
             if (e.key === ' ') {
                 e.preventDefault();
                 cycleViews();
