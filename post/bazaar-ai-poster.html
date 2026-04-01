@@ -73,11 +73,10 @@
         .main-layout {
             position: relative;
             z-index: 1;
-            display: grid;
-            grid-template-columns: minmax(0, 1.08fr) minmax(380px, 0.92fr);
-            gap: 28px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             padding: 10px 46px 40px;
-            align-items: start;
         }
 
         .poster::before {
@@ -247,7 +246,7 @@
         }
 
         .headline {
-            text-align: left;
+            text-align: center;
             margin: 8px 0 0;
             max-width: 690px;
         }
@@ -365,7 +364,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 16px;
+            gap: 10px;
         }
 
         .callout-qr {
@@ -374,6 +373,214 @@
             flex-direction: column;
             align-items: center;
             gap: 8px;
+        }
+
+        /* ── Bracket Button ── */
+        .bracket-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 14px 22px;
+            border-radius: 12px;
+            border: 2px solid rgba(239, 207, 116, 0.55);
+            background: linear-gradient(180deg, rgba(180, 100, 40, 0.55), rgba(90, 35, 18, 0.80));
+            color: #fff0c9;
+            font-family: 'Marcellus', serif;
+            font-size: 1.15rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            cursor: pointer;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.12), 0 6px 18px rgba(0,0,0,0.28);
+            transition: background 0.2s, border-color 0.2s, transform 0.12s;
+            box-sizing: border-box;
+        }
+
+        .bracket-btn:hover {
+            background: linear-gradient(180deg, rgba(210, 120, 50, 0.65), rgba(110, 42, 22, 0.88));
+            border-color: rgba(239, 207, 116, 0.8);
+            transform: translateY(-1px);
+        }
+
+        .bracket-btn:active {
+            transform: translateY(0);
+        }
+
+        .bracket-btn-icon {
+            width: 20px;
+            height: 20px;
+            opacity: 0.85;
+            flex-shrink: 0;
+        }
+
+        /* ── Bracket Modal Overlay ── */
+        .bracket-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            box-sizing: border-box;
+            background: rgba(15, 5, 3, 0.82);
+            backdrop-filter: blur(4px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.28s ease;
+        }
+
+        .bracket-overlay.open {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .bracket-modal {
+            position: relative;
+            width: 100%;
+            max-width: 860px;
+            max-height: 90vh;
+            overflow-y: auto;
+            border-radius: 20px;
+            border: 2px solid rgba(239, 207, 116, 0.38);
+            background:
+                radial-gradient(circle at 50% 0%, rgba(200, 100, 40, 0.18), transparent 50%),
+                linear-gradient(180deg, #3a1610 0%, #220d08 100%);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.07);
+            transform: scale(0.94) translateY(16px);
+            transition: transform 0.28s cubic-bezier(0.34, 1.3, 0.64, 1);
+            scrollbar-width: none;
+        }
+
+        .bracket-overlay.open .bracket-modal {
+            transform: scale(1) translateY(0);
+        }
+
+        .bracket-modal::-webkit-scrollbar {
+            display: none;
+        }
+
+        .bracket-modal-header {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 28px 16px;
+            background: linear-gradient(180deg, #3a1610, rgba(34, 13, 8, 0.95));
+            border-bottom: 1px solid rgba(239, 207, 116, 0.2);
+        }
+
+        .bracket-modal-title {
+            font-family: 'Marcellus', serif;
+            font-size: 1.5rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: #fff0c9;
+            margin: 0;
+        }
+
+        .bracket-close-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1px solid rgba(239, 207, 116, 0.3);
+            background: rgba(255, 222, 165, 0.06);
+            color: #efcf74;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.15s, border-color 0.15s;
+            flex-shrink: 0;
+        }
+
+        .bracket-close-btn:hover {
+            background: rgba(255, 222, 165, 0.14);
+            border-color: rgba(239, 207, 116, 0.6);
+        }
+
+        .bracket-modal-body {
+            padding: 24px 28px 32px;
+        }
+
+        /* ── Bracket SVG Styles ── */
+        .bracket-svg-wrap {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        .bracket-svg-wrap svg {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        /* ── Ornamental divider ── */
+        .ornament-divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 20px 0 22px;
+            color: rgba(212, 175, 55, 0.5);
+            font-family: 'Marcellus', serif;
+            font-size: 0.75rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+        }
+
+        .ornament-divider::before,
+        .ornament-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.4), transparent);
+        }
+
+        /* ── Schedule table ── */
+        .bracket-schedule {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'Spectral', serif;
+            font-size: 0.95rem;
+            color: rgba(255, 241, 220, 0.85);
+        }
+
+        .bracket-schedule th {
+            font-family: 'Marcellus', serif;
+            font-size: 0.75rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: rgba(212, 175, 55, 0.7);
+            padding: 6px 12px 10px;
+            text-align: left;
+            border-bottom: 1px solid rgba(239, 207, 116, 0.18);
+        }
+
+        .bracket-schedule td {
+            padding: 9px 12px;
+            border-bottom: 1px solid rgba(255, 222, 165, 0.06);
+        }
+
+        .bracket-schedule tr:last-child td {
+            border-bottom: none;
+            font-family: 'Marcellus', serif;
+            color: #fff0c9;
+        }
+
+        .bracket-schedule td:nth-child(2),
+        .bracket-schedule td:nth-child(3) {
+            text-align: center;
+        }
+
+        .bracket-schedule .total-row td {
+            border-top: 1px solid rgba(239, 207, 116, 0.22);
+            padding-top: 12px;
+            font-family: 'Marcellus', serif;
+            color: #fff0c9;
         }
 
         /* Pillars */
@@ -586,6 +793,10 @@
                 width: 66px;
                 height: 104px;
             }
+
+            .bracket-modal-body {
+                padding: 16px 16px 24px;
+            }
         }
     </style>
 </head>
@@ -656,22 +867,6 @@
                                 </p>
                             </div>
                         </section>
-
-                        <section class="content">
-                            <aside class="right-col">
-                                <section class="callout">
-                                    <h3>Enter the Market</h3>
-                                    <div class="callout-inner">
-                                        <p>
-                                            Come see student-built AI agents enter the market, trade under pressure, and compete for dominance in a head-to-head strategy battle.
-                                        </p>
-                                        <div class="callout-qr">
-                                            <div class="qr-canvas-wrap" id="qr-code"></div>
-                                        </div>
-                                    </div>
-                                </section>
-                            </aside>
-                        </section>
                     </div>
                 </main>
             </div>
@@ -696,6 +891,136 @@
         </div>
     </footer>
 
+    <!-- ── Bracket Modal ── -->
+    <div class="bracket-overlay" id="bracketOverlay" role="dialog" aria-modal="true" aria-labelledby="bracketModalTitle" onclick="handleOverlayClick(event)">
+        <div class="bracket-modal">
+            <div class="bracket-modal-header">
+                <h2 class="bracket-modal-title" id="bracketModalTitle">Tournament Bracket</h2>
+                <button class="bracket-close-btn" onclick="closeBracket()" aria-label="Close bracket">✕</button>
+            </div>
+            <div class="bracket-modal-body">
+                <div class="bracket-svg-wrap">
+                    <svg viewBox="0 0 800 560" xmlns="http://www.w3.org/2000/svg" style="font-family:'Marcellus',serif;">
+                        <defs>
+                            <marker id="bArrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                                <path d="M2 1L8 5L2 9" fill="none" stroke="rgba(212,175,55,0.5)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                            </marker>
+                        </defs>
+
+                        <!-- ── Section label: Group stage ── -->
+                        <text x="400" y="24" text-anchor="middle" font-size="16" letter-spacing="4" fill="rgba(212,175,55,0.6)" font-family="Marcellus,serif">GROUP STAGE</text>
+                        <line x1="60" y1="30" x2="265" y2="30" stroke="rgba(212,175,55,0.22)" stroke-width="0.5"/>
+                        <line x1="535" y1="30" x2="740" y2="30" stroke="rgba(212,175,55,0.22)" stroke-width="0.5"/>
+
+                        <!-- Group A -->
+                        <rect x="10" y="40" width="175" height="30" rx="5" fill="rgba(100,38,55,0.72)" stroke="rgba(212,175,55,0.38)" stroke-width="0.5"/>
+                        <text x="97" y="59" text-anchor="middle" font-size="16" letter-spacing="2" fill="#efcf74" font-family="Marcellus,serif">GROUP A</text>
+                        <rect x="10" y="74" width="175" height="48" rx="5" fill="rgba(255,222,165,0.06)" stroke="rgba(212,175,55,0.2)" stroke-width="0.5"/>
+                        <text x="97" y="94" text-anchor="middle" font-size="17" fill="#fff0c9" font-family="Marcellus,serif">Seed 1</text>
+                        <text x="97" y="113" text-anchor="middle" font-size="14" fill="rgba(255,241,220,0.55)" font-family="Spectral,serif">8 · 9 · 16</text>
+
+                        <!-- Group B -->
+                        <rect x="210" y="40" width="175" height="30" rx="5" fill="rgba(30,80,70,0.72)" stroke="rgba(212,175,55,0.38)" stroke-width="0.5"/>
+                        <text x="297" y="59" text-anchor="middle" font-size="16" letter-spacing="2" fill="#efcf74" font-family="Marcellus,serif">GROUP B</text>
+                        <rect x="210" y="74" width="175" height="48" rx="5" fill="rgba(255,222,165,0.06)" stroke="rgba(212,175,55,0.2)" stroke-width="0.5"/>
+                        <text x="297" y="94" text-anchor="middle" font-size="17" fill="#fff0c9" font-family="Marcellus,serif">Seed 2</text>
+                        <text x="297" y="113" text-anchor="middle" font-size="14" fill="rgba(255,241,220,0.55)" font-family="Spectral,serif">7 · 10 · 15</text>
+
+                        <!-- Group C -->
+                        <rect x="415" y="40" width="175" height="30" rx="5" fill="rgba(110,48,22,0.72)" stroke="rgba(212,175,55,0.38)" stroke-width="0.5"/>
+                        <text x="502" y="59" text-anchor="middle" font-size="16" letter-spacing="2" fill="#efcf74" font-family="Marcellus,serif">GROUP C</text>
+                        <rect x="415" y="74" width="175" height="48" rx="5" fill="rgba(255,222,165,0.06)" stroke="rgba(212,175,55,0.2)" stroke-width="0.5"/>
+                        <text x="502" y="94" text-anchor="middle" font-size="17" fill="#fff0c9" font-family="Marcellus,serif">Seed 3</text>
+                        <text x="502" y="113" text-anchor="middle" font-size="14" fill="rgba(255,241,220,0.55)" font-family="Spectral,serif">6 · 11 · 14</text>
+
+                        <!-- Group D -->
+                        <rect x="615" y="40" width="175" height="30" rx="5" fill="rgba(100,70,10,0.72)" stroke="rgba(212,175,55,0.38)" stroke-width="0.5"/>
+                        <text x="702" y="59" text-anchor="middle" font-size="16" letter-spacing="2" fill="#efcf74" font-family="Marcellus,serif">GROUP D</text>
+                        <rect x="615" y="74" width="175" height="48" rx="5" fill="rgba(255,222,165,0.06)" stroke="rgba(212,175,55,0.2)" stroke-width="0.5"/>
+                        <text x="702" y="94" text-anchor="middle" font-size="17" fill="#fff0c9" font-family="Marcellus,serif">Seed 4</text>
+                        <text x="702" y="113" text-anchor="middle" font-size="14" fill="rgba(255,241,220,0.55)" font-family="Spectral,serif">5 · 12 · 13</text>
+
+                        <!-- Advance note -->
+                        <text x="400" y="142" text-anchor="middle" font-size="13" fill="rgba(212,175,55,0.45)" font-family="Spectral,serif" font-style="italic">Top 2 per group advance</text>
+
+                        <!-- Down arrows group → QF -->
+                        <line x1="97"  y1="122" x2="97"  y2="158" stroke="rgba(212,175,55,0.3)" stroke-width="0.8" marker-end="url(#bArrow)"/>
+                        <line x1="297" y1="122" x2="297" y2="158" stroke="rgba(212,175,55,0.3)" stroke-width="0.8" marker-end="url(#bArrow)"/>
+                        <line x1="502" y1="122" x2="502" y2="158" stroke="rgba(212,175,55,0.3)" stroke-width="0.8" marker-end="url(#bArrow)"/>
+                        <line x1="702" y1="122" x2="702" y2="158" stroke="rgba(212,175,55,0.3)" stroke-width="0.8" marker-end="url(#bArrow)"/>
+
+                        <!-- ── Section label: Quarterfinals ── -->
+                        <text x="400" y="175" text-anchor="middle" font-size="16" letter-spacing="4" fill="rgba(212,175,55,0.6)" font-family="Marcellus,serif">QUARTERFINALS</text>
+                        <line x1="60" y1="181" x2="240" y2="181" stroke="rgba(212,175,55,0.22)" stroke-width="0.5"/>
+                        <line x1="560" y1="181" x2="740" y2="181" stroke="rgba(212,175,55,0.22)" stroke-width="0.5"/>
+
+                        <!-- QF1 -->
+                        <rect x="10" y="190" width="175" height="32" rx="5" fill="rgba(100,38,55,0.45)" stroke="rgba(212,175,55,0.28)" stroke-width="0.5"/>
+                        <text x="97" y="211" text-anchor="middle" font-size="15" fill="#fff0c9" font-family="Marcellus,serif">1st A  vs  2nd D</text>
+
+                        <!-- QF2 -->
+                        <rect x="210" y="190" width="175" height="32" rx="5" fill="rgba(30,80,70,0.45)" stroke="rgba(212,175,55,0.28)" stroke-width="0.5"/>
+                        <text x="297" y="211" text-anchor="middle" font-size="15" fill="#fff0c9" font-family="Marcellus,serif">1st B  vs  2nd C</text>
+
+                        <!-- QF3 -->
+                        <rect x="415" y="190" width="175" height="32" rx="5" fill="rgba(110,48,22,0.45)" stroke="rgba(212,175,55,0.28)" stroke-width="0.5"/>
+                        <text x="502" y="211" text-anchor="middle" font-size="15" fill="#fff0c9" font-family="Marcellus,serif">1st C  vs  2nd B</text>
+
+                        <!-- QF4 -->
+                        <rect x="615" y="190" width="175" height="32" rx="5" fill="rgba(100,70,10,0.45)" stroke="rgba(212,175,55,0.28)" stroke-width="0.5"/>
+                        <text x="702" y="211" text-anchor="middle" font-size="15" fill="#fff0c9" font-family="Marcellus,serif">1st D  vs  2nd A</text>
+
+                        <!-- Connector lines QF → SF -->
+                        <path d="M97 222 L97 252 L297 252" fill="none" stroke="rgba(212,175,55,0.22)" stroke-width="0.8"/>
+                        <path d="M502 222 L502 252 L303 252" fill="none" stroke="rgba(212,175,55,0.22)" stroke-width="0.8"/>
+                        <line x1="300" y1="252" x2="300" y2="276" stroke="rgba(212,175,55,0.32)" stroke-width="0.8" marker-end="url(#bArrow)"/>
+
+                        <path d="M297 222 L297 260 L497 260" fill="none" stroke="rgba(212,175,55,0.22)" stroke-width="0.8"/>
+                        <path d="M702 222 L702 260 L503 260" fill="none" stroke="rgba(212,175,55,0.22)" stroke-width="0.8"/>
+                        <line x1="500" y1="260" x2="500" y2="276" stroke="rgba(212,175,55,0.32)" stroke-width="0.8" marker-end="url(#bArrow)"/>
+
+                        <!-- ── Section label: Semifinals ── -->
+                        <text x="400" y="293" text-anchor="middle" font-size="16" letter-spacing="4" fill="rgba(212,175,55,0.6)" font-family="Marcellus,serif">SEMIFINALS</text>
+                        <line x1="60" y1="299" x2="240" y2="299" stroke="rgba(212,175,55,0.22)" stroke-width="0.5"/>
+                        <line x1="560" y1="299" x2="740" y2="299" stroke="rgba(212,175,55,0.22)" stroke-width="0.5"/>
+
+                        <!-- SF1 -->
+                        <rect x="80" y="308" width="230" height="44" rx="6" fill="rgba(255,222,165,0.07)" stroke="rgba(212,175,55,0.32)" stroke-width="0.8"/>
+                        <text x="195" y="327" text-anchor="middle" font-size="15" fill="#fff0c9" font-family="Marcellus,serif">W(QF1)  vs  W(QF3)</text>
+                        <text x="195" y="344" text-anchor="middle" font-size="13" fill="rgba(255,241,220,0.5)" font-family="Spectral,serif">A-side vs C-side</text>
+
+                        <!-- SF2 -->
+                        <rect x="490" y="308" width="230" height="44" rx="6" fill="rgba(255,222,165,0.07)" stroke="rgba(212,175,55,0.32)" stroke-width="0.8"/>
+                        <text x="605" y="327" text-anchor="middle" font-size="15" fill="#fff0c9" font-family="Marcellus,serif">W(QF2)  vs  W(QF4)</text>
+                        <text x="605" y="344" text-anchor="middle" font-size="13" fill="rgba(255,241,220,0.5)" font-family="Spectral,serif">B-side vs D-side</text>
+
+                        <!-- SF → Final connectors -->
+                        <path d="M195 352 L195 384 L400 384" fill="none" stroke="rgba(212,175,55,0.22)" stroke-width="0.8"/>
+                        <path d="M605 352 L605 384 L400 384" fill="none" stroke="rgba(212,175,55,0.22)" stroke-width="0.8"/>
+                        <line x1="400" y1="384" x2="400" y2="404" stroke="rgba(212,175,55,0.4)" stroke-width="0.8" marker-end="url(#bArrow)"/>
+
+                        <!-- ── Section label: Grand Final ── -->
+                        <text x="400" y="420" text-anchor="middle" font-size="16" letter-spacing="4" fill="rgba(212,175,55,0.6)" font-family="Marcellus,serif">GRAND FINAL</text>
+                        <line x1="60" y1="426" x2="240" y2="426" stroke="rgba(212,175,55,0.22)" stroke-width="0.5"/>
+                        <line x1="560" y1="426" x2="740" y2="426" stroke="rgba(212,175,55,0.22)" stroke-width="0.5"/>
+
+                        <!-- Final box -->
+                        <rect x="165" y="434" width="470" height="58" rx="8" fill="rgba(180,100,30,0.22)" stroke="rgba(212,175,55,0.58)" stroke-width="1.2"/>
+                        <text x="400" y="458" text-anchor="middle" font-size="18" fill="#fff0c9" font-family="Marcellus,serif" letter-spacing="1">W(SF1)  vs  W(SF2)</text>
+                        <text x="400" y="480" text-anchor="middle" font-size="14" fill="rgba(212,175,55,0.65)" font-family="Spectral,serif" font-style="italic">Best of 3</text>
+
+                        <!-- Final → Champion -->
+                        <line x1="400" y1="492" x2="400" y2="512" stroke="rgba(212,175,55,0.4)" stroke-width="0.8" marker-end="url(#bArrow)"/>
+
+                        <!-- Champion box -->
+                        <rect x="255" y="516" width="290" height="32" rx="7" fill="rgba(180,130,20,0.35)" stroke="rgba(212,175,55,0.72)" stroke-width="1.5"/>
+                        <text x="400" y="536" text-anchor="middle" font-size="17" fill="#efcf74" font-family="Marcellus,serif" letter-spacing="3">CHAMPION</text>
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="../script.js"></script>
     <script src="../post-script.js"></script>
     <script>
@@ -706,6 +1031,26 @@
             colorDark: '#4c281b',
             colorLight: '#f3d9a8',
             correctLevel: QRCode.CorrectLevel.H
+        });
+
+        function openBracket() {
+            document.getElementById('bracketOverlay').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeBracket() {
+            document.getElementById('bracketOverlay').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        function handleOverlayClick(e) {
+            if (e.target === document.getElementById('bracketOverlay')) {
+                closeBracket();
+            }
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeBracket();
         });
     </script>
 </body>
