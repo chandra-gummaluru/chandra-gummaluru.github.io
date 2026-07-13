@@ -154,7 +154,7 @@ body {
     margin: 0 auto;
     width: 100%;
     display: grid;
-    grid-template-columns: 1fr 300px;
+    grid-template-columns: 1fr 460px;
     gap: var(--spacing-lg);
     align-items: center;
 }
@@ -278,7 +278,7 @@ body {
 /* Hero Decorative Elements */
 .hero-decorative {
     position: relative;
-    height: 400px;
+    height: 460px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -287,7 +287,8 @@ body {
 .hero-logo {
     position: relative;
     z-index: 1;
-    width: 320px;
+    width: 460px;
+    max-width: 100%;
     height: auto;
 }
 
@@ -905,6 +906,8 @@ body.home {
 body.home .hero {
     min-height: 0;
     flex: 1 0 auto;
+    padding-top: var(--spacing-md);
+    padding-bottom: var(--spacing-md);
 }
 
 body.home .footer {
