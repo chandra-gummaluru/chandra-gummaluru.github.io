@@ -899,6 +899,21 @@ body.home .hero {
 
 body.home .footer {
     margin-top: 0;
+    background: transparent;
+    color: var(--color-text-light);
+    border-top: 1px solid var(--color-border);
+}
+
+body.home .footer-text {
+    color: var(--color-text-light);
+}
+
+body.home .footer-link {
+    color: var(--color-text-light);
+}
+
+body.home .footer-link:hover {
+    color: var(--color-text);
 }
 
 .footer-content {
