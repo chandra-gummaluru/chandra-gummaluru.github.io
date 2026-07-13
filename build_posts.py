@@ -226,8 +226,6 @@ def build_post_page(meta, body_html):
             </div>
         </div>
     </footer>
-
-    <script src="../script.js"></script>
 </body>
 </html>
 """
