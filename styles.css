@@ -290,7 +290,7 @@ body {
     width: 540px;
     max-width: 100%;
     height: auto;
-    transform: translateY(24px);
+    transform: translate(40px, 40px);
 }
 
 .decorative-circle {
@@ -300,29 +300,29 @@ body {
 }
 
 .circle-1 {
-    width: 180px;
-    height: 180px;
+    width: 500px;
+    height: 500px;
     background: var(--color-accent);
-    top: 10px;
-    right: 30px;
+    top: 0;
+    right: 50;
     animation: float 6s ease-in-out infinite;
 }
 
 .circle-2 {
-    width: 110px;
-    height: 110px;
+    width: 300px;
+    height: 300px;
     background: var(--color-primary);
-    bottom: 40px;
-    right: 140px;
+    bottom: 50px;
+    right: 100px;
     animation: float 8s ease-in-out infinite 1s;
 }
 
 .circle-3 {
-    width: 70px;
-    height: 70px;
+    width: 200px;
+    height: 200px;
     background: var(--color-accent-light);
-    top: 120px;
-    left: 20px;
+    top: 150px;
+    right: 50px;
     animation: float 7s ease-in-out infinite 2s;
 }
 
@@ -907,8 +907,8 @@ body.home {
 body.home .hero {
     min-height: 0;
     flex: 1 0 auto;
-    padding-top: var(--spacing-md);
-    padding-bottom: var(--spacing-md);
+    padding-top: 116px;
+    padding-bottom: var(--spacing-sm);
 }
 
 body.home .footer {
