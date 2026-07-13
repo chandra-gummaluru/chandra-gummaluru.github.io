@@ -290,7 +290,7 @@ body {
     width: 540px;
     max-width: 100%;
     height: auto;
-    transform: translate(40px, 40px);
+    transform: translate(40px, -6px);
 }
 
 .decorative-circle {
@@ -300,29 +300,29 @@ body {
 }
 
 .circle-1 {
-    width: 500px;
-    height: 500px;
+    width: 460px;
+    height: 460px;
     background: var(--color-accent);
-    top: 0;
-    right: 50;
+    top: -30px;
+    right: -10px;
     animation: float 6s ease-in-out infinite;
 }
 
 .circle-2 {
-    width: 300px;
-    height: 300px;
+    width: 240px;
+    height: 240px;
     background: var(--color-primary);
-    bottom: 50px;
-    right: 100px;
+    bottom: 20px;
+    right: 200px;
     animation: float 8s ease-in-out infinite 1s;
 }
 
 .circle-3 {
-    width: 200px;
-    height: 200px;
+    width: 130px;
+    height: 130px;
     background: var(--color-accent-light);
-    top: 150px;
-    right: 50px;
+    top: 200px;
+    right: 40px;
     animation: float 7s ease-in-out infinite 2s;
 }
 
