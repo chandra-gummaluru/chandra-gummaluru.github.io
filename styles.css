@@ -290,7 +290,7 @@ body {
     width: 500px;
     max-width: 100%;
     height: auto;
-    transform: translate(40px, 34px);
+    transform: translate(40px, 26px);
 }
 
 .decorative-circle {
@@ -893,7 +893,7 @@ body {
 .footer {
     background: var(--color-primary);
     color: white;
-    padding: var(--spacing-sm) var(--spacing-md);
+    padding: var(--spacing-lg) var(--spacing-md);
     margin-top: var(--spacing-xl);
 }
 
@@ -913,6 +913,7 @@ body.home .hero {
 
 body.home .footer {
     margin-top: 0;
+    padding: var(--spacing-sm) var(--spacing-md);
     background: transparent;
     color: var(--color-text-light);
 }
