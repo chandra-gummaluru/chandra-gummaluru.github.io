@@ -287,10 +287,10 @@ body {
 .hero-logo {
     position: relative;
     z-index: 1;
-    width: 540px;
+    width: 500px;
     max-width: 100%;
     height: auto;
-    transform: translate(40px, -6px);
+    transform: translate(40px, 34px);
 }
 
 .decorative-circle {
