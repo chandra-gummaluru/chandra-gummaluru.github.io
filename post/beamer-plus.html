@@ -9,6 +9,80 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* ---------- Beamer+ page-specific styles ---------- */
+        .bp-hero-art {
+            position: absolute;
+            right: 3%;
+            top: 7.5rem;
+            bottom: 1.5rem;
+            opacity: 0.35;
+            pointer-events: none;
+        }
+        .bp-hero-art img { height: 100%; width: auto; display: block; }
+
+        .hiw-intro { font-size: 1.25rem; }
+        .hiw-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+            align-items: center;
+            margin: 3rem 0;
+        }
+        .hiw-row:nth-of-type(even) .hiw-art { order: 2; }
+        .hiw-art {
+            background: #fbf5ec;
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            padding: 1.25rem;
+        }
+        .hiw-art img { display: block; width: 100%; }
+        .hiw-step {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--color-text-light);
+        }
+        .block-content .hiw-text h3 {
+            font-size: 1.75rem;
+            color: var(--color-primary);
+            margin: 0.25rem 0 0.75rem;
+        }
+        .block-content .hiw-text p { font-size: 1.15rem; margin-bottom: 1rem; }
+        .block-content .hiw-text p:last-child { margin-bottom: 0; }
+        .hiw-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.25rem; }
+        .hiw-tags span {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            border: 1px solid var(--color-border);
+            background: var(--color-surface);
+            border-radius: 999px;
+            padding: 0.2rem 0.7rem;
+            color: var(--color-secondary);
+        }
+        .block-content .hiw-note {
+            font-size: 1rem;
+            color: var(--color-text-light);
+            border-left: 3px solid var(--color-accent-light);
+            padding-left: 0.9rem;
+        }
+        .block-content a:not([class]) { color: var(--color-primary); text-underline-offset: 3px; }
+        .block-content a:not([class]):hover { color: var(--color-accent-light); }
+        .block-content .tech-stack h3 { font-size: 1.4rem; color: var(--color-primary); margin-bottom: 0.5rem; }
+        .tech-item { gap: 1.5rem; }
+        .tech-value { text-align: right; }
+
+        @media (max-width: 768px) {
+            .bp-hero-art { position: static; opacity: 0.3; margin-top: 2rem; }
+            .bp-hero-art img { width: 100%; height: auto; }
+            .post-hero { padding-top: 9.5rem; }
+            .hiw-row { grid-template-columns: 1fr; gap: 1.25rem; margin: 2.5rem 0; }
+            .hiw-row:nth-of-type(even) .hiw-art { order: 0; }
+            .tech-item { flex-direction: column; gap: 0.25rem; }
+            .tech-value { text-align: left; }
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation -->
@@ -35,10 +109,8 @@
             <h1 class="post-hero-title">Beamer+</h1>
             <p class="post-hero-subtitle">Interactive Presentations</p>
         </div>
-        <div class="post-hero-graphic">
-            <div class="graphic-circle"></div>
-            <div class="graphic-square"></div>
-            <div class="graphic-triangle"></div>
+        <div class="bp-hero-art" aria-hidden="true">
+            <img src="../assets/beamer-plus/hero-art.svg" alt="">
         </div>
     </section>
 
@@ -109,34 +181,84 @@
             </section>
 
             <!-- How It Works -->
+            <section class="content-block">
+                <div class="block-content">
+                    <h2>How It Works</h2>
+                    <p class="hiw-intro">Beamer+ leaves your LaTeX alone. You write and compile slides the way you always have, and Beamer+ adds interactivity on top of the finished PDF. Everything runs from a single Flask server in the browser, either on your own laptop or on a shared server that hosts many lectures at once.</p>
+
+                    <div class="hiw-row">
+                        <div class="hiw-art"><img src="../assets/beamer-plus/step-write.svg" alt="A LaTeX source file compiling into a stack of PDF slides"></div>
+                        <div class="hiw-text">
+                            <div class="hiw-step">Step 1</div>
+                            <h3>Write your slides as usual</h3>
+                            <p>Build your deck in Beamer, or any tool that exports a PDF, and compile it. Your typesetting, equations, and theme come through exactly as you designed them.</p>
+                        </div>
+                    </div>
+
+                    <div class="hiw-row">
+                        <div class="hiw-art"><img src="../assets/beamer-plus/step-load.svg" alt="A browser drop zone accepting a PDF or a presentation ZIP"></div>
+                        <div class="hiw-text">
+                            <div class="hiw-step">Step 2</div>
+                            <h3>Load it into Beamer+</h3>
+                            <p>Upload a plain <strong>PDF</strong> and each page becomes a slide. Or upload a <strong>presentation ZIP</strong>: the PDF bundled with its saved configuration, media, widgets, and AI models. A fully set-up lecture then moves between machines as a single file.</p>
+                            <p class="hiw-note">A presentation ZIP can include code that runs on the server, so only open ZIPs from people you trust.</p>
+                        </div>
+                    </div>
+
+                    <div class="hiw-row">
+                        <div class="hiw-art"><img src="../assets/beamer-plus/step-enhance.svg" alt="The editor with a widget placed on a slide and its settings panel"></div>
+                        <div class="hiw-text">
+                            <div class="hiw-step">Step 3</div>
+                            <h3>Add interactivity</h3>
+                            <p>In the editor, place videos, audio, 3D models, or widgets onto any region of a slide. Each widget describes its own settings, so Beamer+ builds its configuration panel automatically.</p>
+                            <div class="hiw-tags">
+                                <span>Python REPL</span><span>Calculator</span><span>Browser</span><span>Camera</span><span>Maps</span><span>Polls</span>
+                            </div>
+                            <p style="margin-top: 1rem;">Need something else? A custom widget is a single self-contained HTML file. When you're done, save the whole deck as a presentation ZIP.</p>
+                        </div>
+                    </div>
+
+                    <div class="hiw-row">
+                        <div class="hiw-art"><img src="../assets/beamer-plus/step-present.svg" alt="A live poll on the projected slide with a QR code and audience phones answering"></div>
+                        <div class="hiw-text">
+                            <div class="hiw-step">Step 4</div>
+                            <h3>Present live</h3>
+                            <p>Move through slides with the keyboard, mouse, or touch, and draw directly on the content as you talk.</p>
+                            <p>Audience-response widgets put a QR code on screen. Students answer from their phones with open text, a word cloud, or multiple choice, and responses stream back in real time. An AI model (Claude or GPT-4o) can then summarize what the room said.</p>
+                        </div>
+                    </div>
+
+                    <div class="tech-stack">
+                        <h3>Under the hood</h3>
+                        <div class="tech-item"><span class="tech-label">Server</span><span class="tech-value">Python 3.10+ &amp; Flask</span></div>
+                        <div class="tech-item"><span class="tech-label">Real-time</span><span class="tech-value">Socket.IO</span></div>
+                        <div class="tech-item"><span class="tech-label">Slides</span><span class="tech-value">PDF rendered in the browser</span></div>
+                        <div class="tech-item"><span class="tech-label">Widgets</span><span class="tech-value">Self-contained HTML files in iframes</span></div>
+                        <div class="tech-item"><span class="tech-label">AI summaries</span><span class="tech-value">Pluggable models: Claude or GPT-4o</span></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Getting Started -->
             <section class="content-block alt-block">
                 <div class="block-icon"><svg><use href="../assets/icons.svg#icon-rocket"/></svg></div>
                 <div class="block-content">
                     <h2>Getting Started</h2>
-                    <p>Beamer+ is incredibly easy to set up and use. Follow these simple steps:</p>
+                    <p>There are two ways to start using Beamer+:</p>
 
-                    <h3 style="margin-top: 2rem; font-size: 1.5rem; color: var(--color-secondary);">Installation</h3>
-                    
                     <div class="step-list" style="margin-top: 1.5rem;">
                         <div class="step-item">
                             <div class="step-number">1</div>
                             <div class="step-content">
-                                <h4>Download the Executable</h4>
-                                <p>Get the latest release from the GitHub repository</p>
+                                <h4>Try the Live Demo</h4>
+                                <p>The quickest way to see Beamer+ in action. Visit <a href="https://beamer.changapp.net">beamer.changapp.net</a> in your browser. There's nothing to install.</p>
                             </div>
                         </div>
                         <div class="step-item">
                             <div class="step-number">2</div>
                             <div class="step-content">
-                                <h4>Add Your Content</h4>
-                                <p>Create a Beamer+ presentation paakag or use the provided example package.</p>
-                            </div>
-                        </div>
-                        <div class="step-item">
-                            <div class="step-number">3</div>
-                            <div class="step-content">
-                                <h4>Launch & Present</h4>
-                                <p>Run the app and start presenting with enhanced interactivity</p>
+                                <h4>Run Your Own Server</h4>
+                                <p>Download the latest source code from the <a href="https://github.com/chandra-gummaluru/beamer-plus">GitHub repository</a> and follow the setup instructions to start your own Beamer+ server.</p>
                             </div>
                         </div>
                     </div>
@@ -151,7 +273,7 @@
                     <p>Ready to enhance your presentations?</p>
                     <div class="cta-buttons">
                         <a href="https://github.com/chandra-gummaluru/beamer-plus" class="btn-primary">View on GitHub</a>
-                        <a href="https://app.beamerplus.app" class="btn-secondary">Try Demo</a>
+                        <a href="https://beamer.changapp.net" class="btn-secondary">Try Demo</a>
                     </div>
                     <p style="margin-top: 2rem; font-size: 1rem;">
                         Try the live demo to see Beamer+ in action, or check out the open-source project on GitHub to run it yourself.
