@@ -3,12 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bazaar-AI: A Reinforcement Learning Playground | Chandra Gummaluru</title>
+    <title>Teaching Philosophy | Chandra Gummaluru</title>
     <link rel="stylesheet" href="../styles.css">
     <link rel="stylesheet" href="../post-styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        .tp-hero-art {
+            position: absolute;
+            right: 3%;
+            top: 7.5rem;
+            bottom: 1.5rem;
+            opacity: 0.4;
+            pointer-events: none;
+        }
+        .tp-hero-art img { height: 100%; width: auto; display: block; }
+        @media (max-width: 768px) {
+            .post-hero { padding-top: 9.5rem; }
+            .tp-hero-art { position: static; opacity: 0.35; margin-top: 2rem; }
+            .tp-hero-art img { width: 100%; height: auto; }
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation -->
@@ -17,9 +33,9 @@
             <a href="../index.html" class="logo">Chandra Gummaluru</a>
             <div class="nav-links">
                 <a href="../index.html" class="nav-link">Home</a>
-                <a href="../teaching.html" class="nav-link">Teaching</a>
+                <a href="../teaching.html" class="nav-link active">Teaching</a>
                 <a href="../research.html" class="nav-link">Research</a>
-                <a href="../projects.html" class="nav-link active">Projects</a>
+                <a href="../projects.html" class="nav-link">Projects</a>
                 <a href="../blog.html" class="nav-link">Blog</a>
             </div>
         </div>
@@ -35,10 +51,8 @@
             <h1 class="post-hero-title">Teaching Philosophy</h1>
             <p class="post-hero-subtitle">Where Storytelling Meets Learning</p>
         </div>
-        <div class="post-hero-graphic">
-            <div class="graphic-circle"></div>
-            <div class="graphic-square"></div>
-            <div class="graphic-triangle"></div>
+        <div class="tp-hero-art" aria-hidden="true">
+            <img src="../assets/teaching/hero-art.svg" alt="">
         </div>
     </section>
 
