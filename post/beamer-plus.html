@@ -69,9 +69,6 @@
         }
         .block-content a:not([class]) { color: var(--color-primary); text-underline-offset: 3px; }
         .block-content a:not([class]):hover { color: var(--color-accent-light); }
-        .block-content .tech-stack h3 { font-size: 1.4rem; color: var(--color-primary); margin-bottom: 0.5rem; }
-        .tech-item { gap: 1.5rem; }
-        .tech-value { text-align: right; }
 
         @media (max-width: 768px) {
             .bp-hero-art { position: static; opacity: 0.3; margin-top: 2rem; }
@@ -79,8 +76,6 @@
             .post-hero { padding-top: 9.5rem; }
             .hiw-row { grid-template-columns: 1fr; gap: 1.25rem; margin: 2.5rem 0; }
             .hiw-row:nth-of-type(even) .hiw-art { order: 0; }
-            .tech-item { flex-direction: column; gap: 0.25rem; }
-            .tech-value { text-align: left; }
         }
     </style>
 </head>
@@ -228,14 +223,6 @@
                         </div>
                     </div>
 
-                    <div class="tech-stack">
-                        <h3>Under the hood</h3>
-                        <div class="tech-item"><span class="tech-label">Server</span><span class="tech-value">Python 3.10+ &amp; Flask</span></div>
-                        <div class="tech-item"><span class="tech-label">Real-time</span><span class="tech-value">Socket.IO</span></div>
-                        <div class="tech-item"><span class="tech-label">Slides</span><span class="tech-value">PDF rendered in the browser</span></div>
-                        <div class="tech-item"><span class="tech-label">Widgets</span><span class="tech-value">Self-contained HTML files in iframes</span></div>
-                        <div class="tech-item"><span class="tech-label">AI summaries</span><span class="tech-value">Pluggable models: Claude or GPT-4o</span></div>
-                    </div>
                 </div>
             </section>
 
