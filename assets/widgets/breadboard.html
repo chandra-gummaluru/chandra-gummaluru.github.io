@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script id="widget-schema" type="application/json">
+{
+  "label": "Breadboard Lab",
+  "category": "Computer Science",
+  "fields": [
+    { "key": "title",     "label": "Display title", "type": "text", "placeholder": "Lab 1 — Building Circuits" },
+    { "key": "preset",    "label": "Starting circuit", "type": "select", "default": "blank",
+      "options": [
+        { "v": "blank", "l": "Empty breadboard" },
+        { "v": "power", "l": "Power rails only" },
+        { "v": "part1", "l": "Part I — 2-to-1 mux" },
+        { "v": "part2", "l": "Part II — f = (a+b)' + cb'" }
+      ] },
+    { "key": "readOnly",  "label": "Lock wiring (switches and probe still work)", "type": "checkbox", "default": false }
+  ]
+}
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Breadboard Lab — Beamer+</title>
+
+<!-- Standalone copy for the website. Inside Beamer+ the host injects the shared
+     widget base and vendors socket.io; here we load the stylesheet ourselves and
+     leave socket.io out, so the widget runs without a Beamer+ server. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="../static/css/widget-base.css">
+
+<style>
+/* Tokens, reset, toolbar, buttons and status pills come from the shared widget
+   base (static/css/widget-base.css). What's left here is the breadboard scene,
+   the tool strip and the hint line. Physical parts (chips, resistor bands, LED
+   plastic, wire insulation) keep literal colours — they are the real objects'
+   colours, not UI state — and are outlined with tokens so they read in both themes. */
+
+html, body { height: 100%; overflow: hidden; }
+
+/* ── Toolbar ─────────────────────────────────────────────── */
+#toolbar { overflow-x: auto; scrollbar-width: none; }
+#toolbar::-webkit-scrollbar { display: none; }
+.tool svg { width: 14px; height: 14px; flex: none; }
+.tool { display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; }
+#chip-label { font-family: var(--font-mono); color: var(--text-3); }
+#wire-color {
+  width: 26px; height: 26px; padding: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+#wire-swatch { width: 12px; height: 12px; border-radius: 50%; border: 1px solid var(--border-med); }
+
+/* ── Chip picker modal ───────────────────────────────────── */
+#chip-modal {
+  position: fixed; inset: 0; z-index: 20;
+  display: none; align-items: center; justify-content: center;
+  background: rgba(0, 0, 0, .35); padding: 16px;
+}
+#chip-modal.open { display: flex; }
+.modal-card {
+  background: var(--bg); border: 1px solid var(--border); border-radius: 10px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, .25);
+  width: min(560px, 100%); max-height: 100%; overflow-y: auto;
+  padding: 16px 18px 18px;
+}
+.modal-head { display: flex; align-items: center; margin-bottom: 12px; }
+.modal-title { font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--text-3); font-weight: 600; }
+.modal-head .bw-btn { margin-left: auto; }
+#chip-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }
+.chip-card {
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  padding: 12px 10px 10px; cursor: pointer; font: inherit; color: var(--text);
+  background: var(--bg-subtle); border: 1px solid var(--border); border-radius: var(--radius);
+  transition: border-color .15s, background .15s;
+}
+.chip-card:hover { border-color: var(--border-med); }
+.chip-card.is-active { border-color: var(--accent); background: var(--accent-bg); }
+.chip-card svg { width: 110px; height: 44px; }
+.chip-card .cc-name { font-size: var(--fs-small); color: var(--text-2); }
+.chip-card .cc-gate { font-family: var(--font-mono); font-size: 13px; font-weight: 600; }
+
+/* ── Layout ──────────────────────────────────────────────── */
+#body { flex: 1; display: flex; min-height: 0; }
+#stage-wrap { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+#stage { flex: 1; min-height: 0; padding: 8px 10px; position: relative; }
+#scene { width: 100%; height: 100%; display: block; user-select: none; touch-action: manipulation; }
+/* Only shows when an action is refused (occupied hole, overlapping chip). */
+#toast {
+  position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+  max-width: calc(100% - 32px); padding: 6px 12px;
+  background: var(--bg); color: var(--err); font-size: var(--fs-small);
+  border: 1px solid var(--border); border-radius: var(--radius);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, .12);
+  opacity: 0; pointer-events: none; transition: opacity .2s;
+}
+#toast.show { opacity: 1; }
+
+/* ── Scene ───────────────────────────────────────────────── */
+.board     { fill: var(--bg-subtle); stroke: var(--border-med); stroke-width: 1; }
+.panel     { fill: var(--bg-subtle); stroke: var(--border-med); stroke-width: 1; }
+.valley    { fill: var(--border); }
+.hole      { fill: var(--text-3); opacity: .55; }
+.lbl       { fill: var(--text-3); font-family: var(--font-mono); font-size: 8px; }
+.lbl-ui    { fill: var(--text-3); font-family: var(--font-ui); font-size: 9px; letter-spacing: .08em; text-transform: uppercase; font-weight: 600; }
+.lbl-val   { fill: var(--text); font-family: var(--font-mono); font-size: 10px; font-weight: 600; }
+.lbl-sig   { fill: var(--accent); font-family: var(--font-mono); font-size: 11px; font-weight: 600; }
+.rail-p    { stroke: #d9453b; stroke-width: 1.2; }
+.rail-n    { stroke: #2f6fd6; stroke-width: 1.2; }
+.socket    { fill: var(--bg); stroke: var(--text-3); stroke-width: 1.4; }
+.hit       { fill: transparent; cursor: crosshair; }
+.clickable { cursor: pointer; }
+.wire-under { stroke: var(--text-3); fill: none; stroke-linecap: round; }
+.part-hit  { stroke: transparent; fill: none; stroke-width: 14; stroke-linecap: round; }
+.chip-body { fill: #232323; stroke: #555; }
+.chip-txt  { fill: #eee; font-family: var(--font-mono); font-size: 10px; }
+.chip-sub  { fill: #999; font-family: var(--font-mono); font-size: 7px; }
+.hl        { fill: none; stroke: var(--accent); stroke-width: 1.6; }
+.hl-sel    { fill: var(--accent); opacity: .5; }
+.ghost     { fill: var(--accent); opacity: .18; stroke: var(--accent); stroke-dasharray: 3 2; }
+.band      { stroke: var(--accent); stroke-width: 2; stroke-dasharray: 4 3; fill: none; }
+.track-off { fill: var(--border-med); }
+.track-on  { fill: var(--ok); }
+.knob      { fill: var(--bg); stroke: var(--border-med); }
+.lamp-off  { fill: var(--border); stroke: var(--border-med); }
+
+#scene:not(.mode-remove) .part { pointer-events: none; }
+#scene.mode-remove .hit        { pointer-events: none; }
+#scene.mode-remove .part       { cursor: not-allowed; }
+#scene.mode-remove .part:hover { opacity: .45; }
+#scene.mode-probe .hit         { cursor: help; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .anim { transition: fill .15s, opacity .15s; }
+}
+</style>
+</head>
+<body>
+<div id="shell" class="bw-shell">
+
+  <div id="toolbar" class="bw-toolbar" data-bw-topbar>
+    <span class="bw-toolbar-title" id="wtitle">Breadboard Lab</span>
+    <div class="bw-sep"></div>
+    <span id="edit-tools" style="display:contents">
+      <button class="bw-btn tool" data-tool="wire" title="Wire (W)">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 12 C6 12 6 4 10 4 H14"/><circle cx="2" cy="12" r="1.3"/><circle cx="14" cy="4" r="1.3"/></svg>Wire</button>
+      <button class="bw-btn" id="wire-color" title="Wire colour"><span id="wire-swatch"></span></button>
+      <button class="bw-btn tool" data-tool="led" title="LED (L) — click anode (+) then cathode">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 8 V3 a3 3 0 0 1 6 0 V8 H5Z"/><path d="M6.5 8v6M9.5 8v4"/></svg>LED</button>
+      <button class="bw-btn tool" data-tool="res" title="Resistor 330 Ω (R)">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1 8h3l1-3 2 6 2-6 2 6 1-3h3"/></svg>Resistor</button>
+      <button class="bw-btn tool" data-tool="chip" title="Place chip (C)">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="4" y="3" width="8" height="10" rx="1"/><path d="M2 5h2M2 8h2M2 11h2M12 5h2M12 8h2M12 11h2"/></svg>Chip <span id="chip-label"></span></button>
+      <button class="bw-btn tool" data-tool="remove" title="Remove / chip puller (X)">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 2v5a4 4 0 0 0 8 0V2"/><path d="M4 2h2M10 2h2M8 11v3"/></svg>Remove</button>
+      <div class="bw-sep"></div>
+    </span>
+    <button class="bw-btn tool" data-tool="probe" title="Logic probe (P)">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M10 2l4 4-6 6-3 1 1-3z"/><path d="M5 11l-3 3"/></svg>Probe</button>
+    <div class="bw-spacer"></div>
+    <span id="status" class="bw-status">power off</span>
+    <button class="bw-btn" id="undo-btn" title="Undo (Ctrl+Z)">Undo</button>
+    <button class="bw-btn" id="clear-btn" title="Remove everything">Clear</button>
+  </div>
+
+  <div id="body">
+    <div id="stage-wrap">
+      <div id="stage">
+        <svg id="scene" viewBox="0 0 862 542" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <linearGradient id="metal" x1="0" x2="1">
+              <stop offset="0" stop-color="#8d9196"/><stop offset=".45" stop-color="#f1f3f5"/><stop offset="1" stop-color="#7c8085"/>
+            </linearGradient>
+            <radialGradient id="led-on" cx=".4" cy=".35" r=".7">
+              <stop offset="0" stop-color="#fff2f0"/><stop offset=".25" stop-color="#ff5a4d"/><stop offset="1" stop-color="#d0150b"/>
+            </radialGradient>
+            <radialGradient id="led-off" cx=".4" cy=".35" r=".7">
+              <stop offset="0" stop-color="#b86a66"/><stop offset=".35" stop-color="#7d2622"/><stop offset="1" stop-color="#4a1210"/>
+            </radialGradient>
+            <filter id="glow" x="-100%" y="-100%" width="300%" height="300%">
+              <feGaussianBlur stdDeviation="4"/>
+            </filter>
+          </defs>
+          <g id="g-static"></g>
+          <g id="g-parts"></g>
+          <g id="g-hits"></g>
+          <g id="g-controls"></g>
+          <g id="g-over" pointer-events="none"></g>
+        </svg>
+        <div id="toast"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="chip-modal" role="dialog" aria-modal="true" aria-label="Choose a chip">
+    <div class="modal-card">
+      <div class="modal-head">
+        <span class="modal-title">Choose a chip to place</span>
+        <button class="bw-btn bw-btn--icon" id="chip-close" title="Close (Esc)">
+          <svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3l10 10M13 3L3 13"/></svg>
+        </button>
+      </div>
+      <div id="chip-grid"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  // ── Config ──────────────────────────────────────────────────────────────────
+  const _qs       = new URLSearchParams(location.search);
+  const CFG0      = window.WIDGET_CONFIG || {};
+  let   cfg       = CFG0;
+  let   WIDGET_ID = CFG0.id || CFG0.widgetId || 'breadboard-lab';
+  let   role      = CFG0.role || 'presenter';
+  let   IS_VIEWER = role === 'viewer' || _qs.get('viewer') === '1';
+  let   LOCKED    = !!CFG0.readOnly;
+  let   lastCfgPreset = null;
+
+  // ── DOM ─────────────────────────────────────────────────────────────────────
+  const $         = id => document.getElementById(id);
+  const svg       = $('scene');
+  const gStatic   = $('g-static');
+  const gParts    = $('g-parts');
+  const gHits     = $('g-hits');
+  const gCtl      = $('g-controls');
+  const gOver     = $('g-over');
+  const toastEl   = $('toast');
+  const statusEl  = $('status');
+  const chipModal = $('chip-modal');
+  const chipGrid  = $('chip-grid');
+  const SVGNS     = 'http://www.w3.org/2000/svg';
+
+  // ── Geometry ────────────────────────────────────────────────────────────────
+  const COLS  = 34;
+  const PITCH = 18;
+  const colX  = c => 50 + c * PITCH;
+  const ROWY  = { tp: 34, tn: 52, a: 88, b: 106, c: 124, d: 142, e: 160,
+                  f: 196, g: 214, h: 232, i: 250, j: 268, bn: 304, bp: 322 };
+  const ROWS  = Object.keys(ROWY);
+
+  const SOCKETS = { 'bat+': [737, 246], 'bat-': [797, 246],
+                    vcc1: [430, 440], vcc2: [430, 478], gnd1: [462, 440], gnd2: [462, 478] };
+  for (let i = 0; i < 8; i++) {
+    SOCKETS['sw' + (i + 1)] = [70 + i * 46, 480];
+    SOCKETS['lt' + (i + 1)] = [512 + i * 44, 480];
+  }
+
+  const TERM_RE = /^(?:(tp|tn|bp|bn|[a-j]):(\d{1,2})|bat[+-]|sw[1-8]|lt[1-8]|gnd[12]|vcc[12])$/;
+  function validTerm(t) {
+    const m = TERM_RE.exec(String(t));
+    return !!m && (m[2] === undefined || +m[2] < COLS);
+  }
+  function isHole(t) { return t.includes(':'); }
+  function termXY(t) {
+    if (isHole(t)) { const [r, c] = t.split(':'); return [colX(+c), ROWY[r]]; }
+    return SOCKETS[t];
+  }
+
+  // Every hole in a strip shares one electrical node. The switch/light board is
+  // a separate module: its +5V and GND pins do nothing until they are wired to
+  // the supply, just like the header on the real board.
+  function base(t) {
+    if (isHole(t)) {
+      const [r, c] = t.split(':');
+      if (r.length === 2) return r.toUpperCase();
+      return ('abcde'.includes(r) ? 'U' : 'L') + c;
+    }
+    if (t === 'bat+') return 'VCC';
+    if (t === 'bat-') return 'GND';
+    if (t.startsWith('gnd')) return 'BGND';
+    if (t.startsWith('vcc')) return 'BVCC';
+    return t;
+  }
+
+  // ── Chip catalogue (pin-outs from the lab handout, Fig. 1.4) ────────────────
+  const QUAD2 = [{ ins: [1, 2], out: 3 }, { ins: [4, 5], out: 6 },
+                 { ins: [9, 10], out: 8 }, { ins: [12, 13], out: 11 }];
+  const CHIPS = {
+    '74LS04': { name: 'Hex inverter (NOT)', fn: a => !a,
+                gates: [[1, 2], [3, 4], [5, 6], [9, 8], [11, 10], [13, 12]].map(([i, o]) => ({ ins: [i], out: o })) },
+    '74LS08': { name: 'Quad 2-input AND',  fn: (a, b) => a && b,     gates: QUAD2 },
+    '74LS32': { name: 'Quad 2-input OR',   fn: (a, b) => a || b,     gates: QUAD2 },
+    '74LS00': { name: 'Quad 2-input NAND', fn: (a, b) => !(a && b),  gates: QUAD2 },
+    '74LS86': { name: 'Quad 2-input XOR',  fn: (a, b) => !a !== !b,  gates: QUAD2 },
+    '74LS02': { name: 'Quad 2-input NOR',  fn: (a, b) => !(a || b),
+                gates: [{ ins: [2, 3], out: 1 }, { ins: [5, 6], out: 4 },
+                        { ins: [8, 9], out: 10 }, { ins: [11, 12], out: 13 }] },
+  };
+  const GATE_WORD = { '74LS04': 'NOT', '74LS08': 'AND', '74LS32': 'OR',
+                      '74LS00': 'NAND', '74LS86': 'XOR', '74LS02': 'NOR' };
+
+  // Top view, notch on the left: pins 1–7 run left→right below the valley,
+  // pins 14–8 run left→right above it.
+  function pinHole(c, pin) { return pin <= 7 ? `f:${c + pin - 1}` : `e:${c + 14 - pin}`; }
+  function pinLabel(def, pin) {
+    if (pin === 14) return 'VCC';
+    if (pin === 7)  return 'GND';
+    for (let i = 0; i < def.gates.length; i++) {
+      const g = def.gates[i];
+      if (g.out === pin) return `${i + 1}Y output`;
+      const k = g.ins.indexOf(pin);
+      if (k >= 0) return `${i + 1}${'AB'[k]} input`;
+    }
+    return 'NC';
+  }
+
+  const WIRE_COLORS = ['#d9453b', '#2b2b2b', '#2f6fd6', '#2e9e5b', '#e0b12a', '#e07b2a', '#8a5cd6', '#e8e8e8'];
+
+  // ── Targets (lab parts) ─────────────────────────────────────────────────────
+  const TARGETS = {
+    part1: { name: 'Part I — 2-to-1 multiplexer', fn: "f = x·s' + y·s",
+             sig: ['s', 'x', 'y'], expect: (s, x, y) => (s ? y : x) },
+    part2: { name: 'Part II — unnamed function',  fn: "f = (a+b)' + c·b'",
+             sig: ['a', 'b', 'c'], expect: (a, b, c) => (!(a || b)) || (c && !b) },
+  };
+
+  // ── State ───────────────────────────────────────────────────────────────────
+  // Everything that travels to viewers or saves with the deck lives in S; the
+  // tool, hover and pending-click are local to whoever is looking.
+  const S = { parts: [], power: false, sw: [0, 0, 0, 0, 0, 0, 0, 0], nextId: 1, target: null };
+  const L = { chip: '74LS08', tool: 'wire', color: 2, pending: null, hover: null, mouse: null, probe: null };
+  const history = [];
+  let sim = null;
+  let flashTimer = null;
+
+  // ── Presets ─────────────────────────────────────────────────────────────────
+  function buildPreset(key) {
+    const parts = [];
+    let id = 1;
+    const w   = (a, b, color) => parts.push({ id: id++, type: 'wire', a, b, color });
+    const chip = (model, c)   => {
+      parts.push({ id: id++, type: 'chip', model, c });
+      w(`a:${c}`, `tp:${c}`, 0);          // pin 14 → +5 V rail
+      w(`j:${c + 6}`, `bn:${c + 6}`, 1);  // pin 7  → GND rail
+    };
+    const ledOut = (strip) => {           // output strip → LED → 330 Ω → GND
+      w(`i:${strip}`, 'i:30', 5);
+      parts.push({ id: id++, type: 'led', a: 'g:30', b: 'g:31' });
+      parts.push({ id: id++, type: 'res', a: 'i:31', b: 'bn:31' });
+    };
+    if (key !== 'blank') {
+      w('bat+', 'tp:33', 0);  w('bat-', 'tn:33', 1);
+      w('tp:0', 'bp:0', 0);   w('tn:1', 'bn:1', 1);
+      w('vcc1', 'bp:22', 0);  w('gnd1', 'bn:20', 1);   // power the switch board
+    }
+    if (key === 'part1') {
+      chip('74LS04', 3); chip('74LS08', 12); chip('74LS32', 21);
+      w('sw1', 'j:3', 4);      // s  → NOT 1A
+      w('i:3', 'i:16', 4);     // s  → AND 2B
+      w('i:4', 'j:13', 5);     // s' → AND 1B
+      w('sw2', 'j:12', 2);     // x  → AND 1A
+      w('sw3', 'j:15', 3);     // y  → AND 2A
+      w('j:14', 'j:21', 6);    // x·s' → OR 1A
+      w('j:17', 'j:22', 6);    // y·s  → OR 1B
+      w('h:23', 'lt1', 7);     // f → light 1
+      ledOut(23);
+    }
+    if (key === 'part2') {
+      chip('74LS04', 3); chip('74LS08', 12); chip('74LS32', 21);
+      w('sw1', 'j:21', 4);     // a → OR 1A
+      w('sw2', 'j:22', 2);     // b → OR 1B
+      w('i:22', 'j:5', 2);     // b → NOT 2A
+      w('j:23', 'j:3', 6);     // a+b → NOT 1A
+      w('j:4', 'j:24', 5);     // (a+b)' → OR 2A
+      w('j:6', 'j:13', 5);     // b' → AND 1B
+      w('sw3', 'j:12', 3);     // c → AND 1A
+      w('j:14', 'j:25', 6);    // c·b' → OR 2B
+      w('h:26', 'lt1', 7);     // f → light 1
+      ledOut(26);
+    }
+    return { parts, nextId: id, target: TARGETS[key] ? key : null };
+  }
+
+  function loadPreset(key, record = true) {
+    if (record) pushHistory();
+    const p = buildPreset(key);
+    S.parts = p.parts; S.nextId = p.nextId; S.target = p.target;
+    S.power = false; S.sw = [0, 0, 0, 0, 0, 0, 0, 0];
+    L.pending = null; L.probe = null;
+    changed();
+  }
+
+  // ── Simulation ──────────────────────────────────────────────────────────────
+  class UF {
+    constructor() { this.p = new Map(); }
+    find(x) {
+      if (!this.p.has(x)) this.p.set(x, x);
+      let r = x; while (this.p.get(r) !== r) r = this.p.get(r);
+      while (this.p.get(x) !== r) { const n = this.p.get(x); this.p.set(x, r); x = n; }
+      return r;
+    }
+    union(a, b) { const ra = this.find(a), rb = this.find(b); if (ra !== rb) this.p.set(ra, rb); }
+  }
+
+  /**
+   * Resolve the board to logic levels. Wires merge nets; drivers (supply,
+   * switches, powered gate outputs) set strong levels; resistors pass a level
+   * weakly into an otherwise undriven net. Iterates to a fixed point, which a
+   * combinational circuit always reaches. Unconnected LS-TTL inputs read HIGH,
+   * as they do on the real chips.
+   */
+  function simulate(swIn, powerIn) {
+    const sw    = swIn || S.sw;
+    const power = powerIn == null ? S.power : powerIn;
+    const uf    = new UF();
+    for (const p of S.parts) if (p.type === 'wire') uf.union(base(p.a), base(p.b));
+    const R = t => uf.find(base(t));
+
+    const chips = S.parts.filter(p => p.type === 'chip');
+    const ress  = S.parts.filter(p => p.type === 'res');
+    let vals = new Map(), strong = new Map(), chipInfo = [], boardOn = false;
+
+    for (let it = 0; it < 40; it++) {
+      const drv = new Map();
+      const add = (n, v, k) => {
+        let d = drv.get(n);
+        if (!d) { d = { vs: new Set(), kinds: new Set() }; drv.set(n, d); }
+        d.vs.add(v); d.kinds.add(k);
+      };
+      add(R('bat-'), 0, 'supply');
+      if (power) add(R('bat+'), 1, 'supply');
+      boardOn = vals.get(R('vcc1')) === 1 && vals.get(R('gnd1')) === 0;
+      if (boardOn) sw.forEach((v, i) => add(R('sw' + (i + 1)), v ? 1 : 0, 'switch'));
+      chipInfo = chips.map((p, idx) => {
+        const def = CHIPS[p.model];
+        const vcc = vals.get(R(pinHole(p.c, 14)));
+        const gnd = vals.get(R(pinHole(p.c, 7)));
+        const info = { part: p, label: 'U' + (idx + 1), powered: vcc === 1 && gnd === 0,
+                       reversed: vcc === 0 && gnd === 1, floating: [], pwrPartial: vcc === 1 || gnd === 0 };
+        if (info.powered) {
+          for (const g of def.gates) {
+            const ins = g.ins.map(pin => {
+              const v = vals.get(R(pinHole(p.c, pin)));
+              if (v === undefined) { info.floating.push({ pin, gate: g }); return 1; }
+              return v;
+            });
+            const out = ins.includes('X') ? 'X' : (def.fn(...ins.map(Boolean)) ? 1 : 0);
+            add(R(pinHole(p.c, g.out)), out, 'chip');
+          }
+        }
+        return info;
+      });
+
+      const next = new Map();
+      for (const [n, d] of drv) next.set(n, d.vs.size > 1 ? 'X' : [...d.vs][0]);
+      for (let k = 0; k < 6; k++) {
+        for (const r of ress) {
+          const n1 = R(r.a), n2 = R(r.b);
+          const v1 = next.get(n1), v2 = next.get(n2);
+          if (v1 !== undefined && v2 === undefined) next.set(n2, v1);
+          else if (v2 !== undefined && v1 === undefined) next.set(n1, v2);
+        }
+      }
+      let same = next.size === vals.size;
+      if (same) for (const [n, v] of next) if (vals.get(n) !== v) { same = false; break; }
+      vals = next; strong = drv;
+      if (same) break;
+    }
+
+    // Nets that anything other than a chip leg reaches — a gate touching one of
+    // these is "in use", so its unconnected inputs are worth flagging.
+    const used = new Set();
+    for (const p of S.parts) if (p.type !== 'chip') { used.add(R(p.a)); used.add(R(p.b)); }
+
+    const issues = [];
+    if (R('bat+') === R('bat-')) issues.push({ lvl: 'err', text: 'Short circuit: 5 V is wired straight to GND.' });
+    if (power) {
+      for (const [n, d] of strong) {
+        if (d.vs.size > 1 && n !== R('bat+')) {
+          const who = d.kinds.has('supply') ? 'the supply' : d.kinds.has('switch') ? 'a switch' : 'another output';
+          issues.push({ lvl: 'err', text: `Two drivers fight on one net (a gate output vs ${who}).` });
+        }
+      }
+    }
+    for (const ci of chipInfo) {
+      const tag = `${ci.label} ${ci.part.model}`;
+      if (ci.reversed) issues.push({ lvl: 'err', text: `${tag} is powered backwards (pin 14 at GND, pin 7 at 5 V).` });
+      else if (power && !ci.powered) {
+        const vcc = vals.get(R(pinHole(ci.part.c, 14))), gnd = vals.get(R(pinHole(ci.part.c, 7)));
+        const miss = [vcc !== 1 && 'pin 14 → 5 V', gnd !== 0 && 'pin 7 → GND'].filter(Boolean).join(' and ');
+        issues.push({ lvl: 'err', text: `${tag} has no power: connect ${miss}.` });
+      }
+      if (ci.powered) {
+        const seen = new Set();
+        for (const f of ci.floating) {
+          const g = f.gate;
+          const touches = [...g.ins, g.out].some(pn => used.has(R(pinHole(ci.part.c, pn))));
+          if (touches && !seen.has(f.pin)) {
+            seen.add(f.pin);
+            issues.push({ lvl: 'warn', text: `${tag} pin ${f.pin} is unconnected — TTL reads a floating input as 1.` });
+          }
+        }
+      }
+    }
+
+    const leds = S.parts.filter(p => p.type === 'led').map(p => {
+      const na = R(p.a), nk = R(p.b);
+      const va = vals.get(na), vk = vals.get(nk);
+      const lit = va === 1 && vk === 0;
+      const sa = strong.get(na), sk = strong.get(nk);
+      const burnt = lit && !!sa && sa.kinds.has('supply') && !!sk;
+      if (burnt) issues.push({ lvl: 'err', text: 'LED sits directly across 5 V and GND — it would burn out. Add a resistor.' });
+      else if (lit && sa && sk) issues.push({ lvl: 'warn', text: 'LED has no series resistor — add one to limit current.' });
+      if (va === 0 && vk === 1) issues.push({ lvl: 'info', text: 'An LED is reverse-biased — the long leg (+) goes to the higher voltage.' });
+      return { part: p, lit: lit && !burnt, burnt, x: va === 'X' || vk === 'X' };
+    });
+
+    if (power && !boardOn) {
+      const bv = vals.get(R('vcc1')), bg = vals.get(R('gnd1'));
+      const miss = [bv !== 1 && '+5V', bg !== 0 && 'GND'].filter(Boolean).join(' and ');
+      issues.push({ lvl: 'err', text: `Switch board has no power: wire its ${miss} to the supply.` });
+    }
+
+    const lights = [];
+    for (let i = 1; i <= 8; i++) lights.push(boardOn ? vals.get(R('lt' + i)) : undefined);
+
+    return { R, vals, strong, issues, chips: chipInfo, leds, lights, boardOn };
+  }
+
+  // ── Occupancy ───────────────────────────────────────────────────────────────
+  // A breadboard hole takes one lead. Sockets on the switch board and supply
+  // take several, which keeps presets readable.
+  function occupant(t) {
+    if (!isHole(t)) return null;
+    for (const p of S.parts) {
+      if (p.type === 'chip') {
+        for (let pin = 1; pin <= 14; pin++) if (pinHole(p.c, pin) === t) return { part: p, pin };
+      } else if (p.a === t || p.b === t) return { part: p };
+    }
+    return null;
+  }
+
+  // ── Actions ─────────────────────────────────────────────────────────────────
+  const canEdit = () => !IS_VIEWER && !LOCKED;
+
+  function pushHistory() {
+    history.push(JSON.stringify({ parts: S.parts, nextId: S.nextId, target: S.target }));
+    if (history.length > 60) history.shift();
+  }
+
+  function undo() {
+    if (!canEdit() || !history.length) return;
+    const h = JSON.parse(history.pop());
+    S.parts = h.parts; S.nextId = h.nextId; S.target = h.target;
+    L.pending = null;
+    changed();
+  }
+
+  function flash(msg) {
+    toastEl.textContent = msg;
+    toastEl.classList.add('show');
+    clearTimeout(flashTimer);
+    flashTimer = setTimeout(() => { toastEl.classList.remove('show'); flashTimer = null; }, 2600);
+  }
+
+  function clickTerm(t) {
+    if (L.tool === 'probe') { L.probe = t; renderOverlay(); return; }
+    if (!canEdit()) return;
+
+    if (L.tool === 'chip') {
+      if (!isHole(t)) return flash('Chips go across the middle valley of the breadboard.');
+      const c = Math.min(+t.split(':')[1], COLS - 7);
+      for (const p of S.parts) {
+        if (p.type === 'chip' && Math.abs(p.c - c) < 7) return flash('That spot overlaps another chip.');
+      }
+      for (let pin = 1; pin <= 14; pin++) {
+        if (occupant(pinHole(c, pin))) return flash('A lead is already in one of those holes — move it first.');
+      }
+      pushHistory();
+      S.parts.push({ id: S.nextId++, type: 'chip', model: L.chip, c });
+      return changed();
+    }
+
+    if (L.tool === 'wire' || L.tool === 'led' || L.tool === 'res') {
+      if (occupant(t)) return flash('That hole already holds a lead — one lead per hole.');
+      if (!L.pending) { L.pending = t; renderOverlay(); return; }
+      if (L.pending === t) { L.pending = null; renderOverlay(); return; }
+      pushHistory();
+      const part = { id: S.nextId++, type: L.tool, a: L.pending, b: t };
+      if (L.tool === 'wire') part.color = L.color;
+      S.parts.push(part);
+      L.pending = null;
+      changed();
+    }
+  }
+
+  function removePart(id) {
+    if (!canEdit()) return;
+    pushHistory();
+    S.parts = S.parts.filter(p => p.id !== id);
+    changed();
+  }
+
+  function toggleSwitch(i) {
+    if (IS_VIEWER) return;
+    S.sw[i] = S.sw[i] ? 0 : 1;
+    changed();
+  }
+
+  function togglePower() {
+    if (IS_VIEWER) return;
+    S.power = !S.power;
+    changed();
+  }
+
+  function setTool(t) {
+    if (t !== 'probe' && !canEdit()) return;
+    L.tool = t; L.pending = null;
+    if (t !== 'probe') L.probe = null;
+    document.querySelectorAll('.tool').forEach(b => b.classList.toggle('is-active', b.dataset.tool === t));
+    svg.classList.toggle('mode-remove', t === 'remove');
+    svg.classList.toggle('mode-probe',  t === 'probe');
+    renderOverlay();
+  }
+
+  function changed() {
+    render();
+    emitState();
+  }
+
+  // ── Rendering helpers ───────────────────────────────────────────────────────
+  function el(tag, attrs, parent) {
+    const n = document.createElementNS(SVGNS, tag);
+    for (const k in attrs) n.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(n);
+    return n;
+  }
+  function txt(x, y, s, cls, parent, anchor = 'middle') {
+    const n = el('text', { x, y, class: cls, 'text-anchor': anchor }, parent);
+    n.textContent = s;
+    return n;
+  }
+
+  // ── Static scene: board, supply, switch board, holes, hit targets ───────────
+  function renderStatic() {
+    gStatic.textContent = ''; gHits.textContent = '';
+
+    // Breadboard
+    el('rect', { x: 22, y: 16, width: 650, height: 324, rx: 8, class: 'board' }, gStatic);
+    el('rect', { x: 40, y: 172, width: 614, height: 12, rx: 2, class: 'valley' }, gStatic);
+    [[25, 'rail-p'], [61, 'rail-n'], [295, 'rail-n'], [331, 'rail-p']].forEach(([y, c]) =>
+      el('line', { x1: 40, x2: 654, y1: y, y2: y, class: c }, gStatic));
+    txt(32, 37, '+', 'lbl', gStatic); txt(32, 55, '−', 'lbl', gStatic);
+    txt(32, 307, '−', 'lbl', gStatic); txt(32, 325, '+', 'lbl', gStatic);
+    'abcdefghij'.split('').forEach(r => {
+      txt(34, ROWY[r] + 3, r, 'lbl', gStatic);
+      txt(662, ROWY[r] + 3, r, 'lbl', gStatic);
+    });
+    for (let c = 0; c < COLS; c++) {
+      if ((c + 1) % 5 === 0 || c === 0) {
+        txt(colX(c), 77, String(c + 1), 'lbl', gStatic);
+        txt(colX(c), 289, String(c + 1), 'lbl', gStatic);
+      }
+    }
+    const holes = el('g', {}, gStatic);
+    for (const r of ROWS) for (let c = 0; c < COLS; c++) {
+      el('rect', { x: colX(c) - 2.5, y: ROWY[r] - 2.5, width: 5, height: 5, rx: 1, class: 'hole' }, holes);
+      el('rect', { x: colX(c) - 9, y: ROWY[r] - 9, width: 18, height: 18, class: 'hit', 'data-t': `${r}:${c}` }, gHits);
+    }
+
+    // Power supply (battery pack)
+    // Black plastic supply enclosure with corner screws
+    el('rect', { x: 688, y: 16, width: 154, height: 324, rx: 8, fill: '#34383e', stroke: '#15171a', 'stroke-width': 2 }, gStatic);
+    el('rect', { x: 694, y: 22, width: 142, height: 312, rx: 5, fill: 'none', stroke: '#45494f' }, gStatic);
+    [[700, 28], [830, 28], [700, 328], [830, 328]].forEach(([x, y]) => {
+      el('circle', { cx: x, cy: y, r: 4, fill: 'url(#metal)', stroke: '#222' }, gStatic);
+      el('path', { d: `M${x - 2.5} ${y}h5M${x} ${y - 2.5}v5`, stroke: '#555', 'stroke-width': 1 }, gStatic);
+    });
+    el('rect', { x: 719, y: 56, width: 92, height: 158, rx: 6, fill: '#202327', stroke: '#15171a' }, gStatic);
+    el('rect', { x: 752, y: 62, width: 26, height: 10, rx: 2, fill: '#b9b9b9' }, gStatic);
+    el('rect', { x: 727, y: 70, width: 76, height: 136, rx: 10, fill: '#111', stroke: '#555' }, gStatic);
+    el('rect', { x: 727, y: 70, width: 76, height: 38, rx: 10, fill: '#d98a2a' }, gStatic);
+    el('rect', { x: 727, y: 96, width: 76, height: 12, fill: '#d98a2a' }, gStatic);
+    const bt = txt(765, 94, '+', 'lbl', gStatic); bt.setAttribute('fill', '#2b2b2b'); bt.style.fontSize = '18px'; bt.style.fill = '#2b2b2b';
+    const bv = txt(765, 150, '5 V', 'lbl', gStatic); bv.style.fontSize = '20px'; bv.style.fill = '#eee';
+    const bs = txt(765, 170, 'BATTERY', 'lbl', gStatic); bs.style.fill = '#999';
+    [[737, '+5 V'], [797, 'GND']].forEach(([x, l]) => { const n = txt(x, 230, l, 'lbl', gStatic); n.style.fill = '#d9dde2'; });
+    const on = txt(765, 270, 'POWER', 'lbl', gStatic); on.style.fill = '#aab0b7';
+    // Rocker bezel and meter window are fixed; the rocker and digits are live.
+    el('rect', { x: 737, y: 276, width: 56, height: 30, rx: 4, fill: '#0b0b0b', stroke: '#000' }, gStatic);
+    el('rect', { x: 728, y: 312, width: 74, height: 20, rx: 3, fill: '#0b0b0b' }, gStatic);
+
+    // Digital switch / light board — drawn as the green PCB it is
+    const PCB = { fill: '#1d5a3a', edge: '#133f28', silk: '#e9f1eb', trace: '#2c7a52', pad: '#c9a94a' };
+    const silk = (x, y, str, size = 8, anchor = 'middle', weight = 500) => {
+      const n = txt(x, y, str, '', gStatic, anchor);
+      n.setAttribute('fill', PCB.silk);
+      n.setAttribute('font-family', 'ui-monospace, Menlo, Consolas, monospace');
+      n.setAttribute('font-size', size); n.setAttribute('font-weight', weight);
+      n.setAttribute('letter-spacing', '.06em');
+      return n;
+    };
+    el('rect', { x: 22, y: 356, width: 820, height: 176, rx: 6, fill: PCB.fill, stroke: PCB.edge, 'stroke-width': 2 }, gStatic);
+    [[34, 368], [830, 368], [34, 520], [830, 520]].forEach(([x, y]) => {
+      el('circle', { cx: x, cy: y, r: 6, fill: PCB.pad }, gStatic);
+      el('circle', { cx: x, cy: y, r: 3.2, fill: '#0b0b0b' }, gStatic);
+    });
+
+    // Copper traces from each part down to its header pin
+    const traces = el('g', { stroke: PCB.trace, 'stroke-width': 2.2, fill: 'none', 'stroke-linejoin': 'round' }, gStatic);
+    for (let i = 0; i < 8; i++) {
+      const sx = SOCKETS['sw' + (i + 1)][0], lx = SOCKETS['lt' + (i + 1)][0];
+      el('path', { d: `M${sx} 430 V470` }, traces);
+      el('path', { d: `M${lx} 424 V436 M${lx} 446 V470` }, traces);
+    }
+    el('path', { d: 'M430 452 V466 M462 452 V466' }, traces);
+
+    // Switch row
+    silk(46, 398, 'ON', 7);  silk(46, 442, 'OFF', 7);
+    el('path', { d: 'M46 404 v28 M43 407 l3 -3 l3 3', stroke: PCB.silk, 'stroke-width': 1, fill: 'none' }, gStatic);
+    for (let i = 0; i < 8; i++) {
+      const x = SOCKETS['sw' + (i + 1)][0];
+      el('rect', { x: x - 12, y: 404, width: 24, height: 26, rx: 2, fill: '#1c1c1c', stroke: '#000' }, gStatic);
+      el('rect', { x: x - 12, y: 404, width: 24, height: 3, fill: '#333' }, gStatic);
+      silk(x, 510, 'SW' + (i + 1));
+    }
+
+    // LED row with their series resistors
+    for (let i = 0; i < 8; i++) {
+      const x = SOCKETS['lt' + (i + 1)][0];
+      el('rect', { x: x - 5, y: 436, width: 10, height: 10, fill: '#1a1a1a' }, gStatic);
+      el('rect', { x: x - 5, y: 436, width: 10, height: 2.5, fill: '#cfd3d6' }, gStatic);
+      el('rect', { x: x - 5, y: 443.5, width: 10, height: 2.5, fill: '#cfd3d6' }, gStatic);
+      silk(x + 8, 444, 'R' + (i + 1), 5.5, 'start');
+      silk(x, 510, 'L' + (i + 1));
+    }
+
+    // Female headers
+    const header = (x, y, w, h) => el('rect', { x, y, width: w, height: h, rx: 1.5, fill: '#141414', stroke: '#000' }, gStatic);
+    header(54, 470, 352, 20);
+    header(496, 470, 332, 20);
+    header(418, 428, 56, 62);
+    silk(430, 424, '+5V', 7); silk(462, 424, 'GND', 7);
+    for (const t in SOCKETS) {
+      const [x, y] = SOCKETS[t];
+      if (t.startsWith('bat')) continue;
+      el('rect', { x: x - 4.5, y: y - 4.5, width: 9, height: 9, fill: '#000', stroke: '#3a3a3a' }, gStatic);
+      el('rect', { x: x - 2, y: y - 2, width: 4, height: 4, fill: '#8a7a3a' }, gStatic);
+      el('circle', { cx: x, cy: y, r: 11, class: 'hit', 'data-t': t }, gHits);
+    }
+    silk(806, 400, 'PWR', 6, 'end');
+
+    // Supply binding posts
+    [['bat+', '#c62828'], ['bat-', '#1c1c1c']].forEach(([t, c]) => {
+      const [x, y] = SOCKETS[t];
+      el('circle', { cx: x, cy: y, r: 10, fill: c, stroke: '#000' }, gStatic);
+      el('circle', { cx: x, cy: y, r: 6.5, fill: 'none', stroke: 'rgba(255,255,255,.25)' }, gStatic);
+      el('circle', { cx: x, cy: y, r: 3.2, fill: '#0b0b0b' }, gStatic);
+      el('circle', { cx: x, cy: y, r: 12, class: 'hit', 'data-t': t }, gHits);
+    });
+  }
+
+  // ── Parts ───────────────────────────────────────────────────────────────────
+  function renderParts() {
+    gParts.textContent = '';
+    const ledState = new Map(sim.leds.map(l => [l.part.id, l]));
+    const order = { chip: 0, res: 1, led: 2, wire: 3 };
+    const parts = [...S.parts].sort((a, b) => order[a.type] - order[b.type]);
+
+    for (const p of parts) {
+      const g = el('g', { class: 'part', 'data-part': p.id }, gParts);
+
+      if (p.type === 'chip') {
+        const x0 = colX(p.c) - 9, x1 = colX(p.c + 6) + 9;
+        for (let pin = 1; pin <= 14; pin++) {
+          const [hx, hy] = termXY(pinHole(p.c, pin));
+          el('rect', { x: hx - 2, y: pin <= 7 ? hy - 12 : hy, width: 4, height: 12, fill: '#b9b9b9' }, g);
+        }
+        el('rect', { x: x0, y: 164, width: x1 - x0, height: 28, rx: 2, class: 'chip-body' }, g);
+        el('path', { d: `M${x0} 172 a6 6 0 0 1 0 12`, fill: '#555' }, g);
+        el('circle', { cx: x0 + 6, cy: 187, r: 1.6, fill: '#888' }, g);
+        txt((x0 + x1) / 2 + 3, 181, p.model, 'chip-txt', g);
+        const ci = sim.chips.find(c => c.part === p);
+        txt((x0 + x1) / 2 + 3, 189.5, ci ? ci.label : '', 'chip-sub', g);
+        continue;
+      }
+
+      const [ax, ay] = termXY(p.a), [bx, by] = termXY(p.b);
+
+      if (p.type === 'wire') {
+        const dx = bx - ax, dy = by - ay, len = Math.hypot(dx, dy) || 1;
+        const bend = Math.min(60, len * 0.18) * (p.id % 2 ? 1 : -1);
+        const mx = (ax + bx) / 2 - dy / len * bend, my = (ay + by) / 2 + dx / len * bend;
+        const d = `M${ax} ${ay} Q${mx} ${my} ${bx} ${by}`;
+        el('path', { d, class: 'part-hit' }, g);
+        el('path', { d, class: 'wire-under', 'stroke-width': 5.2 }, g);
+        el('path', { d, stroke: WIRE_COLORS[p.color] || WIRE_COLORS[0], 'stroke-width': 3.4,
+                     fill: 'none', 'stroke-linecap': 'round' }, g);
+        [[ax, ay], [bx, by]].forEach(([x, y]) => el('circle', { cx: x, cy: y, r: 2, fill: '#c8c8c8' }, g));
+        continue;
+      }
+
+      const mx = (ax + bx) / 2, my = (ay + by) / 2;
+      const ang = Math.atan2(by - ay, bx - ax) * 180 / Math.PI;
+      el('line', { x1: ax, y1: ay, x2: bx, y2: by, class: 'part-hit' }, g);
+      el('line', { x1: ax, y1: ay, x2: bx, y2: by, stroke: '#a8a8a8', 'stroke-width': 1.6 }, g);
+
+      if (p.type === 'res') {
+        const b = el('g', { transform: `translate(${mx} ${my}) rotate(${ang})` }, g);
+        el('rect', { x: -12, y: -4.5, width: 24, height: 9, rx: 4, fill: '#d9c49a', stroke: '#9b8a66' }, b);
+        [[-7, '#e07b2a'], [-3, '#e07b2a'], [1, '#7a4a1e'], [7, '#c9a227']].forEach(([x, f]) =>
+          el('rect', { x, y: -4.5, width: 2.2, height: 9, fill: f }, b));
+        continue;
+      }
+
+      if (p.type === 'led') {
+        const st = ledState.get(p.id) || {};
+        if (st.lit) el('circle', { cx: mx, cy: my, r: 13, fill: '#ff3b30', opacity: .55, filter: 'url(#glow)' }, g);
+        el('circle', { cx: mx, cy: my, r: 7.5, class: 'anim',
+                       fill: st.burnt ? '#555' : st.lit ? '#ff4a3d' : '#7a2320',
+                       stroke: st.lit ? '#ffb3ad' : '#3d1110', 'stroke-width': 1.2 }, g);
+        if (st.lit) el('circle', { cx: mx - 2.5, cy: my - 2.5, r: 2, fill: '#fff', opacity: .7 }, g);
+        if (st.burnt) el('path', { d: `M${mx - 4} ${my - 4}l8 8M${mx + 4} ${my - 4}l-8 8`, stroke: '#fff', 'stroke-width': 1.5 }, g);
+        const lx = ax + (ax === mx ? 0 : (ax < mx ? -1 : 1)) * 0 - 7, ly = ay - 6;
+        const plus = txt(lx, ly, '+', 'lbl', g); plus.style.fontSize = '10px';
+      }
+    }
+  }
+
+  // ── Controls: switches, lights, power ───────────────────────────────────────
+  function renderControls() {
+    gCtl.textContent = '';
+    const tgt = TARGETS[S.target];
+    const sig = (x, y, str) => {
+      const n = txt(x, y, str, 'lbl-sig', gCtl);
+      n.style.fill = '#ffe27a';
+      return n;
+    };
+
+    // Toggle switches: a chrome bat pivoting in a hex bushing
+    for (let i = 0; i < 8; i++) {
+      const [x] = SOCKETS['sw' + (i + 1)];
+      const on = !!S.sw[i];
+      const g = el('g', { class: IS_VIEWER ? '' : 'clickable', 'data-sw': i }, gCtl);
+      el('rect', { x: x - 18, y: 386, width: 36, height: 60, fill: 'transparent' }, g);
+      const tipY = on ? 391 : 443;
+      el('path', { d: `M${x} 417 L${x} ${tipY}`, stroke: '#555', 'stroke-width': 7.5, 'stroke-linecap': 'round' }, g);
+      el('path', { d: `M${x} 417 L${x} ${tipY}`, stroke: 'url(#metal)', 'stroke-width': 6, 'stroke-linecap': 'round' }, g);
+      el('polygon', { points: [0, 60, 120, 180, 240, 300].map(a => {
+        const r = a * Math.PI / 180; return `${x + 8 * Math.cos(r)},${417 + 8 * Math.sin(r)}`; }).join(' '),
+        fill: 'url(#metal)', stroke: '#6b6f73' }, g);
+      el('circle', { cx: x, cy: 417, r: 4.2, fill: '#9aa0a5', stroke: '#6b6f73' }, g);
+      el('circle', { cx: x, cy: tipY, r: 4.2, fill: 'url(#metal)', stroke: '#6b6f73' }, g);
+      if (tgt && i < 3) sig(x + 20, 400, tgt.sig[i]);
+    }
+
+    // 5 mm LEDs
+    for (let i = 0; i < 8; i++) {
+      const [x] = SOCKETS['lt' + (i + 1)];
+      const v = sim.lights[i];
+      el('circle', { cx: x, cy: 412, r: 12, fill: '#3b0d0b', stroke: '#240605' }, gCtl);
+      if (v === 1) el('circle', { cx: x, cy: 412, r: 20, fill: '#ff3b2f', opacity: .7, filter: 'url(#glow)' }, gCtl);
+      el('circle', { cx: x, cy: 412, r: 9.5, class: 'anim',
+                     fill: v === 1 ? 'url(#led-on)' : v === 'X' ? '#e07b2a' : 'url(#led-off)' }, gCtl);
+      el('ellipse', { cx: x - 3, cy: 408, rx: 3, ry: 2, fill: '#fff', opacity: v === 1 ? .85 : .35 }, gCtl);
+      if (tgt && i === 0) sig(x + 20, 400, 'f');
+    }
+
+    // Board power: green SMD LED
+    if (sim.boardOn) el('circle', { cx: 818, cy: 397, r: 8, fill: '#3cff7a', opacity: .6, filter: 'url(#glow)' }, gCtl);
+    el('rect', { x: 813, y: 394, width: 10, height: 6, rx: 1, fill: sim.boardOn ? '#7dffa6' : '#1f4a2e', stroke: '#0c2616' }, gCtl);
+
+    // Power switch + meter
+    // Illuminated red rocker: the pressed half sits darker, the raised half catches light.
+    const on = S.power;
+    const g = el('g', { class: IS_VIEWER ? '' : 'clickable', 'data-power': 1 }, gCtl);
+    if (on) el('rect', { x: 740, y: 279, width: 50, height: 24, rx: 3, fill: '#ff3b2f', opacity: .55, filter: 'url(#glow)' }, g);
+    el('rect', { x: 741, y: 280, width: 24, height: 22, rx: 2, fill: on ? '#b71c1c' : '#c62828' }, g);   // O half
+    el('rect', { x: 765, y: 280, width: 24, height: 22, rx: 2, fill: on ? '#ff5147' : '#7f1414' }, g);   // I half
+    el('rect', { x: on ? 741 : 765, y: 280, width: 24, height: 5, fill: '#fff', opacity: .18 }, g);
+    el('line', { x1: 765, y1: 280, x2: 765, y2: 302, stroke: '#000', opacity: .35 }, g);
+    el('circle', { cx: 753, cy: 291, r: 4, fill: 'none', stroke: '#fff', 'stroke-width': 1.4, opacity: .85 }, g);
+    el('line', { x1: 777, y1: 287, x2: 777, y2: 295, stroke: '#fff', 'stroke-width': 1.6, opacity: .85 }, g);
+    const lcd = txt(765, 326, on ? '5.00 V' : '0.00 V', '', gCtl);
+    lcd.setAttribute('font-family', 'ui-monospace, Menlo, Consolas, monospace');
+    lcd.setAttribute('font-size', 13); lcd.setAttribute('font-weight', 700);
+    lcd.setAttribute('letter-spacing', '.08em');
+    lcd.setAttribute('fill', on ? '#ff5a3c' : '#3a1a14');
+    if (on) lcd.setAttribute('filter', 'drop-shadow(0 0 3px rgba(255,90,60,.7))');
+  }
+
+  // ── Overlay: connected-strip highlight, pending lead, chip ghost, probe ─────
+  function renderOverlay() {
+    gOver.textContent = '';
+    const hv = L.hover;
+
+    if (hv && sim) {
+      const root = sim.R(hv);
+      for (const r of ROWS) for (let c = 0; c < COLS; c++) {
+        const t = `${r}:${c}`;
+        if (sim.R(t) === root) el('rect', { x: colX(c) - 5, y: ROWY[r] - 5, width: 10, height: 10, rx: 2, class: 'hl' }, gOver);
+      }
+      for (const t in SOCKETS) {
+        if (sim.R(t) === root) { const [x, y] = SOCKETS[t]; el('circle', { cx: x, cy: y, r: 8, class: 'hl' }, gOver); }
+      }
+    }
+
+    if (L.tool === 'chip' && hv && isHole(hv) && canEdit()) {
+      const c = Math.min(+hv.split(':')[1], COLS - 7);
+      el('rect', { x: colX(c) - 9, y: 156, width: colX(c + 6) - colX(c) + 18, height: 44, rx: 3, class: 'ghost' }, gOver);
+    }
+
+    if (L.pending) {
+      const [x, y] = termXY(L.pending);
+      el('circle', { cx: x, cy: y, r: 5, class: 'hl-sel' }, gOver);
+      if (L.mouse) el('line', { x1: x, y1: y, x2: L.mouse[0], y2: L.mouse[1], class: 'band' }, gOver);
+    }
+
+    if (L.probe && sim) {
+      const [x, y] = termXY(L.probe);
+      const v = sim.vals.get(sim.R(L.probe));
+      const col = v === 1 ? '#e5383b' : v === 0 ? '#2e9e5b' : v === 'X' ? '#e07b2a' : '#888';
+      el('line', { x1: x, y1: y, x2: x + 22, y2: y - 30, stroke: '#444', 'stroke-width': 4, 'stroke-linecap': 'round' }, gOver);
+      el('circle', { cx: x + 24, cy: y - 33, r: 7, fill: col, stroke: '#222' }, gOver);
+      txt(x + 36, y - 30, v === 1 ? 'HI' : v === 0 ? 'LO' : v === 'X' ? '??' : '—', 'lbl-val', gOver, 'start');
+    }
+  }
+
+  // ── Status pill ─────────────────────────────────────────────────────────────
+  function renderStatus() {
+    const n = sim.issues.filter(i => i.lvl === 'err').length;
+    statusEl.textContent = IS_VIEWER ? 'view-only · synced' :
+                           !S.power ? 'power off' : n ? `${n} problem${n > 1 ? 's' : ''}` : '5 V on';
+    statusEl.title = sim.issues.map(i => i.text).join('\n');
+    statusEl.style.color = !IS_VIEWER && S.power && n ? 'var(--err)' : '';
+  }
+
+  function render() {
+    sim = simulate();
+    renderParts();
+    renderControls();
+    renderOverlay();
+   
+    renderStatus();
+
+    const edit = canEdit();
+    $('edit-tools').style.display = edit ? 'contents' : 'none';
+    ['undo-btn', 'clear-btn'].forEach(id => { $(id).style.display = edit ? '' : 'none'; });
+    $('chip-label').textContent = '· ' + L.chip.replace('74LS', 'LS');
+    $('undo-btn').disabled = !history.length;
+    $('wire-swatch').style.background = WIRE_COLORS[L.color];
+    if (!edit && L.tool !== 'probe') setTool('probe');
+  }
+
+  // ── Pointer ─────────────────────────────────────────────────────────────────
+  function svgPoint(e) {
+    const m = svg.getScreenCTM();
+    if (!m) return null;
+    const p = new DOMPoint(e.clientX, e.clientY).matrixTransform(m.inverse());
+    return [p.x, p.y];
+  }
+
+  svg.addEventListener('pointermove', e => {
+    L.mouse = svgPoint(e);
+    const hit = e.target.closest?.('[data-t]');
+    const t = hit ? hit.dataset.t : null;
+    L.hover = t;
+    renderOverlay();
+  });
+  svg.addEventListener('pointerleave', () => { L.hover = null; L.mouse = null; renderOverlay(); });
+
+  svg.addEventListener('click', e => {
+    const sw = e.target.closest('[data-sw]');
+    if (sw) return toggleSwitch(+sw.dataset.sw);
+    if (e.target.closest('[data-power]')) return togglePower();
+    const part = e.target.closest('[data-part]');
+    if (part && L.tool === 'remove') return removePart(+part.dataset.part);
+    const hit = e.target.closest('[data-t]');
+    if (hit) return clickTerm(hit.dataset.t);
+    if (L.pending) { L.pending = null; renderOverlay(); }
+  });
+
+  // ── Toolbar wiring ──────────────────────────────────────────────────────────
+  document.querySelectorAll('.tool').forEach(b => b.addEventListener('click', () =>
+    b.dataset.tool === 'chip' ? openChipModal() : setTool(b.dataset.tool)));
+  $('wire-color').addEventListener('click', () => {
+    L.color = (L.color + 1) % WIRE_COLORS.length;
+    $('wire-swatch').style.background = WIRE_COLORS[L.color];
+    if (L.tool !== 'wire') setTool('wire');
+  });
+
+  // ── Chip picker ─────────────────────────────────────────────────────────────
+  // Each card draws a little top-view DIP so the notch/pin-1 orientation that
+  // students have to get right on the board is visible before they place it.
+  function chipCard(model) {
+    const b = document.createElement('button');
+    b.className = 'chip-card';
+    b.dataset.model = model;
+    const s = el('svg', { viewBox: '0 0 110 44' });
+    for (let i = 0; i < 7; i++) {
+      el('rect', { x: 10 + i * 14, y: 2, width: 4, height: 8, fill: '#b9b9b9' }, s);
+      el('rect', { x: 10 + i * 14, y: 34, width: 4, height: 8, fill: '#b9b9b9' }, s);
+    }
+    el('rect', { x: 4, y: 9, width: 102, height: 26, rx: 2, class: 'chip-body' }, s);
+    el('path', { d: 'M4 16 a6 6 0 0 1 0 12', fill: '#555' }, s);
+    el('circle', { cx: 11, cy: 30, r: 1.6, fill: '#888' }, s);
+    txt(58, 26, model, 'chip-txt', s);
+    const g = document.createElement('div'); g.className = 'cc-gate'; g.textContent = GATE_WORD[model];
+    const n = document.createElement('div'); n.className = 'cc-name'; n.textContent = CHIPS[model].name;
+    b.append(s, g, n);
+    b.addEventListener('click', () => pickChip(model));
+    return b;
+  }
+  ['74LS04', '74LS08', '74LS32', '74LS00', '74LS02', '74LS86'].forEach(m => chipGrid.appendChild(chipCard(m)));
+
+  function openChipModal() {
+    if (!canEdit()) return;
+    chipGrid.querySelectorAll('.chip-card').forEach(c => c.classList.toggle('is-active', c.dataset.model === L.chip));
+    chipModal.classList.add('open');
+    chipGrid.querySelector('.is-active')?.focus();
+  }
+  function closeChipModal() { chipModal.classList.remove('open'); }
+  function pickChip(model) {
+    L.chip = model;
+    $('chip-label').textContent = '· ' + model.replace('74LS', 'LS');
+    closeChipModal();
+    setTool('chip');
+  }
+  $('chip-close').addEventListener('click', closeChipModal);
+  chipModal.addEventListener('click', e => { if (e.target === chipModal) closeChipModal(); });
+  $('undo-btn').addEventListener('click', undo);
+  $('clear-btn').addEventListener('click', () => {
+    if (!canEdit() || !S.parts.length) return;
+    pushHistory();
+    S.parts = []; S.target = null; S.power = false;
+    changed();
+  });
+
+  document.addEventListener('keydown', e => {
+    if (chipModal.classList.contains('open')) { if (e.key === 'Escape') closeChipModal(); return; }
+    if (e.target.closest?.('input, select, textarea')) return;
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z') { e.preventDefault(); return undo(); }
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    const map = { w: 'wire', l: 'led', r: 'res', c: 'chip', p: 'probe', x: 'remove' };
+    const k = e.key.toLowerCase();
+    if (map[k]) return k === 'c' ? openChipModal() : setTool(map[k]);
+    if (e.key === 'Escape') { L.pending = null; L.probe = null; renderOverlay(); }
+    if (/^[1-8]$/.test(e.key)) toggleSwitch(+e.key - 1);
+  });
+
+  // ── Socket.IO sync ──────────────────────────────────────────────────────────
+  let socket = null, syncTimer = null, socketUrlUsed = null;
+
+  function initSocket(url) {
+    if (typeof io === 'undefined') { socket = { emit() {}, on() {} }; return; }
+    if (url && url === socketUrlUsed) return;
+    try {
+      const prev = socket;
+      socketUrlUsed = url;
+      socket = io(url || (window.BeamerWidget ? BeamerWidget.serverOrigin() : ''),
+                  { transports: ['websocket', 'polling'] });
+      if (prev && prev.disconnect) prev.disconnect();
+      socket.on('widget_state', data => {
+        if (!IS_VIEWER || data?.widgetId !== WIDGET_ID) return;
+        applyState(data.state || {});
+      });
+    } catch (_) {
+      socket = { emit() {}, on() {} };
+    }
+  }
+
+  function emitState() {
+    if (!socket || IS_VIEWER) return;
+    clearTimeout(syncTimer);
+    syncTimer = setTimeout(() => {
+      socket.emit('widget_state', { widgetId: WIDGET_ID, state: getState() });
+    }, 120);
+  }
+
+  // ── State serialisation ─────────────────────────────────────────────────────
+  function getState() {
+    return { parts: S.parts.slice(0, 500), power: S.power, sw: S.sw.slice(), nextId: S.nextId, target: S.target };
+  }
+
+  // State can arrive from the network, so every part is validated before it is
+  // allowed anywhere near the renderer.
+  function cleanPart(p) {
+    if (!p || typeof p !== 'object') return null;
+    const id = Number(p.id) | 0;
+    if (p.type === 'chip') {
+      const c = Number(p.c) | 0;
+      if (!CHIPS[p.model] || c < 0 || c > COLS - 7) return null;
+      return { id, type: 'chip', model: p.model, c };
+    }
+    if (!['wire', 'led', 'res'].includes(p.type) || !validTerm(p.a) || !validTerm(p.b)) return null;
+    const o = { id, type: p.type, a: p.a, b: p.b };
+    if (p.type === 'wire') o.color = Math.max(0, Math.min(WIRE_COLORS.length - 1, Number(p.color) | 0));
+    return o;
+  }
+
+  function applyState(s) {
+    if (!s || typeof s !== 'object') return;
+    if (Array.isArray(s.parts)) S.parts = s.parts.slice(0, 500).map(cleanPart).filter(Boolean);
+    if (s.power != null) S.power = !!s.power;
+    if (Array.isArray(s.sw)) S.sw = Array.from({ length: 8 }, (_, i) => (s.sw[i] ? 1 : 0));
+    if (s.nextId != null) S.nextId = Math.max(Number(s.nextId) | 0, ...S.parts.map(p => p.id + 1), 1);
+    if (s.target !== undefined) S.target = TARGETS[s.target] ? s.target : null;
+    L.pending = null;
+    render();
+  }
+
+  // ── Config ──────────────────────────────────────────────────────────────────
+  function applyConfig(c) {
+    if (!c) return;
+    cfg       = { ...cfg, ...c };
+    WIDGET_ID = cfg.id || cfg.widgetId || WIDGET_ID;
+    role      = cfg.role || role;
+    IS_VIEWER = role === 'viewer' || _qs.get('viewer') === '1';
+    LOCKED    = !!cfg.readOnly;
+
+    $('wtitle').textContent = cfg.title || 'Breadboard Lab';
+    if (cfg.socketUrl) initSocket(cfg.socketUrl);
+
+    const preset = cfg.preset || 'blank';
+    if (preset !== lastCfgPreset && !IS_VIEWER) {
+      lastCfgPreset = preset;
+      loadPreset(preset, false);
+      return;
+    }
+    render();
+  }
+
+  function destroy() {
+    clearTimeout(syncTimer);
+    clearTimeout(flashTimer);
+    closeChipModal();
+    if (socket && socket.disconnect) socket.disconnect();
+    socket = null;
+  }
+
+  // ── Beamer+ message bridge ──────────────────────────────────────────────────
+  window.addEventListener('message', e => {
+    const d = e.data || {};
+    if (d.type === 'widget-config')  applyConfig(d.config);
+    if (d.type === 'widget-cleanup') destroy();
+    if (d.type === 'widget-get-state') {
+      window.parent.postMessage({ type: 'widget-state', widgetId: WIDGET_ID, state: getState() }, '*');
+    }
+    if (d.type === 'widget-set-state' && d.state) applyState(d.state);
+  });
+
+  // ── Helpers ─────────────────────────────────────────────────────────────────
+  function escHtml(s) {
+    return String(s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  // ── Boot ────────────────────────────────────────────────────────────────────
+  renderStatic();
+  initSocket(CFG0.socketUrl);
+  setTool(IS_VIEWER ? 'probe' : 'wire');
+  applyConfig(CFG0);
+})();
+</script>
+</body>
+</html>

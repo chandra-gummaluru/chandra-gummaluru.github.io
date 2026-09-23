@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Breadboard Lab | Chandra Gummaluru</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../post-styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        .widget-iframe {
+            width: 100%;
+            height: 760px;
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            background: #ffffff;
+            margin: 2rem 0;
+        }
+        @media (max-width: 768px) {
+            .widget-iframe { height: 560px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="nav-container">
+        <div class="nav-content">
+            <a href="../index.html" class="logo">Chandra Gummaluru</a>
+            <div class="nav-links">
+                <a href="../index.html" class="nav-link">Home</a>
+                <a href="../teaching.html" class="nav-link">Teaching</a>
+                <a href="../research.html" class="nav-link">Research</a>
+                <a href="../projects.html" class="nav-link active">Projects</a>
+                <a href="../blog.html" class="nav-link">Blog</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Banner -->
+    <section class="post-hero">
+        <div class="post-hero-content">
+            <div class="post-meta">
+                <span class="post-category">Widget</span>
+                <span class="post-date">September 2026</span>
+            </div>
+            <h1 class="post-hero-title">Breadboard Lab</h1>
+            <p class="post-hero-subtitle">Wiring Circuits by Hand</p>
+        </div>
+        <div class="post-hero-graphic">
+            <div class="graphic-circle"></div>
+            <div class="graphic-square"></div>
+            <div class="graphic-triangle"></div>
+        </div>
+    </section>
+
+    <!-- Content -->
+    <article class="post-content">
+        <div class="post-container" style="max-width: 1200px;">
+
+            <!-- Introduction -->
+            <section class="content-block">
+                <div class="block-content">
+                    <p style="font-size: 1.25rem; line-height: 1.8;">A breadboard for the lab bench, without the lab bench. Place chips, LEDs and resistors, run wires between the rows, flip the switches on the board, and probe a node to see what it reads. The rails behave like real ones, so a wire in the wrong row does exactly what it would in the room.</p>
+                </div>
+            </section>
+
+            <!-- Widget -->
+            <section class="content-block">
+                <iframe src="../assets/widgets/breadboard.html" class="widget-iframe" title="Breadboard Lab"></iframe>
+            </section>
+
+            <!-- How to Use -->
+            <section class="content-block alt-block">
+                <div class="block-content">
+                    <h2>How to Use</h2>
+                    <ul>
+                        <li>Pick a tool from the toolbar: wire, LED, resistor, chip, or the probe.</li>
+                        <li>Click two holes to run a wire between them, keeping the power rails in mind.</li>
+                        <li>Turn the power on, then use the switches to drive your inputs and watch the output LEDs.</li>
+                        <li>Use the probe to read the voltage at any node, and Clear to start over.</li>
+                    </ul>
+                    <p style="margin-top: 1.5rem;">The widget runs on its own in any browser, and it also drops straight onto a slide in <a href="./beamer-plus.html">Beamer+</a>.</p>
+                    <a href="../assets/widgets/breadboard.html" download class="btn-primary" style="margin-top: 1rem;">Download Widget</a>
+                </div>
+            </section>
+
+            <!-- Navigation -->
+            <nav class="post-navigation">
+                <a href="../teaching-widgets.html" class="nav-back">
+                    <span class="nav-arrow">&larr;</span>
+                    Back to Widgets
+                </a>
+            </nav>
+        </div>
+    </article>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p class="footer-text">&copy; 2025 Chandra Gummaluru</p>
+            <div class="footer-links">
+                <a href="mailto:chandra@cs.toronto.edu" class="footer-link">Email</a>
+                <a href="https://github.com/chandra-gummaluru" class="footer-link">GitHub</a>
+                <a href="#" class="footer-link">Google Scholar</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
