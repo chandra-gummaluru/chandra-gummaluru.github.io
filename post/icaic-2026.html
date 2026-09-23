@@ -39,12 +39,8 @@
         .icaic-hero .btn-primary:hover { background: rgba(255,255,255,0.88); }
         .icaic-hero .btn-secondary { color: #fff; border-color: rgba(255,255,255,0.7); }
         .icaic-hero .btn-secondary:hover { background: #fff; color: var(--color-primary); }
-
-        .icaic-facts .stat-number { font-size: 1.5rem; white-space: nowrap; }
-        .icaic-facts .stat-card { padding: 1.5rem 0.75rem; }
         .block-content a:not([class]) { color: var(--color-primary); text-decoration-thickness: 1px; text-underline-offset: 3px; }
         .block-content a:not([class]):hover { color: var(--color-accent-light); }
-        .icaic-facts .stat-card:hover { transform: none; }
 
         .block-content h3.sub {
             font-size: 1.5rem;
@@ -56,6 +52,34 @@
             line-height: 1.8;
             padding-left: 1.25rem;
             margin-bottom: 1.5rem;
+        }
+
+        /* When / where facts */
+        .fact-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.25rem;
+            margin: 2rem 0;
+        }
+        .fact-card {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            padding: 1.5rem 1.75rem;
+        }
+        .fact-label {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--color-text-light);
+            margin-bottom: 0.4rem;
+        }
+        .fact-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-primary);
+            line-height: 1.2;
         }
 
         /* Two events */
@@ -230,13 +254,6 @@
             padding-left: 1rem;
         }
 
-        /* Key dates */
-        .dates { width: 100%; border-collapse: collapse; margin: 1.5rem 0; font-size: 1.15rem; }
-        .dates td { padding: 0.9rem 0.5rem; border-bottom: 1px solid var(--color-border); vertical-align: top; }
-        .dates td:first-child { color: var(--color-primary); font-weight: 600; }
-        .dates td:last-child { font-family: var(--font-mono); font-size: 0.95rem; text-align: right; color: var(--color-text-light); white-space: nowrap; }
-        .dates tr.highlight td { font-weight: 700; color: var(--color-primary); }
-
         /* FAQ */
         .faq details {
             border-bottom: 1px solid var(--color-border);
@@ -273,13 +290,15 @@
             .icaic-hero-actions .btn-primary,
             .icaic-hero-actions .btn-secondary { width: 100%; justify-content: center; }
             .event-grid, .interview-split { grid-template-columns: 1fr; }
+            .fact-grid { grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+            .fact-card { padding: 1.1rem 1.25rem; }
+            .fact-value { font-size: 1.15rem; }
             .topic-grid { grid-template-columns: 1fr 1fr; }
             .process { grid-template-columns: 1fr; gap: 1.5rem; }
             .process::before { top: 0; bottom: 0; left: 35px; right: auto; border-top: none; border-left: 2px dashed var(--color-accent-light); }
             .process li { display: grid; grid-template-columns: 72px 1fr; column-gap: 1rem; text-align: left; align-items: center; }
             .process-icon { margin: 0; grid-row: span 3; }
             .stage { padding: 1.5rem; }
-            .dates td:last-child { white-space: normal; }
         }
         @media (max-width: 480px) {
             .topic-grid { grid-template-columns: 1fr; }
@@ -311,7 +330,7 @@
             <h1 class="post-hero-title">Compete at ICAIC 2026 in Singapore</h1>
             <p class="post-hero-subtitle">The Department of Computer Science is looking for three undergraduates to represent U of T at the International Collegiate AI Contest.</p>
             <div class="icaic-hero-actions">
-                <a href="#apply" class="btn-primary">Express interest</a>
+                <a href="#apply" class="btn-primary">Apply now</a>
                 <a href="#process" class="btn-secondary">How selection works</a>
             </div>
         </div>
@@ -324,33 +343,22 @@
     <article class="post-content">
         <div class="post-container">
 
-            <!-- Key facts -->
-            <section class="content-block">
-                <div class="stats-grid icaic-facts">
-                    <div class="stat-card">
-                        <div class="stat-number">Dec 6–12</div>
-                        <div class="stat-label">Competition week, 2026</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number">Singapore</div>
-                        <div class="stat-label">Hosted by NUS Computing</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number">3</div>
-                        <div class="stat-label">Students on the U of T team</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number">2</div>
-                        <div class="stat-label">Events: individual and team</div>
-                    </div>
-                </div>
-            </section>
-
             <!-- Overview -->
             <section class="content-block">
                 <div class="block-content">
                     <h2>What is ICAIC?</h2>
                     <p>The <a href="https://icaic.sg/index.php">International Collegiate Artificial Intelligence Contest</a> is an invitation-only, Olympiad-style competition organized by the Department of Computer Science at the National University of Singapore. It brings together teams from universities around the world to solve practical AI problems using real industry data.</p>
+
+                    <div class="fact-grid">
+                        <div class="fact-card">
+                            <div class="fact-label">When</div>
+                            <div class="fact-value">Dec 6&ndash;12, 2026</div>
+                        </div>
+                        <div class="fact-card">
+                            <div class="fact-label">Where</div>
+                            <div class="fact-value">NUS, Singapore</div>
+                        </div>
+                    </div>
                     <p>U of T has been invited to send a team, and the students selected will take part in <strong>both</strong> of the contest's events.</p>
 
                     <div class="event-grid">
@@ -443,7 +451,7 @@
                         <li>
                             <div class="process-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="5" width="24" height="30" rx="2"/><path d="M14 13 H26 M14 19 H26 M14 25 H20"/></svg></div>
                             <div class="process-step">STEP 1</div>
-                            <h4>Express interest</h4>
+                            <h4>Application</h4>
                             <div class="process-date">by <span class="placeholder">[DATE]</span></div>
                         </li>
                         <li>
@@ -455,32 +463,32 @@
                         <li>
                             <div class="process-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7 H24 V20 H13 L8 25 V20 H4 Z"/><path d="M28 14 H36 V27 H32 V32 L27 27 H16 V24"/></svg></div>
                             <div class="process-step">STEP 3</div>
-                            <h4>Interviews</h4>
+                            <h4>Interview</h4>
                             <div class="process-date"><span class="placeholder">[DATES]</span></div>
                         </li>
                         <li>
                             <div class="process-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 35 V5"/><path d="M8 7 H32 L27 13 L32 19 H8"/></svg></div>
                             <div class="process-step">STEP 4</div>
-                            <h4>Team announced</h4>
+                            <h4>Selection</h4>
                             <div class="process-date"><span class="placeholder">[DATE]</span></div>
                         </li>
                     </ol>
 
                     <div class="stage">
-                        <h3>1. Express interest <span>online form</span></h3>
-                        <p>Fill out the interest form. It asks for:</p>
+                        <h3>1. Application</h3>
+                        <p>Fill out the application form. It asks for:</p>
                         <ul>
                             <li>Your name, U of T email, student number, and UTORid</li>
                             <li>Your major and year of study</li>
                             <li>Whether you are available to travel to Singapore for December 6–12, 2026</li>
                             <li>Confirmation that you are responsible for making sure you can legally take part, including travel documents</li>
                         </ul>
-                        <p>Once the form closes, we will email everyone who is eligible to confirm the date, time, and location of the qualifier.</p>
+                        <p>Once applications close, we will email everyone who is eligible to confirm the date, time, and location of the qualifier.</p>
                     </div>
 
                     <div class="stage">
-                        <h3>2. The qualifier <span>3 hours · in person</span></h3>
-                        <p>You will get a reasonably challenging, Kaggle-style machine learning problem: a dataset, a task, and a clear evaluation metric. Your job is to build the best model you can in three hours.</p>
+                        <h3>2. Qualifier</h3>
+                        <p>The qualifier is a three-hour, in-person contest. You will get a reasonably challenging, Kaggle-style machine learning problem: a dataset, a task, and a clear evaluation metric. Your job is to build the best model you can in three hours.</p>
                         <ul>
                             <li><strong>Fair setup:</strong> everyone works on departmental computers in a locked-down environment. You don't need to bring your own laptop.</li>
                             <li><strong>Auto-graded:</strong> submissions are scored automatically on hidden test data.</li>
@@ -492,8 +500,8 @@
                     </div>
 
                     <div class="stage">
-                        <h3>3. Interviews <span>shortlisted students</span></h3>
-                        <p>Top performers from the qualifier will be invited to an interview. It has two parts:</p>
+                        <h3>3. Interview</h3>
+                        <p>Top performers from the qualifier will be shortlisted for an interview. It has two parts:</p>
                         <div class="interview-split">
                             <div>
                                 <h4>Technical</h4>
@@ -507,9 +515,19 @@
                     </div>
 
                     <div class="stage">
-                        <h3>4. Team announced</h3>
-                        <p>We will choose the final three students based on the qualifier and the interview together, and let everyone know the outcome by <span class="placeholder">[DATE]</span>. The selected team will then prepare for Singapore together.</p>
+                        <h3>4. Selection</h3>
+                        <p>We will choose the final three students based on the qualifier and the interview together, and let everyone know the outcome by <span class="placeholder">[DATE]</span>. The selected team then begins training together.</p>
                     </div>
+                </div>
+            </section>
+
+            <!-- Training -->
+            <section class="content-block" id="training">
+                <div class="block-content">
+                    <h2>Training</h2>
+                    <p>Selection is the beginning, not the end. From <span class="placeholder">[DATE]</span> until the competition, the three students on the team meet with us <strong>once a week</strong> to prepare.</p>
+                    <p>Each session is built around a problem in the same style as the qualifier: a dataset, a task, and an evaluation metric, worked through under time pressure. Over the weeks, the problems cover the range of topics ICAIC draws on, so the team arrives in Singapore having already practised the kind of work the contest asks for.</p>
+                    <p>Sessions also give the three of you time to work as a team, since one of the two ICAIC events is solved together. Expect to commit a few hours a week, including some work between sessions.</p>
                 </div>
             </section>
 
@@ -526,20 +544,6 @@
                         <li>Take responsibility for making sure you can <strong>legally participate and travel</strong>, including a valid passport and any visa you may need for Singapore</li>
                     </ul>
                     <p class="note">Students in all years are welcome to apply. Priority may be given to students in their third or fourth year. Graduate students are not eligible.</p>
-                </div>
-            </section>
-
-            <!-- Key dates -->
-            <section class="content-block">
-                <div class="block-content">
-                    <h2>Key dates</h2>
-                    <table class="dates">
-                        <tr><td>Interest form closes</td><td><span class="placeholder">[DATE]</span></td></tr>
-                        <tr><td>In-person qualifier (3 hours)</td><td><span class="placeholder">[DATE]</span></td></tr>
-                        <tr><td>Interviews</td><td><span class="placeholder">[DATES]</span></td></tr>
-                        <tr><td>Final team announced</td><td><span class="placeholder">[DATE]</span></td></tr>
-                        <tr class="highlight"><td>ICAIC 2026, Singapore</td><td>Dec 6–12, 2026</td></tr>
-                    </table>
                 </div>
             </section>
 
@@ -582,10 +586,10 @@
             <section class="cta-section" id="apply">
                 <div class="cta-content">
                     <h2>Interested?</h2>
-                    <p>Fill out the interest form by <span class="placeholder">[DATE]</span>. We'll be in touch with details about the qualifier.</p>
+                    <p>Fill out the application form by <span class="placeholder">[DATE]</span>. We'll be in touch with details about the qualifier.</p>
                     <div class="cta-buttons">
-                        <!-- TODO: replace [FORM LINK] with the interest form URL -->
-                        <a href="[FORM LINK]" class="btn-primary">Fill out the interest form</a>
+                        <!-- TODO: replace [FORM LINK] with the application form URL -->
+                        <a href="[FORM LINK]" class="btn-primary">Fill out the application form</a>
                         <a href="https://icaic.sg/index.php" class="btn-secondary">Visit the ICAIC website</a>
                     </div>
                     <p style="margin: 1.5rem 0 0; font-size: 1rem;">Questions? Email <span class="placeholder">[CONTACT EMAIL]</span></p>
