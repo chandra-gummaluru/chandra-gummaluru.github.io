@@ -3,7 +3,7 @@ title: "Arelai: An Open-Source RL Agent Framework"
 date: Open Source
 category: Framework
 page: projects
-size: medium
+size: small
 link_label: View Project
 excerpt: A lightweight Python framework for developing and evaluating reinforcement learning agents, designed with pedagogy in mind.
 link: ./post/arelai.html
