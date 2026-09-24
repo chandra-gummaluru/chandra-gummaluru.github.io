@@ -3,7 +3,7 @@ title: Interactive Teaching Widgets
 date: February 2, 2026
 category: Collection
 page: projects
-cover: assets/img-cover_teach_phil.svg
+cover: assets/img-cover_widgets.svg
 size: medium
 link_label: View Collection
 excerpt: A collection of custom HTML widgets designed to make complex concepts more accessible and engaging.
