@@ -284,7 +284,33 @@
         }
         .cta-section .placeholder { background: rgba(255,255,255,0.2); color: #fff; }
 
+        /* Funding callout in hero */
+        .icaic-funding {
+            display: grid;
+            gap: 0.75rem;
+            margin-top: 1.75rem;
+            width: max-content;
+            max-width: 100%;
+        }
+        .icaic-funding-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: rgba(255,255,255,0.14);
+            border: 1px solid rgba(255,255,255,0.45);
+            border-radius: 12px;
+            padding: 0.75rem 1.1rem;
+            color: #fff;
+            font-size: 1.05rem;
+            line-height: 1.35;
+        }
+        .icaic-funding-item svg { width: 30px; height: 30px; flex-shrink: 0; }
+        .icaic-funding-item strong { display: block; font-size: 1.15rem; }
+        .fact-grid.three { grid-template-columns: repeat(3, 1fr); }
+
         @media (max-width: 768px) {
+            .icaic-funding { width: 100%; }
+            .fact-grid.three { grid-template-columns: 1fr; }
             .icaic-hero { padding-top: 9.5rem; }
             .icaic-hero-art { position: static; width: 100%; opacity: 0.3; margin-top: 2rem; }
             .icaic-hero-actions .btn-primary,
@@ -329,6 +355,16 @@
             </div>
             <h1 class="post-hero-title">Compete at ICAIC 2026 in Singapore</h1>
             <p class="post-hero-subtitle">The Department of Computer Science is looking for three undergraduates to represent U of T at the International Collegiate AI Contest.</p>
+            <div class="icaic-funding">
+                <div class="icaic-funding-item">
+                    <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 26 L36 12 L32 22 Z"/><path d="M14 22 L16 32 L22 25"/></svg>
+                    <span><strong>Trip funded</strong>by the Department of Computer Science</span>
+                </div>
+                <div class="icaic-funding-item">
+                    <svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 30 V12 M4 22 H36 V30 M4 26 H36"/><circle cx="11" cy="17" r="3"/><path d="M16 22 V16 H32 A4 4 0 0 1 36 20 V22"/></svg>
+                    <span><strong>Accommodation covered</strong>by NUS</span>
+                </div>
+            </div>
             <div class="icaic-hero-actions">
                 <a href="#apply" class="btn-primary">Apply now</a>
                 <a href="#process" class="btn-secondary">How selection works</a>
@@ -349,7 +385,7 @@
                     <h2>What is ICAIC?</h2>
                     <p>The <a href="https://icaic.sg/index.php">International Collegiate Artificial Intelligence Contest</a> is an invitation-only, Olympiad-style competition organized by the Department of Computer Science at the National University of Singapore. It brings together teams from universities around the world to solve practical AI problems using real industry data.</p>
 
-                    <div class="fact-grid">
+                    <div class="fact-grid three">
                         <div class="fact-card">
                             <div class="fact-label">When</div>
                             <div class="fact-value">Dec 6&ndash;12, 2026</div>
@@ -357,6 +393,10 @@
                         <div class="fact-card">
                             <div class="fact-label">Where</div>
                             <div class="fact-value">NUS, Singapore</div>
+                        </div>
+                        <div class="fact-card">
+                            <div class="fact-label">Cost</div>
+                            <div class="fact-value">Trip funded, stay covered</div>
                         </div>
                     </div>
                     <p>The competition itself comes in two parts:</p>
@@ -427,7 +467,7 @@
                         <div class="feature-card">
                             <span class="feature-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 26 L36 12 L32 22 Z"/><path d="M14 22 L16 32 L22 25"/></svg></span>
                             <h3>A week in Singapore</h3>
-                            <p>Travel to Singapore to compete, supported by the department.</p>
+                            <p>Travel to Singapore to compete. The Department of Computer Science funds the trip, and NUS covers your accommodation.</p>
                         </div>
                         <div class="feature-card">
                             <span class="feature-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="5"/><circle cx="28" cy="13" r="5"/><path d="M3 32 C3 24 8 21 12 21 S19 23 20 26 C21 23 24 21 28 21 S37 24 37 32"/></svg></span>
@@ -454,43 +494,43 @@
                             <div class="process-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="5" width="24" height="30" rx="2"/><path d="M14 13 H26 M14 19 H26 M14 25 H20"/></svg></div>
                             <div class="process-step">STEP 1</div>
                             <h4>Application</h4>
-                            <div class="process-date">by <span class="placeholder">[DATE]</span></div>
+                            <div class="process-date">closes Fri, Oct 9</div>
                         </li>
                         <li>
                             <div class="process-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="7" width="30" height="19" rx="2"/><path d="M15 33 H25 M20 26 V33"/><path d="M10 21 L15 15 L19 18 L25 11 L30 13"/></svg></div>
                             <div class="process-step">STEP 2</div>
                             <h4>Qualifier</h4>
-                            <div class="process-date"><span class="placeholder">[DATE]</span></div>
+                            <div class="process-date">Fri, Oct 16 &amp; Sat, Oct 17</div>
                         </li>
                         <li>
                             <div class="process-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7 H24 V20 H13 L8 25 V20 H4 Z"/><path d="M28 14 H36 V27 H32 V32 L27 27 H16 V24"/></svg></div>
                             <div class="process-step">STEP 3</div>
                             <h4>Interview</h4>
-                            <div class="process-date"><span class="placeholder">[DATES]</span></div>
+                            <div class="process-date">Tue, Oct 20 or Thu, Oct 22</div>
                         </li>
                         <li>
                             <div class="process-icon"><svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 35 V5"/><path d="M8 7 H32 L27 13 L32 19 H8"/></svg></div>
                             <div class="process-step">STEP 4</div>
                             <h4>Selection</h4>
-                            <div class="process-date"><span class="placeholder">[DATE]</span></div>
+                            <div class="process-date">by Fri, Oct 23</div>
                         </li>
                     </ol>
 
                     <div class="stage">
                         <h3>1. Application</h3>
-                        <p>Fill out the application form. It asks for:</p>
+                        <p>Fill out the application form by <strong>Friday, October 9</strong>. It asks for:</p>
                         <ul>
                             <li>Your name, U of T email, student number, and UTORid</li>
-                            <li>Your major and year of study</li>
+                            <li>Your program (or CMP1 admission category) and year of study</li>
                             <li>Whether you are available to travel to Singapore for December 6–12, 2026</li>
                             <li>Confirmation that you are responsible for making sure you can legally take part, including travel documents</li>
                         </ul>
-                        <p>Once applications close, we will email everyone who is eligible to confirm the date, time, and location of the qualifier.</p>
+                        <p>By <strong>Sunday, October 11</strong>, we will email everyone who is eligible to confirm that they will take part in the qualifier, along with its time and location.</p>
                     </div>
 
                     <div class="stage">
                         <h3>2. Qualifier</h3>
-                        <p>The qualifier is a three-hour, in-person contest. You will get a reasonably challenging, Kaggle-style machine learning problem: a dataset, a task, and a clear evaluation metric. Your job is to build the best model you can in the time given.</p>
+                        <p>The qualifier takes place on <strong>Friday, October 16 and Saturday, October 17</strong>. It is a three-hour, in-person contest. You will get a reasonably challenging, Kaggle-style machine learning problem: a dataset, a task, and a clear evaluation metric. Your job is to build the best model you can in the time given.</p>
                         <p>You will:</p>
                         <ul>
                             <li>work on departmental computers in a locked-down environment, so you will have nothing to install and nothing to bring;</li>
@@ -502,7 +542,7 @@
 
                     <div class="stage">
                         <h3>3. Interview</h3>
-                        <p>Top performers from the qualifier will be shortlisted for an interview. It has two parts:</p>
+                        <p>By <strong>Sunday, October 18</strong>, we will let the top performers from the qualifier know that they have been shortlisted for an interview. Interviews take place the following week, on <strong>Tuesday, October 20 or Thursday, October 22</strong>, depending on your schedule. Each interview has two parts:</p>
                         <div class="split-grid">
                             <div>
                                 <h4>Technical</h4>
@@ -517,7 +557,8 @@
 
                     <div class="stage">
                         <h3>4. Selection</h3>
-                        <p>We will choose the final three students based on the qualifier and the interview together, and let everyone know the outcome by <span class="placeholder">[DATE]</span>. The selected team then begins training together.</p>
+                        <p>We will choose the final three students based on the qualifier and the interview together, and let everyone know the outcome by <strong>Friday, October 23</strong>. The selected team then begins training together.</p>
+                        <p>Before travelling, each selected student must complete U of T's <a href="https://learningabroad.utoronto.ca/safety-abroad/students/">Safety Abroad requirements</a>, including the Safety Abroad workshop and registering the trip in the Safety Abroad Registry.</p>
                     </div>
                 </div>
             </section>
@@ -526,7 +567,7 @@
             <section class="content-block" id="training">
                 <div class="block-content">
                     <h2>Training</h2>
-                    <p>Selection is the beginning, not the end. From <span class="placeholder">[DATE]</span> until the competition, the three students on the team meet with us <strong>once a week</strong> to prepare.</p>
+                    <p>Selection is the beginning, not the end. From the week of <strong>October 26</strong> until the competition, the three students on the team meet with us <strong>once a week</strong> to prepare.</p>
                     <p>Each session is built around a problem in the same style as the qualifier: a dataset, a task, and an evaluation metric, worked through under time pressure. Over the weeks, the problems cover the range of topics ICAIC draws on, so the team arrives in Singapore having already practised the kind of work the contest asks for.</p>
                     <p>Sessions also give the three of you time to work as a team, since one of the two ICAIC events is solved together. Expect to commit a few hours a week, including some work between sessions.</p>
                 </div>
@@ -538,12 +579,13 @@
                     <h2>Eligibility &amp; requirements</h2>
                     <p>To be considered, you must:</p>
                     <ul class="checklist">
-                        <li>Be a current <strong>undergraduate</strong> student at the University of Toronto</li>
+                        <li>Be a registered <strong>undergraduate</strong> student in the <strong>Faculty of Arts &amp; Science (St. George campus)</strong>, enrolled in a computer science program (<strong>Computer Science Specialist, Major, or Minor</strong>, or <strong>Data Science Specialist</strong>) or in the <strong>First-Year Computer Science admission category (CMP1)</strong></li>
                         <li>Remain <strong>enrolled through December 2026</strong></li>
                         <li>Be <strong>available to travel to Singapore</strong> for the full competition week, December 6–12, 2026</li>
                         <li>Be willing to compete in <strong>both</strong> the individual and team events</li>
                         <li>Be able to meet for <strong>a few hours each week</strong> for training, if you are selected</li>
                         <li>Take responsibility for making sure you can <strong>legally participate and travel</strong>, including a valid passport and any visa you may need for Singapore</li>
+                        <li>Complete U of T's <a href="https://learningabroad.utoronto.ca/safety-abroad/students/"><strong>Safety Abroad requirements</strong></a> before departure, if you are selected</li>
                     </ul>
                 </div>
             </section>
@@ -558,7 +600,7 @@
                     </details>
                     <details>
                         <summary>I'm in first or second year. Should I still apply?</summary>
-                        <p>Yes. All undergraduate years are eligible. Priority may go to third- and fourth-year students, but a strong qualifier result and interview count for a lot.</p>
+                        <p>Yes. All undergraduate years are eligible, including first-year students in the First-Year Computer Science admission category (CMP1). Priority may go to third- and fourth-year students, but a strong qualifier result and interview count for a lot.</p>
                     </details>
                     <details>
                         <summary>Can I use my own laptop in the qualifier?</summary>
@@ -570,11 +612,15 @@
                     </details>
                     <details>
                         <summary>Who pays for the trip?</summary>
-                        <p>The department is supporting the team's participation. Details will be shared with the selected students.</p>
+                        <p>The Department of Computer Science funds the trip, and NUS covers accommodation in Singapore. We will share the details with the selected students.</p>
                     </details>
                     <details>
                         <summary>Do I need a visa for Singapore?</summary>
                         <p>It depends on your citizenship. Check the requirements from Singapore's Immigration &amp; Checkpoints Authority early, and make sure your passport is valid well past December 2026. Securing the right documents is your responsibility.</p>
+                    </details>
+                    <details>
+                        <summary>What is the Safety Abroad requirement?</summary>
+                        <p>U of T requires every student travelling outside Canada for a university activity to complete its <a href="https://learningabroad.utoronto.ca/safety-abroad/students/">Safety Abroad requirements</a> before leaving. This includes completing the Safety Abroad workshop and registering your trip in the Safety Abroad Registry. If you are selected, we will help you get this done before December.</p>
                     </details>
                     <details>
                         <summary>Can graduate students apply?</summary>
@@ -587,7 +633,7 @@
             <section class="cta-section" id="apply">
                 <div class="cta-content">
                     <h2>Interested?</h2>
-                    <p>Fill out the application form by <span class="placeholder">[DATE]</span>. We'll be in touch with details about the qualifier.</p>
+                    <p>Fill out the application form by <strong>Friday, October 9</strong>. We'll be in touch with details about the qualifier.</p>
                     <div class="cta-buttons">
                         <!-- TODO: replace [FORM LINK] with the application form URL -->
                         <a href="[FORM LINK]" class="btn-primary">Fill out the application form</a>
