@@ -1,6 +1,6 @@
 # ICAIC 2026 Application Form: Microsoft Forms build sheet
 
-Build this at forms.office.com while signed in with your U of T account. Each section below is a
+Build this at forms.office.com while signed in with your university account. Each section below is a
 **section** in Forms (Add new > Section). Question types are in brackets. `*` = required.
 
 ---
@@ -8,19 +8,19 @@ Build this at forms.office.com while signed in with your U of T account. Each se
 ## Settings (… menu > Settings)
 
 - **Who can fill out this form:** Only people in my organization
-- **Record name:** On (gives you each student's verified name and U of T email automatically)
+- **Record name:** On (gives you each student's verified name and university email automatically)
 - **One response per person:** On
 - **Start date:** Monday, September 28, 2026
 - **End date:** Friday, October 9, 2026, 11:59 PM
 - **Customize thank you message:** On (text in the last section below)
 - **Allow receipt of responses after submission:** On
 
-**Form title:** ICAIC 2026 – U of T Team Application
+**Form title:** Department of Computer Science ICAIC 2026 Application Form
 
 **Form description:**
-> The Department of Computer Science is selecting three undergraduates to represent U of T at the
-> International Collegiate AI Contest at NUS, Singapore, December 6–12, 2026. Travel is covered by
-> U of T Computer Science and accommodation is provided by NUS.
+> The Department of Computer Science is selecting three undergraduate students to compete at the
+> International Collegiate AI Contest at the National University of Singapore (NUS), December 6–12,
+> 2026. Travel is covered by the Department of Computer Science and accommodation is provided by NUS.
 >
 > Applications close Friday, October 9 at 11:59 PM. Full details:
 > https://chandra-gummaluru.github.io/post/icaic-2026.html
@@ -33,10 +33,10 @@ Build this at forms.office.com while signed in with your U of T account. Each se
 
 1. **Full name** * [Text]
 2. **Student number** * [Text, Restrictions > Number]
-   Subtitle: *Your 9- or 10-digit U of T student number.*
+   Subtitle: *Your 9- or 10-digit student number.*
 3. **UTORid** * [Text]
 
-(Your U of T email is recorded automatically by the "Record name" setting.)
+(Your university email is recorded automatically by the "Record name" setting.)
 
 ---
 
@@ -46,24 +46,27 @@ Build this at forms.office.com while signed in with your U of T account. Each se
    - Yes → *Go to next section*
    - No → *Go to section "Not eligible"*
 
-5. **Which program are you enrolled in?** * [Choice]
+5. **Which program(s) are you enrolled in?** * [Choice, Multiple answers on]
    - Computer Science Specialist
    - Computer Science Major
    - Computer Science Minor
    - Data Science Specialist
    - First-Year Computer Science admission category (CMP1)
-   - None of the above → *Go to section "Not eligible"*
+   - None of the above
 
-   Subtitle: *If you are in more than one, choose the one listed first.*
+   Subtitle: *Select all that apply (for example, the Data Science Specialist together with another program).*
+
+   Note: Forms can't branch on multi-select questions, so "None of the above" can't route to
+   "Not eligible" automatically. Filter these out in the Excel results instead.
 
 6. **Year of study** * [Choice]
-   - 1st year
-   - 2nd year
-   - 3rd year
-   - 4th year
-   - 5th year or higher
+   Subtitle: *As defined by the Faculty of Arts & Science, based on credits earned. See "Year of study" at the bottom of https://artsci.calendar.utoronto.ca/glossary-terms*
+   - Year 1
+   - Year 2
+   - Year 3
+   - Year 4
 
-7. **Will you remain enrolled at U of T through December 2026?** * [Choice]
+7. **Will you remain enrolled through December 2026?** * [Choice]
    - Yes
    - No → *Go to section "Not eligible"*
 
@@ -96,7 +99,7 @@ Build this at forms.office.com while signed in with your U of T account. Each se
 12. **Please confirm each of the following:** * [Choice, Multiple answers on]
     Subtitle: *All three must be checked to submit a complete application.*
     - I understand that I am responsible for making sure I can legally take part and travel, including holding a valid passport and any visa I may need for Singapore.
-    - If selected, I will complete U of T's Safety Abroad requirements before departure (https://learningabroad.utoronto.ca/safety-abroad/students/).
+    - If selected, I will complete the University's Safety Abroad requirements before departure (https://learningabroad.utoronto.ca/safety-abroad/students/).
     - I will compete in both the individual and team events if selected.
 
 → End of form (Submit)
