@@ -3,12 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lectern: Every Course, From the First Lecture to the Final Mark | Chandra Gummaluru</title>
+    <title>Lectern: Course Pages, Grades and Exams | Chandra Gummaluru</title>
     <link rel="stylesheet" href="../styles.css">
     <link rel="stylesheet" href="../post-styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* ---------- Lectern page-specific styles (mirrors the Beamer+ page) ---------- */
+        .bp-hero-art {
+            position: absolute;
+            right: 3%;
+            top: 7.5rem;
+            bottom: 1.5rem;
+            opacity: 0.35;
+            pointer-events: none;
+        }
+        .bp-hero-art img { height: 100%; width: auto; display: block; }
+
+        .feature-icon svg {
+            width: 28px; height: 28px;
+            fill: none; stroke: currentColor; stroke-width: 2;
+            stroke-linecap: round; stroke-linejoin: round;
+        }
+
+        .hiw-intro { font-size: 1.25rem; }
+        .hiw-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+            align-items: center;
+            margin: 3rem 0;
+        }
+        .hiw-row:nth-of-type(even) .hiw-art { order: 2; }
+        .hiw-art {
+            background: #fbf5ec;
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            padding: 1.25rem;
+        }
+        .hiw-art img { display: block; width: 100%; }
+        .hiw-step {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--color-text-light);
+        }
+        .block-content .hiw-text h3 {
+            font-size: 1.75rem;
+            color: var(--color-primary);
+            margin: 0.25rem 0 0.75rem;
+        }
+        .block-content .hiw-text p { font-size: 1.15rem; margin-bottom: 1rem; }
+        .block-content .hiw-text p:last-child { margin-bottom: 0; }
+        .block-content a:not([class]) { color: var(--color-primary); text-underline-offset: 3px; }
+        .block-content a:not([class]):hover { color: var(--color-accent-light); }
+
+        .lt-shot {
+            display: block;
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+            border: 2px solid var(--color-border);
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+        }
+        .step-content { min-width: 0; }
+        .lt-code {
+            display: block;
+            max-width: 100%;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            margin-top: 0.75rem;
+            overflow-x: auto;
+            white-space: pre;
+        }
+
+        @media (max-width: 768px) {
+            .bp-hero-art { position: static; opacity: 0.3; margin-top: 2rem; }
+            .bp-hero-art img { width: 100%; height: auto; }
+            .post-hero { padding-top: 9.5rem; }
+            .hiw-row { grid-template-columns: 1fr; gap: 1.25rem; margin: 2.5rem 0; }
+            .hiw-row:nth-of-type(even) .hiw-art { order: 0; }
+        }
+    </style>
 </head>
 <body>
     <!-- Navigation -->
@@ -19,7 +102,7 @@
                 <a href="../index.html" class="nav-link">Home</a>
                 <a href="../teaching.html" class="nav-link">Teaching</a>
                 <a href="../research.html" class="nav-link">Research</a>
-                <a href="../projects.html" class="nav-link">Projects</a>
+                <a href="../projects.html" class="nav-link active">Projects</a>
                 <a href="../blog.html" class="nav-link">Blog</a>
             </div>
         </div>
@@ -32,81 +115,182 @@
                 <span class="post-category">Tool</span>
                 <span class="post-date">November 2026</span>
             </div>
-            <h1 class="post-hero-title">Lectern: Every Course, From the First Lecture to the Final Mark</h1>
-            <p class="post-hero-subtitle">One open-source place to run a course. The course page, the gradebook and the exams, kept in step with each other.</p>
+            <h1 class="post-hero-title">Lectern</h1>
+            <p class="post-hero-subtitle">Every course, from the first lecture to the final mark</p>
         </div>
-        <div class="post-hero-graphic">
-            <div class="graphic-circle"></div>
-            <div class="graphic-square"></div>
-            <div class="graphic-triangle"></div>
+        <div class="bp-hero-art" aria-hidden="true">
+            <img src="../assets/lectern/hero-art.svg" alt="">
         </div>
     </section>
 
     <!-- Content -->
     <article class="post-content">
         <div class="post-container">
+
+            <!-- Introduction -->
             <section class="content-block">
                 <div class="block-content">
-            <p><strong><a href="https://lectern.changapp.net">Open Lectern</a></strong> · <strong><a href="https://github.com/chandra-gummaluru/lectern">View the source on GitHub</a></strong></p>
-            <p>Running a course usually means keeping five things in sync by hand: a course website, a spreadsheet of marks, a folder of LaTeX exams, an inbox full of &quot;I missed the midterm&quot; emails, and a syllabus that has to agree with all of them. Change a due date and you have to update it in four places. Forget one and students notice.</p>
-            <p>Lectern puts all of it in one place. For each course offering (a course in one term, like CSC258 in Fall 2026) it keeps the <strong>course page</strong>, the <strong>gradebook</strong> and the <strong>exams</strong> together. Changing one updates the rest, so you set something once and it&#x27;s correct everywhere.</p>
-            <figure style="margin:0;">
-<img src="../assets/lectern/lectern-offering.jpg" alt="Each course offering has a course page, its activities, evaluations, gradebook, accommodation requests and teaching team, all in one place." style="width:100%;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.1);">
-<figcaption style="margin-top:0.75rem;font-size:0.95rem;color:var(--color-text-light);text-align:center;font-style:italic;">Each course offering has a course page, its activities, evaluations, gradebook, accommodation requests and teaching team, all in one place.</figcaption>
-</figure>
-            <h3>A course page that builds itself</h3>
-            <p>You don&#x27;t design the course page. You fill in your weekly activities, announcements, evaluations and teaching team, and Lectern turns them into a clean course website with tabs for <em>This week</em>, <em>Announcements</em>, <em>Activities</em>, <em>Evaluations</em> and <em>About</em>.</p>
-            <p>The page opens on <strong>This week</strong>, so students land on what matters right now: this week&#x27;s lectures and tutorials, what&#x27;s due, and the latest announcement. Each evaluation appears automatically in the week it&#x27;s due, and the marking scheme on the page comes straight from your gradebook, so it&#x27;s always correct.</p>
-            <p>You choose which tabs are public and which need a sign-in. The page also works on phones and can be embedded in Quercus.</p>
-            <figure style="margin:0;">
-<img src="../assets/lectern/lectern-hub-week.jpg" alt="What students see: this week&#x27;s activities and announcements, laid out week by week." style="width:100%;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.1);">
-<figcaption style="margin-top:0.75rem;font-size:0.95rem;color:var(--color-text-light);text-align:center;font-style:italic;">What students see: this week&#x27;s activities and announcements, laid out week by week.</figcaption>
-</figure>
-            <h3>A gradebook that understands your syllabus</h3>
-            <p>Set up evaluations with weights, due dates, &quot;best 7 of 8&quot;, makeups and passing rules (e.g. &quot;below 40% on the final caps your grade at 47%&quot;). Import your class list from Quercus or ACORN, then enter marks or upload them. Lectern computes every student&#x27;s course grade and shows how the class is doing, including the average, the median, the spread, and who is below 50%.</p>
-            <figure style="margin:0;">
-<img src="../assets/lectern/lectern-gradebook.jpg" alt="The gradebook: every student&#x27;s course grade, with the class distribution beside it." style="width:100%;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.1);">
-<figcaption style="margin-top:0.75rem;font-size:0.95rem;color:var(--color-text-light);text-align:center;font-style:italic;">The gradebook: every student&#x27;s course grade, with the class distribution beside it.</figcaption>
-</figure>
-            <h3>Exams written where they&#x27;re graded</h3>
-            <p>Open any evaluation&#x27;s test or assignment and write it in place, with multiple versions, an answer key and a marking guide. Its total marks feed straight back into the gradebook, so the exam and the marking scheme never disagree.</p>
-            <figure style="margin:0;">
-<img src="../assets/lectern/lectern-exam.jpg" alt="Writing a midterm inside Lectern. Its total marks feed the gradebook." style="width:100%;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.1);">
-<figcaption style="margin-top:0.75rem;font-size:0.95rem;color:var(--color-text-light);text-align:center;font-style:italic;">Writing a midterm inside Lectern. Its total marks feed the gradebook.</figcaption>
-</figure>
-            <h3>Accommodations without the email chain</h3>
-            <p>Students request an accommodation for a missed evaluation right from the course page, before a deadline you set. You see every request in one list, approve or reject it with a note, and Lectern emails the student the decision. Students only ever see their own requests.</p>
-            <h3>Built for a teaching team</h3>
-            <p>Add instructors and TAs to any offering. Instructors can do everything you can. TAs can see the gradebook and enter marks, but can&#x27;t change the course setup, and Lectern&#x27;s server enforces that. Every save keeps the earlier version, so mistakes can be undone.</p>
-            <figure style="margin:0;">
-<img src="../assets/lectern/lectern-home.jpg" alt="Your courses, term by term, with each one&#x27;s public course page." style="width:100%;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.1);">
-<figcaption style="margin-top:0.75rem;font-size:0.95rem;color:var(--color-text-light);text-align:center;font-style:italic;">Your courses, term by term, with each one&#x27;s public course page.</figcaption>
-</figure>
-            <h3>Private by default, secure throughout</h3>
-            <p>The course page is the only thing that&#x27;s ever published. Grades, exams and accommodation requests are visible only to you and your teaching team. Students sign in with their email and a one-time code.</p>
-            <p>On the server side, Lectern is invite-only and uses argon2id password hashing and optional two-factor sign-in. Sessions are server-side, and published course pages are sandboxed so they can&#x27;t touch anything private.</p>
-            <h3>Use it</h3>
-            <p><strong>At the University of Toronto:</strong> Lectern is running at <a href="https://lectern.changapp.net">lectern.changapp.net</a>. It&#x27;s invite-only, so <a href="mailto:chandra@cs.toronto.edu">email me</a> if you&#x27;d like an account for your course.</p>
-            <p><strong>Anywhere else:</strong> Lectern is open source and small enough to run yourself. All it needs is Python 3 and an HTTPS address, and one script sets everything up:</p>
-            <ol><li><code>git clone https://github.com/chandra-gummaluru/lectern.git ~/apps/lectern</code></li><li><code>~/apps/lectern/new-lectern.sh</code></li></ol>
-            <p>The script asks for your address, your email settings and a first administrator, and then you&#x27;re ready to invite instructors. Full instructions are in the <a href="https://github.com/chandra-gummaluru/lectern">README</a>.</p>
-            <p>Lectern can also be installed as an app, with its own window and icon, on your computer, iPhone or iPad.</p>
+                    <p style="font-size: 1.25rem; line-height: 1.8;">
+                        Every term, I found myself running each course out of five different places: a course website, a spreadsheet of marks, a folder of LaTeX exams, an inbox full of "I missed the midterm" emails, and a syllabus that was supposed to agree with all of them. Moving a single due date meant updating it in four places, and students always noticed the one I missed. I wanted one place where all of it lived together and stayed in agreement. That's why I created <strong>Lectern</strong>.
+                    </p>
                 </div>
             </section>
 
-            <nav class="post-navigation">
-                <a href="../projects.html" class="nav-back">
-                    <span class="nav-arrow">&larr;</span>
-                    Back
-                </a>
-            </nav>
+            <!-- What is Lectern -->
+            <section class="content-block">
+                <div class="block-content">
+                    <h2>What Is Lectern?</h2>
+                    <p><strong>Lectern</strong> is an open-source web app, built with Python and Flask, for running a course. For each course offering (say, CSC258 in Fall 2026), it keeps the course page, the gradebook and the exams together, so you set something once and it's right everywhere. It brings:</p>
+                </div>
+            </section>
+
+            <!-- Feature Grid -->
+            <section class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon"><svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 9h20"/><path d="M6 13h5M6 16h3M14 13h4v3h-4z"/></svg></div>
+                    <h3>A Course Page That Builds Itself</h3>
+                    <p>Add your weeks, activities and announcements, and Lectern publishes a clean course website that opens on <em>This week</em>.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M3 20h18"/><rect x="5" y="12" width="3" height="8"/><rect x="10.5" y="6" width="3" height="14"/><rect x="16" y="9" width="3" height="11"/></svg></div>
+                    <h3>A Gradebook That Knows Your Syllabus</h3>
+                    <p>Weights, "best 7 of 8", makeups and passing rules are built in, and the marking scheme shows up on your course page automatically.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><svg viewBox="0 0 24 24"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6"/><path d="M8 13h8M8 17h5"/></svg></div>
+                    <h3>Exams Written Where They're Graded</h3>
+                    <p>Write tests and assignments right inside an evaluation, with versions and answer keys. Their marks feed straight into the gradebook.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 11l2 2 4-4"/></svg></div>
+                    <h3>Accommodations and Teaching Teams</h3>
+                    <p>Students request accommodations from the course page, and you approve them in one click. TAs can enter marks without touching your setup.</p>
+                </div>
+            </section>
+
+            <section class="content-block">
+                <div class="block-content">
+                    <p>With Lectern, your course website, marks and exams can't drift apart. Change a due date or a weight once and every page that shows it is already up to date, from the first lecture to the final mark.</p>
+                </div>
+            </section>
+
+            <!-- Screenshot -->
+            <section class="content-block" style="text-align: center;">
+                <img class="lt-shot" src="../assets/lectern/lectern-offering.jpg" alt="A course offering in Lectern: announcements, activities, evaluations, gradebook, accommodations and discussions, all in one place">
+                <p style="margin-top: 1rem; color: var(--color-text-light); font-style: italic;">
+                    One course offering in Lectern: everything for the term, in one place
+                </p>
+            </section>
+
+            <!-- How It Works -->
+            <section class="content-block">
+                <div class="block-content">
+                    <h2>How It Works</h2>
+                    <p class="hiw-intro">Setting up a course takes an afternoon. After that, it mostly runs itself.</p>
+
+                    <div class="hiw-row">
+                        <div class="hiw-art"><img src="../assets/lectern/step-setup.svg" alt="A course's evaluations: labs, a midterm and a final exam, each with a weight and a due date"></div>
+                        <div class="hiw-text">
+                            <div class="hiw-step">Step 1</div>
+                            <h3>Set up your course</h3>
+                            <p>Add a course offering, then lay out its weeks and its evaluations, including weights, due dates, "best N of M", makeups and what happens when something is missed.</p>
+                            <p>Each evaluation lands in the week it's due, and the marking scheme writes itself.</p>
+                        </div>
+                    </div>
+
+                    <div class="hiw-row">
+                        <div class="hiw-art"><img src="../assets/lectern/step-class.svg" alt="A class list CSV becoming a list of students, beside a teaching team of an instructor and two TAs"></div>
+                        <div class="hiw-text">
+                            <div class="hiw-step">Step 2</div>
+                            <h3>Bring in your class and your team</h3>
+                            <p>Import your class list straight from a <strong>Quercus</strong> or <strong>ACORN</strong> export. Then invite your co-instructors and TAs by email.</p>
+                            <p>Instructors can do everything you can. TAs can see the gradebook and enter marks, but can't change the course setup.</p>
+                        </div>
+                    </div>
+
+                    <div class="hiw-row">
+                        <div class="hiw-art"><img src="../assets/lectern/step-share.svg" alt="The course page in a browser, with tabs marked public or signed-in only, and the same page on a phone"></div>
+                        <div class="hiw-text">
+                            <div class="hiw-step">Step 3</div>
+                            <h3>Share your course page</h3>
+                            <p>Your course page has tabs for <em>This week</em>, <em>Announcements</em>, <em>Activities</em>, <em>Evaluations</em> and <em>About</em>. You choose which are public and which need a sign-in. Students sign in with their email and a one-time code, so there's no password to forget.</p>
+                            <p>Send students the link, or embed the page in Quercus. It works just as well on a phone.</p>
+                        </div>
+                    </div>
+
+                    <div class="hiw-row">
+                        <div class="hiw-art"><img src="../assets/lectern/step-grade.svg" alt="The gradebook with a grade distribution, and an accommodation request being approved"></div>
+                        <div class="hiw-text">
+                            <div class="hiw-step">Step 4</div>
+                            <h3>Teach, mark and keep up</h3>
+                            <p>Enter or upload marks and watch every student's course grade, the class average and the distribution update as you go. Accommodation requests arrive in one list, and approving or rejecting one emails the student for you.</p>
+                            <p>Every save keeps the earlier version, so a mistake is never permanent.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- Gradebook screenshot -->
+            <section class="content-block" style="text-align: center;">
+                <img class="lt-shot" src="../assets/lectern/lectern-gradebook.jpg" alt="Lectern's gradebook: each student's course grade, with the class average, median and distribution">
+                <p style="margin-top: 1rem; color: var(--color-text-light); font-style: italic;">
+                    The gradebook, with the whole class at a glance
+                </p>
+            </section>
+
+            <!-- Getting Started -->
+            <section class="content-block alt-block">
+                <div class="block-icon"><svg><use href="../assets/icons.svg#icon-rocket"/></svg></div>
+                <div class="block-content">
+                    <h2>Getting Started</h2>
+                    <p>There are two ways to start using Lectern:</p>
+
+                    <div class="step-list" style="margin-top: 1.5rem;">
+                        <div class="step-item">
+                            <div class="step-number">1</div>
+                            <div class="step-content">
+                                <h4>Teaching at U of T? Use mine</h4>
+                                <p>Lectern is running at <a href="https://lectern.changapp.net">lectern.changapp.net</a>. It's invite-only, so <a href="mailto:chandra@cs.toronto.edu?subject=Lectern%20invitation">send me an email</a> and I'll set you up with an account for your course.</p>
+                            </div>
+                        </div>
+                        <div class="step-item">
+                            <div class="step-number">2</div>
+                            <div class="step-content">
+                                <h4>Run Your Own Server</h4>
+                                <p>Lectern only needs Python 3 and an HTTPS address. Clone the <a href="https://github.com/chandra-gummaluru/lectern">GitHub repository</a> and run the setup script. It asks a few questions and has you inviting instructors in minutes.</p>
+                                <code class="lt-code">git clone https://github.com/chandra-gummaluru/lectern.git ~/apps/lectern
+~/apps/lectern/new-lectern.sh</code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Call to Action -->
+            <section class="cta-section">
+                <div class="cta-content">
+                    <h2>Try Lectern</h2>
+                    <p>Ready to run your whole course from one place?</p>
+                    <div class="cta-buttons">
+                        <a href="https://github.com/chandra-gummaluru/lectern" class="btn-primary">View on GitHub</a>
+                        <a href="https://lectern.changapp.net" class="btn-secondary">Open Lectern</a>
+                    </div>
+                    <p style="margin-top: 2rem; font-size: 1rem;">
+                        Lectern is open source and free to use. Run it for your department, or ask me for an account on mine.
+                    </p>
+                    <p style="margin-top: 1rem; font-size: 1rem;">
+                        Got a feature in mind? I'd love to hear it. Reach out anytime!
+                    </p>
+                </div>
+            </section>
         </div>
     </article>
 
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-content">
-            <p class="footer-text">&copy; 2025 Chandra Gummaluru</p>
+            <p class="footer-text">© 2025 Chandra Gummaluru</p>
             <div class="footer-links">
                 <a href="mailto:chandra@cs.toronto.edu" class="footer-link">Email</a>
                 <a href="https://github.com/chandra-gummaluru" class="footer-link">GitHub</a>
@@ -114,5 +298,6 @@
             </div>
         </div>
     </footer>
+
 </body>
 </html>
